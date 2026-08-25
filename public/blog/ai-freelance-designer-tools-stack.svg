@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a0f"/>
+      <stop offset="100%" stop-color="#0d1117"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e0304e"/>
+      <stop offset="100%" stop-color="#642f7f"/>
+    </linearGradient>
+    <linearGradient id="glow-g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0304e" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#642f7f" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="blur50"><feGaussianBlur stdDeviation="50"/></filter>
+    <style>
+      @keyframes glow { 0%,100%{opacity:0.3} 50%{opacity:0.8} }
+      @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+      @keyframes blink { 0%,100%{opacity:0.4} 50%{opacity:1} }
+      .glow { animation: glow 2.6s ease-in-out infinite; }
+      .float { animation: float 3.5s ease-in-out infinite; transform-origin:center; transform-box:fill-box; }
+      .blink { animation: blink 2s ease-in-out infinite; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Ambient glow -->
+  <ellipse cx="600" cy="315" rx="430" ry="210" fill="url(#glow-g)" filter="url(#blur50)"/>
+
+  <!-- Grid -->
+  <g opacity="0.03" stroke="#e6edf3" stroke-width="0.5">
+    <line x1="0" y1="126" x2="1200" y2="126"/><line x1="0" y1="252" x2="1200" y2="252"/>
+    <line x1="0" y1="378" x2="1200" y2="378"/><line x1="0" y1="504" x2="1200" y2="504"/>
+    <line x1="240" y1="0" x2="240" y2="630"/><line x1="480" y1="0" x2="480" y2="630"/>
+    <line x1="720" y1="0" x2="720" y2="630"/><line x1="960" y1="0" x2="960" y2="630"/>
+  </g>
+
+  <!-- Title -->
+  <text x="600" y="58" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="700" fill="#e6edf3" letter-spacing="3">A LEAN AI TOOLKIT FOR DESIGN FREELANCERS</text>
+  <text x="600" y="84" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#8b949e" letter-spacing="2">FREE OR CHEAP TOOLS COVERING EVERY STAGE</text>
+
+  <!-- Card 1: Writing assistant -->
+  <g class="float">
+    <rect x="70" y="130" width="250" height="330" rx="18" fill="#161b22" stroke="#e0304e" stroke-width="1"/>
+    <circle cx="195" cy="205" r="34" fill="#0a0a0f" stroke="#e0304e" stroke-width="1.6"/>
+    <path d="M178 196 h34 a6 6 0 0 1 6 6 v14 a6 6 0 0 1 -6 6 h-20 l-10 9 v-9 h-4 a6 6 0 0 1 -6 -6 v-14 a6 6 0 0 1 6 -6 z" fill="none" stroke="#e0304e" stroke-width="1.8" stroke-linejoin="round"/>
+    <text x="195" y="278" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700" fill="#e6edf3">Writing Assistant</text>
+    <text x="195" y="298" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#8b949e">ChatGPT · Claude</text>
+    <line x1="110" y1="316" x2="280" y2="316" stroke="#30363d" stroke-width="1"/>
+    <text x="195" y="340" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11.5" fill="#8b949e">Parse briefs</text>
+    <text x="195" y="360" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11.5" fill="#8b949e">Draft client updates</text>
+    <text x="195" y="380" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11.5" fill="#8b949e">Build revision checklists</text>
+    <rect x="145" y="408" width="100" height="24" rx="12" fill="#e0304e" opacity="0.13"/>
+    <text x="195" y="424" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="700" fill="#e0304e" letter-spacing="1">MOST USED</text>
+  </g>
+
+  <!-- Card 2: Image generator -->
+  <g class="float" style="animation-delay:0.45s">
+    <rect x="350" y="130" width="250" height="330" rx="18" fill="#161b22" stroke="#642f7f" stroke-width="1"/>
+    <circle cx="475" cy="205" r="34" fill="#0a0a0f" stroke="#642f7f" stroke-width="1.6"/>
+    <rect x="458" y="192" width="34" height="26" rx="4" fill="none" stroke="#b57edd" stroke-width="1.8"/>
+    <circle cx="468" cy="201" r="3" fill="#b57edd"/>
+    <path d="M458 214 l10 -8 l8 6 l8 -9 l8 11" fill="none" stroke="#b57edd" stroke-width="1.8" stroke-linejoin="round"/>
+    <text x="475" y="278" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700" fill="#e6edf3">Image Generator</text>
+    <text x="475" y="298" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#8b949e">Moodboard exploration</text>
+    <line x1="390" y1="316" x2="560" y2="316" stroke="#30363d" stroke-width="1"/>
+    <text x="475" y="340" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11.5" fill="#8b949e">Visualize style directions</text>
+    <text x="475" y="360" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11.5" fill="#8b949e">Rough concept variations</text>
+    <text x="475" y="380" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11.5" fill="#8b949e">Never the final file</text>
+    <rect x="155" y="408" width="0" height="0" fill="none"/>
+  </g>
+
+  <!-- Card 3: Docs AI -->
+  <g class="float" style="animation-delay:0.9s">
+    <rect x="630" y="130" width="250" height="330" rx="18" fill="#161b22" stroke="#e0304e" stroke-width="1"/>
+    <circle cx="755" cy="205" r="34" fill="#0a0a0f" stroke="#e0304e" stroke-width="1.6"/>
+    <rect x="739" y="190" width="32" height="30" rx="4" fill="none" stroke="#e0304e" stroke-width="1.8"/>
+    <line x1="746" y1="199" x2="764" y2="199" stroke="#e0304e" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="746" y1="206" x2="764" y2="206" stroke="#e0304e" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="746" y1="213" x2="758" y2="213" stroke="#e0304e" stroke-width="1.8" stroke-linecap="round"/>
+    <text x="755" y="278" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700" fill="#e6edf3">Docs AI</text>
+    <text x="755" y="298" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#8b949e">Notion AI · Google Docs</text>
+    <line x1="670" y1="316" x2="840" y2="316" stroke="#30363d" stroke-width="1"/>
+    <text x="755" y="340" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11.5" fill="#8b949e">Organized project docs</text>
+    <text x="755" y="360" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11.5" fill="#8b949e">Searchable brief archive</text>
+    <text x="755" y="380" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11.5" fill="#8b949e">Meeting notes that stick</text>
+  </g>
+
+  <!-- Card 4: Grammar checker -->
+  <g class="float" style="animation-delay:1.35s">
+    <rect x="910" y="130" width="250" height="330" rx="18" fill="#161b22" stroke="#642f7f" stroke-width="1"/>
+    <circle cx="1035" cy="205" r="34" fill="#0a0a0f" stroke="#642f7f" stroke-width="1.6"/>
+    <circle cx="1035" cy="205" r="17" fill="none" stroke="#b57edd" stroke-width="1.8" class="glow"/>
+    <path d="M1027 205 l6 6 l11 -12" fill="none" stroke="#b57edd" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="1035" y="278" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700" fill="#e6edf3">Grammar Checker</text>
+    <text x="1035" y="298" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#8b949e">Grammarly · LanguageTool</text>
+    <line x1="950" y1="316" x2="1120" y2="316" stroke="#30363d" stroke-width="1"/>
+    <text x="1035" y="340" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11.5" fill="#8b949e">Typo-free proposals</text>
+    <text x="1035" y="360" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11.5" fill="#8b949e">Polished client emails</text>
+    <text x="1035" y="380" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11.5" fill="#8b949e">Confident international work</text>
+  </g>
+
+  <!-- Bottom note -->
+  <text x="600" y="520" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#8b949e">Start with one painful stage — expand only after it proves itself.</text>
+  <circle cx="438" cy="516" r="3" fill="#e0304e" class="blink"/>
+
+  <!-- Brand -->
+  <text x="600" y="598" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#8b949e" opacity="0.7" letter-spacing="2">farisium.com</text>
+</svg>

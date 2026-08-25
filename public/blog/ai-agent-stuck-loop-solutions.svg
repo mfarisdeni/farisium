@@ -1,0 +1,171 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a0f"/>
+      <stop offset="100%" stop-color="#0d1117"/>
+    </linearGradient>
+    <linearGradient id="accent2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e0304e"/>
+      <stop offset="100%" stop-color="#642f7f"/>
+    </linearGradient>
+    <linearGradient id="glow2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3fb950" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#e0304e" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="blur2"><feGaussianBlur stdDeviation="40"/></filter>
+    <filter id="sh2"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.3"/></filter>
+    <style>
+      @keyframes pulse2{0%,100%{opacity:.5}50%{opacity:1}}
+      @keyframes check{0%{stroke-dashoffset:20}100%{stroke-dashoffset:0}}
+      @keyframes scanline{0%{y1:0}50%{y1:10}100%{y1:0}}
+      .pulse2{animation:pulse2 2s ease-in-out infinite}
+      .check-anim{stroke-dasharray:20;animation:check 1.5s ease-out forwards}
+    </style>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg2)"/>
+  <ellipse cx="600" cy="300" rx="380" ry="200" fill="url(#glow2)" filter="url(#blur2)"/>
+
+  <!-- Grid -->
+  <g opacity="0.03" stroke="#e6edf3" stroke-width="0.5">
+    <line x1="0" y1="126" x2="1200" y2="126"/><line x1="0" y1="252" x2="1200" y2="252"/>
+    <line x1="0" y1="378" x2="1200" y2="378"/><line x1="0" y1="504" x2="1200" y2="504"/>
+    <line x1="240" y1="0" x2="240" y2="630"/><line x1="480" y1="0" x2="480" y2="630"/>
+    <line x1="720" y1="0" x2="720" y2="630"/><line x1="960" y1="0" x2="960" y2="630"/>
+  </g>
+
+  <!-- Title -->
+  <text x="600" y="50" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="18" font-weight="600" fill="#e6edf3" letter-spacing="2" opacity="0.8">CARA MENGATASI AI AGENT STUCK LOOP</text>
+
+  <!-- Solution flow - vertical steps -->
+  <!-- Step 1: Detect -->
+  <g filter="url(#sh2)">
+    <rect x="100" y="90" width="220" height="70" rx="8" fill="#161b22" stroke="#e0304e" stroke-width="1.5"/>
+    <text x="140" y="118" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="700" fill="#e0304e">STEP 1</text>
+    <text x="140" y="136" font-family="Inter,system-ui,sans-serif" font-size="13" font-weight="600" fill="#e6edf3">DETECT</text>
+    <text x="140" y="150" font-family="Inter,system-ui,sans-serif" font-size="9" fill="#8b949e">Identifikasi pola loop</text>
+  </g>
+
+  <!-- Arrow 1 -->
+  <line x1="210" y1="160" x2="210" y2="190" stroke="#e0304e" stroke-width="1.5" class="dash" style="stroke-dasharray:5 3"/>
+
+  <!-- Step 2: Timeout -->
+  <g filter="url(#sh2)">
+    <rect x="100" y="190" width="220" height="70" rx="8" fill="#161b22" stroke="#f0883e" stroke-width="1.5"/>
+    <text x="140" y="218" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="700" fill="#f0883e">STEP 2</text>
+    <text x="140" y="236" font-family="Inter,system-ui,sans-serif" font-size="13" font-weight="600" fill="#e6edf3">TIMEOUT</text>
+    <text x="140" y="250" font-family="Inter,system-ui,sans-serif" font-size="9" fill="#8b949e">Set batas waktu &amp; retry</text>
+  </g>
+
+  <!-- Arrow 2 -->
+  <line x1="210" y1="260" x2="210" y2="290" stroke="#f0883e" stroke-width="1.5" style="stroke-dasharray:5 3"/>
+
+  <!-- Step 3: Break -->
+  <g filter="url(#sh2)">
+    <rect x="100" y="290" width="220" height="70" rx="8" fill="#161b22" stroke="#642f7f" stroke-width="1.5"/>
+    <text x="140" y="318" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="700" fill="#642f7f">STEP 3</text>
+    <text x="140" y="336" font-family="Inter,system-ui,sans-serif" font-size="13" font-weight="600" fill="#e6edf3">BREAK LOOP</text>
+    <text x="140" y="350" font-family="Inter,system-ui,sans-serif" font-size="9" fill="#8b949e">Hentikan paksa &amp; log error</text>
+  </g>
+
+  <!-- Arrow 3 -->
+  <line x1="210" y1="360" x2="210" y2="390" stroke="#642f7f" stroke-width="1.5" style="stroke-dasharray:5 3"/>
+
+  <!-- Step 4: Fix -->
+  <g filter="url(#sh2)">
+    <rect x="100" y="390" width="220" height="70" rx="8" fill="#161b22" stroke="#3fb950" stroke-width="1.5"/>
+    <text x="140" y="418" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="700" fill="#3fb950">STEP 4</text>
+    <text x="140" y="436" font-family="Inter,system-ui,sans-serif" font-size="13" font-weight="600" fill="#e6edf3">RECOVER</text>
+    <text x="140" y="450" font-family="Inter,system-ui,sans-serif" font-size="9" fill="#8b949e">Reset state &amp; coba ulang</text>
+  </g>
+
+  <!-- Right side: Code/solution examples -->
+  <!-- Box 1: Guard Clause -->
+  <g filter="url(#sh2)">
+    <rect x="420" y="90" width="340" height="120" rx="8" fill="#161b22" stroke="#e0304e" stroke-width="0.8"/>
+    <text x="445" y="115" font-family="monospace" font-size="11" font-weight="600" fill="#e0304e">// Guard Clause</text>
+    <text x="445" y="135" font-family="monospace" font-size="10" fill="#8b949e">if (retryCount &gt; MAX_RETRIES) {</text>
+    <text x="460" y="150" font-family="monospace" font-size="10" fill="#3fb950">  return fallbackResult();</text>
+    <text x="445" y="165" font-family="monospace" font-size="10" fill="#8b949e">}</text>
+    <text x="445" y="185" font-family="monospace" font-size="10" fill="#642f7f">// Prevent infinite recursion</text>
+    <text x="445" y="200" font-family="monospace" font-size="10" fill="#8b949e">retryCount++;</text>
+  </g>
+
+  <!-- Box 2: Circuit Breaker -->
+  <g filter="url(#sh2)">
+    <rect x="420" y="230" width="340" height="120" rx="8" fill="#161b22" stroke="#f0883e" stroke-width="0.8"/>
+    <text x="445" y="255" font-family="monospace" font-size="11" font-weight="600" fill="#f0883e">// Circuit Breaker</text>
+    <text x="445" y="275" font-family="monospace" font-size="10" fill="#8b949e">if (failures &gt; threshold) {</text>
+    <text x="460" y="290" font-family="monospace" font-size="10" fill="#e0304e">  circuit.open();</text>
+    <text x="460" y="305" font-family="monospace" font-size="10" fill="#3fb950">  scheduleReset(5000);</text>
+    <text x="445" y="320" font-family="monospace" font-size="10" fill="#8b949e">}</text>
+    <text x="445" y="340" font-family="monospace" font-size="10" fill="#642f7f">// Block requests temporarily</text>
+  </g>
+
+  <!-- Box 3: State Machine -->
+  <g filter="url(#sh2)">
+    <rect x="420" y="370" width="340" height="120" rx="8" fill="#161b22" stroke="#3fb950" stroke-width="0.8"/>
+    <text x="445" y="395" font-family="monospace" font-size="11" font-weight="600" fill="#3fb950">// State Machine</text>
+    <text x="445" y="415" font-family="monospace" font-size="10" fill="#8b949e">state = 'IDLE';</text>
+    <text x="445" y="435" font-family="monospace" font-size="10" fill="#8b949e">if (state === 'STUCK') {</text>
+    <text x="460" y="450" font-family="monospace" font-size="10" fill="#3fb950">  resetToIdle();</text>
+    <text x="460" y="465" font-family="monospace" font-size="10" fill="#f0883e">  alertAdmin();</text>
+    <text x="445" y="480" font-family="monospace" font-size="10" fill="#8b949e">}</text>
+  </g>
+
+  <!-- Right side: Checklist -->
+  <g filter="url(#sh2)">
+    <rect x="820" y="90" width="320" height="400" rx="8" fill="#161b22" stroke="#e6edf3" stroke-opacity="0.1" stroke-width="1"/>
+    <text x="845" y="120" font-family="Inter,system-ui,sans-serif" font-size="14" font-weight="700" fill="#e6edf3">CHECKLIST</text>
+    <text x="845" y="138" font-family="Inter,system-ui,sans-serif" font-size="10" fill="#8b949e">Sebelum deploy AI agent:</text>
+
+    <!-- Check items -->
+    <g transform="translate(845,160)">
+      <rect x="0" y="0" width="16" height="16" rx="3" fill="#0a0a0f" stroke="#3fb950" stroke-width="1.5"/>
+      <path d="M4,8 L7,11 L12,5" fill="none" stroke="#3fb950" stroke-width="2" class="check-anim"/>
+      <text x="24" y="12" font-family="Inter,system-ui,sans-serif" font-size="11" fill="#e6edf3">Max retry limit ditentukan</text>
+    </g>
+    <g transform="translate(845,192)">
+      <rect x="0" y="0" width="16" height="16" rx="3" fill="#0a0a0f" stroke="#3fb950" stroke-width="1.5"/>
+      <path d="M4,8 L7,11 L12,5" fill="none" stroke="#3fb950" stroke-width="2" class="check-anim" style="animation-delay:0.2s"/>
+      <text x="24" y="12" font-family="Inter,system-ui,sans-serif" font-size="11" fill="#e6edf3">Timeout di-set untuk semua API</text>
+    </g>
+    <g transform="translate(845,224)">
+      <rect x="0" y="0" width="16" height="16" rx="3" fill="#0a0a0f" stroke="#3fb950" stroke-width="1.5"/>
+      <path d="M4,8 L7,11 L12,5" fill="none" stroke="#3fb950" stroke-width="2" class="check-anim" style="animation-delay:0.4s"/>
+      <text x="24" y="12" font-family="Inter,system-ui,sans-serif" font-size="11" fill="#e6edf3">State machine diterapkan</text>
+    </g>
+    <g transform="translate(845,256)">
+      <rect x="0" y="0" width="16" height="16" rx="3" fill="#0a0a0f" stroke="#3fb950" stroke-width="1.5"/>
+      <path d="M4,8 L7,11 L12,5" fill="none" stroke="#3fb950" stroke-width="2" class="check-anim" style="animation-delay:0.6s"/>
+      <text x="24" y="12" font-family="Inter,system-ui,sans-serif" font-size="11" fill="#e6edf3">Logging &amp; monitoring aktif</text>
+    </g>
+    <g transform="translate(845,288)">
+      <rect x="0" y="0" width="16" height="16" rx="3" fill="#0a0a0f" stroke="#3fb950" stroke-width="1.5"/>
+      <path d="M4,8 L7,11 L12,5" fill="none" stroke="#3fb950" stroke-width="2" class="check-anim" style="animation-delay:0.8s"/>
+      <text x="24" y="12" font-family="Inter,system-ui,sans-serif" font-size="11" fill="#e6edf3">Fallback strategy tersedia</text>
+    </g>
+    <g transform="translate(845,320)">
+      <rect x="0" y="0" width="16" height="16" rx="3" fill="#0a0a0f" stroke="#3fb950" stroke-width="1.5"/>
+      <path d="M4,8 L7,11 L12,5" fill="none" stroke="#3fb950" stroke-width="2" class="check-anim" style="animation-delay:1s"/>
+      <text x="24" y="12" font-family="Inter,system-ui,sans-serif" font-size="11" fill="#e6edf3">Deadlock detection aktif</text>
+    </g>
+    <g transform="translate(845,352)">
+      <rect x="0" y="0" width="16" height="16" rx="3" fill="#0a0a0f" stroke="#3fb950" stroke-width="1.5"/>
+      <path d="M4,8 L7,11 L12,5" fill="none" stroke="#3fb950" stroke-width="2" class="check-anim" style="animation-delay:1.2s"/>
+      <text x="24" y="12" font-family="Inter,system-ui,sans-serif" font-size="11" fill="#e6edf3">Rate limiting diterapkan</text>
+    </g>
+    <g transform="translate(845,384)">
+      <rect x="0" y="0" width="16" height="16" rx="3" fill="#0a0a0f" stroke="#3fb950" stroke-width="1.5"/>
+      <path d="M4,8 L7,11 L12,5" fill="none" stroke="#3fb950" stroke-width="2" class="check-anim" style="animation-delay:1.4s"/>
+      <text x="24" y="12" font-family="Inter,system-ui,sans-serif" font-size="11" fill="#e6edf3">Error handling komprehensif</text>
+    </g>
+  </g>
+
+  <!-- Accent line -->
+  <rect x="540" y="530" width="120" height="2" rx="1" fill="url(#accent2)" opacity="0.5"/>
+  <text x="600" y="565" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="10" fill="#8b949e" letter-spacing="1" opacity="0.5">LANGKAH PRAKTIS MENGATASI STUCK LOOP PADA AI AGENT</text>
+
+  <rect x="20" y="20" width="1160" height="590" rx="8" fill="none" stroke="#e6edf3" stroke-opacity="0.06" stroke-width="1"/>
+  <text x="60" y="600" font-family="Inter,system-ui,sans-serif" font-size="10" fill="#8b949e" opacity="0.5" letter-spacing="2">FARISIUM</text>
+</svg>

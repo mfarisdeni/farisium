@@ -1,0 +1,88 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+  <defs>
+    <linearGradient id="glow1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e0304e" stop-opacity="0.08"/>
+      <stop offset="50%" stop-color="#642f7f" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#0a0a0a" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="glow2" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e0304e" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#0a0a0a" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="gradient-line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#e0304e"/>
+      <stop offset="40%" stop-color="#e0304e"/>
+      <stop offset="60%" stop-color="#642f7f"/>
+      <stop offset="100%" stop-color="#642f7f" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="card-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a1a"/>
+      <stop offset="100%" stop-color="#141414"/>
+    </linearGradient>
+    <linearGradient id="btn-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e0304e"/>
+      <stop offset="100%" stop-color="#8b0020"/>
+    </linearGradient>
+    <filter id="glow-filter">
+      <feGaussianBlur stdDeviation="60" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+  <!-- Ambient glow -->
+  <rect width="1200" height="630" fill="url(#glow1)"/>
+  <rect width="1200" height="630" fill="url(#glow2)"/>
+  <!-- Subtle grid pattern -->
+  <g opacity="0.03">
+    <line x1="0" y1="100" x2="1200" y2="100" stroke="#e0304e" stroke-width="0.5"/>
+    <line x1="0" y1="200" x2="1200" y2="200" stroke="#e0304e" stroke-width="0.5"/>
+    <line x1="0" y1="300" x2="1200" y2="300" stroke="#e0304e" stroke-width="0.5"/>
+    <line x1="0" y1="400" x2="1200" y2="400" stroke="#e0304e" stroke-width="0.5"/>
+    <line x1="0" y1="500" x2="1200" y2="500" stroke="#e0304e" stroke-width="0.5"/>
+  </g>
+  <!-- Left content area -->
+  <g transform="translate(80, 160)">
+    <!-- Label -->
+    <rect x="0" y="0" width="90" height="24" rx="12" fill="#5c0010"/>
+    <text x="45" y="16" text-anchor="middle" fill="#e0304e" font-family="system-ui" font-size="10" font-weight="600" letter-spacing="1">TUTORIAL</text>
+    <!-- Title -->
+    <text y="60" fill="#e0e0e0" font-family="system-ui" font-size="32" font-weight="700" letter-spacing="-0.5">
+      <tspan x="0" dy="0">Prompt Engineering</tspan>
+      <tspan x="0" dy="38" fill="#a0a0a0" font-weight="400" font-size="24">untuk AI Anime</tspan>
+    </text>
+    <!-- Description -->
+    <text y="140" fill="#a0a0a0" font-family="system-ui" font-size="14" font-weight="400" letter-spacing="0.2">
+      <tspan x="0" dy="0">Pelajari teknik menulis prompt</tspan>
+      <tspan x="0" dy="22">yang sempurna untuk menghasilkan</tspan>
+      <tspan x="0" dy="22">gambar anime berkualitas tinggi.</tspan>
+    </text>
+  </g>
+  <!-- Right visual: abstract prompt-to-image representation -->
+  <g transform="translate(680, 120)">
+    <!-- Input box -->
+    <rect x="0" y="0" width="260" height="80" rx="12" fill="url(#card-grad)" stroke="#222" stroke-width="1"/>
+    <text x="16" y="24" fill="#a0a0a0" font-family="system-ui" font-size="9" font-weight="600" letter-spacing="1">PROMPT</text>
+    <text x="16" y="48" fill="#e0e0e0" font-family="system-ui" font-size="11" font-weight="400">
+      <tspan x="0" dy="0">anime girl, purple hair,</tspan>
+      <tspan x="0" dy="16">cinematic lighting,</tspan>
+      <tspan x="0" dy="16">masterpiece, detailed</tspan>
+    </text>
+    <!-- Arrow down -->
+    <line x1="130" y1="92" x2="130" y2="130" stroke="#e0304e" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <polygon points="130,136 126,128 134,128" fill="#e0304e"/>
+    <!-- Output image representation -->
+    <rect x="20" y="148" width="220" height="140" rx="12" fill="#141414" stroke="#333" stroke-width="1"/>
+    <!-- Abstract anime face representation -->
+    <ellipse cx="130" cy="218" rx="40" ry="45" fill="none" stroke="#e0304e" stroke-width="1" opacity="0.3"/>
+    <circle cx="118" cy="210" r="3" fill="#e0304e" opacity="0.5"/>
+    <circle cx="142" cy="210" r="3" fill="#e0304e" opacity="0.5"/>
+    <path d="M118 230 Q130 238 142 230" stroke="#e0304e" stroke-width="1" fill="none" opacity="0.4"/>
+    <!-- Hair lines -->
+    <path d="M100 190 Q110 170 130 175 Q150 170 160 190" stroke="#e0304e" stroke-width="0.8" fill="none" opacity="0.25"/>
+    <path d="M95 200 Q105 180 130 185 Q155 180 165 200" stroke="#e0304e" stroke-width="0.8" fill="none" opacity="0.2"/>
+    <!-- Label under output -->
+    <text x="130" y="308" text-anchor="middle" fill="#642f7f" font-family="system-ui" font-size="9" font-weight="500" letter-spacing="1">OUTPUT</text>
+  </g>
+  <!-- Bottom accent line -->
+  <rect x="0" y="626" width="1200" height="4" fill="url(#gradient-line)"/>
+</svg>

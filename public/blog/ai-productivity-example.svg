@@ -1,0 +1,47 @@
+<svg width="800" height="450" viewBox="0 0 800 450" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="450" fill="#0a0a0f"/>
+  <defs>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.01"/>
+    </linearGradient>
+  </defs>
+  <rect x="20" y="20" width="760" height="410" rx="12" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
+  <text x="400" y="58" text-anchor="middle" font-family="system-ui,sans-serif" font-size="16" font-weight="700" fill="#ffffff">Alur Kerja Produktivitas dengan AI</text>
+  <rect x="60" y="80" width="160" height="110" rx="10" fill="url(#card)" stroke="#e0304e" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="140" y="108" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="600" fill="#e0304e">MENULIS</text>
+  <text x="140" y="135" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="600" fill="#ffffff">AI Writing Assistant</text>
+  <text x="140" y="155" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" fill="#a0a0b0">ChatGPT - Claude</text>
+  <text x="140" y="172" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" fill="#a0a0b0">Notion AI</text>
+  <text x="230" y="130" text-anchor="middle" font-family="system-ui,sans-serif" font-size="18" fill="#e0304e">></text>
+  <rect x="270" y="80" width="160" height="110" rx="10" fill="url(#card)" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1"/>
+  <text x="350" y="108" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="600" fill="#e0304e">DESAIN</text>
+  <text x="350" y="135" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="600" fill="#ffffff">AI Image Generator</text>
+  <text x="350" y="155" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" fill="#a0a0b0">Farisium Anime Gen</text>
+  <text x="350" y="172" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" fill="#a0a0b0">Canva AI</text>
+  <text x="440" y="130" text-anchor="middle" font-family="system-ui,sans-serif" font-size="18" fill="#e0304e">></text>
+  <rect x="480" y="80" width="160" height="110" rx="10" fill="url(#card)" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1"/>
+  <text x="560" y="108" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="600" fill="#e0304e">ANALISIS</text>
+  <text x="560" y="135" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="600" fill="#ffffff">AI Research</text>
+  <text x="560" y="155" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" fill="#a0a0b0">Perplexity AI</text>
+  <text x="560" y="172" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" fill="#a0a0b0">Gemini</text>
+  <rect x="650" y="80" width="100" height="110" rx="10" fill="url(#card)" stroke="#e0304e" stroke-opacity="0.2" stroke-width="1"/>
+  <text x="700" y="108" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="600" fill="#e0304e">HASIL</text>
+  <text x="700" y="135" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" font-weight="600" fill="#ffffff">3x lebih</text>
+  <text x="700" y="155" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" font-weight="600" fill="#60a060">cepat</text>
+  <rect x="60" y="220" width="680" height="1" fill="#ffffff" fill-opacity="0.06"/>
+  <text x="400" y="255" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" font-weight="600" fill="#ffffff">Contoh Penggunaan AI untuk Produktivitas</text>
+  <rect x="80" y="275" width="310" height="55" rx="8" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
+  <text x="100" y="298" font-family="system-ui,sans-serif" font-size="10" font-weight="600" fill="#e0304e">SEBELUM</text>
+  <text x="100" y="318" font-family="system-ui,sans-serif" font-size="10" fill="#c0c0d0">Buat presentasi: 4-5 jam</text>
+  <rect x="410" y="275" width="310" height="55" rx="8" fill="#ffffff" fill-opacity="0.03" stroke="#60a060" stroke-opacity="0.2" stroke-width="1"/>
+  <text x="430" y="298" font-family="system-ui,sans-serif" font-size="10" font-weight="600" fill="#60a060">SETELAH</text>
+  <text x="430" y="318" font-family="system-ui,sans-serif" font-size="10" fill="#c0c0d0">AI Presentasi: 15-30 menit</text>
+  <rect x="80" y="340" width="310" height="55" rx="8" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
+  <text x="100" y="363" font-family="system-ui,sans-serif" font-size="10" font-weight="600" fill="#e0304e">SEBELUM</text>
+  <text x="100" y="383" font-family="system-ui,sans-serif" font-size="10" fill="#c0c0d0">Buat ilustrasi: 2-3 hari</text>
+  <rect x="410" y="340" width="310" height="55" rx="8" fill="#ffffff" fill-opacity="0.03" stroke="#60a060" stroke-opacity="0.2" stroke-width="1"/>
+  <text x="430" y="363" font-family="system-ui,sans-serif" font-size="10" font-weight="600" fill="#60a060">SETELAH</text>
+  <text x="430" y="383" font-family="system-ui,sans-serif" font-size="10" fill="#c0c0d0">Farisium Anime Gen: 5-10 detik</text>
+  <text x="400" y="430" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#808090">farisium.com/ai</text>
+</svg>

@@ -1,0 +1,64 @@
+<svg width="800" height="450" viewBox="0 0 800 450" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="450" fill="#0a0a0a"/>
+  <defs>
+    <linearGradient id="bad-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a1a"/>
+      <stop offset="100%" stop-color="#141414"/>
+    </linearGradient>
+    <linearGradient id="good-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a1a"/>
+      <stop offset="100%" stop-color="#141414"/>
+    </linearGradient>
+  </defs>
+  <text x="400" y="36" text-anchor="middle" fill="#e0e0e0" font-family="system-ui" font-size="16" font-weight="700" letter-spacing="-0.3">Prompt Comparison: Buruk vs Baik</text>
+  <!-- Bad prompt card -->
+  <rect x="32" y="56" width="348" height="360" rx="14" fill="url(#bad-grad)" stroke="#8b0020" stroke-width="0.5" stroke-opacity="0.3"/>
+  <rect x="32" y="56" width="348" height="36" rx="14" fill="#3a000a"/>
+  <rect x="32" y="76" width="348" height="16" fill="#3a000a"/>
+  <text x="50" y="78" fill="#e0304e" font-family="system-ui" font-size="11" font-weight="700" letter-spacing="0.5">BURUK</text>
+  <text x="206" y="78" text-anchor="middle" fill="#a0a0a0" font-family="system-ui" font-size="9">Prompt too vague</text>
+  <!-- Bad prompt text -->
+  <text x="50" y="124" fill="#e0e0e0" font-family="system-ui" font-size="11" font-style="italic">"anime girl"</text>
+  <!-- Bad result area -->
+  <rect x="50" y="148" width="312" height="180" rx="10" fill="#0a0a0a" stroke="#222" stroke-width="1"/>
+  <!-- Abstract bad result (blurry, undefined) -->
+  <circle cx="206" cy="238" r="50" fill="none" stroke="#333" stroke-width="1" stroke-dasharray="3 3"/>
+  <circle cx="206" cy="238" r="30" fill="none" stroke="#2a2a2a" stroke-width="1"/>
+  <line x1="186" y1="225" x2="196" y2="235" stroke="#333" stroke-width="0.8"/>
+  <line x1="216" y1="225" x2="206" y2="235" stroke="#333" stroke-width="0.8"/>
+  <path d="M195 248 Q206 255 217 248" stroke="#333" stroke-width="0.8" fill="none"/>
+  <text x="206" y="280" text-anchor="middle" fill="#a0a0a0" font-family="system-ui" font-size="9">Hasil tidak spesifik, gaya acak</text>
+  <!-- Issues list -->
+  <text x="50" y="360" fill="#e0304e" font-family="system-ui" font-size="10" font-weight="600">✕ Tidak ada deskripsi gaya</text>
+  <text x="50" y="380" fill="#e0304e" font-family="system-ui" font-size="10" font-weight="600">✕ Tidak ada detail karakter</text>
+  <text x="50" y="400" fill="#e0304e" font-family="system-ui" font-size="10" font-weight="600">✕ Tidak ada setting pencahayaan</text>
+
+  <!-- Good prompt card -->
+  <rect x="420" y="56" width="348" height="360" rx="14" fill="url(#good-grad)" stroke="#e0304e" stroke-width="0.5" stroke-opacity="0.15"/>
+  <rect x="420" y="56" width="348" height="36" rx="14" fill="#5c0010"/>
+  <rect x="420" y="76" width="348" height="16" fill="#5c0010"/>
+  <text x="438" y="78" fill="#e0304e" font-family="system-ui" font-size="11" font-weight="700" letter-spacing="0.5">BAIK</text>
+  <text x="594" y="78" text-anchor="middle" fill="#a0a0a0" font-family="system-ui" font-size="9">Detailed, structured prompt</text>
+  <!-- Good prompt text -->
+  <text x="438" y="118" fill="#e0e0e0" font-family="system-ui" font-size="11" font-style="italic">"anime girl, long purple hair,</text>
+  <text x="438" y="134" fill="#e0e0e0" font-family="system-ui" font-size="11" font-style="italic">school uniform, sunset background,</text>
+  <text x="438" y="150" fill="#e0e0e0" font-family="system-ui" font-size="11" font-style="italic">cinematic lighting, masterpiece"</text>
+  <!-- Good result area -->
+  <rect x="438" y="148" width="312" height="180" rx="10" fill="#0a0a0a" stroke="#333" stroke-width="1"/>
+  <!-- Abstract good result -->
+  <ellipse cx="594" cy="238" rx="50" ry="55" fill="none" stroke="#e0304e" stroke-width="1.5" opacity="0.3"/>
+  <circle cx="580" cy="228" r="4" fill="#e0304e" opacity="0.5"/>
+  <circle cx="608" cy="228" r="4" fill="#e0304e" opacity="0.5"/>
+  <path d="M575 248 Q594 258 613 248" stroke="#e0304e" stroke-width="1.2" fill="none" opacity="0.4"/>
+  <path d="M558 200 Q570 185 594 190 Q618 185 630 200" stroke="#e0304e" stroke-width="0.8" fill="none" opacity="0.3"/>
+  <!-- Sun background hint -->
+  <circle cx="730" cy="170" r="20" fill="#e0304e" opacity="0.1"/>
+  <!-- Lighting lines -->
+  <line x1="730" y1="170" x2="700" y2="200" stroke="#e0304e" stroke-width="0.5" opacity="0.15"/>
+  <line x1="730" y1="170" x2="680" y2="220" stroke="#e0304e" stroke-width="0.5" opacity="0.1"/>
+  <text x="594" y="348" text-anchor="middle" fill="#a0a0a0" font-family="system-ui" font-size="9">Hasil lebih detail dan sesuai gaya yang diinginkan</text>
+  <!-- Benefits list -->
+  <text x="438" y="360" fill="#e0304e" font-family="system-ui" font-size="10" font-weight="600">✓ Gaya dan estetika jelas</text>
+  <text x="438" y="380" fill="#e0304e" font-family="system-ui" font-size="10" font-weight="600">✓ Detail karakter lengkap</text>
+  <text x="438" y="400" fill="#e0304e" font-family="system-ui" font-size="10" font-weight="600">✓ Pencahayaan &amp; suasana</text>
+</svg>

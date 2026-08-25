@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <style>
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes pulse { 0%, 100% { opacity: 0.4; r: 6; } 50% { opacity: 1; r: 8; } }
+    @keyframes dash { to { stroke-dashoffset: -20; } }
+    @keyframes hubPulse { 0%, 100% { r: 60; opacity: 0.15; } 50% { r: 70; opacity: 0.25; } }
+    @keyframes nodeIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+    .title { animation: fadeIn 0.5s ease-out forwards; }
+    .connection { stroke-dasharray: 8 6; animation: dash 1s linear infinite; }
+    .pulse-dot { animation: pulse 2s ease-in-out infinite; }
+    .node-box { animation: nodeIn 0.5s ease-out forwards; opacity: 0; }
+    .node-1 { animation-delay: 0.2s; }
+    .node-2 { animation-delay: 0.35s; }
+    .node-3 { animation-delay: 0.5s; }
+    .node-4 { animation-delay: 0.65s; }
+    .node-5 { animation-delay: 0.8s; }
+    .node-6 { animation-delay: 0.95s; }
+    .hub-ring { animation: hubPulse 3s ease-in-out infinite; }
+    .float-anim { animation: float 3s ease-in-out infinite; }
+  </style>
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0f"/>
+      <stop offset="100%" style="stop-color:#0d0d14"/>
+    </linearGradient>
+    <filter id="hub-glow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg3)" rx="12"/>
+  <g class="title">
+    <text x="600" y="55" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="30" font-weight="700" letter-spacing="-0.5">AI Agent Ecosystem</text>
+    <text x="600" y="82" text-anchor="middle" fill="#6b7280" font-family="Inter, system-ui, sans-serif" font-size="14">Work Automation with Integrated AI Agents</text>
+  </g>
+  <circle cx="600" cy="340" r="60" fill="none" stroke="#dc2626" stroke-width="1" class="hub-ring"/>
+  <circle cx="600" cy="340" r="80" fill="none" stroke="#dc2626" stroke-width="0.5" opacity="0.15" class="hub-ring"/>
+  <circle cx="600" cy="340" r="50" fill="#dc2626" opacity="0.08" filter="url(#hub-glow)"/>
+  <circle cx="600" cy="340" r="45" fill="#111118" stroke="#dc2626" stroke-width="2"/>
+  <g class="float-anim">
+    <text x="600" y="335" text-anchor="middle" fill="#dc2626" font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="800">AI</text>
+    <text x="600" y="355" text-anchor="middle" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="500">AGENT</text>
+  </g>
+  <!-- Connections -->
+  <line x1="600" y1="295" x2="600" y2="185" stroke="#dc2626" stroke-width="1.5" class="connection"/>
+  <line x1="600" y1="295" x2="340" y2="215" stroke="#3b82f6" stroke-width="1.5" class="connection" style="animation-delay:0.1s"/>
+  <line x1="600" y1="295" x2="860" y2="215" stroke="#10b981" stroke-width="1.5" class="connection" style="animation-delay:0.2s"/>
+  <line x1="600" y1="385" x2="340" y2="465" stroke="#f59e0b" stroke-width="1.5" class="connection" style="animation-delay:0.3s"/>
+  <line x1="600" y1="385" x2="860" y2="465" stroke="#8b5cf6" stroke-width="1.5" class="connection" style="animation-delay:0.4s"/>
+  <line x1="600" y1="385" x2="600" y2="520" stroke="#ec4899" stroke-width="1.5" class="connection" style="animation-delay:0.5s"/>
+  <!-- Pulse dots on connections -->
+  <circle cx="600" cy="240" r="3" fill="#dc2626" class="pulse-dot"/>
+  <circle cx="470" cy="255" r="3" fill="#3b82f6" class="pulse-dot" style="animation-delay:0.3s"/>
+  <circle cx="730" cy="255" r="3" fill="#10b981" class="pulse-dot" style="animation-delay:0.6s"/>
+  <circle cx="470" cy="425" r="3" fill="#f59e0b" class="pulse-dot" style="animation-delay:0.9s"/>
+  <circle cx="730" cy="425" r="3" fill="#8b5cf6" class="pulse-dot" style="animation-delay:1.2s"/>
+  <circle cx="600" cy="455" r="3" fill="#ec4899" class="pulse-dot" style="animation-delay:1.5s"/>
+  <!-- Node: Email (top center) -->
+  <g class="node-box node-1">
+    <rect x="535" y="120" width="130" height="60" rx="12" fill="#111118" stroke="#dc2626" stroke-width="1.5"/>
+    <text x="565" y="157" fill="#dc2626" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="400">&#9993;</text>
+    <text x="583" y="157" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="600">Email</text>
+  </g>
+  <!-- Node: Calendar (top-left) -->
+  <g class="node-box node-2">
+    <rect x="260" y="175" width="150" height="60" rx="12" fill="#111118" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="288" y="212" fill="#3b82f6" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="400">&#128197;</text>
+    <text x="308" y="212" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="600">Calendar</text>
+  </g>
+  <!-- Node: Social Media (top-right) -->
+  <g class="node-box node-3">
+    <rect x="790" y="175" width="150" height="60" rx="12" fill="#111118" stroke="#10b981" stroke-width="1.5"/>
+    <text x="818" y="212" fill="#10b981" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="400">&#128227;</text>
+    <text x="838" y="212" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="600">Social Media</text>
+  </g>
+  <!-- Node: Code (bottom-left) -->
+  <g class="node-box node-4">
+    <rect x="260" y="430" width="150" height="60" rx="12" fill="#111118" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="288" y="467" fill="#f59e0b" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="400">&#128187;</text>
+    <text x="308" y="467" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="600">Code</text>
+  </g>
+  <!-- Node: Data (bottom-right) -->
+  <g class="node-box node-5">
+    <rect x="790" y="430" width="150" height="60" rx="12" fill="#111118" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="818" y="467" fill="#8b5cf6" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="400">&#128202;</text>
+    <text x="838" y="467" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="600">Data</text>
+  </g>
+  <!-- Node: Design (bottom center) -->
+  <g class="node-box node-6">
+    <rect x="535" y="490" width="130" height="60" rx="12" fill="#111118" stroke="#ec4899" stroke-width="1.5"/>
+    <text x="563" y="527" fill="#ec4899" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="400">&#127912;</text>
+    <text x="583" y="527" fill="#ffffff" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="600">Design</text>
+  </g>
+  <text x="600" y="618" text-anchor="middle" fill="#4b5563" font-family="Inter, system-ui, sans-serif" font-size="12">farisium.com</text>
+</svg>

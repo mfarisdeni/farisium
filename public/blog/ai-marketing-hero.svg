@@ -1,0 +1,49 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+  <defs>
+    <linearGradient id="glow1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e0304e" stop-opacity="0.08"/>
+      <stop offset="50%" stop-color="#642f7f" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#0a0a0a" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="glow2" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#642f7f" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#0a0a0a" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="gradient-line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#e0304e"/>
+      <stop offset="40%" stop-color="#e0304e"/>
+      <stop offset="60%" stop-color="#642f7f"/>
+      <stop offset="100%" stop-color="#642f7f" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="icon-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e0304e"/>
+      <stop offset="100%" stop-color="#642f7f"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#glow1)"/>
+  <rect width="1200" height="630" fill="url(#glow2)"/>
+  <rect x="40" y="40" width="1120" height="550" rx="20" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
+  <text x="600" y="260" text-anchor="middle" fill="#ffffff" fill-opacity="0.9" font-family="system-ui, sans-serif" font-size="44" font-weight="700">AI Marketing</text>
+  <text x="600" y="300" text-anchor="middle" fill="#ffffff" fill-opacity="0.5" font-family="system-ui, sans-serif" font-size="18">Riset - Produksi - Distribusi - Optimasi</text>
+  <rect x="600" y="315" width="200" height="2" fill="url(#gradient-line)" transform="translate(-100, 0)"/>
+  <g opacity="0.5">
+    <rect x="120" y="380" width="160" height="55" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="1"/>
+    <text x="200" y="414" text-anchor="middle" fill="#ffffff" fill-opacity="0.7" font-family="system-ui, sans-serif" font-size="13" font-weight="600">Riset Konten</text>
+    <rect x="340" y="380" width="160" height="55" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="1"/>
+    <text x="420" y="414" text-anchor="middle" fill="#ffffff" fill-opacity="0.7" font-family="system-ui, sans-serif" font-size="13" font-weight="600">Produksi</text>
+    <rect x="560" y="380" width="160" height="55" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="1"/>
+    <text x="640" y="414" text-anchor="middle" fill="#ffffff" fill-opacity="0.7" font-family="system-ui, sans-serif" font-size="13" font-weight="600">Distribusi</text>
+    <rect x="780" y="380" width="160" height="55" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="1"/>
+    <text x="860" y="414" text-anchor="middle" fill="#ffffff" fill-opacity="0.7" font-family="system-ui, sans-serif" font-size="13" font-weight="600">Optimasi</text>
+  </g>
+  <g opacity="0.3">
+    <circle cx="150" cy="140" r="3" fill="#ffffff" fill-opacity="0.3"/>
+    <circle cx="1050" cy="160" r="4" fill="#ffffff" fill-opacity="0.2"/>
+    <circle cx="950" cy="500" r="2" fill="#ffffff" fill-opacity="0.25"/>
+    <circle cx="250" cy="490" r="3" fill="#ffffff" fill-opacity="0.2"/>
+    <circle cx="750" cy="130" r="2" fill="#ffffff" fill-opacity="0.15"/>
+    <circle cx="350" cy="470" r="2" fill="#ffffff" fill-opacity="0.2"/>
+  </g>
+  <rect x="200" y="475" width="800" height="1" fill="url(#gradient-line)"/>
+</svg>

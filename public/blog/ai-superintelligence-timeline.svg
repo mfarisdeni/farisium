@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a0f"/>
+      <stop offset="100%" stop-color="#0d1117"/>
+    </linearGradient>
+    <linearGradient id="accent2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e0304e"/>
+      <stop offset="100%" stop-color="#642f7f"/>
+    </linearGradient>
+    <linearGradient id="line-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e0304e" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#642f7f" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#e0304e" stop-opacity="0.3"/>
+    </linearGradient>
+    <linearGradient id="glow-g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0304e" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#642f7f" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="blur2b">
+      <feGaussianBlur stdDeviation="50"/>
+    </filter>
+    <style>
+      @keyframes pulse2 { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.15)} }
+      @keyframes slideIn { 0%{opacity:0;transform:translateX(-20px)} 100%{opacity:1;transform:translateX(0)} }
+      @keyframes glow2 { 0%,100%{opacity:0.4} 50%{opacity:0.8} }
+      @keyframes progress { 0%{width:0} 100%{width:100%} }
+      @keyframes nodeGlow { 0%,100%{r:6;opacity:0.7} 50%{r:9;opacity:1} }
+      .pulse2 { animation: pulse2 3s ease-in-out infinite; }
+      .glow2 { animation: glow2 2.5s ease-in-out infinite; }
+      .node-glow { animation: nodeGlow 2s ease-in-out infinite; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg2)"/>
+
+  <!-- Ambient glow -->
+  <ellipse cx="600" cy="280" rx="400" ry="200" fill="url(#glow-g)" filter="url(#blur2b)"/>
+
+  <!-- Grid -->
+  <g opacity="0.03" stroke="#e6edf3" stroke-width="0.5">
+    <line x1="0" y1="126" x2="1200" y2="126"/><line x1="0" y1="252" x2="1200" y2="252"/>
+    <line x1="0" y1="378" x2="1200" y2="378"/><line x1="0" y1="504" x2="1200" y2="504"/>
+    <line x1="240" y1="0" x2="240" y2="630"/><line x1="480" y1="0" x2="480" y2="630"/>
+    <line x1="720" y1="0" x2="720" y2="630"/><line x1="960" y1="0" x2="960" y2="630"/>
+  </g>
+
+  <!-- Title -->
+  <text x="600" y="60" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="600" fill="#e6edf3" letter-spacing="2" opacity="0.9">
+    EVOLUTION OF AI INTELLIGENCE
+  </text>
+
+  <!-- Timeline line -->
+  <rect x="100" y="280" width="1000" height="2" rx="1" fill="url(#line-grad)" opacity="0.6"/>
+  <rect x="100" y="279" width="1000" height="4" rx="2" fill="url(#line-grad)" opacity="0.15" filter="url(#blur2b)"/>
+
+  <!-- Timeline nodes -->
+  <!-- Node 1: Narrow AI -->
+  <g class="pulse2" style="animation-delay:0s">
+    <circle cx="200" cy="280" r="8" fill="#0a0a0f" stroke="#e0304e" stroke-width="2"/>
+    <circle cx="200" cy="280" r="4" fill="#e0304e" opacity="0.8"/>
+    <circle cx="200" cy="280" r="14" fill="none" stroke="#e0304e" stroke-width="0.5" opacity="0.3" class="glow2"/>
+  </g>
+  <text x="200" y="240" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600" fill="#e6edf3">Narrow AI</text>
+  <text x="200" y="255" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#8b949e">Saat Ini</text>
+  <g opacity="0.7">
+    <rect x="140" y="300" width="120" height="50" rx="6" fill="#161b22" stroke="#e0304e" stroke-width="0.5" opacity="0.8"/>
+    <text x="200" y="320" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#e6edf3">ChatGPT, Gemini</text>
+    <text x="200" y="335" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#8b949e">Image Gen, Coding</text>
+  </g>
+
+  <!-- Node 2: AGI -->
+  <g class="pulse2" style="animation-delay:0.7s">
+    <circle cx="450" cy="280" r="8" fill="#0a0a0f" stroke="#642f7f" stroke-width="2"/>
+    <circle cx="450" cy="280" r="4" fill="#642f7f" opacity="0.8"/>
+    <circle cx="450" cy="280" r="14" fill="none" stroke="#642f7f" stroke-width="0.5" opacity="0.3" class="glow2"/>
+  </g>
+  <text x="450" y="240" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600" fill="#e6edf3">AGI</text>
+  <text x="450" y="255" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#8b949e">2027-2030?</text>
+  <g opacity="0.7">
+    <rect x="390" y="300" width="120" height="50" rx="6" fill="#161b22" stroke="#642f7f" stroke-width="0.5" opacity="0.8"/>
+    <text x="450" y="320" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#e6edf3">Reasoning Umum</text>
+    <text x="450" y="335" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#8b949e">Setara Manusia</text>
+  </g>
+
+  <!-- Node 3: ASI -->
+  <g class="pulse2" style="animation-delay:1.4s">
+    <circle cx="720" cy="280" r="10" fill="#0a0a0f" stroke="#e0304e" stroke-width="2.5"/>
+    <circle cx="720" cy="280" r="5" fill="#e0304e" opacity="0.9"/>
+    <circle cx="720" cy="280" r="18" fill="none" stroke="#e0304e" stroke-width="0.5" opacity="0.4" class="glow2"/>
+  </g>
+  <text x="720" y="235" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700" fill="#e0304e">ASI</text>
+  <text x="720" y="255" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#8b949e">Masa Depan</text>
+  <g opacity="0.7">
+    <rect x="660" y="300" width="120" height="50" rx="6" fill="#161b22" stroke="#e0304e" stroke-width="0.5" opacity="0.8"/>
+    <text x="720" y="320" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#e6edf3">Superintelligence</text>
+    <text x="720" y="335" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#8b949e">Melampaui Manusia</text>
+  </g>
+
+  <!-- Node 4: Singularity -->
+  <g class="pulse2" style="animation-delay:2.1s">
+    <circle cx="950" cy="280" r="12" fill="#0a0a0f" stroke="url(#accent2)" stroke-width="2"/>
+    <circle cx="950" cy="280" r="6" fill="url(#accent2)" opacity="0.9"/>
+    <circle cx="950" cy="280" r="22" fill="none" stroke="url(#accent2)" stroke-width="0.5" opacity="0.3" class="glow2"/>
+  </g>
+  <text x="950" y="232" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="15" font-weight="700" fill="url(#accent2)">Singularity</text>
+  <text x="950" y="255" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#8b949e">Titik Tak Terbalikkan</text>
+  <g opacity="0.7">
+    <rect x="890" y="300" width="120" height="50" rx="6" fill="#161b22" stroke="url(#accent2)" stroke-width="0.5" opacity="0.8"/>
+    <text x="950" y="320" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#e6edf3">AI Recursion</text>
+    <text x="950" y="335" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#8b949e">Self-Improvement</text>
+  </g>
+
+  <!-- Bottom info cards -->
+  <g opacity="0.6">
+    <rect x="80" y="400" width="250" height="80" rx="8" fill="#161b22" stroke="#e0304e" stroke-width="0.5"/>
+    <text x="205" y="425" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#e0304e">Para Ahli Memprediksi</text>
+    <text x="205" y="445" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#8b949e">AGI bisa tercapai dalam</text>
+    <text x="205" y="460" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#8b949e">5-15 tahun ke depan</text>
+  </g>
+  <g opacity="0.6">
+    <rect x="475" y="400" width="250" height="80" rx="8" fill="#161b22" stroke="#642f7f" stroke-width="0.5"/>
+    <text x="600" y="425" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#642f7f">Investasi Global</text>
+    <text x="600" y="445" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#8b949e">Ratusan miliar USD</text>
+    <text x="600" y="460" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#8b949e">diarahkan ke riset AGI</text>
+  </g>
+  <g opacity="0.6">
+    <rect x="870" y="400" width="250" height="80" rx="8" fill="#161b22" stroke="#e0304e" stroke-width="0.5"/>
+    <text x="995" y="425" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="600" fill="#e0304e">Tantangan Utama</text>
+    <text x="995" y="445" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#8b949e">Alignment, Safety,</text>
+    <text x="995" y="460" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#8b949e">dan Tata Kelola</text>
+  </g>
+
+  <!-- Arrow indicators on timeline -->
+  <polygon points="340,278 355,280 340,282" fill="#e0304e" opacity="0.5"/>
+  <polygon points="590,278 605,280 590,282" fill="#642f7f" opacity="0.5"/>
+  <polygon points="840,278 855,280 840,282" fill="#e0304e" opacity="0.4"/>
+
+  <!-- Bottom text -->
+  <text x="600" y="530" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#8b949e" letter-spacing="1" opacity="0.5">
+    DARI NARROW AI MENUJU SUPERINTELLIGENCE — PERJALANAN YANG SEDANG BERLANGSUNG
+  </text>
+
+  <!-- Border -->
+  <rect x="20" y="20" width="1160" height="590" rx="8" fill="none" stroke="#e6edf3" stroke-opacity="0.06" stroke-width="1"/>
+
+  <!-- FARISIUM -->
+  <text x="60" y="600" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#8b949e" opacity="0.5" letter-spacing="2">FARISIUM</text>
+</svg>

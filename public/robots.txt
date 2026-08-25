@@ -1,0 +1,59 @@
+# ==========================================
+# 1. ALLOW AI SEARCH & CHAT ENGINES (GEO/AISEO)
+# ==========================================
+
+# Allows ChatGPT to search your site for real-time answers and citations
+User-agent: OAI-SearchBot
+Allow: /
+
+# Allows Perplexity AI to crawl, synthesize, and link to your content
+User-agent: PerplexityBot
+Allow: /
+
+# Allows Claude/Anthropic search capabilities
+User-agent: ClaudeBot
+Allow: /
+
+# Allows Apple Intelligence / Applebot-Extended to summarize your content
+User-agent: Applebot-Extended
+Allow: /
+
+# Allows CoPilot / Bing to crawl your site for AI chat answers
+User-agent: bingbot
+Allow: /
+
+# Allows Google Gemini to crawl your site for real-time search results
+User-agent: Googlebot
+Allow: /
+
+
+# ==========================================
+# 2. BLOCK PURE LLM TRAINING BOTS
+# ==========================================
+
+# Blocks OpenAI from training GPT models on your data
+User-agent: GPTBot
+Disallow: /
+
+# Blocks Google from training Gemini on your data
+User-agent: Google-Extended
+Disallow: /
+
+# Blocks Anthropic from training Claude on your data
+User-agent: Claude-WebCrawler
+Disallow: /
+
+
+# ==========================================
+# 3. GENERAL RULES
+# ==========================================
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /profile/
+Disallow: /settings/
+Disallow: /payment-logs/
+Disallow: /frsc-audit-trail-x7k9m2n4/
+
+Sitemap: https://farisium.com/sitemap.xml

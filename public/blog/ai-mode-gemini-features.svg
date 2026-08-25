@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117"/>
+      <stop offset="100%" style="stop-color:#0a0a0f"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#161b22"/>
+      <stop offset="100%" style="stop-color:#0d1117"/>
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="30"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg2)"/>
+  
+  <!-- Ambient lights -->
+  <circle cx="200" cy="315" r="200" fill="#4285f4" opacity="0.03" filter="url(#glow2)"/>
+  <circle cx="1000" cy="315" r="200" fill="#9b72cb" opacity="0.03" filter="url(#glow2)"/>
+  
+  <!-- Title -->
+  <text x="600" y="70" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="28" fill="#e6edf3" font-weight="700">Gemini 3 Features in AI Mode</text>
+  
+  <!-- Feature cards row 1 -->
+  <!-- Card 1: Reasoning -->
+  <g transform="translate(150,120)">
+    <rect width="300" height="180" rx="12" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1"/>
+    <rect x="20" y="20" width="40" height="40" rx="10" fill="#4285f4" opacity="0.15"/>
+    <text x="40" y="47" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="20" fill="#4285f4">&#x2699;</text>
+    <text x="80" y="46" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#e6edf3" font-weight="600">Advanced Reasoning</text>
+    <text x="20" y="85" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#8b949e">Grasps unprecedented depth</text>
+    <text x="20" y="105" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#8b949e">and nuance in queries</text>
+    <rect x="20" y="130" width="80" height="24" rx="12" fill="#4285f4" opacity="0.1"/>
+    <text x="60" y="147" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#4285f4" font-weight="500">Thinking</text>
+    <rect x="110" y="130" width="80" height="24" rx="12" fill="#34a853" opacity="0.1"/>
+    <text x="150" y="147" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#34a853" font-weight="500">Pro</text>
+  </g>
+  
+  <!-- Card 2: Multimodal -->
+  <g transform="translate(450,120)">
+    <rect width="300" height="180" rx="12" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1"/>
+    <rect x="20" y="20" width="40" height="40" rx="10" fill="#9b72cb" opacity="0.15"/>
+    <text x="40" y="47" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="20" fill="#9b72cb">&#x1f441;</text>
+    <text x="80" y="46" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#e6edf3" font-weight="600">Multimodal Understanding</text>
+    <text x="20" y="85" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#8b949e">Type, talk, snap a photo,</text>
+    <text x="20" y="105" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#8b949e">or upload an image</text>
+    <rect x="20" y="130" width="50" height="24" rx="12" fill="#ea4335" opacity="0.1"/>
+    <text x="45" y="147" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#ea4335" font-weight="500">Text</text>
+    <rect x="80" y="130" width="50" height="24" rx="12" fill="#fbbc04" opacity="0.1"/>
+    <text x="105" y="147" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#fbbc04" font-weight="500">Voice</text>
+    <rect x="140" y="130" width="50" height="24" rx="12" fill="#34a853" opacity="0.1"/>
+    <text x="165" y="147" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#34a853" font-weight="500">Image</text>
+    <rect x="200" y="130" width="60" height="24" rx="12" fill="#4285f4" opacity="0.1"/>
+    <text x="230" y="147" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#4285f4" font-weight="500">Video</text>
+  </g>
+  
+  <!-- Card 3: Generative UI -->
+  <g transform="translate(750,120)">
+    <rect width="300" height="180" rx="12" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1"/>
+    <rect x="20" y="20" width="40" height="40" rx="10" fill="#34a853" opacity="0.15"/>
+    <text x="40" y="47" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="20" fill="#34a853">&#x2728;</text>
+    <text x="80" y="46" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#e6edf3" font-weight="600">Generative UI</text>
+    <text x="20" y="85" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#8b949e">Dynamic visual layouts with</text>
+    <text x="20" y="105" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#8b949e">interactive tools &amp; simulations</text>
+    <rect x="20" y="130" width="70" height="24" rx="12" fill="#34a853" opacity="0.1"/>
+    <text x="55" y="147" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#34a853" font-weight="500">Tables</text>
+    <rect x="100" y="130" width="80" height="24" rx="12" fill="#4285f4" opacity="0.1"/>
+    <text x="140" y="147" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#4285f4" font-weight="500">Simulations</text>
+    <rect x="190" y="130" width="80" height="24" rx="12" fill="#9b72cb" opacity="0.1"/>
+    <text x="230" y="147" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#9b72cb" font-weight="500">Interactive</text>
+  </g>
+  
+  <!-- Feature cards row 2 -->
+  <!-- Card 4: Query Fan-out -->
+  <g transform="translate(250,330)">
+    <rect width="320" height="140" rx="12" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1"/>
+    <rect x="20" y="20" width="40" height="40" rx="10" fill="#ea4335" opacity="0.15"/>
+    <text x="40" y="47" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="20" fill="#ea4335">&#x1f50d;</text>
+    <text x="80" y="46" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#e6edf3" font-weight="600">Query Fan-out</text>
+    <text x="20" y="85" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#8b949e">Performs more searches to uncover</text>
+    <text x="20" y="105" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#8b949e">relevant web content intelligently</text>
+  </g>
+  
+  <!-- Card 5: Search Live -->
+  <g transform="translate(630,330)">
+    <rect width="320" height="140" rx="12" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1"/>
+    <rect x="20" y="20" width="40" height="40" rx="10" fill="#fbbc04" opacity="0.15"/>
+    <text x="40" y="47" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="20" fill="#fbbc04">&#x1f3a4;</text>
+    <text x="80" y="46" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#e6edf3" font-weight="600">Search Live</text>
+    <text x="20" y="85" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#8b949e">Real-time conversation with</text>
+    <text x="20" y="105" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#8b949e">AI Mode using voice &amp; video</text>
+  </g>
+  
+  <!-- Bottom label -->
+  <text x="600" y="530" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" fill="#484f58" font-weight="400">Powered by Gemini 3 Pro in Google Search</text>
+  
+  <!-- Farisium badge -->
+  <text x="600" y="580" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#484f58" font-weight="500" letter-spacing="2">FARISIUM</text>
+</svg>

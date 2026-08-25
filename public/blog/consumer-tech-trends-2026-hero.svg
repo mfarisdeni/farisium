@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0f"/>
+      <stop offset="50%" style="stop-color:#0d1117"/>
+      <stop offset="100%" style="stop-color:#0a0a0f"/>
+    </linearGradient>
+    <linearGradient id="glowPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#642f7f;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#642f7f;stop-opacity:0.05"/>
+    </linearGradient>
+    <linearGradient id="glowCrimson" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e0304e;stop-opacity:0.25"/>
+      <stop offset="100%" style="stop-color:#e0304e;stop-opacity:0.05"/>
+    </linearGradient>
+    <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e0304e"/>
+      <stop offset="100%" style="stop-color:#642f7f"/>
+    </linearGradient>
+    <filter id="blur1"><feGaussianBlur stdDeviation="60"/></filter>
+    <filter id="blur2"><feGaussianBlur stdDeviation="2"/></filter>
+    <filter id="glow"><feGaussianBlur stdDeviation="4" result="blur"/><feComposite in="SourceGraphic" in2="blur" operator="over"/></filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Ambient glows -->
+  <circle cx="600" cy="280" r="300" fill="url(#glowPurple)" filter="url(#blur1)"/>
+  <circle cx="200" cy="150" r="200" fill="#e0304e" opacity="0.04" filter="url(#blur1)"/>
+  <circle cx="1000" cy="450" r="180" fill="#642f7f" opacity="0.04" filter="url(#blur1)"/>
+
+  <!-- Grid -->
+  <g opacity="0.03" stroke="#642f7f" stroke-width="0.5">
+    <line x1="0" y1="105" x2="1200" y2="105"/><line x1="0" y1="210" x2="1200" y2="210"/>
+    <line x1="0" y1="315" x2="1200" y2="315"/><line x1="0" y1="420" x2="1200" y2="420"/>
+    <line x1="0" y1="525" x2="1200" y2="525"/>
+    <line x1="200" y1="0" x2="200" y2="630"/><line x1="400" y1="0" x2="400" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/><line x1="800" y1="0" x2="800" y2="630"/>
+    <line x1="1000" y1="0" x2="1000" y2="630"/>
+  </g>
+
+  <!-- Central AI Chip -->
+  <g transform="translate(600,260)" filter="url(#glow)">
+    <rect x="-45" y="-45" width="90" height="90" rx="16" fill="#161b22" stroke="url(#iconGrad)" stroke-width="2"/>
+    <rect x="-30" y="-30" width="60" height="60" rx="8" fill="none" stroke="#e0304e" stroke-width="1" opacity="0.3"/>
+    <text x="0" y="5" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="22" fill="url(#iconGrad)" font-weight="700">AI</text>
+    <!-- Pulse ring -->
+    <circle cx="0" cy="0" r="55" fill="none" stroke="#642f7f" stroke-width="1" opacity="0.2">
+      <animate attributeName="r" values="55;80;55" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.2;0;0.2" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Connection lines from center to icons -->
+  <g opacity="0.08" stroke="url(#iconGrad)" stroke-width="1">
+    <line x1="600" y1="215" x2="600" y2="130"/>
+    <line x1="555" y1="230" x2="350" y2="160"/>
+    <line x1="645" y1="230" x2="850" y2="160"/>
+    <line x1="555" y1="290" x2="350" y2="370"/>
+    <line x1="645" y1="290" x2="850" y2="370"/>
+    <line x1="600" y1="305" x2="600" y2="400"/>
+  </g>
+
+  <!-- Icon 1: Smart Home (top) -->
+  <g transform="translate(600,110)" filter="url(#glow)">
+    <circle cx="0" cy="0" r="32" fill="#161b22" stroke="#642f7f" stroke-width="1.5"/>
+    <path d="M-14,5 L0,-8 L14,5" fill="none" stroke="#642f7f" stroke-width="2" stroke-linecap="round"/>
+    <rect x="-10" y="5" width="20" height="14" rx="2" fill="none" stroke="#642f7f" stroke-width="1.5"/>
+    <rect x="-3" y="10" width="6" height="9" rx="1" fill="#642f7f" opacity="0.4"/>
+    <circle cx="18" cy="-10" r="4" fill="#e0304e" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Icon 2: Human Interface (top-left) -->
+  <g transform="translate(340,150)" filter="url(#glow)">
+    <circle cx="0" cy="0" r="32" fill="#161b22" stroke="#e0304e" stroke-width="1.5"/>
+    <circle cx="0" cy="-8" r="8" fill="none" stroke="#e0304e" stroke-width="1.5"/>
+    <path d="M-12,8 Q0,18 12,8" fill="none" stroke="#e0304e" stroke-width="1.5"/>
+    <line x1="-18" y1="-2" x2="-12" y2="-2" stroke="#e0304e" stroke-width="1" opacity="0.5"/>
+    <line x1="12" y1="-2" x2="18" y2="-2" stroke="#e0304e" stroke-width="1" opacity="0.5"/>
+  </g>
+
+  <!-- Icon 3: Smart Glasses (top-right) -->
+  <g transform="translate(860,150)" filter="url(#glow)">
+    <circle cx="0" cy="0" r="32" fill="#161b22" stroke="#642f7f" stroke-width="1.5"/>
+    <rect x="-18" y="-6" width="14" height="10" rx="3" fill="none" stroke="#642f7f" stroke-width="1.5"/>
+    <rect x="4" y="-6" width="14" height="10" rx="3" fill="none" stroke="#642f7f" stroke-width="1.5"/>
+    <line x1="-4" y1="-1" x2="4" y2="-1" stroke="#642f7f" stroke-width="1.5"/>
+    <line x1="-18" y1="-1" x2="-24" y2="-4" stroke="#642f7f" stroke-width="1.5"/>
+    <line x1="18" y1="-1" x2="24" y2="-4" stroke="#642f7f" stroke-width="1.5"/>
+    <circle cx="0" cy="-1" r="2" fill="#e0304e" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.1;0.5" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Icon 4: Robot (bottom-left) -->
+  <g transform="translate(340,370)" filter="url(#glow)">
+    <circle cx="0" cy="0" r="32" fill="#161b22" stroke="#e0304e" stroke-width="1.5"/>
+    <rect x="-10" y="-12" width="20" height="18" rx="4" fill="none" stroke="#e0304e" stroke-width="1.5"/>
+    <circle cx="-5" cy="-4" r="2" fill="#e0304e" opacity="0.6"/>
+    <circle cx="5" cy="-4" r="2" fill="#e0304e" opacity="0.6"/>
+    <line x1="-5" y1="3" x2="5" y2="3" stroke="#e0304e" stroke-width="1"/>
+    <line x1="0" y1="-12" x2="0" y2="-18" stroke="#e0304e" stroke-width="1.5"/>
+    <circle cx="0" cy="-18" r="2" fill="#e0304e" opacity="0.5"/>
+  </g>
+
+  <!-- Icon 5: TV/Display (bottom-right) -->
+  <g transform="translate(860,370)" filter="url(#glow)">
+    <circle cx="0" cy="0" r="32" fill="#161b22" stroke="#642f7f" stroke-width="1.5"/>
+    <rect x="-16" y="-12" width="32" height="18" rx="3" fill="none" stroke="#642f7f" stroke-width="1.5"/>
+    <line x1="-6" y1="8" x2="6" y2="8" stroke="#642f7f" stroke-width="1.5"/>
+    <line x1="0" y1="8" x2="0" y2="14" stroke="#642f7f" stroke-width="1.5"/>
+    <line x1="-8" y1="14" x2="8" y2="14" stroke="#642f7f" stroke-width="1.5"/>
+    <rect x="-12" y="-8" width="24" height="10" rx="1" fill="#642f7f" opacity="0.1"/>
+  </g>
+
+  <!-- Icon 6: Wellness (bottom center) -->
+  <g transform="translate(600,410)" filter="url(#glow)">
+    <circle cx="0" cy="0" r="32" fill="#161b22" stroke="url(#iconGrad)" stroke-width="1.5"/>
+    <path d="M0,10 L0,-10" stroke="#e0304e" stroke-width="2" stroke-linecap="round"/>
+    <path d="M0,-10 Q-10,-10 -10,-2 Q-10,4 0,10 Q10,4 10,-2 Q10,-10 0,-10" fill="none" stroke="#e0304e" stroke-width="1.5"/>
+    <circle cx="0" cy="-10" r="2" fill="#e0304e" opacity="0.6">
+      <animate attributeName="r" values="2;3;2" dur="1.5s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Floating particles -->
+  <circle cx="150" cy="300" r="2" fill="#e0304e" opacity="0.4">
+    <animate attributeName="cy" values="300;280;300" dur="4s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.4;0.1;0.4" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="1050" cy="200" r="2" fill="#642f7f" opacity="0.4">
+    <animate attributeName="cy" values="200;220;200" dur="3.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="450" cy="500" r="1.5" fill="#e0304e" opacity="0.3">
+    <animate attributeName="cy" values="500;485;500" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="750" cy="80" r="1.5" fill="#642f7f" opacity="0.3">
+    <animate attributeName="cy" values="80;95;80" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Title -->
+  <text x="600" y="505" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="30" fill="#e6edf3" font-weight="700" letter-spacing="-0.5">6 Consumer Tech Trends 2026</text>
+  <text x="600" y="535" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="15" fill="#8b949e" font-weight="400">You Can't Ignore</text>
+
+  <!-- Badge -->
+  <g transform="translate(600,580)">
+    <rect x="-60" y="-12" width="120" height="24" rx="12" fill="#161b22" stroke="#642f7f" stroke-width="1" opacity="0.6"/>
+    <text x="0" y="4" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="10" fill="#642f7f" font-weight="500" letter-spacing="1.5">FARISIUM</text>
+  </g>
+</svg>

@@ -1,0 +1,69 @@
+<svg width="800" height="500" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="500" fill="#0a0a0a"/>
+  <defs>
+    <linearGradient id="bg-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e0304e" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#642f7f" stop-opacity="0.03"/>
+    </linearGradient>
+    <linearGradient id="box-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a1a"/>
+      <stop offset="100%" stop-color="#111111"/>
+    </linearGradient>
+    <linearGradient id="arrow-grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#e0304e" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#642f7f" stop-opacity="0.6"/>
+    </linearGradient>
+    <linearGradient id="accent-red" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e0304e"/>
+      <stop offset="100%" stop-color="#642f7f"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg-grad)"/>
+  <rect x="20" y="20" width="760" height="460" rx="12" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
+  <text x="400" y="65" text-anchor="middle" fill="#ffffff" fill-opacity="0.9" font-family="system-ui, sans-serif" font-size="18" font-weight="600">Ekosistem FRSC Farisium</text>
+  <g>
+    <rect x="50" y="110" width="140" height="90" rx="10" fill="url(#box-grad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+    <rect x="50" y="110" width="140" height="3" rx="1.5" fill="url(#accent-red)"/>
+    <text x="120" y="148" text-anchor="middle" fill="#ffffff" fill-opacity="0.85" font-family="system-ui, sans-serif" font-size="14" font-weight="600">Klaim Harian</text>
+    <text x="120" y="170" text-anchor="middle" fill="#ffffff" fill-opacity="0.5" font-family="system-ui, sans-serif" font-size="11">FRSC gratis</text>
+    <text x="120" y="186" text-anchor="middle" fill="#ffffff" fill-opacity="0.4" font-family="system-ui, sans-serif" font-size="11">setiap hari</text>
+  </g>
+  <g>
+    <rect x="250" y="110" width="140" height="90" rx="10" fill="url(#box-grad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+    <rect x="250" y="110" width="140" height="3" rx="1.5" fill="url(#accent-red)"/>
+    <text x="320" y="148" text-anchor="middle" fill="#ffffff" fill-opacity="0.85" font-family="system-ui, sans-serif" font-size="14" font-weight="600">Bonus Rewards</text>
+    <text x="320" y="170" text-anchor="middle" fill="#ffffff" fill-opacity="0.5" font-family="system-ui, sans-serif" font-size="11">FRSC tambahan</text>
+    <text x="320" y="186" text-anchor="middle" fill="#ffffff" fill-opacity="0.4" font-family="system-ui, sans-serif" font-size="11">berkala</text>
+  </g>
+  <g>
+    <rect x="450" y="110" width="140" height="90" rx="10" fill="url(#box-grad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+    <rect x="450" y="110" width="140" height="3" rx="1.5" fill="url(#accent-red)"/>
+    <text x="520" y="148" text-anchor="middle" fill="#ffffff" fill-opacity="0.85" font-family="system-ui, sans-serif" font-size="14" font-weight="600">Kompetisi</text>
+    <text x="520" y="170" text-anchor="middle" fill="#ffffff" fill-opacity="0.5" font-family="system-ui, sans-serif" font-size="11">Menangkan FRSC</text>
+    <text x="520" y="186" text-anchor="middle" fill="#ffffff" fill-opacity="0.4" font-family="system-ui, sans-serif" font-size="11">dalam jumlah besar</text>
+  </g>
+  <g>
+    <rect x="610" y="110" width="140" height="90" rx="10" fill="url(#box-grad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+    <rect x="610" y="110" width="140" height="3" rx="1.5" fill="url(#accent-red)"/>
+    <text x="680" y="148" text-anchor="middle" fill="#ffffff" fill-opacity="0.85" font-family="system-ui, sans-serif" font-size="14" font-weight="600">Gunakan FRSC</text>
+    <text x="680" y="170" text-anchor="middle" fill="#ffffff" fill-opacity="0.5" font-family="system-ui, sans-serif" font-size="11">Akses AI Tools</text>
+    <text x="680" y="186" text-anchor="middle" fill="#ffffff" fill-opacity="0.4" font-family="system-ui, sans-serif" font-size="11">premium</text>
+  </g>
+  <line x1="190" y1="155" x2="240" y2="155" stroke="url(#arrow-grad)" stroke-width="1.5"/>
+  <polygon points="240,150 250,155 240,160" fill="#642f7f" fill-opacity="0.6"/>
+  <line x1="390" y1="155" x2="440" y2="155" stroke="url(#arrow-grad)" stroke-width="1.5"/>
+  <polygon points="440,150 450,155 440,160" fill="#642f7f" fill-opacity="0.6"/>
+  <line x1="590" y1="155" x2="600" y2="155" stroke="url(#arrow-grad)" stroke-width="1.5"/>
+  <polygon points="600,150 610,155 600,160" fill="#642f7f" fill-opacity="0.6"/>
+  <g>
+    <rect x="200" y="320" width="400" height="90" rx="12" fill="url(#box-grad)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+    <rect x="200" y="320" width="400" height="3" rx="1.5" fill="url(#accent-red)"/>
+    <text x="400" y="358" text-anchor="middle" fill="#ffffff" fill-opacity="0.85" font-family="system-ui, sans-serif" font-size="16" font-weight="600">Anime Generator dan AI Tools</text>
+    <text x="400" y="382" text-anchor="middle" fill="#ffffff" fill-opacity="0.5" font-family="system-ui, sans-serif" font-size="12">Hasilkan gambar anime dan nikmati berbagai fitur AI premium</text>
+  </g>
+  <line x1="520" y1="200" x2="550" y2="310" stroke="#ffffff" stroke-opacity="0.15" stroke-width="1"/>
+  <polygon points="550,310 545,295 555,295" fill="#ffffff" fill-opacity="0.15"/>
+  <line x1="680" y1="200" x2="650" y2="310" stroke="#ffffff" stroke-opacity="0.15" stroke-width="1"/>
+  <polygon points="650,310 645,295 655,295" fill="#ffffff" fill-opacity="0.15"/>
+  <text x="400" y="460" text-anchor="middle" fill="#ffffff" fill-opacity="0.3" font-family="system-ui, sans-serif" font-size="10">Dapatkan FRSC gratis setiap hari dan gunakan untuk menikmati layanan AI premium Farisium</text>
+</svg>

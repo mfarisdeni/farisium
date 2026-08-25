@@ -1,0 +1,1169 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: var(--font-sans), 'Plus Jakarta Sans Fallback', ui-sans-serif;
+  --font-heading: var(--font-heading), 'Plus Jakarta Sans Fallback', ui-sans-serif;
+  --font-geist: var(--font-geist), ui-sans-serif;
+  --font-mono: ui-monospace, 'JetBrains Mono', monospace;
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+
+  --color-frsc-black: var(--frsc-black);
+  --color-frsc-surface-900: var(--frsc-surface-900);
+  --color-frsc-surface-800: var(--frsc-surface-800);
+  --color-frsc-surface-700: var(--frsc-surface-700);
+  --color-frsc-surface-600: var(--frsc-surface-600);
+  --color-frsc-surface-500: var(--frsc-surface-500);
+  --color-frsc-crimson-900: var(--frsc-crimson-900);
+  --color-frsc-crimson-800: var(--frsc-crimson-800);
+  --color-frsc-crimson-700: var(--frsc-crimson-700);
+  --color-frsc-crimson-600: var(--frsc-crimson-600);
+  --color-frsc-crimson-500: var(--frsc-crimson-500);
+  --color-frsc-crimson-400: var(--frsc-crimson-400);
+  --color-frsc-crimson-300: var(--frsc-crimson-300);
+  --color-frsc-purple-900: var(--frsc-purple-900);
+  --color-frsc-purple-800: var(--frsc-purple-800);
+  --color-frsc-purple-700: var(--frsc-purple-700);
+  --color-frsc-purple-600: var(--frsc-purple-600);
+  --color-frsc-purple-500: var(--frsc-purple-500);
+  --color-frsc-purple-400: var(--frsc-purple-400);
+  --color-frsc-purple-300: var(--frsc-purple-300);
+  --color-frsc-text-300: var(--frsc-text-300);
+  --color-frsc-text-200: var(--frsc-text-200);
+  --color-frsc-text-100: var(--frsc-text-100);
+
+  --color-frsc-platinum: var(--frsc-platinum);
+  --color-frsc-silver: var(--frsc-silver);
+  --color-frsc-chrome: var(--frsc-chrome);
+  --color-frsc-platinum-black: var(--frsc-platinum-black);
+  --color-frsc-white-soft: var(--frsc-white-soft);
+  --color-frsc-white-bright: var(--frsc-white-bright);
+
+  --anim-duration-fast: 0.2s;
+  --anim-duration-base: 0.35s;
+  --anim-duration-slow: 0.5s;
+  --anim-ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+  --anim-ease-out: cubic-bezier(0.0, 0.0, 0.2, 1);
+  --anim-ease-gentle: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ── Fluid Premium Typography Scale ──
+   * Additive tokens → generate text-hero/display/h1/h2/h3/lead/eyebrow utilities.
+   * Existing Tailwind text-sm/base/lg etc remain untouched (no override).
+   */
+  --text-eyebrow: clamp(0.75rem, 0.72rem + 0.15vw, 0.85rem);
+  --text-lead: clamp(1rem, 0.95rem + 0.25vw, 1.25rem);
+  --text-h4: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --text-h3: clamp(1.125rem, 1.04rem + 0.45vw, 1.375rem);
+  --text-h2: clamp(1.375rem, 1.2rem + 0.9vw, 1.875rem);
+  --text-h1: clamp(1.75rem, 1.4rem + 1.7vw, 2.5rem);
+  --text-hero: clamp(2rem, 1.45rem + 2.7vw, 3.25rem);
+  --text-display: clamp(2.5rem, 1.75rem + 3.7vw, 4.5rem);
+
+  /* Fluid leading presets — only NEW names to avoid colliding with
+   * Tailwind defaults (tight/snug/normal/relaxed). Use leading-hero / leading-display.
+   */
+  --leading-hero: 1.05;
+  --leading-display: 1.08;
+
+  /* Letter-spacing presets — only NEW names (Tailwind already ships
+   * tight/tighter/normal/wide/wider/widest). tracking-eyebrow is for section labels.
+   */
+  --tracking-eyebrow: 0.18em;
+
+  /* ── Semantic Z-Index Scale ──
+   * Tailwind v4 generates `z-*` utilities from the `--z-index-*` namespace.
+   * (`--z-*` would only publish raw CSS vars, not utilities — common pitfall.)
+   */
+  --z-index-base: 1;
+  --z-index-elevated: 10;
+  --z-index-sticky: 50;
+  --z-index-dropdown: 100;
+  --z-index-popover: 200;
+  --z-index-modal: 300;
+  --z-index-toast: 400;
+  --z-index-loader: 500;
+  --z-index-max: 9999;
+
+  /* Legacy aliases retained so existing `--z-modal` etc. raw usages keep working. */
+  --z-base: var(--z-index-base);
+  --z-elevated: var(--z-index-elevated);
+  --z-sticky: var(--z-index-sticky);
+  --z-dropdown: var(--z-index-dropdown);
+  --z-popover: var(--z-index-popover);
+  --z-modal: var(--z-index-modal);
+  --z-toast: var(--z-index-toast);
+  --z-loader: var(--z-index-loader);
+  --z-max: var(--z-index-max);
+
+  /* ── Premium Elevation Primitives ──
+   * Additive — shadow-metallic / shadow-metallic-lg remain unchanged.
+   */
+  --shadow-floating: 0 1px 0 rgba(255, 255, 255, 0.08), 0 12px 40px rgba(0, 0, 0, 0.4);
+  --shadow-floating-lg: 0 1px 0 rgba(255, 255, 255, 0.10), 0 20px 60px rgba(0, 0, 0, 0.5);
+  --shadow-crimson-glow: 0 0 0 1px rgba(224, 48, 78, 0.18), 0 8px 32px rgba(224, 48, 78, 0.22);
+  --shadow-crimson-glow-lg: 0 0 0 1px rgba(224, 48, 78, 0.22), 0 12px 48px rgba(224, 48, 78, 0.35);
+  --shadow-purple-glow: 0 0 0 1px rgba(100, 47, 127, 0.16), 0 8px 32px rgba(100, 47, 127, 0.18);
+}
+
+/*
+ * ── Farisium Design System v2 — Black Platinum + Metallic Silver ──
+ *
+ * Color distribution:
+ *   40% Deep Black / Graphite   (background, deep surfaces)
+ *   25% Platinum Black          (cards, elevated surfaces)
+ *   15% Silver / Chrome         (borders, metallic accents, badges)
+ *   15% White & Soft White      (text, highlights, separators)
+ *    5% Accent (Red & Purple)   (CTAs, focus, active states)
+ */
+:root {
+  color-scheme: dark;
+
+  /* Core */
+  --background: #0a0a0a;
+  --foreground: #f0f0f0;
+
+  /* Cards & Surfaces — brighter, more premium */
+  --card: #1c1c1c;
+  --card-foreground: #f0f0f0;
+  --popover: #181818;
+  --popover-foreground: #f0f0f0;
+
+  /* Primary — Moving Crimson */
+  --primary: #8b0020;
+  --primary-foreground: #ffffff;
+
+  /* Secondary — platinum black */
+  --secondary: #2a2a2a;
+  --secondary-foreground: #f0f0f0;
+
+  /* Muted */
+  --muted: #1e1e1e;
+  --muted-foreground: #b0b0b0;
+
+  /* Accent */
+  --accent: #e0304e;
+  --accent-foreground: #ffffff;
+
+  /* Destructive */
+  --destructive: #dc2626;
+
+  /* Borders & Inputs — brighter, metallic */
+  --border: rgba(255, 255, 255, 0.10);
+  --input: rgba(255, 255, 255, 0.10);
+  --ring: #e0304e;
+
+  /* Radius */
+  --radius: 0.625rem;
+
+  /* ── Foundation — Deep Black / Graphite (40%) ── */
+  --frsc-black: #0a0a0a;
+
+  /* ── Platinum Black Surfaces (25%) — brighter cards ── */
+  --frsc-surface-900: #181818;
+  --frsc-surface-800: #1e1e1e;
+  --frsc-surface-700: #2a2a2a;
+  --frsc-surface-600: #363636;
+  --frsc-surface-500: #424242;
+
+  /* ── Moving Crimson Accent ── */
+  --frsc-crimson-900: #3a000a;
+  --frsc-crimson-800: #5c0010;
+  --frsc-crimson-700: #8b0020;
+  --frsc-crimson-600: #b80030;
+  --frsc-crimson-500: #e0304e;
+  --frsc-crimson-400: #f0506e;
+  --frsc-crimson-300: #ff8098;
+
+  /* ── Royal Purple Ambient ── */
+  --frsc-purple-900: #1a002e;
+  --frsc-purple-800: #2a0048;
+  --frsc-purple-700: #3f1060;
+  --frsc-purple-600: #50206b;
+  --frsc-purple-500: #642f7f;
+  --frsc-purple-400: #7d4a96;
+  --frsc-purple-300: #9a6db0;
+
+  /* ── Silver / Chrome Metallic (15%) ── */
+  --frsc-platinum: #eaeaea;
+  --frsc-platinum-black: #d0d0d0;
+  --frsc-silver: #c8c8c8;
+  --frsc-chrome: #d6d6d6;
+
+  /* ── White & Soft White (15%) ── */
+  --frsc-white-bright: #f5f5f5;
+  --frsc-white-soft: rgba(255, 255, 255, 0.07);
+
+  /* ── Text ── */
+  --frsc-text-300: #b0b0b0;
+  --frsc-text-200: #d0d0d0;
+  --frsc-text-100: #f0f0f0;
+
+  /* ── Legacy aliases ── */
+  --surface-1: #181818;
+  --surface-2: #1e1e1e;
+  --surface-hover: rgba(255, 255, 255, 0.07);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    background-image:
+      radial-gradient(ellipse 75% 40% at 50% -8%, rgba(224, 48, 78, 0.05), transparent),
+      radial-gradient(ellipse 45% 25% at 80% 5%, rgba(100, 47, 127, 0.03), transparent);
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--frsc-text-100);
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background: rgba(224, 48, 78, 0.25);
+    color: var(--frsc-white-bright);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  *:focus-visible {
+    @apply outline-none ring-2 ring-frsc-crimson-500/50 ring-offset-2 ring-offset-background;
+  }
+}
+
+/* ── White accent utilities ── */
+@utility text-white-bright { color: var(--frsc-white-bright); }
+@utility text-platinum { color: var(--frsc-platinum); }
+@utility text-silver { color: var(--frsc-silver); }
+@utility border-white-subtle { border-color: rgba(255, 255, 255, 0.10); }
+@utility border-white-bright { border-color: rgba(255, 255, 255, 0.18); }
+@utility bg-white-soft { background: rgba(255, 255, 255, 0.04); }
+@utility bg-white-subtle { background: rgba(255, 255, 255, 0.07); }
+
+/* ── White separator ── */
+@utility separator-white {
+  @apply h-px w-full bg-gradient-to-r from-transparent via-white/15 to-transparent;
+}
+
+/* ── Homepage-specific animations ── */
+@keyframes orbit-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+
+@keyframes scale-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50%      { transform: scale(1.05); opacity: 1; }
+}
+
+@utility hero-glow {
+  background: radial-gradient(ellipse at center, rgba(224,48,78,0.10) 0%, transparent 70%);
+}
+
+@utility hero-glow-purple {
+  background: radial-gradient(ellipse at center, rgba(100,47,127,0.08) 0%, transparent 70%);
+}
+
+@utility tool-card {
+  @apply rounded-2xl border border-white/[0.06] bg-gradient-to-b from-white/[0.03] to-frsc-surface-800 p-6 shadow-metallic transition-all duration-300;
+}
+
+@utility tool-card-hover {
+  @apply hover:-translate-y-0.5 hover:border-frsc-crimson-500/30 hover:shadow-metallic-lg;
+}
+
+/* ── Glow utilities ── */
+@utility glow-crimson {
+  box-shadow: 0 0 30px rgba(224, 48, 78, 0.15);
+}
+
+@utility glow-crimson-strong {
+  box-shadow: 0 0 40px rgba(224, 48, 78, 0.3);
+}
+
+@utility glow-purple {
+  box-shadow: 0 0 30px rgba(100, 47, 127, 0.12);
+}
+
+/* ── Glass utilities ── */
+@utility glass {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+@utility glass-strong {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+}
+
+@utility surface {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+}
+
+/* ── Animations ── */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float-subtle {
+  0%, 100% { transform: translateY(0px); }
+  50%      { transform: translateY(-6px); }
+}
+
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.5; }
+  50%      { opacity: 1; }
+}
+
+@keyframes crimson-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── Animated gradient system ── */
+@keyframes gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes shimmer {
+  0%   { opacity: 0.3; }
+  50%  { opacity: 0.7; }
+  100% { opacity: 0.3; }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%      { transform: translateY(-8px) rotate(0.5deg); }
+}
+
+/* ── Premium Metallic Gradients (15%) ── */
+@utility metallic-platinum {
+  background: linear-gradient(135deg, #505050 0%, #707070 50%, #505050 100%);
+}
+
+@utility metallic-silver {
+  background: linear-gradient(135deg, #585858 0%, #7a7a7a 50%, #585858 100%);
+}
+
+@utility metallic-chrome {
+  background: linear-gradient(135deg, #404040 0%, #606060 50%, #404040 100%);
+}
+
+@utility metallic-graphite {
+  background: linear-gradient(135deg, #303030 0%, #4c4c4c 50%, #303030 100%);
+}
+
+@utility metallic-white {
+  background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+}
+
+@utility border-metallic {
+  border-image: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05)) 1;
+}
+
+@utility shadow-metallic {
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.06),
+    0 4px 16px rgba(0,0,0,0.3);
+}
+
+@utility shadow-metallic-lg {
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.07),
+    0 8px 32px rgba(0,0,0,0.35);
+}
+
+/* ── Lighting system: light sweep ── */
+@keyframes light-sweep {
+  0%   { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(200%) skewX(-15deg); }
+}
+
+@keyframes edge-glow {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 0.8; }
+}
+
+@keyframes ambient-float {
+  0%, 100% { transform: translate(0, 0); }
+  25%      { transform: translate(5px, -5px); }
+  50%      { transform: translate(-3px, -8px); }
+  75%      { transform: translate(-5px, -3px); }
+}
+
+/* ── Gradient animation utilities ── */
+@utility animated-gradient-crimson {
+  background: linear-gradient(135deg, var(--frsc-crimson-900), var(--frsc-crimson-800), var(--frsc-crimson-600), var(--frsc-crimson-500));
+  background-size: 200% 200%;
+  animation: gradient-shift 8s var(--anim-ease-gentle) infinite;
+}
+
+/* Premium layered gradient: Black → Crimson → Purple → White → Black */
+@utility animated-gradient-premium {
+  background: linear-gradient(
+    135deg,
+    var(--frsc-black) 0%,
+    var(--frsc-crimson-900) 25%,
+    var(--frsc-crimson-800) 35%,
+    var(--frsc-purple-900) 50%,
+    var(--frsc-crimson-900) 65%,
+    rgba(255, 255, 255, 0.03) 80%,
+    var(--frsc-black) 100%
+  );
+  background-size: 300% 300%;
+  animation: gradient-shift 16s var(--anim-ease-gentle) infinite;
+}
+
+@utility animated-gradient-subtle {
+  background: linear-gradient(
+    135deg,
+    var(--frsc-surface-900) 0%,
+    var(--frsc-crimson-900) 30%,
+    var(--frsc-purple-900) 55%,
+    rgba(255, 255, 255, 0.03) 75%,
+    var(--frsc-surface-900) 100%
+  );
+  background-size: 300% 300%;
+  animation: gradient-shift 12s var(--anim-ease-gentle) infinite;
+}
+
+/* Hero title animated gradient — DO NOT MODIFY */
+.animated-gradient-text {
+  background: linear-gradient(
+    135deg,
+    var(--frsc-crimson-500) 0%,
+    var(--frsc-crimson-400) 30%,
+    var(--frsc-purple-500) 55%,
+    var(--frsc-crimson-300) 75%,
+    rgba(255, 255, 255, 0.8) 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-shift 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* ── Animated Metallic Gradient ── */
+@utility animated-gradient-metallic {
+  background: linear-gradient(
+    135deg,
+    #303030 0%,
+    #505050 25%,
+    #404040 50%,
+    #606060 75%,
+    #303030 100%
+  );
+  background-size: 300% 300%;
+  animation: gradient-shift 10s var(--anim-ease-gentle) infinite;
+}
+
+@utility shimmer-white {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.05) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 4s ease-in-out infinite;
+}
+
+/* ── Lighting utilities ── */
+@utility lighting-edge-top {
+  box-shadow: inset 0 1px 0 rgba(224,48,78,0.15);
+}
+
+@utility lighting-edge-bottom {
+  box-shadow: inset 0 -1px 0 rgba(100,47,127,0.10);
+}
+
+/* ── Float animation class ── */
+@utility animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+@utility animate-ambient-float {
+  animation: ambient-float 10s ease-in-out infinite;
+}
+
+@utility animate-shimmer {
+  animation: shimmer 4s ease-in-out infinite;
+}
+
+/* ── Utility classes ── */
+.animate-fade-in {
+  animation: fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-float-subtle {
+  animation: float-subtle 4s ease-in-out infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+/* Scroll reveal */
+.reveal-on-scroll {
+  animation: reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-play-state: paused;
+}
+
+.reveal-on-scroll.is-visible {
+  animation-play-state: running;
+}
+
+/* ── Loading Screen Animations ── */
+@keyframes load-breath {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50%      { transform: scale(1.05); opacity: 1; }
+}
+
+@keyframes load-glow {
+  0%, 100% { filter: drop-shadow(0 0 12px rgba(224,48,78,0.15)); }
+  50%      { filter: drop-shadow(0 0 28px rgba(224,48,78,0.35)); }
+}
+
+@keyframes load-fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes load-line-grow {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
+}
+
+@keyframes load-ambient {
+  0%, 100% { opacity: 0.15; transform: scale(1); }
+  50%      { opacity: 0.3; transform: scale(1.1); }
+}
+
+/* ── Ambient lighting utilities ── */
+@utility ambient-glow-crimson {
+  background: radial-gradient(600px circle at 50% 50%, rgba(224,48,78,0.06), transparent 70%);
+}
+
+@utility ambient-glow-purple {
+  background: radial-gradient(600px circle at 50% 50%, rgba(100,47,127,0.05), transparent 70%);
+}
+
+@utility ambient-glow-crimson-strong {
+  background: radial-gradient(400px circle at 50% 50%, rgba(224,48,78,0.12), transparent 70%);
+}
+
+/* ══════════════════════════════════════════════════════
+ *  Liquid Glass System — Apple visionOS inspired
+ *  Layer architecture:
+ *    Layer 1 — Animated background
+ *    Layer 2 — Floating liquid blobs
+ *    Layer 3 — Gradient ambient lighting
+ *    Layer 4 — Glass cards (backdrop-blur + reflections)
+ *    Layer 5 — UI content
+ * ══════════════════════════════════════════════════════ */
+
+/* ── Liquid Blob Organic Float Keyframes ── */
+@keyframes liquid-drift-1 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  20%      { transform: translate(25px, -18px) rotate(2.5deg) scale(1.02); }
+  40%      { transform: translate(-12px, -28px) rotate(-1.5deg) scale(0.98); }
+  60%      { transform: translate(-22px, -8px) rotate(3deg) scale(1.01); }
+  80%      { transform: translate(18px, 14px) rotate(-2deg) scale(0.99); }
+}
+
+@keyframes liquid-drift-2 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  25%      { transform: translate(-30px, 20px) rotate(-3deg) scale(1.03); }
+  50%      { transform: translate(15px, 25px) rotate(2deg) scale(0.97); }
+  75%      { transform: translate(-10px, -15px) rotate(-1.5deg) scale(1.01); }
+}
+
+@keyframes liquid-drift-3 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33%      { transform: translate(20px, 15px) rotate(-2deg); }
+  66%      { transform: translate(-15px, -20px) rotate(3.5deg); }
+}
+
+@keyframes liquid-drift-4 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  20%      { transform: translate(-15px, 20px) rotate(2deg) scale(1.02); }
+  40%      { transform: translate(20px, 10px) rotate(-1deg) scale(0.98); }
+  60%      { transform: translate(10px, -20px) rotate(3deg) scale(1.01); }
+  80%      { transform: translate(-10px, -5px) rotate(-2deg) scale(0.99); }
+}
+
+/* ── Glass Card Reflection Shimmer ── */
+@keyframes glass-shimmer {
+  0%   { opacity: 0; transform: translateX(-100%) rotate(15deg); }
+  10%  { opacity: 0.15; }
+  30%  { opacity: 0.08; }
+  50%  { opacity: 0.12; }
+  70%  { opacity: 0.05; }
+  90%  { opacity: 0.1; }
+  100% { opacity: 0; transform: translateX(200%) rotate(15deg); }
+}
+
+@keyframes glass-edge-pulse {
+  0%, 100% { opacity: 0.6; }
+  50%      { opacity: 1; }
+}
+
+/* ── Liquid Blob Utility Shapes ── */
+@utility liquid-blob-default {
+  border-radius: 55% 45% 60% 40% / 40% 55% 45% 60%;
+}
+
+@utility liquid-blob-rounded {
+  border-radius: 45% 55% 50% 50% / 55% 45% 55% 45%;
+}
+
+@utility liquid-blob-elongated {
+  border-radius: 60% 40% 55% 45% / 45% 55% 45% 55%;
+}
+
+@utility liquid-blob-accent {
+  border-radius: 50% 50% 45% 55% / 50% 45% 55% 50%;
+}
+
+/* ── Liquid Blob Animations ── */
+@utility animate-liquid-1 {
+  animation: liquid-drift-1 22s ease-in-out infinite;
+  will-change: transform;
+}
+
+@utility animate-liquid-2 {
+  animation: liquid-drift-2 28s ease-in-out infinite;
+  will-change: transform;
+}
+
+@utility animate-liquid-3 {
+  animation: liquid-drift-3 18s ease-in-out infinite;
+  will-change: transform;
+}
+
+@utility animate-liquid-4 {
+  animation: liquid-drift-4 25s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* ── Glass Card Base Layer ── */
+@utility glass-base {
+  position: relative;
+  backdrop-filter: blur(24px) saturate(1.2);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.01) 50%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@utility glass-base-light {
+  position: relative;
+  backdrop-filter: blur(16px) saturate(1.15);
+  -webkit-backdrop-filter: blur(16px) saturate(1.15);
+  background: linear-gradient(135deg, #ffffff29 0%, #ffffff12 50%, #ffffff24 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+@utility glass-base-strong {
+  position: relative;
+  backdrop-filter: blur(32px) saturate(1.3);
+  -webkit-backdrop-filter: blur(32px) saturate(1.3);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.015) 50%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+/* ── Glass Card Shadows ── */
+@utility glass-shadow {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+    0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+@utility glass-shadow-lg {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.05),
+    0 8px 40px rgba(0, 0, 0, 0.35);
+}
+
+/* ── Glass Card Overlays (pseudo-elements) ── */
+@utility glass-reflection {
+  background: radial-gradient(
+    ellipse at 20% 0%,
+    rgba(255, 255, 255, 0.08) 0%,
+    transparent 60%
+  );
+  pointer-events: none;
+}
+
+@utility glass-ambient-crimson {
+  background: radial-gradient(
+    ellipse at 80% 100%,
+    rgba(224, 48, 78, 0.04) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+}
+
+@utility glass-ambient-purple {
+  background: radial-gradient(
+    ellipse at 70% 100%,
+    rgba(100, 47, 127, 0.03) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+}
+
+/* ── Glass Card Shimmer Overlay ── */
+@utility glass-shimmer-overlay {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.025) 30%,
+    rgba(255, 255, 255, 0.04) 50%,
+    rgba(255, 255, 255, 0.025) 70%,
+    transparent 100%
+  );
+  animation: glass-shimmer 10s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ── Liquid Container ── */
+@utility liquid-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  /* Disable continuous / decorative animations only.
+   * Entrance / reveal animations are kept (they fire once, no vestibular hazard).
+   */
+  .animate-liquid-1,
+  .animate-liquid-2,
+  .animate-liquid-3,
+  .animate-liquid-4,
+  .glass-shimmer-overlay,
+  .shimmer-white,
+  .animate-shimmer,
+  .animate-ambient-float,
+  .animate-float-slow,
+  .animate-float-subtle,
+  .animate-glow-pulse,
+  .floating-card,
+  .skeleton-shimmer {
+    animation: none !important;
+  }
+
+  /* Tighten transitions to near-instant for users who prefer reduced motion. */
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ── Forced colors / high contrast ──
+ * Bump thin borders so users who request more contrast still see clear edges,
+ * without changing the default premium look for everyone else.
+ */
+@media (prefers-contrast: more) {
+  :root {
+    --border: rgba(255, 255, 255, 0.22);
+    --input: rgba(255, 255, 255, 0.22);
+  }
+  .border-white-subtle { border-color: rgba(255, 255, 255, 0.25) !important; }
+  .glass-base,
+  .glass-base-light,
+  .glass-base-strong { border-color: rgba(255, 255, 255, 0.25) !important; }
+}
+
+/* ── Reduced transparency (OS-level "disable transparency effects") ──
+ * Replace backdrop-blur glass with a solid dark surface to keep readability
+ * and avoid the translucent look failing on flat backgrounds.
+ */
+@media (prefers-reduced-transparency: reduce) {
+  .glass-base,
+  .glass-base-light,
+  .glass-base-strong,
+  .glass,
+  .glass-strong {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: var(--frsc-surface-900) !important;
+  }
+}
+
+/* ── rounded-inherit (used by GlassCard decorative layers) ── */
+@utility rounded-inherit {
+  border-radius: inherit;
+}
+
+/* ══════════════════════════════════════════════════════
+ *  Phase 1 — Premium Primitives (additive)
+ *  Evo 1: scrollbar, glass edge, hover lift, floating card,
+ *         skeleton shimmer, noise grain, vignette.
+ * ══════════════════════════════════════════════════════ */
+
+/* ── Kicker — designerly section/page label ──
+ * Replaces the "AI-looking" pill Badge + icon combo on hero/section kickers.
+ * Pattern: short gradient line + uppercase tracked label. No pill, no icon.
+ * Use: <span class="kicker"><span class="kicker-line" />Label</span>
+ */
+@utility kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-eyebrow);
+  font-weight: 600;
+  font-size: var(--text-eyebrow);
+  color: var(--frsc-crimson-400);
+  line-height: 1;
+}
+
+@utility kicker-line {
+  display: inline-block;
+  width: 1.75rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--frsc-crimson-500) 30%, var(--frsc-crimson-400) 70%, transparent);
+  flex-shrink: 0;
+}
+
+/* ── Custom Scrollbar — Black Platinum theme ── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--frsc-surface-600) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--frsc-surface-700);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  transition: background-color var(--anim-duration-base) var(--anim-ease-gentle);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--frsc-surface-500);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Thin scrollbar on horizontal scroll areas (trackpads, modals) */
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+/* Hide scrollbar while keeping scroll (carousel / horizontal rails) */
+.scrollbar-none {
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Glass Edge Highlight ──
+ * Thin 1px chrome reflection at the top inner edge of a glass card.
+ * Gives floating glass a "lit from above" premium depth (Apple / Linear feel).
+ */
+@utility glass-edge-highlight {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.20),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.03);
+}
+
+/* Chrome-tinted edge for crimson-accent cards */
+@utility glass-edge-highlight-crimson {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 1px 16px -2px rgba(224, 48, 78, 0.18);
+}
+
+/* ── Hover Lift ──
+ * Smooth premium card lift. Use together with hover:-translate-y-* if needed.
+ * Respects reduced-motion via the global @media block above for harmful cases.
+ */
+@utility hover-lift {
+  transition:
+    transform var(--anim-duration-base) var(--anim-ease-emphasized),
+    box-shadow var(--anim-duration-base) var(--anim-ease-gentle),
+    border-color var(--anim-duration-fast) var(--anim-ease-gentle);
+  will-change: transform, box-shadow;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-floating);
+}
+
+/* ── Floating Card ──
+ * Subtle idle ambient float for hero accents & showcase cards.
+ */
+@keyframes floating-card-drift {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-10px) rotate(-0.4deg); }
+}
+
+@utility floating-card {
+  animation: floating-card-drift 7s var(--anim-ease-gentle) infinite;
+  will-change: transform;
+}
+
+/* ── Skeleton Shimmer ──
+ * Loading skeleton sweep (used by Skeleton / loaders).
+ */
+@keyframes skeleton-sweep {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@utility skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 0%,
+    rgba(255, 255, 255, 0.10) 50%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-sweep 1.6s var(--anim-ease-gentle) infinite;
+}
+
+/* ── Premium Noise Grain ──
+ * Subtle film grain for depth (optional, opt-in).
+ * Inline SVG → zero HTTP requests. Keep opacity very low (≈3–5%).
+ */
+@utility bg-noise-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-position: top left;
+}
+
+/* ── Vignette ──
+ * Soft radial depth at viewport edges for cinematic focus.
+ */
+@utility bg-vignette {
+  background-image: radial-gradient(
+    ellipse 90% 70% at 50% 50%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.35) 100%
+  );
+}
+
+/* ── Eyebrow Label ──
+ * For the small uppercase pre-heading labels (section / kicker text).
+ */
+@utility eyebrow-label {
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-eyebrow);
+  font-weight: 600;
+}
+
+/* ── Scroll Reveal Stagger (CSS-only, prefers-reduced-motion safe) ──
+ * usage: parent grid children add `reveal-on-scroll reveal-stagger`
+ *        + `reveal-delay-1..6` to stagger entry.
+ * The `.is-visible` class is toggled by components/scroll-reveal.tsx
+ * (IntersectionObserver). Fades up + scales in once.
+ */
+@utility reveal-stagger {
+  opacity: 0;
+  transform: translateY(20px) scale(0.985);
+  transition:
+    opacity 0.55s var(--anim-ease-emphasized),
+    transform 0.55s var(--anim-ease-emphasized);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.reveal-on-scroll.is-visible .reveal-stagger,
+.reveal-stagger.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@utility reveal-delay-1 { --reveal-delay: 60ms; }
+@utility reveal-delay-2 { --reveal-delay: 120ms; }
+@utility reveal-delay-3 { --reveal-delay: 180ms; }
+@utility reveal-delay-4 { --reveal-delay: 240ms; }
+@utility reveal-delay-5 { --reveal-delay: 300ms; }
+@utility reveal-delay-6 { --reveal-delay: 360ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-stagger {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ── Heading Rhythm (opt-in) ──
+ * Apply fluid responsive headings without touching base h1–h6 defaults,
+ * preserving current render on existing pages.
+ * Note: text-balance / text-pretty are already provided by Tailwind v4 core.
+ */
+@utility heading-fluid {
+  font-family: var(--font-heading);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-hero);
+  text-wrap: balance;
+}
+
+/* ── Reward Category Borders ──
+ *
+ * Uses border to ensure the tint ring is always visible.
+ * glass-base already sets border: 1px solid rgba(255, 255, 255, 0.08),
+ * so we override via !important for width and color while keeping
+ * the existing border-style (solid).
+ *
+ * Glass depth (box-shadow) is re-declared in each utility because
+ * box-shadow does NOT stack across declarations — only the last one
+ * wins. The shadow layers here replace glass-shadow entirely.
+ *
+ * Tier hierarchy:
+ *   Bronze   → Discount / Accessories  (1px solid bronze)
+ *   Silver   → Premium                 (1px solid silver)
+ *   Grand    → Grand Prize             (gradient handled by wrapper
+ *               div in page.tsx; utility keeps glass depth only)
+ ── */
+
+/* ── Bronze (Discount / Accessories) — 1.5px ── */
+@utility reward-border-bronze {
+  border-width: 1.5px !important;
+  border-color: rgba(205, 127, 50, 0.70) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+    0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Silver (Premium) — 2px ── */
+@utility reward-border-silver {
+  border-width: 2px !important;
+  border-color: rgba(255, 255, 255, 0.90) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+    0 4px 24px rgba(0, 0, 0, 0.3),
+    0 0 12px rgba(255, 255, 255, 0.08);
+}
+
+/* ── Grand Prize — 4px gold border ── */
+.reward-border-grand,
+.reward-border-grand-glow {
+  border: 4px solid rgba(255, 191, 0, 0.65) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+    0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+.reward-border-grand-glow {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+    0 4px 24px rgba(0, 0, 0, 0.3),
+    0 0 32px rgba(255, 191, 0, 0.15);
+}
+
+/* ── Grand Prize background ambient ── */
+@utility bg-grand-ambient {
+  background-image: radial-gradient(
+    ellipse 60% 50% at 50% 50%,
+    rgba(255, 191, 0, 0.04) 0%,
+    rgba(255, 207, 64, 0.02) 40%,
+    transparent 70%
+  );
+}

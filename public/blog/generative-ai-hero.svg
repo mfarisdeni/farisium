@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+  <circle cx="600" cy="315" r="200" stroke="rgba(224,48,78,0.04)" stroke-width="1" fill="none"/>
+  <circle cx="600" cy="315" r="140" stroke="rgba(100,47,127,0.05)" stroke-width="1" fill="none"/>
+  <circle cx="600" cy="315" r="80" stroke="rgba(224,48,78,0.06)" stroke-width="1" fill="none"/>
+  <rect x="555" y="270" width="90" height="90" rx="10" stroke="rgba(224,48,78,0.12)" stroke-width="1" fill="rgba(224,48,78,0.02)"/>
+  <path d="M580 315l8-12 8 12M590 305l-10 10M600 305l-12 12" stroke="rgba(224,48,78,0.2)" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M595 340v-20" stroke="rgba(100,47,127,0.2)" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M610 330l-10-10" stroke="rgba(224,48,78,0.15)" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="450" cy="420" r="30" stroke="rgba(100,47,127,0.1)" stroke-width="1" fill="rgba(100,47,127,0.02)"/>
+  <circle cx="750" cy="420" r="30" stroke="rgba(224,48,78,0.1)" stroke-width="1" fill="rgba(224,48,78,0.02)"/>
+  <circle cx="450" cy="210" r="30" stroke="rgba(224,48,78,0.1)" stroke-width="1" fill="rgba(224,48,78,0.02)"/>
+  <circle cx="750" cy="210" r="30" stroke="rgba(100,47,127,0.1)" stroke-width="1" fill="rgba(100,47,127,0.02)"/>
+  <line x1="477" y1="418" x2="717" y2="418" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+  <line x1="477" y1="212" x2="717" y2="212" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+  <line x1="450" y1="240" x2="450" y2="390" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+  <line x1="750" y1="240" x2="750" y2="390" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+  <path d="M580 210v-60" stroke="rgba(224,48,78,0.06)" stroke-width="1"/>
+  <path d="M620 210v-60" stroke="rgba(100,47,127,0.06)" stroke-width="1"/>
+  <path d="M580 480v-60" stroke="rgba(224,48,78,0.06)" stroke-width="1"/>
+  <path d="M620 480v-60" stroke="rgba(100,47,127,0.06)" stroke-width="1"/>
+  <text x="600" y="610" text-anchor="middle" font-family="system-ui" font-size="13" fill="rgba(255,255,255,0.15)">Generative AI</text>
+</svg>

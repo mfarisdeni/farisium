@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a0f"/>
+      <stop offset="100%" stop-color="#0d1117"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e0304e"/>
+      <stop offset="100%" stop-color="#642f7f"/>
+    </linearGradient>
+    <linearGradient id="glow1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0304e" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#642f7f" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="glow2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#642f7f" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#e0304e" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="blur1">
+      <feGaussianBlur stdDeviation="60"/>
+    </filter>
+    <filter id="blur2">
+      <feGaussianBlur stdDeviation="3"/>
+    </filter>
+    <style>
+      @keyframes pulse { 0%,100%{opacity:0.6} 50%{opacity:1} }
+      @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+      @keyframes waveX { 0%,100%{transform:scaleX(1)} 50%{transform:scaleX(1.15)} }
+      @keyframes ringOut { 0%{r:150; opacity:0.5} 100%{r:230; opacity:0} }
+      @keyframes dash { 0%{stroke-dashoffset:0} 100%{stroke-dashoffset:-20} }
+      .pulse { animation: pulse 2.5s ease-in-out infinite; }
+      .float { animation: float 4s ease-in-out infinite; }
+      .wave { transform-origin: center center; animation: waveX 1.8s ease-in-out infinite; }
+      .ring { animation: ringOut 2.4s ease-out infinite; }
+      .dash { stroke-dasharray: 7 5; animation: dash 1.5s linear infinite; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg-grad)"/>
+
+  <!-- Ambient glows -->
+  <ellipse cx="330" cy="290" rx="300" ry="240" fill="url(#glow1)" filter="url(#blur1)"/>
+  <ellipse cx="870" cy="340" rx="280" ry="230" fill="url(#glow2)" filter="url(#blur1)"/>
+
+  <!-- Grid pattern -->
+  <g opacity="0.04" stroke="#e6edf3" stroke-width="0.5">
+    <line x1="0" y1="105" x2="1200" y2="105"/><line x1="0" y1="210" x2="1200" y2="210"/>
+    <line x1="0" y1="315" x2="1200" y2="315"/><line x1="0" y1="420" x2="1200" y2="420"/>
+    <line x1="0" y1="525" x2="1200" y2="525"/>
+    <line x1="150" y1="0" x2="150" y2="630"/><line x1="300" y1="0" x2="300" y2="630"/>
+    <line x1="450" y1="0" x2="450" y2="630"/><line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="750" y1="0" x2="750" y2="630"/><line x1="900" y1="0" x2="900" y2="630"/>
+    <line x1="1050" y1="0" x2="1050" y2="630"/>
+  </g>
+
+  <!-- Left: phone with incoming call + alert rings -->
+  <g class="float">
+    <circle cx="330" cy="270" r="140" fill="none" stroke="#e0304e" stroke-width="1.5" class="ring"/>
+    <circle cx="330" cy="270" r="140" fill="none" stroke="#e0304e" stroke-width="1.5" class="ring" style="animation-delay:1.2s"/>
+    <!-- phone body -->
+    <rect x="285" y="180" width="90" height="180" rx="16" fill="#0d1117" stroke="url(#accent)" stroke-width="2.5" filter="url(#blur2)"/>
+    <!-- screen -->
+    <rect x="295" y="196" width="70" height="132" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+    <!-- caller icon on screen -->
+    <circle cx="330" cy="238" r="18" fill="none" stroke="#ff6b81" stroke-width="2"/>
+    <path d="M320,258 Q320,248 330,248 Q340,248 340,258" fill="none" stroke="#ff6b81" stroke-width="2" stroke-linecap="round"/>
+    <!-- incoming call label -->
+    <rect x="303" y="268" width="54" height="14" rx="7" fill="#e0304e" fill-opacity="0.2"/>
+    <text x="330" y="279" font-family="Inter, sans-serif" font-size="9" font-weight="700" fill="#ff6b81" text-anchor="middle">INCOMING</text>
+    <!-- accept/decline buttons -->
+    <circle cx="312" cy="308" r="10" fill="#e0304e" fill-opacity="0.25" stroke="#e0304e" stroke-width="1.5"/>
+    <circle cx="348" cy="308" r="10" fill="#238636" fill-opacity="0.25" stroke="#238636" stroke-width="1.5"/>
+    <!-- home indicator -->
+    <line x1="316" y1="346" x2="344" y2="346" stroke="#30363d" stroke-width="2" stroke-linecap="round"/>
+    <!-- label -->
+    <text x="330" y="404" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#ff6b81" text-anchor="middle" letter-spacing="2">FAKE CALL</text>
+  </g>
+
+  <!-- Right: voice waveform original vs clone -->
+  <g>
+    <!-- original wave -->
+    <g class="wave" filter="url(#blur2)">
+      <g stroke="#c9a7ee" stroke-width="3" stroke-linecap="round">
+        <line x1="660" y1="240" x2="660" y2="300"/>
+        <line x1="684" y1="222" x2="684" y2="318"/>
+        <line x1="708" y1="204" x2="708" y2="336"/>
+        <line x1="732" y1="228" x2="732" y2="312"/>
+        <line x1="756" y1="188" x2="756" y2="352"/>
+        <line x1="780" y1="214" x2="780" y2="326"/>
+        <line x1="804" y1="240" x2="804" y2="300"/>
+        <line x1="828" y1="206" x2="828" y2="334"/>
+        <line x1="852" y1="232" x2="852" y2="308"/>
+        <line x1="876" y1="250" x2="876" y2="290"/>
+        <line x1="900" y1="226" x2="900" y2="314"/>
+        <line x1="924" y1="246" x2="924" y2="294"/>
+      </g>
+      <text x="792" y="176" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#c9a7ee" text-anchor="middle" letter-spacing="2">ORIGINAL VOICE</text>
+    </g>
+    <!-- clone wave (slightly distorted, crimson) -->
+    <g class="wave" style="animation-delay:0.4s" filter="url(#blur2)">
+      <g stroke="#e0304e" stroke-width="3" stroke-linecap="round">
+        <line x1="660" y1="392" x2="660" y2="428"/>
+        <line x1="684" y1="384" x2="684" y2="438"/>
+        <line x1="708" y1="372" x2="708" y2="450"/>
+        <line x1="732" y1="388" x2="732" y2="434"/>
+        <line x1="756" y1="366" x2="756" y2="456"/>
+        <line x1="780" y1="382" x2="780" y2="440"/>
+        <line x1="804" y1="376" x2="804" y2="446"/>
+        <line x1="828" y1="370" x2="828" y2="452"/>
+        <line x1="852" y1="386" x2="852" y2="436"/>
+        <line x1="876" y1="394" x2="876" y2="428"/>
+        <line x1="900" y1="380" x2="900" y2="442"/>
+        <line x1="924" y1="396" x2="924" y2="426"/>
+      </g>
+      <text x="792" y="486" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#ff6b81" text-anchor="middle" letter-spacing="2">AI CLONE</text>
+    </g>
+    <!-- equals-ish link with warning -->
+    <g class="pulse">
+      <line x1="700" y1="352" x2="884" y2="352" stroke="url(#accent)" stroke-width="1.5" class="dash"/>
+      <polygon points="792,338 804,358 780,358" fill="none" stroke="#e0304e" stroke-width="2"/>
+      <line x1="792" y1="344" x2="792" y2="350" stroke="#e0304e" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="792" cy="355" r="1.2" fill="#e0304e"/>
+    </g>
+  </g>
+
+  <!-- Title -->
+  <text x="600" y="552" font-family="Inter, sans-serif" font-size="40" font-weight="800" fill="#f0f6fc" text-anchor="middle" letter-spacing="1">AI VOICE CLONING SCAMS</text>
+  <text x="600" y="582" font-family="Inter, sans-serif" font-size="17" font-weight="500" fill="#8b949e" text-anchor="middle" letter-spacing="3">SPOT FAKE VOICE CALLS BEFORE IT'S TOO LATE</text>
+
+  <!-- Brand -->
+  <text x="600" y="614" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#e0304e" text-anchor="middle" letter-spacing="4" class="pulse">FARISIUM.COM</text>
+</svg>

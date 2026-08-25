@@ -1,0 +1,62 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0a0a0f"/>
+  <defs>
+    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e0304e" stop-opacity="0.04"/>
+      <stop offset="50%" stop-color="#7c3aed" stop-opacity="0.02"/>
+      <stop offset="100%" stop-color="#0a0a0f" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="free" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.01"/>
+    </linearGradient>
+    <linearGradient id="plus" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e0304e" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#e0304e" stop-opacity="0.02"/>
+    </linearGradient>
+    <linearGradient id="pro" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.02"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <text x="600" y="60" text-anchor="middle" font-family="system-ui,sans-serif" font-size="22" font-weight="700" fill="#ffffff">Gemini App Feature Comparison 2026</text>
+  <text x="600" y="80" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="#a0a0b0">Free vs AI Plus vs AI Pro</text>
+  <rect x="40" y="95" width="1120" height="1" rx="0.5" fill="#ffffff" fill-opacity="0.06"/>
+  <rect x="60" y="110" width="320" height="420" rx="16" fill="url(#free)" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
+  <rect x="60" y="110" width="320" height="40" rx="16" fill="#ffffff" fill-opacity="0.03"/>
+  <text x="220" y="135" text-anchor="middle" font-family="system-ui,sans-serif" font-size="16" font-weight="700" fill="#a0a0b0">Free</text>
+  <text x="220" y="155" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#666">Gratis</text>
+  <text x="80" y="185" font-family="system-ui,sans-serif" font-size="11" fill="#a0a0b0">✦ 32K token context</text>
+  <text x="80" y="205" font-family="system-ui,sans-serif" font-size="11" fill="#a0a0b0">✦ Standard limits</text>
+  <text x="80" y="225" font-family="system-ui,sans-serif" font-size="11" fill="#a0a0b0">✦ 100 notebooks</text>
+  <text x="80" y="245" font-family="system-ui,sans-serif" font-size="11" fill="#a0a0b0">✦ 50 sources each</text>
+  <text x="80" y="265" font-family="system-ui,sans-serif" font-size="11" fill="#a0a0b0">✦ Basic image gen</text>
+  <text x="80" y="285" font-family="system-ui,sans-serif" font-size="11" fill="#a0a0b0">✦ 5 min video upload</text>
+  <rect x="440" y="110" width="320" height="420" rx="16" fill="url(#plus)" stroke="#e0304e" stroke-opacity="0.2" stroke-width="1"/>
+  <rect x="440" y="110" width="320" height="40" rx="16" fill="#e0304e" fill-opacity="0.08"/>
+  <text x="600" y="135" text-anchor="middle" font-family="system-ui,sans-serif" font-size="16" font-weight="700" fill="#e0304e">AI Plus</text>
+  <text x="600" y="155" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#e0304e">$4.99 / bulan</text>
+  <text x="460" y="185" font-family="system-ui,sans-serif" font-size="11" fill="#ffffff">✦ 128K token context</text>
+  <text x="460" y="205" font-family="system-ui,sans-serif" font-size="11" fill="#ffffff">✦ 2x usage limits</text>
+  <text x="460" y="225" font-family="system-ui,sans-serif" font-size="11" fill="#ffffff">✦ 200 notebooks</text>
+  <text x="460" y="245" font-family="system-ui,sans-serif" font-size="11" fill="#ffffff">✦ 100 sources each</text>
+  <text x="460" y="265" font-family="system-ui,sans-serif" font-size="11" fill="#ffffff">✦ Pro image gen</text>
+  <text x="460" y="285" font-family="system-ui,sans-serif" font-size="11" fill="#ffffff">✦ Daily Brief</text>
+  <text x="460" y="305" font-family="system-ui,sans-serif" font-size="11" fill="#ffffff">✦ Scheduled actions</text>
+  <rect x="820" y="110" width="320" height="420" rx="16" fill="url(#pro)" stroke="#7c3aed" stroke-opacity="0.2" stroke-width="1"/>
+  <rect x="820" y="110" width="320" height="40" rx="16" fill="#7c3aed" fill-opacity="0.08"/>
+  <text x="980" y="135" text-anchor="middle" font-family="system-ui,sans-serif" font-size="16" font-weight="700" fill="#c084fc">AI Pro</text>
+  <text x="980" y="155" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#c084fc">$19.99 / bulan</text>
+  <text x="840" y="185" font-family="system-ui,sans-serif" font-size="11" fill="#ffffff">✦ 1M token context</text>
+  <text x="840" y="205" font-family="system-ui,sans-serif" font-size="11" fill="#ffffff">✦ 4x usage limits</text>
+  <text x="840" y="225" font-family="system-ui,sans-serif" font-size="11" fill="#ffffff">✦ 500 notebooks</text>
+  <text x="840" y="245" font-family="system-ui,sans-serif" font-size="11" fill="#ffffff">✦ 300 sources each</text>
+  <text x="840" y="265" font-family="system-ui,sans-serif" font-size="11" fill="#ffffff">✦ Pro image gen</text>
+  <text x="840" y="285" font-family="system-ui,sans-serif" font-size="11" fill="#ffffff">✦ Daily Brief</text>
+  <text x="840" y="305" font-family="system-ui,sans-serif" font-size="11" fill="#ffffff">✦ Scheduled actions</text>
+  <text x="840" y="325" font-family="system-ui,sans-serif" font-size="11" fill="#ffffff">✦ 1 hr video upload</text>
+  <text x="840" y="345" font-family="system-ui,sans-serif" font-size="11" fill="#ffffff">✦ 3 hr audio upload</text>
+  <text x="600" y="560" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" font-weight="600" fill="#e0304e">Pilih Tier Gemini yang Tepat - farisium.com</text>
+  <rect x="400" y="580" width="400" height="2" rx="1" fill="#e0304e" fill-opacity="0.4"/>
+</svg>

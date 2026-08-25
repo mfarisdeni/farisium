@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a0f"/>
+      <stop offset="100%" stop-color="#0d1117"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e0304e"/>
+      <stop offset="100%" stop-color="#642f7f"/>
+    </linearGradient>
+    <linearGradient id="glow-g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#642f7f" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#e0304e" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="blur50"><feGaussianBlur stdDeviation="50"/></filter>
+    <style>
+      @keyframes pulse { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.1)} }
+      @keyframes glow { 0%,100%{opacity:0.3} 50%{opacity:0.8} }
+      @keyframes check { 0%{opacity:0;transform:translateX(-8px)} 100%{opacity:1;transform:translateX(0)} }
+      @keyframes wobble { 0%,100%{transform:rotate(-2deg)} 50%{transform:rotate(2deg)} }
+      .pulse { animation: pulse 3s ease-in-out infinite; transform-origin:center; transform-box:fill-box; }
+      .glow { animation: glow 2.4s ease-in-out infinite; }
+      .check { animation: check 0.7s ease-out both; }
+      .wobble { animation: wobble 4s ease-in-out infinite; transform-origin:center; transform-box:fill-box; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Ambient glow -->
+  <ellipse cx="600" cy="315" rx="420" ry="210" fill="url(#glow-g)" filter="url(#blur50)"/>
+
+  <!-- Grid -->
+  <g opacity="0.03" stroke="#e6edf3" stroke-width="0.5">
+    <line x1="0" y1="126" x2="1200" y2="126"/><line x1="0" y1="252" x2="1200" y2="252"/>
+    <line x1="0" y1="378" x2="1200" y2="378"/><line x1="0" y1="504" x2="1200" y2="504"/>
+    <line x1="240" y1="0" x2="240" y2="630"/><line x1="480" y1="0" x2="480" y2="630"/>
+    <line x1="720" y1="0" x2="720" y2="630"/><line x1="960" y1="0" x2="960" y2="630"/>
+  </g>
+
+  <!-- Title -->
+  <text x="600" y="58" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="700" fill="#e6edf3" letter-spacing="3">TAMING CLIENT REVISIONS WITH AI</text>
+  <text x="600" y="84" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#8b949e" letter-spacing="2">MESSY FEEDBACK IN, CLEAR CHECKLIST OUT</text>
+
+  <!-- Left column: messy feedback -->
+  <text x="230" y="140" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#8b949e" letter-spacing="2">MESSY FEEDBACK</text>
+
+  <!-- Chat bubble 1 -->
+  <g class="wobble">
+    <rect x="70" y="165" width="250" height="58" rx="14" fill="#161b22" stroke="#e0304e" stroke-width="0.8" opacity="0.95"/>
+    <text x="90" y="190" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#8b949e">WhatsApp · 09:41</text>
+    <text x="90" y="208" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#e6edf3">"hmm the logo feels off, can we</text>
+  </g>
+  <!-- Chat bubble 2 -->
+  <g class="wobble" style="animation-delay:1s">
+    <rect x="110" y="240" width="240" height="58" rx="14" fill="#161b22" stroke="#e0304e" stroke-width="0.8" opacity="0.95"/>
+    <text x="130" y="265" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#8b949e">Voice note · 5:03</text>
+    <circle cx="320" cy="269" r="10" fill="#e0304e" opacity="0.85"/>
+    <path d="M317 264 L327 269 L317 274 Z" fill="#ffffff"/>
+  </g>
+  <!-- PDF scribble -->
+  <g class="wobble" style="animation-delay:2s">
+    <rect x="80" y="315" width="230" height="66" rx="10" fill="#161b22" stroke="#642f7f" stroke-width="0.8"/>
+    <text x="100" y="340" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#8b949e">design-v7-FINAL-final2.pdf</text>
+    <path d="M100 355 q15 -12 30 0 t30 0 t30 0 t30 0" fill="none" stroke="#b57edd" stroke-width="1.6" opacity="0.8"/>
+    <path d="M100 366 q20 -8 40 0 t40 0" fill="none" stroke="#e0304e" stroke-width="1.4" opacity="0.7"/>
+  </g>
+  <!-- Scattered note -->
+  <g class="wobble" style="animation-delay:0.5s">
+    <rect x="150" y="400" width="180" height="44" rx="10" fill="#161b22" stroke="#e0304e" stroke-width="0.8" transform="rotate(3 240 422)"/>
+    <text x="240" y="427" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11" fill="#8b949e">"make it pop more?"</text>
+  </g>
+
+  <!-- Center: AI processor -->
+  <line x1="330" y1="300" x2="480" y2="300" stroke="url(#accent)" stroke-width="2" stroke-dasharray="6 10" class="glow"/>
+  <polygon points="480,293 494,300 480,307" fill="#e0304e"/>
+
+  <g class="pulse">
+    <circle cx="600" cy="300" r="58" fill="#161b22" stroke="url(#accent)" stroke-width="2"/>
+    <circle cx="600" cy="300" r="72" fill="none" stroke="#642f7f" stroke-width="0.8" opacity="0.4" class="glow"/>
+    <text x="600" y="296" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="700" fill="#e6edf3">AI</text>
+    <text x="600" y="316" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" fill="#8b949e" letter-spacing="1">STRUCTURE</text>
+  </g>
+
+  <line x1="720" y1="300" x2="850" y2="300" stroke="url(#accent)" stroke-width="2" stroke-dasharray="6 10" class="glow" style="animation-delay:0.6s"/>
+  <polygon points="850,293 864,300 850,307" fill="#642f7f"/>
+
+  <!-- Right column: structured checklist -->
+  <text x="960" y="140" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600" fill="#8b949e" letter-spacing="2">REVISION CHECKLIST</text>
+
+  <rect x="800" y="160" width="330" height="290" rx="16" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+
+  <!-- Item 1 -->
+  <g class="check" style="animation-delay:0.2s">
+    <rect x="822" y="185" width="20" height="20" rx="5" fill="#e0304e" opacity="0.9"/>
+    <path d="M826 195 l4 4 l8 -8" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="854" y="200" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#e6edf3">Adjust logo spacing</text>
+    <rect x="1062" y="186" width="46" height="18" rx="9" fill="#e0304e" opacity="0.15"/>
+    <text x="1085" y="199" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="700" fill="#e0304e">P1</text>
+  </g>
+  <!-- Item 2 -->
+  <g class="check" style="animation-delay:0.45s">
+    <rect x="822" y="235" width="20" height="20" rx="5" fill="#e0304e" opacity="0.9"/>
+    <path d="M826 245 l4 4 l8 -8" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="854" y="250" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#e6edf3">Brighten hero colors</text>
+    <rect x="1062" y="236" width="46" height="18" rx="9" fill="#e0304e" opacity="0.15"/>
+    <text x="1085" y="249" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="700" fill="#e0304e">P1</text>
+  </g>
+  <!-- Item 3 -->
+  <g class="check" style="animation-delay:0.7s">
+    <rect x="822" y="285" width="20" height="20" rx="5" fill="#642f7f" opacity="0.9"/>
+    <path d="M826 295 l4 4 l8 -8" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="854" y="300" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#e6edf3">Swap body font weight</text>
+    <rect x="1062" y="286" width="46" height="18" rx="9" fill="#642f7f" opacity="0.2"/>
+    <text x="1085" y="299" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="700" fill="#b57edd">P2</text>
+  </g>
+  <!-- Item 4 unchecked -->
+  <g class="check" style="animation-delay:0.95s">
+    <rect x="822" y="335" width="20" height="20" rx="5" fill="none" stroke="#8b949e" stroke-width="1.6"/>
+    <text x="854" y="350" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#8b949e">Explore "pop more" (clarify)</text>
+    <rect x="1062" y="336" width="46" height="18" rx="9" fill="#642f7f" opacity="0.2"/>
+    <text x="1085" y="349" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="700" fill="#b57edd">P2</text>
+  </g>
+  <!-- Item 5 flagged out-of-scope -->
+  <g class="check" style="animation-delay:1.2s">
+    <rect x="822" y="385" width="20" height="20" rx="5" fill="none" stroke="#8b949e" stroke-width="1.6"/>
+    <text x="854" y="400" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#8b949e">New landing page design</text>
+    <rect x="1052" y="386" width="56" height="18" rx="9" fill="#e0304e" opacity="0.15"/>
+    <text x="1080" y="399" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="10" font-weight="700" fill="#e0304e">SCOPE</text>
+  </g>
+
+  <!-- Bottom note -->
+  <text x="600" y="520" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#8b949e">Prioritized, sorted, and scope-flagged — before you touch the canvas.</text>
+
+  <!-- Brand -->
+  <text x="600" y="598" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#8b949e" opacity="0.7" letter-spacing="2">farisium.com</text>
+</svg>

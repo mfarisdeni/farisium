@@ -1,0 +1,70 @@
+# Farisium
+
+> Farisium adalah platform AI terpadu yang menyediakan berbagai alat berbasis kecerdasan buatan untuk kreator, pebisnis, dan pengguna umum — dengan sistem rewards digital (FRSC) dan ekosistem kreatif all-in-one.
+
+## About / Core Information
+* **Primary Purpose:** Menyediakan platform AI all-in-one dengan AI tools, rewards, dan ekosistem digital untuk kreator dan bisnis.
+* **Target Audience:** Kreator konten, pebisnis UKM, pengembang AI, pengguna umum di Indonesia.
+* **Key Offerings:** Anime Generator AI, AI Tools gratis, sistem rewards FRSC, blog edukasi AI, program partnership.
+
+## Main Resources
+
+* [/](https://farisium.com/): Halaman utama Farisium — hero section, AI tools, compute, blog, partnership, FAQ.
+* [/about](https://farisium.com/about): Informasi tentang platform dan tim Farisium.
+* [/ai](https://farisium.com/ai): Pusat alat kecerdasan buatan Farisium.
+* [/blog](https://farisium.com/blog): Artikel, tutorial, dan berita terbaru seputar AI.
+* [/contact](https://farisium.com/contact): Hubungi tim Farisium.
+* [/community](https://farisium.com/community): Bergabung dengan komunitas Farisium.
+* [/disclaimer](https://farisium.com/disclaimer): Disclaimer dan kebijakan penggunaan.
+* [/privacy](https://farisium.com/privacy): Kebijakan privasi Farisium.
+* [/terms](https://farisium.com/terms): Syarat dan ketentuan penggunaan.
+* [/cookie-policy](https://farisium.com/cookie-policy): Kebijakan cookie Farisium.
+* [/faq](https://farisium.com/faq): Pertanyaan yang sering diajukan.
+* [/author/faris](https://farisium.com/author/faris): Profil M. Faris Deni K., Founder Farisium.
+
+## AI Tools
+
+* [/ai/anime-generator](https://farisium.com/ai/anime-generator): Buat gambar anime dengan AI — cukup tulis deskripsi teks.
+
+## Rewards & FRSC
+
+* [/rewards](https://farisium.com/rewards): Sistem reward dan hadiah Farisium.
+* [/reward](https://farisium.com/reward): Pusat penukaran reward Farisium.
+* [/claim-free-frsc](https://farisium.com/claim-free-frsc): Dapatkan FRSC gratis setiap hari.
+* [/frsc](https://farisium.com/frsc): Informasi tentang koin digital Farisium (FRSC).
+
+## Dashboard
+
+* [/dashboard](https://farisium.com/dashboard): Panel kontrol pengguna Farisium.
+
+## Partnership
+
+* [/partnership](https://farisium.com/partnership): Program kemitraan Farisium.
+
+## Kompetisi
+
+* [/competition](https://farisium.com/competition): Kompetisi dan kontes Farisium.
+
+## Blog Articles
+
+### Artificial Intelligence
+* [AI untuk Marketing Konten 2026](https://farisium.com/blog/ai-untuk-marketing-konten-2026): Strategi dan tools AI marketing konten terbaik.
+* [AI untuk Bisnis E-commerce 2026](https://farisium.com/blog/ai-untuk-bisnis-ecommerce-2026): Strategi dan tools AI untuk bisnis online.
+* [AI untuk Content Creator 2026](https://farisium.com/blog/ai-untuk-content-creator): Tools AI yang wajib dicoba content creator.
+* [AI untuk Bisnis Kecil dan UKM 2026](https://farisium.com/blog/ai-untuk-ukm-2026): Tools dan strategi AI untuk UKM.
+* [Cara Menggunakan AI untuk Produktivitas Kerja 2026](https://farisium.com/blog/cara-menggunakan-ai-untuk-produktivitas-kerja): Meningkatkan produktivitas dengan AI.
+* [Perbandingan AI Image Generator Terbaik 2026](https://farisium.com/blog/perbandingan-ai-image-generator-terbaik-2026): 5 AI image generator terbaik dan perbandingan lengkap.
+* [Masa Depan AI di Indonesia 2026](https://farisium.com/blog/masa-depan-ai-indonesia-2026): Peluang dan tantangan AI di Indonesia.
+* [Apa Itu AI Open Source?](https://farisium.com/blog/apa-itu-ai-open-source): Pengertian, platform, dan cara memilih AI open source.
+* [AI untuk Desain Grafis 2026](https://farisium.com/blog/ai-untuk-desain-grafis-2026): Tools dan tips desain grafis dengan AI.
+
+### Tutorial
+* [Panduan Memulai Machine Learning 2026](https://farisium.com/blog/panduan-memulai-machine-learning): Panduan ML untuk pemula dari dasar.
+* [Panduan AI Generatif untuk Pemula](https://farisium.com/blog/panduan-ai-generatif-pemula): Cara kerja dan tools AI generatif.
+* [Prompt Engineering untuk AI Anime](https://farisium.com/blog/cara-menulis-prompt-anime-ai): Cara membuat prompt sempurna untuk anime AI.
+
+### Edukasi & Tips
+* [AI dalam Pendidikan 2026](https://farisium.com/blog/ai-dalam-pendidikan-2026): Revolusi cara belajar dengan AI.
+* [Tips Memulai Karir AI 2026](https://farisium.com/blog/tips-memulai-karir-ai): Panduan lengkap karir AI untuk pemula.
+* [Kursus AI Online Terbaik 2026](https://farisium.com/blog/kursus-ai-online-terbaik-2026): Dari pemula hingga mahir.
+* [Cara Mendapatkan FRSC Gratis](https://farisium.com/blog/cara-mendapatkan-frsc-gratis-farisium): Panduan lengkap FRSC Farisium.

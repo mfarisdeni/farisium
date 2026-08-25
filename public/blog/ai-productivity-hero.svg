@@ -1,0 +1,42 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0a0a0f"/>
+  <defs>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.02"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e0304e" stop-opacity="0.03"/>
+      <stop offset="50%" stop-color="#7c3aed" stop-opacity="0.02"/>
+      <stop offset="100%" stop-color="#0a0a0f" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect x="40" y="40" width="1120" height="550" rx="20" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
+  <rect x="80" y="80" width="500" height="200" rx="16" fill="url(#card)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+  <text x="100" y="115" font-family="system-ui,sans-serif" font-size="12" font-weight="600" fill="#e0304e">MENULIS</text>
+  <text x="100" y="140" font-family="system-ui,sans-serif" font-size="14" font-weight="600" fill="#ffffff">AI Writing Assistant</text>
+  <text x="100" y="165" font-family="system-ui,sans-serif" font-size="11" fill="#a0a0b0">Email . Laporan . Proposal</text>
+  <text x="100" y="185" font-family="system-ui,sans-serif" font-size="11" fill="#a0a0b0">Brainstorming . Editing</text>
+  <text x="100" y="210" font-family="system-ui,sans-serif" font-size="11" fill="#e0304e">50% lebih cepat</text>
+  <rect x="80" y="300" width="500" height="200" rx="16" fill="url(#card)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+  <text x="100" y="335" font-family="system-ui,sans-serif" font-size="12" font-weight="600" fill="#e0304e">DESAIN</text>
+  <text x="100" y="360" font-family="system-ui,sans-serif" font-size="14" font-weight="600" fill="#ffffff">AI Image Generator</text>
+  <text x="100" y="385" font-family="system-ui,sans-serif" font-size="11" fill="#a0a0b0">Ilustrasi . Banner . Grafis</text>
+  <text x="100" y="405" font-family="system-ui,sans-serif" font-size="11" fill="#a0a0b0">Thumbnail . Infografis</text>
+  <text x="100" y="430" font-family="system-ui,sans-serif" font-size="11" fill="#e0304e">1 FRSC/gambar via Farisium</text>
+  <rect x="620" y="80" width="500" height="200" rx="16" fill="url(#card)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+  <text x="640" y="115" font-family="system-ui,sans-serif" font-size="12" font-weight="600" fill="#e0304e">PRESENTASI</text>
+  <text x="640" y="140" font-family="system-ui,sans-serif" font-size="14" font-weight="600" fill="#ffffff">AI Presentation Tools</text>
+  <text x="640" y="165" font-family="system-ui,sans-serif" font-size="11" fill="#a0a0b0">Slide otomatis dari outline</text>
+  <text x="640" y="185" font-family="system-ui,sans-serif" font-size="11" fill="#a0a0b0">Layout dan desain instant</text>
+  <text x="640" y="210" font-family="system-ui,sans-serif" font-size="11" fill="#e0304e">Hemat berjam-jam</text>
+  <rect x="620" y="300" width="500" height="200" rx="16" fill="url(#card)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+  <text x="640" y="335" font-family="system-ui,sans-serif" font-size="12" font-weight="600" fill="#e0304e">RISET</text>
+  <text x="640" y="360" font-family="system-ui,sans-serif" font-size="14" font-weight="600" fill="#ffffff">AI Research Assistant</text>
+  <text x="640" y="385" font-family="system-ui,sans-serif" font-size="11" fill="#a0a0b0">Ringkas artikel dan laporan</text>
+  <text x="640" y="405" font-family="system-ui,sans-serif" font-size="11" fill="#a0a0b0">Analisis data dan tren</text>
+  <text x="640" y="430" font-family="system-ui,sans-serif" font-size="11" fill="#e0304e">Akurat dan cepat</text>
+  <text x="600" y="535" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" font-weight="600" fill="#e0304e">Tingkatkan Produktivitas dengan AI - farisium.com</text>
+  <rect x="400" y="555" width="400" height="2" rx="1" fill="#e0304e" fill-opacity="0.4"/>
+</svg>
