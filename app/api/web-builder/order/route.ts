@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getAdminDb, getAdminAuth } from '@/lib/firebase-admin'
+import { FieldValue } from 'firebase-admin/firestore'
 import nodemailer from 'nodemailer'
 
 const transporter = nodemailer.createTransport({
@@ -120,7 +121,7 @@ export async function POST(request: Request) {
     const now = new Date()
     const adminDb = getAdminDb()
 
-    // Verify user exists
+    // FRSC checkout — verified server-side against the user document.
     const userRef = adminDb.collection('users').doc(uid)
     const userSnap = await userRef.get()
 
@@ -129,6 +130,29 @@ export async function POST(request: Request) {
     }
 
     const userData = userSnap.data()!
+    const currentCoins: number = userData.coins ?? 0
+
+    if (currentCoins < totalPriceFrsc) {
+      return NextResponse.json({
+        error: `Insufficient FRSC coins. Required: ${totalPriceFrsc}, Current: ${currentCoins}.`,
+      }, { status: 400 })
+    }
+
+    await userRef.update({
+      coins: FieldValue.increment(-totalPriceFrsc),
+    })
+
+    await adminDb.collection('frscTransactions').add({
+      uid,
+      email: userEmail ?? userData.email ?? null,
+      displayName: userData.displayName ?? null,
+      type: 'spend',
+      amount: totalPriceFrsc,
+      direction: 'out',
+      description: `Web Builder order: ${pkg.name} x${pageCount} page(s)`,
+      referenceId: null,
+      createdAt: now.toISOString(),
+    })
 
     const orderData: Record<string, unknown> = {
       uid,

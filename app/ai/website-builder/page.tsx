@@ -17,9 +17,7 @@ import {
   Sparkles,
   ChevronDown,
   ShieldCheck,
-  CheckCircle,
 } from 'lucide-react'
-import Image from 'next/image'
 import { Navbar } from '@/components/layout/Navbar'
 import { SiteFooter } from '@/components/layout/SiteFooter'
 import { ScrollReveal } from '@/components/scroll-reveal'
@@ -28,12 +26,9 @@ import { Badge } from '@/components/ui/Badge'
 import { Input, TextArea } from '@/components/ui/Input'
 import { useAuthContext } from '@/contexts/AuthContext'
 import { useKlikQRIS } from '@/hooks/useKlikQRIS'
+import { useCoins } from '@/hooks/useCoins'
 import { LangContext, useLangState, useLang } from '@/hooks/useLang'
 
-/**
- * Client-side mirror of the prices in app/api/web-builder/order/route.ts.
- * Keep both in sync. 1 FRSC = Rp 1.
- */
 const PACKAGES = [
   { tier: 'startup', icon: Rocket, priceIdr: 100000, normalIdr: 500000, frsc: 100 },
   { tier: 'freelance', icon: Briefcase, priceIdr: 50000, normalIdr: 250000, frsc: 50 },
@@ -50,11 +45,63 @@ function formatIdr(n: number): string {
   return `Rp ${n.toLocaleString('id-ID')}`
 }
 
-const pageContent = {
+type PageContent = {
+  kicker: string
+  h1: string
+  sub: string
+  urgency: string
+  heroCta: string
+  saveLabel: string
+  perPage: string
+  popularLabel: string
+  choose: string
+  selected: string
+  packages: { tier: Tier; name: string; tagline: string }[]
+  includeTitle: string
+  includeItems: string[]
+  excludeTitle: string
+  excludeItems: string[]
+  stepsTitle: string
+  steps: { title: string; desc: string }[]
+  formTitle: string
+  formSub: string
+  nameLabel: string
+  namePlaceholder: string
+  contactLabel: string
+  contactPlaceholder: string
+  packageLabel: string
+  pagesLabel: string
+  notesLabel: string
+  notesPlaceholder: string
+  totalLabel: string
+  payButton: string
+  paying: string
+  loginTitle: string
+  loginDesc: string
+  loginBtn: string
+  fillAll: string
+  genericError: string
+  successTitle: string
+  successDesc: string
+  successBack: string
+  payTitle: string
+  payDesc: string
+  payWaiting: string
+  payExpired: string
+  faqTitle: string
+  faqs: { q: string; a: string }[]
+  // EN-only (FRSC flow)
+  balanceLabel?: string
+  afterLabel?: string
+  insufficient?: string
+  topup?: string
+}
+
+const pageContent: Record<'id' | 'en', PageContent> = {
   id: {
     kicker: 'Jasa Pembuatan Website',
     h1: 'Website Jadi, Tanpa Pusing',
-    sub: 'Nggak perlu ngerti kode atau AI. Ceritakan kebutuhanmu lewat form singkat, bayar pakai FRSC, dan tim kami yang kerjakan sampai online.',
+    sub: 'Nggak perlu ngerti kode atau AI. Ceritakan kebutuhanmu lewat form singkat, bayar pakai QRIS, dan tim kami yang kerjakan sampai online.',
     urgency: 'Harga pembukaan untuk 50 pesanan pertama — bisa naik sewaktu-waktu.',
     heroCta: 'Lihat Paket & Harga',
     saveLabel: 'Hemat 80%',
@@ -63,26 +110,10 @@ const pageContent = {
     choose: 'Pilih Ini',
     selected: 'Dipilih',
     packages: [
-      {
-        tier: 'startup' as Tier,
-        name: 'Web Startup',
-        tagline: 'Calon founder yang butuh landing page produk meyakinkan di depan investor dan pengguna.',
-      },
-      {
-        tier: 'freelance' as Tier,
-        name: 'Web Freelance',
-        tagline: 'Freelancer yang ingin memajang jasa dan portofolio dengan satu halaman yang rapi.',
-      },
-      {
-        tier: 'lokal' as Tier,
-        name: 'Web Bisnis Lokal',
-        tagline: 'Warung, bengkel, klinik, salon — pelanggan baru sering mulai dari pencarian Google.',
-      },
-      {
-        tier: 'portfolio' as Tier,
-        name: 'Portfolio / CV Online',
-        tagline: 'Pelamar kerja yang mau tampil beda dengan link portfolio di CV-nya.',
-      },
+      { tier: 'startup' as Tier, name: 'Web Startup', tagline: 'Calon founder yang butuh landing page produk meyakinkan di depan investor dan pengguna.' },
+      { tier: 'freelance' as Tier, name: 'Web Freelance', tagline: 'Freelancer yang ingin memajang jasa dan portofolio dengan satu halaman yang rapi.' },
+      { tier: 'lokal' as Tier, name: 'Web Bisnis Lokal', tagline: 'Warung, bengkel, klinik, salon — pelanggan baru sering mulai dari pencarian Google.' },
+      { tier: 'portfolio' as Tier, name: 'Portfolio / CV Online', tagline: 'Pelamar kerja yang mau tampil beda dengan link portfolio di CV-nya.' },
     ],
     includeTitle: 'Semua Paket Sudah Termasuk',
     includeItems: [
@@ -102,7 +133,7 @@ const pageContent = {
     stepsTitle: 'Cara Kerjanya Semudah Ini',
     steps: [
       { title: 'Isi Form Singkat', desc: '2 menit saja. Nggak ada istilah teknis yang bikin bingung.' },
-      { title: 'Bayar dengan FRSC', desc: 'Coin digital Farisium. Top-up lewat QRIS mulai Rp 10 ribu.' },
+      { title: 'Bayar via QRIS', desc: 'Scan QR dan bayar langsung. Gampang, cepat, dan aman.' },
       { title: 'Kami yang Kerjakan', desc: '3–5 hari kerja setelah datamu lengkap.' },
       { title: 'Terima Preview', desc: 'Sekali revisi kalau ada yang kurang pas, lalu website siap dipakai.' },
     ],
@@ -147,7 +178,7 @@ const pageContent = {
       },
       {
         q: 'Cara bayarnya bagaimana?',
-        a: 'Pembayaran menggunakan FRSC, coin digital milik Farisium. 1 FRSC = Rp 1 jadi gampang dihitung. Belum punya FRSC? Top up lewat QRIS mulai Rp 10 ribu, atau klaim reward gratis tiap hari.',
+        a: 'Pembayaran langsung via QRIS. Scan QR yang muncul di layar, lalu bayar dari bank atau e-wallet mana pun. Praktis dan aman.',
       },
     ],
   },
@@ -163,26 +194,10 @@ const pageContent = {
     choose: 'Choose This',
     selected: 'Selected',
     packages: [
-      {
-        tier: 'startup' as Tier,
-        name: 'Startup Website',
-        tagline: 'Founders who need a convincing product landing page for investors and users.',
-      },
-      {
-        tier: 'freelance' as Tier,
-        name: 'Freelance Website',
-        tagline: 'Freelancers who want to showcase their services and work on one clean page.',
-      },
-      {
-        tier: 'lokal' as Tier,
-        name: 'Local Business Website',
-        tagline: 'Shops, workshops, clinics, salons — new customers often start from a Google search.',
-      },
-      {
-        tier: 'portfolio' as Tier,
-        name: 'Portfolio / Online CV',
-        tagline: 'Job seekers who want to stand out with a portfolio link on their resume.',
-      },
+      { tier: 'startup' as Tier, name: 'Startup Website', tagline: 'Founders who need a convincing product landing page for investors and users.' },
+      { tier: 'freelance' as Tier, name: 'Freelance Website', tagline: 'Freelancers who want to showcase their services and work on one clean page.' },
+      { tier: 'lokal' as Tier, name: 'Local Business Website', tagline: 'Shops, workshops, clinics, salons — new customers often start from a Google search.' },
+      { tier: 'portfolio' as Tier, name: 'Portfolio / Online CV', tagline: 'Job seekers who want to stand out with a portfolio link on their resume.' },
     ],
     includeTitle: 'Every Package Includes',
     includeItems: [
@@ -217,7 +232,7 @@ const pageContent = {
     notesLabel: 'Tell us what you need (optional)',
     notesPlaceholder: "e.g. I run a laundry business, I want a page with services, pricing, and location...",
     totalLabel: 'Order total',
-    payButton: 'Pay & Send Order',
+    payButton: 'Pay with FRSC',
     paying: 'Processing...',
     loginTitle: 'Log in to place an order',
     loginDesc: 'Orders require a Farisium account. Free — one click with Google.',
@@ -227,6 +242,10 @@ const pageContent = {
     successTitle: 'Order Received!',
     successDesc: "Thank you! Our team will reach out via WhatsApp within 24 hours. Keep your order ID:",
     successBack: 'Place Another Order',
+    balanceLabel: 'Your FRSC balance',
+    afterLabel: 'Balance after payment',
+    insufficient: 'Not enough FRSC balance. Top up first.',
+    topup: 'Top Up FRSC',
     payTitle: 'Pay Order',
     payDesc: 'Scan the QRIS below to pay:',
     payWaiting: 'Waiting for payment...',
@@ -255,7 +274,6 @@ const pageContent = {
 
 export default function WebsiteBuilderPage() {
   const langState = useLangState()
-
   return (
     <LangContext.Provider value={langState}>
       <WebsiteBuilderContent />
@@ -268,7 +286,8 @@ function WebsiteBuilderContent() {
   const t = pageContent[lang] ?? pageContent.id
 
   const { user, loading, signIn } = useAuthContext()
-  const { createPayment, startPolling, stopPolling, loading: paymentLoading, paid, error: paymentError, payment, reset } = useKlikQRIS({
+  const { coins: balance } = useCoins()
+  const { createPayment, openSnap, startPolling, stopPolling, loading: paymentLoading, paid, error: paymentError, payment, reset } = useKlikQRIS({
     uid: user?.uid ?? '',
   })
 
@@ -287,13 +306,17 @@ function WebsiteBuilderContent() {
   const pkg = PACKAGES.find((p) => p.tier === selectedTier) ?? PACKAGES[0]
   const totalPages = Math.min(Math.max(Number(pages) || 1, 1), MAX_PAGES)
   const totalPriceIdr = pkg.priceIdr * totalPages
+  const totalPriceFrsc = pkg.frsc * totalPages
+  const isId = lang === 'id'
+  const enoughFrsc = balance >= totalPriceFrsc
+  const afterFrsc = balance - totalPriceFrsc
 
   useEffect(() => {
     if (paid && paymentStep === 'qr') {
       setPaymentStep('success')
-      handleSubmitOrder()
+      setSuccessOrderId(payment?.orderId ?? null)
     }
-  }, [paid, paymentStep])
+  }, [paid, paymentStep, payment?.orderId])
 
   useEffect(() => {
     return () => stopPolling()
@@ -304,7 +327,7 @@ function WebsiteBuilderContent() {
     formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
-  async function handlePay() {
+  async function handlePayId() {
     if (!user || submitting) return
     if (!name.trim() || !contact.trim()) {
       setError(t.fillAll)
@@ -313,20 +336,44 @@ function WebsiteBuilderContent() {
     setError(null)
     setSubmitting(true)
     try {
-      const p = await createPayment(totalPriceIdr)
-      if (p) {
-        setPaymentStep('qr')
-        startPolling(p.orderId)
+      const idToken = await user.getIdToken()
+      const res = await fetch('/api/web-builder/payment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+        },
+        body: JSON.stringify({
+          userEmail: user.email,
+          name,
+          contact,
+          packageTier: selectedTier,
+          pages: totalPages,
+          notes,
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || t.genericError)
+      setPaymentStep('qr')
+      setSuccessOrderId(data.orderId)
+      if (data.qrisImage) {
+        openSnap(data.signature)
       }
-    } catch {
-      setError(t.genericError)
+      startPolling(data.paymentOrderId)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t.genericError)
     } finally {
       setSubmitting(false)
     }
   }
 
-  async function handleSubmitOrder() {
-    if (!user) return
+  async function handleSubmitOrderEn() {
+    if (!user || submitting) return
+    if (!name.trim() || !contact.trim()) {
+      setError(t.fillAll)
+      return
+    }
+    setError(null)
     setSubmitting(true)
     try {
       const idToken = await user.getIdToken()
@@ -355,12 +402,19 @@ function WebsiteBuilderContent() {
     }
   }
 
+  function handlePay() {
+    if (isId) {
+      handlePayId()
+    } else {
+      handleSubmitOrderEn()
+    }
+  }
+
   return (
     <div className="flex min-h-dvh flex-col">
       <Navbar />
 
       <main className="flex-1">
-        {/* Ambient background */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
           <div className="absolute -left-40 top-20 h-80 w-80 rounded-full bg-frsc-crimson-500/[0.05] blur-3xl" />
           <div className="absolute -right-40 top-1/2 h-80 w-80 rounded-full bg-frsc-purple-500/[0.05] blur-3xl" />
@@ -437,7 +491,7 @@ function WebsiteBuilderContent() {
                         <span className="text-xs text-frsc-text-300">{t.perPage}</span>
                         <Badge variant="crimson" size="sm">-{DISCOUNT_PERCENT}%</Badge>
                       </div>
-                      <p className="mt-1.5 flex items-center gap-1 text-xs font-medium text-frsc-crimson-400">
+                      <p className="mt-1.5 text-xs font-medium text-frsc-crimson-400">
                         {p.frsc} FRSC{t.perPage} · {t.saveLabel}
                       </p>
                     </div>
@@ -529,7 +583,7 @@ function WebsiteBuilderContent() {
                   <div className="mt-6">
                     <button
                       type="button"
-                      onClick={() => { setSuccessOrderId(null); setName(''); setContact(''); setNotes(''); setPages(1); setPaymentStep('idle') }}
+                      onClick={() => { setSuccessOrderId(null); setName(''); setContact(''); setNotes(''); setPages(1); setPaymentStep('idle'); reset() }}
                       className="rounded-xl border border-border px-5 py-2.5 text-sm font-medium text-frsc-text-100 transition-colors hover:border-frsc-crimson-500/40 hover:text-frsc-crimson-300"
                     >
                       {t.successBack}
@@ -666,6 +720,20 @@ function WebsiteBuilderContent() {
                           {formatIdr(totalPriceIdr)}
                         </span>
                       </div>
+                      {!isId && (
+                        <>
+                          <div className="flex items-center justify-between text-xs text-frsc-text-300">
+                            <span>{t.balanceLabel}</span>
+                            <span>{balance.toLocaleString()} FRSC</span>
+                          </div>
+                          <div className="flex items-center justify-between text-xs text-frsc-text-300">
+                            <span>{t.afterLabel}</span>
+                            <span className={enoughFrsc ? 'text-emerald-400' : 'text-frsc-crimson-400'}>
+                              {afterFrsc.toLocaleString()} FRSC
+                            </span>
+                          </div>
+                        </>
+                      )}
                     </div>
 
                     {error && (
@@ -677,7 +745,7 @@ function WebsiteBuilderContent() {
                     <button
                       type="button"
                       onClick={handlePay}
-                      disabled={submitting}
+                      disabled={submitting || (!isId && !enoughFrsc)}
                       className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-frsc-crimson-800 via-frsc-crimson-700 to-frsc-crimson-600 bg-[length:200%_100%] px-6 py-3.5 text-base font-bold text-white transition-all duration-300 hover:bg-[length:100%_100%] hover:shadow-[0_0_24px_rgba(224,48,78,0.35)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       {submitting ? (
@@ -685,13 +753,28 @@ function WebsiteBuilderContent() {
                           <Loader2 className="h-4 w-4 animate-spin" />
                           {t.paying}
                         </>
-                      ) : (
+                      ) : isId ? (
                         <>
                           <MessageCircle className="h-4 w-4" />
                           {t.payButton} · {formatIdr(totalPriceIdr)}
                         </>
+                      ) : (
+                        <>
+                          <MessageCircle className="h-4 w-4" />
+                          {t.payButton} · {totalPriceFrsc} FRSC
+                        </>
                       )}
                     </button>
+
+                    {!isId && !enoughFrsc && (
+                      <Link
+                        href="/frsc"
+                        className="mt-2 flex items-center justify-center gap-2 rounded-xl border border-frsc-crimson-500/30 bg-frsc-crimson-500/10 px-5 py-3 text-sm font-medium text-frsc-crimson-300 transition-colors hover:bg-frsc-crimson-500/20"
+                      >
+                        <span className="h-4 w-4 rounded-full bg-frsc-crimson-500" />
+                        {t.topup}
+                      </Link>
+                    )}
                   </form>
                 </>
               )}
