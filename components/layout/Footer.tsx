@@ -158,9 +158,17 @@ export function Footer() {
           <p className="text-xs text-frsc-text-200">
             {label.copyright}
           </p>
-          <p className="text-xs text-frsc-text-200">
-            {label.disclaimer}
-          </p>
+          <div className="flex items-center gap-3 text-xs text-frsc-text-200">
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new CustomEvent('open-cookie-consent'))}
+              className="transition-colors duration-200 hover:text-frsc-white-bright"
+            >
+              {lang === 'id' ? 'Kelola Preferensi Cookie' : 'Manage Cookie Preferences'}
+            </button>
+            <span aria-hidden="true">·</span>
+            <p>{label.disclaimer}</p>
+          </div>
         </div>
       </div>
     </footer>

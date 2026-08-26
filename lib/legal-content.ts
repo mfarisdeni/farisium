@@ -124,7 +124,7 @@ export const legalContent: LegalContentMap = {
         },
         {
           title: 'Berbagi & Pengungkapan Data',
-          body: 'Kami dapat membagikan informasi Anda dalam situasi berikut: (a) dengan penyedia layanan pihak ketiga yang membantu operasional kami (hosting, analytics, autentikasi) — mereka terikat kontrak untuk menjaga kerahasiaan data; (b) jika diwajibkan oleh hukum, peraturan, atau proses hukum yang berlaku; (c) untuk melindungi hak, keamanan, dan properti Farisium atau pengguna lain; (d) sehubungan dengan merger, akuisisi, atau penjualan aset — dengan pemberitahuan kepada Anda. Kami tidak membagikan data generasi AI Anda dengan pihak ketiga untuk tujuan pemasaran.',
+          body: 'Kami dapat membagikan informasi Anda dalam situasi berikut: (a) dengan penyedia layanan pihak ketiga yang membantu operasional kami (hosting, analytics, autentikasi) — mereka terikat kontrak untuk menjaga kerahasiaan data; (b) dengan mitra periklanan pihak ketiga (seperti Google AdSense) ketika layanan periklanan diaktifkan — mereka menggunakan cookie dan teknologi serupa untuk menyajikan iklan, tanpa menerima informasi pribadi identitas Anda secara langsung dari kami; (c) jika diwajibkan oleh hukum, peraturan, atau proses hukum yang berlaku; (d) untuk melindungi hak, keamanan, dan properti Farisium atau pengguna lain; (e) sehubungan dengan merger, akuisisi, atau penjualan aset — dengan pemberitahuan kepada Anda. Kami tidak membagikan data generasi AI Anda dengan pihak ketiga untuk tujuan pemasaran.',
         },
         {
           title: 'Retensi Data',
@@ -136,7 +136,11 @@ export const legalContent: LegalContentMap = {
         },
         {
           title: 'Cookie & Pelacakan',
-          body: 'Kami menggunakan cookie dan teknologi serupa untuk: (a) menjaga sesi login Anda; (b) menyimpan preferensi bahasa dan pengaturan; (c) menganalisis penggunaan platform untuk perbaikan layanan; (d) mendukung keamanan platform. Anda dapat mengontrol cookie melalui pengaturan browser. Namun, menonaktifkan cookie tertentu dapat mempengaruhi fungsionalitas platform. Kami tidak menggunakan cookie untuk pelacakan lintas-situs yang invasif atau untuk tujuan periklanan perilaku.',
+          body: 'Kami menggunakan cookie dan teknologi serupa untuk: (a) menjaga sesi login Anda; (b) menyimpan preferensi bahasa dan pengaturan; (c) menganalisis penggunaan platform untuk perbaikan layanan; (d) mendukung keamanan platform. Anda dapat mengontrol cookie melalui pengaturan browser atau melalui banner persetujuan cookie yang kami sediakan. Menonaktifkan cookie tertentu dapat mempengaruhi fungsionalitas platform. Rincian lebih lanjut tersedia di Kebijakan Cookie kami.',
+        },
+        {
+          title: 'Iklan & Mitra Periklanan',
+          body: 'Ketika layanan periklanan seperti Google AdSense diaktifkan di platform kami, iklan dapat ditampilkan berdasarkan konten halaman atau preferensi Anda. Dalam hal tersebut: (a) Google dan mitra iklan pihak ketiga kami dapat menggunakan cookie dan teknologi serupa untuk menyajikan iklan yang relevan; (b) informasi seperti alamat IP, jenis perangkat, dan data penggunaan dapat diproses untuk tujuan periklanan; (c) Anda dapat mengelola preferensi iklan Anda melalui pengaturan iklan Google di google.com/settings/ads atau melalui banner persetujuan cookie kami. Kami tidak menjual informasi pribadi Anda kepada pengiklan. Saat layanan periklanan belum diaktifkan, tidak ada cookie periklanan yang ditempatkan di perangkat Anda.',
         },
         {
           title: 'Keamanan',
@@ -173,7 +177,7 @@ export const legalContent: LegalContentMap = {
         },
         {
           title: 'Data Sharing & Disclosure',
-          body: 'We may share your information in the following situations: (a) with third-party service providers who help our operations (hosting, analytics, authentication) — they are contractually bound to maintain data confidentiality; (b) if required by applicable law, regulation, or legal process; (c) to protect the rights, safety, and property of Farisium or other users; (d) in connection with a merger, acquisition, or asset sale — with notice to you. We do not share your AI generation data with third parties for marketing purposes.',
+          body: 'We may share your information in the following situations: (a) with third-party service providers who help our operations (hosting, analytics, authentication) — they are contractually bound to maintain data confidentiality; (b) with third-party advertising partners (such as Google AdSense) when advertising services are enabled — they use cookies and similar technologies to serve ads, without receiving your personally identifiable information directly from us; (c) if required by applicable law, regulation, or legal process; (d) to protect the rights, safety, and property of Farisium or other users; (e) in connection with a merger, acquisition, or asset sale — with notice to you. We do not share your AI generation data with third parties for marketing purposes.',
         },
         {
           title: 'Data Retention',
@@ -185,7 +189,11 @@ export const legalContent: LegalContentMap = {
         },
         {
           title: 'Cookies & Tracking',
-          body: 'We use cookies and similar technologies to: (a) maintain your login session; (b) store language preferences and settings; (c) analyze platform usage for service improvement; (d) support platform security. You can control cookies through your browser settings. However, disabling certain cookies may affect platform functionality. We do not use cookies for invasive cross-site tracking or behavioral advertising purposes.',
+          body: 'We use cookies and similar technologies to: (a) maintain your login session; (b) store language preferences and settings; (c) analyze platform usage for service improvement; (d) support platform security. You can control cookies through your browser settings or through the cookie consent banner we provide. Disabling certain cookies may affect platform functionality. Further details are available in our Cookie Policy.',
+        },
+        {
+          title: 'Advertising & Third-Party Ad Partners',
+          body: 'When advertising services such as Google AdSense are enabled on our platform, ads may be displayed based on page content or your preferences. In such cases: (a) Google and our third-party advertising partners may use cookies and similar technologies to serve relevant ads; (b) information such as IP addresses, device types, and usage data may be processed for advertising purposes; (c) you can manage your advertising preferences through Google ad settings at google.com/settings/ads or through our cookie consent banner. We do not sell your personal information to advertisers. When advertising services have not been enabled, no advertising cookies are placed on your device.',
         },
         {
           title: 'Security',

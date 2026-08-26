@@ -363,7 +363,20 @@ export default async function BlogPostPage({ params }: Props) {
   }
   const label = labels[lang] ?? labels.id
 
-  const headings = extractHeadings(t.content)
+  // Filter out FAQ sections from body to avoid duplication with ArticleFAQ component.
+  // The FAQ heading and all following H3+paragraph Q&A pairs are rendered separately.
+  const faqHeadingPattern = /^(pertanyaan umum|frequently asked questions|faq)/i
+  let contentEndIndex = t.content.length
+  for (let i = 0; i < t.content.length; i++) {
+    const s = t.content[i]
+    if (s.type === 'heading' && s.level === 2 && s.text && faqHeadingPattern.test(s.text)) {
+      contentEndIndex = i
+      break
+    }
+  }
+  const bodyContent = t.content.slice(0, contentEndIndex)
+
+  const headings = extractHeadings(bodyContent)
   const faqs = extractFAQs(t.content)
   const relatedPosts = getRelatedPosts(t.slug, t.category, lang)
 
@@ -436,7 +449,7 @@ export default async function BlogPostPage({ params }: Props) {
           <TableOfContents headings={headings} />
 
           {/* Article body */}
-          <PostBody sections={t.content} />
+          <PostBody sections={bodyContent} />
 
           {/* FAQ Section */}
           <ArticleFAQ items={faqs} lang={lang} />

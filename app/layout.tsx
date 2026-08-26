@@ -9,10 +9,12 @@ import { FRSCProvider } from '@/contexts/FRSCContext'
 import { PageLoader } from '@/components/page-loader'
 import { Providers } from './providers'
 import { Toaster } from '@/components/ui/sonner'
+import { CookieConsent } from '@/components/cookie-consent'
 import { detectLocale, COOKIE_NAME, getCanonicalUrl } from '@/lib/i18n'
 import type { Lang } from '@/lib/translations'
 
-const GA_MEASUREMENT_ID = 'G-XJDXLEEYDZ'
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? 'G-XJDXLEEYDZ'
+const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: '--font-sans',
@@ -180,27 +182,6 @@ const personSchema = {
   ],
 }
 
-const articleSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Article',
-  headline: 'Farisium — Platform AI All-in-One untuk Kreator dan Bisnis',
-  description:
-    'Platform AI all-in-one dengan AI tools, generator gambar anime, rewards, partnership, blog, dan solusi digital untuk kreator dan bisnis.',
-  author: {
-    '@type': 'Person',
-    name: 'M. Faris Deni K.',
-    url: 'https://farisium.com/author/faris',
-  },
-  publisher: {
-    '@type': 'Organization',
-    name: 'Farisium',
-    url: 'https://farisium.com',
-  },
-  image: 'https://farisium.com/og-image.png',
-  datePublished: '2025-01-01T00:00:00.000Z',
-  dateModified: new Date().toISOString(),
-}
-
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -238,12 +219,22 @@ export default async function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
         />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
-        />
       </head>
       <body className="bg-background font-sans antialiased">
+        {/* Google Consent Mode v2 — default denied until user consents */}
+        <Script id="google-consent-init" strategy="beforeInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('consent', 'default', {
+              analytics_storage: 'denied',
+              ad_storage: 'denied',
+              ad_user_data: 'denied',
+              ad_personalization: 'denied',
+              wait_for_update: 500,
+            });
+          `}
+        </Script>
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
           strategy="afterInteractive"
@@ -253,9 +244,16 @@ export default async function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${GA_MEASUREMENT_ID}');
+            gtag('config', '${GA_MEASUREMENT_ID}', { anonymize_ip: true });
           `}
         </Script>
+        {ADSENSE_CLIENT && (
+          <Script
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
+            strategy="afterInteractive"
+            crossOrigin="anonymous"
+          />
+        )}
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[9999] focus:rounded-xl focus:bg-frsc-crimson-800 focus:px-4 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-white"
@@ -275,6 +273,7 @@ export default async function RootLayout({
         </Providers>
 
         <Toaster position="bottom-center" />
+        <CookieConsent />
         <Analytics />
       </body>
     </html>
