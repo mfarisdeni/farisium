@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import {
   Rocket,
@@ -11,22 +11,23 @@ import {
   X,
   Clock,
   MessageCircle,
-  Coins,
   LogIn,
   Loader2,
   ArrowRight,
   Sparkles,
   ChevronDown,
+  ShieldCheck,
+  CheckCircle,
 } from 'lucide-react'
+import Image from 'next/image'
 import { Navbar } from '@/components/layout/Navbar'
 import { SiteFooter } from '@/components/layout/SiteFooter'
 import { ScrollReveal } from '@/components/scroll-reveal'
 import { GlassCard } from '@/components/ui/GlassCard'
 import { Badge } from '@/components/ui/Badge'
 import { Input, TextArea } from '@/components/ui/Input'
-import { TopupButton } from '@/components/TopupButton'
 import { useAuthContext } from '@/contexts/AuthContext'
-import { useFRSC } from '@/contexts/FRSCContext'
+import { useKlikQRIS } from '@/hooks/useKlikQRIS'
 import { LangContext, useLangState, useLang } from '@/hooks/useLang'
 
 /**
@@ -116,19 +117,20 @@ const pageContent = {
     notesLabel: 'Ceritakan kebutuhanmu (opsional)',
     notesPlaceholder: 'Contoh: saya punya usaha laundry, mau website berisi layanan, harga, dan lokasi...',
     totalLabel: 'Total pesanan',
-    balanceLabel: 'Saldo FRSC kamu',
-    afterLabel: 'Saldo setelah bayar',
     payButton: 'Bayar & Kirim Pesanan',
     paying: 'Memproses...',
     loginTitle: 'Login dulu untuk memesan',
-    loginDesc: 'Pesanan dan pembayaran FRSC butuh akun Farisium. Gratis, cukup satu klik dengan Google.',
+    loginDesc: 'Pesanan membutuhkan akun Farisium. Gratis, cukup satu klik dengan Google.',
     loginBtn: 'Masuk dengan Google',
-    insufficient: 'Saldo FRSC belum cukup. Top up dulu — prosesnya cepat lewat QRIS.',
     fillAll: 'Mohon isi nama dan nomor WhatsApp dulu ya.',
     genericError: 'Ada kendala. Coba lagi atau hubungi kami.',
     successTitle: 'Pesanan Diterima!',
     successDesc: 'Terima kasih! Tim kami akan menghubungimu lewat WhatsApp dalam 1x24 jam. Simpan ID pesananmu:',
     successBack: 'Buat Pesanan Lain',
+    payTitle: 'Bayar Pesanan',
+    payDesc: 'Scan QRIS di bawah untuk membayar:',
+    payWaiting: 'Menunggu pembayaran...',
+    payExpired: 'Pembayaran kedaluwarsa',
     faqTitle: 'Pertanyaan yang Sering Ditanyakan',
     faqs: [
       {
@@ -215,19 +217,20 @@ const pageContent = {
     notesLabel: 'Tell us what you need (optional)',
     notesPlaceholder: "e.g. I run a laundry business, I want a page with services, pricing, and location...",
     totalLabel: 'Order total',
-    balanceLabel: 'Your FRSC balance',
-    afterLabel: 'Balance after payment',
     payButton: 'Pay & Send Order',
     paying: 'Processing...',
     loginTitle: 'Log in to place an order',
-    loginDesc: 'Orders and FRSC payments require a Farisium account. Free — one click with Google.',
+    loginDesc: 'Orders require a Farisium account. Free — one click with Google.',
     loginBtn: 'Sign in with Google',
-    insufficient: 'Not enough FRSC balance. Top up first — quick via QRIS.',
     fillAll: 'Please fill in your name and WhatsApp number first.',
     genericError: 'Something went wrong. Try again or contact us.',
     successTitle: 'Order Received!',
     successDesc: "Thank you! Our team will reach out via WhatsApp within 24 hours. Keep your order ID:",
     successBack: 'Place Another Order',
+    payTitle: 'Pay Order',
+    payDesc: 'Scan the QRIS below to pay:',
+    payWaiting: 'Waiting for payment...',
+    payExpired: 'Payment expired',
     faqTitle: 'Frequently Asked Questions',
     faqs: [
       {
@@ -265,7 +268,9 @@ function WebsiteBuilderContent() {
   const t = pageContent[lang] ?? pageContent.id
 
   const { user, loading, signIn } = useAuthContext()
-  const { coins, refreshCoins } = useFRSC()
+  const { createPayment, startPolling, stopPolling, loading: paymentLoading, paid, error: paymentError, payment, reset } = useKlikQRIS({
+    uid: user?.uid ?? '',
+  })
 
   const [selectedTier, setSelectedTier] = useState<Tier>('lokal')
   const [name, setName] = useState('')
@@ -275,28 +280,53 @@ function WebsiteBuilderContent() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [successOrderId, setSuccessOrderId] = useState<string | null>(null)
+  const [paymentStep, setPaymentStep] = useState<'idle' | 'qr' | 'success'>('idle')
 
   const formRef = useRef<HTMLDivElement>(null)
 
   const pkg = PACKAGES.find((p) => p.tier === selectedTier) ?? PACKAGES[0]
   const totalPages = Math.min(Math.max(Number(pages) || 1, 1), MAX_PAGES)
   const totalPriceIdr = pkg.priceIdr * totalPages
-  const totalFrsc = pkg.frsc * totalPages
-  const enoughCoins = coins >= totalFrsc
+
+  useEffect(() => {
+    if (paid && paymentStep === 'qr') {
+      setPaymentStep('success')
+      handleSubmitOrder()
+    }
+  }, [paid, paymentStep])
+
+  useEffect(() => {
+    return () => stopPolling()
+  }, [stopPolling])
 
   function selectPackage(tier: Tier) {
     setSelectedTier(tier)
     formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
+  async function handlePay() {
     if (!user || submitting) return
     if (!name.trim() || !contact.trim()) {
       setError(t.fillAll)
       return
     }
     setError(null)
+    setSubmitting(true)
+    try {
+      const p = await createPayment(totalPriceIdr)
+      if (p) {
+        setPaymentStep('qr')
+        startPolling(p.orderId)
+      }
+    } catch {
+      setError(t.genericError)
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  async function handleSubmitOrder() {
+    if (!user) return
     setSubmitting(true)
     try {
       const idToken = await user.getIdToken()
@@ -317,7 +347,6 @@ function WebsiteBuilderContent() {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || t.genericError)
-      await refreshCoins()
       setSuccessOrderId(data.orderId)
     } catch (err) {
       setError(err instanceof Error ? err.message : t.genericError)
@@ -409,7 +438,6 @@ function WebsiteBuilderContent() {
                         <Badge variant="crimson" size="sm">-{DISCOUNT_PERCENT}%</Badge>
                       </div>
                       <p className="mt-1.5 flex items-center gap-1 text-xs font-medium text-frsc-crimson-400">
-                        <Coins className="h-3.5 w-3.5" />
                         {p.frsc} FRSC{t.perPage} · {t.saveLabel}
                       </p>
                     </div>
@@ -501,13 +529,26 @@ function WebsiteBuilderContent() {
                   <div className="mt-6">
                     <button
                       type="button"
-                      onClick={() => { setSuccessOrderId(null); setName(''); setContact(''); setNotes(''); setPages(1) }}
+                      onClick={() => { setSuccessOrderId(null); setName(''); setContact(''); setNotes(''); setPages(1); setPaymentStep('idle') }}
                       className="rounded-xl border border-border px-5 py-2.5 text-sm font-medium text-frsc-text-100 transition-colors hover:border-frsc-crimson-500/40 hover:text-frsc-crimson-300"
                     >
                       {t.successBack}
                     </button>
                   </div>
                 </div>
+              ) : paymentStep === 'qr' ? (
+                <QRISPaymentModal
+                  payment={payment}
+                  loading={paymentLoading}
+                  error={paymentError}
+                  totalPriceIdr={totalPriceIdr}
+                  payTitle={t.payTitle}
+                  payDesc={t.payDesc}
+                  payWaiting={t.payWaiting}
+                  payExpired={t.payExpired}
+                  lang={lang}
+                  onClose={() => { stopPolling(); reset(); setPaymentStep('idle') }}
+                />
               ) : loading ? (
                 <div className="flex justify-center py-12">
                   <Loader2 className="h-6 w-6 animate-spin text-frsc-crimson-400" />
@@ -537,7 +578,7 @@ function WebsiteBuilderContent() {
                   <h2 className="font-heading text-xl font-bold text-frsc-white-bright">{t.formTitle}</h2>
                   <p className="mt-1 text-sm text-frsc-text-300">{t.formSub}</p>
 
-                  <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+                  <form className="mt-6 space-y-4" onSubmit={(e) => e.preventDefault()}>
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div>
                         <label htmlFor="wb-name" className="mb-1.5 block text-xs font-medium text-frsc-text-200">
@@ -625,23 +666,7 @@ function WebsiteBuilderContent() {
                           {formatIdr(totalPriceIdr)}
                         </span>
                       </div>
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="flex items-center gap-1.5 text-frsc-text-300">
-                          <Coins className="h-3.5 w-3.5 text-frsc-crimson-400" />
-                          {t.balanceLabel}: {coins} FRSC
-                        </span>
-                        <span className={enoughCoins ? 'text-frsc-text-300' : 'font-semibold text-frsc-crimson-400'}>
-                          {t.afterLabel}: {Math.max(0, coins - totalFrsc)} FRSC
-                        </span>
-                      </div>
                     </div>
-
-                    {!enoughCoins && (
-                      <div className="flex flex-col items-start gap-3 rounded-xl border border-frsc-crimson-500/30 bg-frsc-crimson-900/10 p-4 sm:flex-row sm:items-center sm:justify-between">
-                        <p className="text-xs leading-relaxed text-frsc-text-200">{t.insufficient}</p>
-                        <TopupButton className="shrink-0 !px-4 !py-2 !text-xs" />
-                      </div>
-                    )}
 
                     {error && (
                       <p className="rounded-lg border border-destructive/40 bg-destructive/10 px-4 py-2.5 text-xs text-red-300">
@@ -650,7 +675,8 @@ function WebsiteBuilderContent() {
                     )}
 
                     <button
-                      type="submit"
+                      type="button"
+                      onClick={handlePay}
                       disabled={submitting}
                       className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-frsc-crimson-800 via-frsc-crimson-700 to-frsc-crimson-600 bg-[length:200%_100%] px-6 py-3.5 text-base font-bold text-white transition-all duration-300 hover:bg-[length:100%_100%] hover:shadow-[0_0_24px_rgba(224,48,78,0.35)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
                     >
@@ -662,7 +688,7 @@ function WebsiteBuilderContent() {
                       ) : (
                         <>
                           <MessageCircle className="h-4 w-4" />
-                          {t.payButton} · {totalFrsc} FRSC
+                          {t.payButton} · {formatIdr(totalPriceIdr)}
                         </>
                       )}
                     </button>
@@ -704,6 +730,129 @@ function WebsiteBuilderContent() {
 
       <SiteFooter />
       <ScrollReveal />
+    </div>
+  )
+}
+
+/* ── QRIS Payment Modal ── */
+function QRISPaymentModal({
+  payment,
+  loading,
+  error,
+  totalPriceIdr,
+  payTitle,
+  payDesc,
+  payWaiting,
+  payExpired,
+  lang,
+  onClose,
+}: {
+  payment: {
+    totalAmount?: string
+    qrisImage?: string
+    qrisUrl?: string
+    expiredAt?: string
+  } | null
+  loading: boolean
+  error: string | null
+  totalPriceIdr: number
+  payTitle: string
+  payDesc: string
+  payWaiting: string
+  payExpired: string
+  lang: string
+  onClose: () => void
+}) {
+  const [countdown, setCountdown] = useState('')
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  useEffect(() => {
+    if (!payment?.expiredAt) return
+    const end = new Date(payment.expiredAt.replace(' ', 'T')).getTime()
+    timerRef.current = setInterval(() => {
+      const diff = end - Date.now()
+      if (diff <= 0) {
+        setCountdown('Expired')
+        timerRef.current && clearInterval(timerRef.current)
+      } else {
+        const m = Math.floor(diff / 60000)
+        const s = Math.floor((diff % 60000) / 1000)
+        setCountdown(`${m}:${s.toString().padStart(2, '0')}`)
+      }
+    }, 1000)
+    return () => { timerRef.current && clearInterval(timerRef.current) }
+  }, [payment?.expiredAt])
+
+  return (
+    <div className="py-6 text-center">
+      <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-frsc-crimson-800/20 ring-1 ring-frsc-crimson-500/30">
+        <ShieldCheck className="h-7 w-7 text-frsc-crimson-400" />
+      </div>
+      <h2 className="mt-4 font-heading text-xl font-bold text-frsc-white-bright">
+        {payTitle}
+      </h2>
+      <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-frsc-text-200">
+        {payDesc} <span className="font-bold text-frsc-crimson-300">{formatIdr(totalPriceIdr)}</span>
+      </p>
+
+      {loading && !payment && (
+        <div className="flex justify-center py-8">
+          <Loader2 className="h-8 w-8 animate-spin text-frsc-crimson-400" />
+        </div>
+      )}
+
+      {payment?.qrisImage && (
+        <div className="mx-auto mt-6 w-56 rounded-2xl border border-white/10 bg-white p-3 shadow-xl">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={payment.qrisImage}
+            alt="QRIS"
+            className="h-full w-full object-contain"
+          />
+        </div>
+      )}
+
+      {payment?.qrisUrl && !payment?.qrisImage && (
+        <div className="mx-auto mt-6 w-56 rounded-2xl border border-white/10 bg-white p-3 shadow-xl">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={payment.qrisUrl}
+            alt="QRIS"
+            className="h-full w-full object-contain"
+          />
+        </div>
+      )}
+
+      {countdown && (
+        <p className="mt-3 text-xs text-frsc-text-300">
+          {countdown === 'Expired' ? payExpired : `Sisa waktu: ${countdown}`}
+        </p>
+      )}
+
+      <div className="mt-4 flex items-center justify-center gap-2 text-xs text-frsc-text-300">
+        <span className="flex h-2 w-2 rounded-full bg-frsc-crimson-500 animate-pulse" />
+        {payWaiting}
+      </div>
+
+      <p className="mt-3 text-[11px] text-frsc-text-300/60 leading-relaxed px-2">
+        {lang === 'id'
+          ? 'Scan QRIS dengan aplikasi pembayaran lalu lakukan pembayaran. Status akan diperbarui otomatis.'
+          : 'Scan QRIS with your payment app and complete the payment. Status updates automatically.'}
+      </p>
+
+      {error && (
+        <p className="mt-3 rounded-lg border border-destructive/40 bg-destructive/10 px-4 py-2.5 text-xs text-red-300">
+          {error}
+        </p>
+      )}
+
+      <button
+        type="button"
+        onClick={onClose}
+        className="mt-4 rounded-xl border border-border px-5 py-2.5 text-sm font-medium text-frsc-text-100 transition-colors hover:border-frsc-crimson-500/40 hover:text-frsc-crimson-300"
+      >
+        {lang === 'id' ? 'Batal' : 'Cancel'}
+      </button>
     </div>
   )
 }
