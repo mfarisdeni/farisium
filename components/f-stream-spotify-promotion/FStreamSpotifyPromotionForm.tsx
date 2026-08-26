@@ -266,11 +266,14 @@ export function FStreamSpotifyPromotionForm() {
       setSubmitState({ status: 'loading' })
 
       try {
+        const idToken = await user.getIdToken()
         const res = await fetch('/api/f-stream-spotify-promotion/order', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${idToken}`,
+          },
           body: JSON.stringify({
-            uid: user.uid,
             userEmail: user.email ?? null,
             artistName: form.artistName.trim(),
             genre: form.genre.trim(),
@@ -305,11 +308,14 @@ export function FStreamSpotifyPromotionForm() {
     setPaymentStep('creating_payment')
 
     try {
+      const idToken = await user.getIdToken()
       const res = await fetch('/api/f-stream-spotify-promotion/create-payment', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+        },
         body: JSON.stringify({
-          uid: user.uid,
           userEmail: user.email ?? null,
           artistName: form.artistName.trim(),
           genre: form.genre.trim(),

@@ -1,11 +1,12 @@
 import { cert, getApps, initializeApp } from 'firebase-admin/app'
-import { getFirestore } from 'firebase-admin/firestore'
-import type { Firestore } from 'firebase-admin/firestore'
+import { getFirestore, type Firestore } from 'firebase-admin/firestore'
+import { getAuth, type Auth } from 'firebase-admin/auth'
 
 let _adminDb: Firestore | null = null
+let _adminAuth: Auth | null = null
 
-export function getAdminDb(): Firestore {
-  if (_adminDb) return _adminDb
+function getAdminApp() {
+  if (getApps().length > 0) return getApps()[0]
 
   const projectId = process.env.FIREBASE_PROJECT_ID
   const clientEmail = process.env.FIREBASE_CLIENT_EMAIL
@@ -17,19 +18,25 @@ export function getAdminDb(): Firestore {
     )
   }
 
-  const app =
-    getApps().length > 0
-      ? getApps()[0]
-      : initializeApp({
-          credential: cert({
-            projectId,
-            clientEmail,
-            privateKey: privateKey.replace(/\\n/g, '\n'),
-          }),
-        })
+  return initializeApp({
+    credential: cert({
+      projectId,
+      clientEmail,
+      privateKey: privateKey.replace(/\\n/g, '\n'),
+    }),
+  })
+}
 
-  _adminDb = getFirestore(app)
+export function getAdminDb(): Firestore {
+  if (_adminDb) return _adminDb
+  _adminDb = getFirestore(getAdminApp())
   return _adminDb
+}
+
+export function getAdminAuth(): Auth {
+  if (_adminAuth) return _adminAuth
+  _adminAuth = getAuth(getAdminApp())
+  return _adminAuth
 }
 
 export const adminDb = new Proxy({} as Firestore, {

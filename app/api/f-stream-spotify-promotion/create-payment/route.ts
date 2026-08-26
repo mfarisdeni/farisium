@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getAdminDb } from '@/lib/firebase-admin'
+import { getAdminDb, getAdminAuth } from '@/lib/firebase-admin'
 import { getKlikQRISConfig } from '@/lib/klikqris-config'
 
 const PRICES: Record<string, number> = {
@@ -21,6 +21,20 @@ function generateOrderId(tier: string): string {
 
 export async function POST(request: Request) {
   try {
+    // Verify Firebase ID token
+    const authHeader = request.headers.get('authorization')
+    if (!authHeader?.startsWith('Bearer ')) {
+      return NextResponse.json({ error: 'Unauthorized.' }, { status: 401 })
+    }
+    const idToken = authHeader.slice(7)
+    let decoded
+    try {
+      decoded = await getAdminAuth().verifyIdToken(idToken)
+    } catch {
+      return NextResponse.json({ error: 'Invalid token.' }, { status: 401 })
+    }
+    const uid = decoded.uid
+
     let body: Record<string, unknown>
     try {
       body = (await request.json()) ?? {}
@@ -29,7 +43,6 @@ export async function POST(request: Request) {
     }
 
     const {
-      uid,
       userEmail,
       artistName,
       genre,
@@ -39,7 +52,7 @@ export async function POST(request: Request) {
       packageTier,
     } = body as Record<string, string | undefined>
 
-    if (!uid || !artistName || !genre || !spotifyUrl || !contact || !paymentMethod || !packageTier) {
+    if (!artistName || !genre || !spotifyUrl || !contact || !paymentMethod || !packageTier) {
       return NextResponse.json({ error: 'All fields are required.' }, { status: 400 })
     }
 

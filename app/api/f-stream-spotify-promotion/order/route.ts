@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getAdminDb } from '@/lib/firebase-admin'
+import { getAdminDb, getAdminAuth } from '@/lib/firebase-admin'
 import { FieldValue } from 'firebase-admin/firestore'
 import nodemailer from 'nodemailer'
 
@@ -9,7 +9,7 @@ const transporter = nodemailer.createTransport({
   secure: (process.env.SMTP_PORT || '465') === '465',
   auth: {
     user: process.env.SMTP_USER || 'hello@farisium.com',
-    pass: process.env.SMTP_PASS || '!221295xxXX',
+    pass: process.env.SMTP_PASS,
   },
 })
 
@@ -58,6 +58,20 @@ const statusLabels: Record<string, string> = {
 
 export async function POST(request: Request) {
   try {
+    // Verify Firebase ID token
+    const authHeader = request.headers.get('authorization')
+    if (!authHeader?.startsWith('Bearer ')) {
+      return NextResponse.json({ error: 'Unauthorized.' }, { status: 401 })
+    }
+    const idToken = authHeader.slice(7)
+    let decoded
+    try {
+      decoded = await getAdminAuth().verifyIdToken(idToken)
+    } catch {
+      return NextResponse.json({ error: 'Invalid token.' }, { status: 401 })
+    }
+    const uid = decoded.uid
+
     let body: Record<string, unknown>
     try {
       body = (await request.json()) ?? {}
@@ -69,7 +83,6 @@ export async function POST(request: Request) {
     }
 
     const {
-      uid,
       userEmail,
       artistName,
       genre,
@@ -111,10 +124,6 @@ export async function POST(request: Request) {
     const adminDb = getAdminDb()
 
     if (paymentMethod === 'FRSC') {
-      if (!uid) {
-        return NextResponse.json({ error: 'Login required to use FRSC.' }, { status: 401 })
-      }
-
       const userRef = adminDb.collection('users').doc(uid)
       const userSnap = await userRef.get()
 

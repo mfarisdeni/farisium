@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getAdminDb } from '@/lib/firebase-admin'
+import { getAdminDb, getAdminAuth } from '@/lib/firebase-admin'
 import { FieldValue } from 'firebase-admin/firestore'
 import nodemailer from 'nodemailer'
 
@@ -68,6 +68,20 @@ const MAX_PAGES = 20
 
 export async function POST(request: Request) {
   try {
+    // Verify Firebase ID token
+    const authHeader = request.headers.get('authorization')
+    if (!authHeader?.startsWith('Bearer ')) {
+      return NextResponse.json({ error: 'Unauthorized.' }, { status: 401 })
+    }
+    const idToken = authHeader.slice(7)
+    let decoded
+    try {
+      decoded = await getAdminAuth().verifyIdToken(idToken)
+    } catch {
+      return NextResponse.json({ error: 'Invalid token.' }, { status: 401 })
+    }
+    const uid = decoded.uid
+
     let body: Record<string, unknown>
     try {
       body = (await request.json()) ?? {}
@@ -75,7 +89,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid request body.' }, { status: 400 })
     }
 
-    const { uid, userEmail, name, contact, packageTier, pages, notes } = body as {
+    const { userEmail, name, contact, packageTier, pages, notes } = body as {
       uid?: string | null
       userEmail?: string | null
       name?: string
@@ -85,9 +99,6 @@ export async function POST(request: Request) {
       notes?: string
     }
 
-    if (!uid) {
-      return NextResponse.json({ error: 'Login required.' }, { status: 401 })
-    }
     if (!name?.trim() || !contact?.trim() || !packageTier) {
       return NextResponse.json({ error: 'Name, contact, and package are required.' }, { status: 400 })
     }

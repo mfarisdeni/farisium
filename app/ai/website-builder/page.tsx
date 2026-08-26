@@ -299,11 +299,14 @@ function WebsiteBuilderContent() {
     setError(null)
     setSubmitting(true)
     try {
+      const idToken = await user.getIdToken()
       const res = await fetch('/api/web-builder/order', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${idToken}`,
+        },
         body: JSON.stringify({
-          uid: user.uid,
           userEmail: user.email,
           name,
           contact,
