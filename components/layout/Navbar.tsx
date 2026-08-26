@@ -12,7 +12,7 @@ import {
   BookOpen,
   Users,
   Gift,
-  Trophy,
+
   LogOut,
   ChevronDown,
   Info,
@@ -26,7 +26,6 @@ const navLinks = [
   { label: 'AI Tools', href: '/ai', icon: Sparkles },
   { label: 'Blog', href: '/blog', icon: BookOpen },
   { label: 'Rewards', href: '/rewards', icon: Gift },
-  { label: 'Competition', href: '/competition', icon: Trophy },
   { label: 'Partnership', href: '/partnership', icon: Users },
   { label: 'About', href: '/about', icon: Info },
   { label: 'Contact', href: '/contact', icon: Mail },
