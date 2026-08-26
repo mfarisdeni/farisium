@@ -75,7 +75,7 @@ export function BlogSection({ lang = 'id' }: Props) {
           return (
           <Link
             key={p.slug}
-            href={`/blog/${p.slug}`}
+            href={`/${lang}/blog/${p.slug}`}
             className={`group/blog reveal-on-scroll reveal-stagger ${revealDelays[i % revealDelays.length]} flex flex-col`}
           >
             <GlassCard

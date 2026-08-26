@@ -273,7 +273,7 @@ export function BlogFilter({ posts, lang, labels }: BlogFilterProps) {
                 return (
                   <Link
                     key={post.id}
-                    href={`/blog/${t.slug}`}
+                    href={`/${lang}/blog/${t.slug}`}
                     className={`group reveal-on-scroll reveal-stagger ${revealDelays[i % revealDelays.length]} flex`}
                   >
                     <GlassCard

@@ -7877,6 +7877,28 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
   )
 }
 
+/**
+ * Determine a blog post's canonical language from its slug.
+ * Every slug is unique to one locale's translation, so the slug itself
+ * is the source of truth for the article's language.
+ */
+export function getPostLangFromSlug(slug: string): Lang | undefined {
+  const post = getPostBySlug(slug)
+  if (!post) return undefined
+  for (const locale of ['id', 'en'] as const) {
+    if (post.translations[locale]?.slug === slug) return locale
+  }
+  return undefined
+}
+
+/**
+ * Get the slug for a specific locale of a post.
+ * Returns undefined if the post has no translation for that locale.
+ */
+export function getPostSlugForLocale(post: BlogPost, locale: Lang): string | undefined {
+  return post.translations[locale]?.slug
+}
+
 export function getFeaturedPosts(count: number = 3): BlogPost[] {
   return sortPostsByDateDesc(posts).slice(0, count)
 }

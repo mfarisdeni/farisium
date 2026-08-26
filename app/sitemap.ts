@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { getAllPosts, parseDate } from '@/lib/blog'
-import { locales, type Locale } from '@/lib/i18n'
+import { type Locale } from '@/lib/i18n'
 
 const BASE_URL = 'https://farisium.com'
 
@@ -74,7 +74,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticEntries: MetadataRoute.Sitemap = []
 
   for (const path of staticPaths) {
-    for (const locale of locales) {
+    for (const locale of ['id', 'en'] as Locale[]) {
       const localePath = path === '' ? `/${locale}` : `/${locale}/${path}`
       staticEntries.push({
         url: `${BASE_URL}${localePath}`,
@@ -89,8 +89,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const blogEntries: MetadataRoute.Sitemap = []
 
   for (const post of blogPosts) {
-    for (const locale of locales) {
-      const t = post.translations[locale as keyof typeof post.translations]
+    // Each slug uniquely belongs to one locale. Only include
+    // the canonical locale URL — not the wrong-locale duplicate.
+    for (const locale of ['id', 'en'] as Locale[]) {
+      const t = post.translations[locale]
       if (t?.slug) {
         blogEntries.push({
           url: `${BASE_URL}/${locale}/blog/${t.slug}`,

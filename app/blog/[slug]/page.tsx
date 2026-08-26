@@ -16,10 +16,12 @@ import {
   getRelatedPosts,
   generateBreadcrumbSchema,
   parseDate,
+  getPostLangFromSlug,
+  getPostSlugForLocale,
   type BlogSection,
 } from '@/lib/blog'
 import type { Lang } from '@/lib/translations'
-import { detectLocale, COOKIE_NAME, locales, getCanonicalUrl, getHreflangLinks } from '@/lib/i18n'
+import { detectLocale, COOKIE_NAME, locales, type Locale, getCanonicalUrl, getHreflangLinks } from '@/lib/i18n'
 import { GlassCard } from '@/components/ui/GlassCard'
 import { ArrowLeft, Clock, Calendar } from 'lucide-react'
 import { TableOfContents } from '@/components/blog/TableOfContents'
@@ -78,22 +80,33 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const cookieStore = await cookies()
-  const lang = detectLocale(cookieStore.get(COOKIE_NAME)?.value) as Lang
   const post = getPostBySlug(slug)
 
   if (!post) return {}
 
-  const t = post.translations[lang]
+  // Determine the article's canonical language from the slug itself.
+  // Every slug uniquely belongs to one locale, making it the source of truth.
+  const articleLang = getPostLangFromSlug(slug)
+  if (!articleLang) return {}
 
-  // Validate that the slug in URL matches the slug for the active language.
-  // If not, we'll handle the redirect in the page component (not in generateMetadata).
-  const canonicalSlug = t?.slug ?? slug
-  const canonicalUrl = getCanonicalUrl(lang, `/blog/${canonicalSlug}`)
-  const alternates = getHreflangLinks(`/blog/${canonicalSlug}`, lang)
+  const t = post.translations[articleLang]
+
+  const canonicalSlug = t.slug
+  const canonicalUrl = getCanonicalUrl(articleLang, `/blog/${canonicalSlug}`)
+
+  // Build hreflang: only include locales that have genuine translations
+  const altLangs: Array<{ lang: Locale; href: string }> = []
+  for (const locale of locales) {
+    const localeSlug = post.translations[locale]?.slug
+    if (localeSlug) {
+      altLangs.push({
+        lang: locale,
+        href: `https://farisium.com/${locale}/blog/${localeSlug}`,
+      })
+    }
+  }
 
   // SEO title: "{{Article Title}} – Farisium", truncated to ≤60 chars total.
-  // Use absolute to bypass root "%s | Farisium" template (avoids double suffix).
   const title = { absolute: buildSeoTitle(t.title) }
 
   // Description: trim excerpt to 140-155 chars at word boundary for SEO.
@@ -103,13 +116,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
-    alternates: { canonical: canonicalUrl, languages: Object.fromEntries(alternates.map(a => [a.lang, a.href])) },
+    alternates: {
+      canonical: canonicalUrl,
+      languages: Object.fromEntries(altLangs.map(a => [a.lang, a.href])),
+    },
     openGraph: {
       title: title.absolute,
       description,
       url: canonicalUrl,
       type: 'article',
-      locale: lang === 'id' ? 'id_ID' : 'en_US',
+      locale: articleLang === 'id' ? 'id_ID' : 'en_US',
       siteName: 'Farisium',
       publishedTime: publishedIso,
       modifiedTime: publishedIso,
@@ -155,15 +171,21 @@ const categoryColors: Record<string, string> = {
  */
 type LinkTracker = Map<string, number>
 
-function renderRichText(text: string, tracker?: LinkTracker) {
+function renderRichText(text: string, tracker?: LinkTracker, articleLang?: Lang) {
   const parts = text.split(/(\[\[[^\]]+\]\([^)]+\)\])/g)
   return parts.map((part, i) => {
     const match = part.match(/^\[\[([^\]]+)\]\(([^)]+)\)\]$/)
     if (!match) return part
 
     const label = match[1]
-    const url = match[2]
+    let url = match[2]
     const isExternal = url.startsWith('http')
+
+    // Prepend locale to internal links so crawlers get the right language
+    // without an extra redirect hop.
+    if (!isExternal && articleLang && url.startsWith('/')) {
+      url = `/${articleLang}${url}`
+    }
 
     // Dedup: internal links max 2x per URL per article
     if (!isExternal && tracker) {
@@ -210,7 +232,7 @@ function buildInlineAdThresholds(h2Total: number): number[] {
   return thresholds
 }
 
-function PostBody({ sections }: { sections: BlogSection[] }) {
+function PostBody({ sections, articleLang }: { sections: BlogSection[]; articleLang?: Lang }) {
   // Persists across all renderRichText calls within this article.
   const tracker: LinkTracker = new Map()
 
@@ -259,7 +281,7 @@ function PostBody({ sections }: { sections: BlogSection[] }) {
       case 'paragraph':
         blocks.push(
           <p key={i} className="text-base leading-relaxed text-frsc-text-200">
-            {renderRichText(section.text ?? '', tracker)}
+            {renderRichText(section.text ?? '', tracker, articleLang)}
           </p>,
         )
         break
@@ -267,7 +289,7 @@ function PostBody({ sections }: { sections: BlogSection[] }) {
         blocks.push(
           <ul key={i} className="list-disc space-y-2 pl-6 text-base leading-relaxed text-frsc-text-200">
             {section.items?.map((item, j) => (
-              <li key={j}>{renderRichText(item, tracker)}</li>
+              <li key={j}>{renderRichText(item, tracker, articleLang)}</li>
             ))}
           </ul>,
         )
@@ -347,21 +369,30 @@ const labels = {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params
-  const cookieStore = await cookies()
-  const lang = detectLocale(cookieStore.get(COOKIE_NAME)?.value) as Lang
   const post = getPostBySlug(slug)
 
   if (!post) notFound()
 
-  const t = post.translations[lang]
+  // Determine the article's canonical language from the slug itself.
+  const articleLang = getPostLangFromSlug(slug)
+  if (!articleLang) notFound()
 
-  // Validate slug matches the active language's translation.
-  // If the URL slug doesn't match the translation for this language,
-  // redirect to the correct locale-specific URL.
-  if (t && t.slug !== slug) {
-    redirect(`/${lang}/blog/${t.slug}`)
+  // Determine the URL locale from the rewritten path.
+  // The middleware rewrites /<locale>/... → /... and sets a cookie.
+  // For crawlers without cookies, detectLocale defaults to 'en'.
+  // We use the slug to determine the correct language, then redirect
+  // if the URL locale doesn't match.
+  const cookieStore = await cookies()
+  const urlLocale = detectLocale(cookieStore.get(COOKIE_NAME)?.value) as Lang
+
+  if (urlLocale !== articleLang) {
+    // The URL locale doesn't match the article's language.
+    // Redirect to the correct locale URL.
+    redirect(getCanonicalUrl(articleLang, `/blog/${slug}`))
   }
-  const label = labels[lang] ?? labels.id
+
+  const t = post.translations[articleLang]
+  const label = labels[articleLang] ?? labels.id
 
   // Filter out FAQ sections from body to avoid duplication with ArticleFAQ component.
   // The FAQ heading and all following H3+paragraph Q&A pairs are rendered separately.
@@ -378,15 +409,15 @@ export default async function BlogPostPage({ params }: Props) {
 
   const headings = extractHeadings(bodyContent)
   const faqs = extractFAQs(t.content)
-  const relatedPosts = getRelatedPosts(t.slug, t.category, lang)
+  const relatedPosts = getRelatedPosts(t.slug, t.category, articleLang)
 
-  const blogSchema = generatePostSchema(post, lang, t.slug)
+  const blogSchema = generatePostSchema(post, articleLang, t.slug)
   const faqSchema = faqs.length > 0 ? generateFAQSchema(faqs) : null
 
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: label.home, item: getCanonicalUrl(lang, '/') },
-    { name: 'Blog', item: getCanonicalUrl(lang, '/blog') },
-    { name: t.title, item: getCanonicalUrl(lang, `/blog/${t.slug}`) },
+    { name: label.home, item: getCanonicalUrl(articleLang, '/') },
+    { name: 'Blog', item: getCanonicalUrl(articleLang, '/blog') },
+    { name: t.title, item: getCanonicalUrl(articleLang, `/blog/${t.slug}`) },
   ])
 
   const breadcrumbItems = [
@@ -449,10 +480,10 @@ export default async function BlogPostPage({ params }: Props) {
           <TableOfContents headings={headings} />
 
           {/* Article body */}
-          <PostBody sections={bodyContent} />
+          <PostBody sections={bodyContent} articleLang={articleLang} />
 
           {/* FAQ Section */}
-          <ArticleFAQ items={faqs} lang={lang} />
+          <ArticleFAQ items={faqs} lang={articleLang} />
 
           {/* Ad: large rectangle — engaged readers, higher RPM */}
           <AdSlot slot="slotC" width={336} height={280} className="mx-auto my-10" />
@@ -460,7 +491,7 @@ export default async function BlogPostPage({ params }: Props) {
           {/* Related Posts */}
           <RelatedPosts
             posts={relatedPosts}
-            lang={lang}
+            lang={articleLang}
             labels={{ readLabel: label.readLabel, readMore: label.readMore }}
           />
 
@@ -478,7 +509,7 @@ export default async function BlogPostPage({ params }: Props) {
                   M. Faris Deni K.
                 </p>
                 <p className="mt-0.5 text-xs text-frsc-text-300">
-                  {lang === 'id'
+                  {articleLang === 'id'
                     ? 'Founder & Pengembang Farisium. Menulis tentang AI, teknologi, dan pengembangan platform.'
                     : 'Founder & Developer of Farisium. Writing about AI, technology, and platform development.'}
                 </p>

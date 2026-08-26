@@ -140,7 +140,7 @@ const websiteSchema = {
   url: 'https://farisium.com',
   description:
     'Platform AI all-in-one dengan AI tools, generator gambar anime, rewards, partnership, blog, dan solusi digital untuk kreator dan bisnis.',
-  inLanguage: 'id',
+  inLanguage: ['id', 'en'],
   applicationCategory: 'AIApplication',
 }
 

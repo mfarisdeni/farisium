@@ -29,7 +29,7 @@ export function RelatedPosts({
         {posts.map((post) => {
           const t = post.translations[lang]
           return (
-            <Link key={post.id} href={`/blog/${t.slug}`} className="group block">
+            <Link key={post.id} href={`/${lang}/blog/${t.slug}`} className="group block">
               <GlassCard
                 variant="subtle"
                 blur="light"
