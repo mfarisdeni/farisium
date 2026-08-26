@@ -27,7 +27,7 @@ export function RelatedPosts({
       </h2>
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {posts.map((post) => {
-          const t = post.translations[lang]
+          const t = post.translations[lang]!
           return (
             <Link key={post.id} href={`/${lang}/blog/${t.slug}`} className="group block">
               <GlassCard

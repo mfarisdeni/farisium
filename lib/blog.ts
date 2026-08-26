@@ -36,7 +36,7 @@ export interface BlogPost {
   image: string
   imageAlt: string
   translations: {
-    id: BlogPostTranslation
+    id?: BlogPostTranslation
     en: BlogPostTranslation
   }
 }
@@ -6493,9 +6493,202 @@ const enArticles: Record<string, BlogSection[]> = {
     { type: 'cta', text: 'Learn how to use AI tools transparently and responsibly', label: 'Explore Farisium AI Tools', href: '/ai' },
   ],
 
+  'ai-research-verification': [
+    { type: 'paragraph', text: 'Artificial intelligence can turn hours of early-stage research into minutes. You can ask an AI assistant to explain an unfamiliar topic, compare products, summarize a long document, identify competing arguments, generate research questions, or help organize information into a useful structure. That speed is valuable. But there is one problem that changes how AI should be used for serious research: [[4 Ways AI Can Actually Help You Research Faster](https://news.harvard.edu/gazette/story/2025/04/harvard-study-finds-ai-chatbots-are-effective-for-specific-tasks-and-ineffective-for-others/)] — a confident answer is not the same as a verified answer.' },
+    { type: 'paragraph', text: 'AI systems can produce information that sounds plausible while being incomplete, outdated, taken out of context, or simply incorrect. They can also mix reliable information with assumptions so smoothly that the difference is difficult to notice. The solution is not to stop using AI. The better approach is to change its role. Instead of treating AI as the final authority, use it as a research accelerator inside a verification workflow. A practical model looks like this: Question, Claims, Evidence, Verification, Context, Challenge, Final Synthesis. This guide explains that workflow step by step.' },
+    { type: 'heading', level: 2, text: 'What Is an AI Hallucination?' },
+    { type: 'paragraph', text: 'An AI hallucination happens when an AI system produces information that appears credible but is not sufficiently supported by reality or the available evidence. The error may be obvious. For example, an AI could describe a feature that a product never had. But hallucinations can also be subtle. An answer might contain a correct company name but an incorrect product feature, a real study interpreted in the wrong context, an accurate statistic attached to the wrong year, or a prediction presented with the confidence of an established fact.' },
+    { type: 'paragraph', text: 'Not every problematic AI answer is completely fabricated. Sometimes the individual pieces are real, but the conclusion connecting them is too strong. This is why [[how to use AI for research](/blog/how-to-use-ai-for-research-without-hallucinations)] requires more than searching whether one sentence appears somewhere online. You need to evaluate the claim, evidence, context, and certainty separately.' },
+    { type: 'heading', level: 2, text: 'Why AI Answers Can Sound More Reliable Than They Are' },
+    { type: 'paragraph', text: 'Traditional search results usually show you different sources and force you to compare them. AI often does the opposite. It compresses information into one polished response. That improves usability, but it also hides disagreement, uncertainty, and source quality.' },
+    { type: 'paragraph', text: 'Consider this answer: Companies are rapidly adopting AI agents because they reduce operational costs and significantly increase employee productivity. It sounds reasonable. But it contains several independent claims: (1) companies are adopting AI agents, (2) adoption is happening rapidly, (3) AI agents reduce operational costs, (4) they increase productivity, and (5) those benefits apply broadly across organizations. Each statement requires different evidence. A common research mistake is to verify only the first claim and unconsciously accept the rest. The solution is claim decomposition. That is where the workflow begins.' },
+    { type: 'heading', level: 2, text: 'The 7-Step AI Research Verification Workflow' },
+    { type: 'heading', level: 3, text: 'Step 1: Start With a Narrow Research Question' },
+    { type: 'paragraph', text: 'Broad prompts usually generate broad answers. Broad answers contain more assumptions, and more assumptions create more places for errors to hide. Instead of asking "What is happening in the AI industry?" ask "What are the main enterprise use cases for generative AI in customer support in 2026?" You can make it even narrower by specifying the exact tasks companies are automating and which still require human review. Now the research scope is clearer.' },
+    { type: 'paragraph', text: 'A useful research question should define at least some of the following: subject, timeframe, audience, geographic scope, type of evidence, and what decision the research will support. A better prompt is: "Identify the major current uses of generative AI in customer support. Separate established use cases from experimental ones, and flag claims that require external verification." That last instruction is important. You are not only asking AI to answer. You are asking it to reveal where the answer may be weak.' },
+    { type: 'heading', level: 3, text: 'Step 2: Convert the Answer Into Verifiable Claims' },
+    { type: 'paragraph', text: 'Never verify a long AI response as one unit. Break it apart. Suppose the AI writes: "AI coding assistants are increasingly used by software teams because they can accelerate repetitive coding tasks, help generate tests, and reduce development time." That becomes four separate claims: (A) software teams increasingly use AI coding assistants, (B) AI coding assistants can accelerate some repetitive coding tasks, (C) they can help generate software tests, and (D) their use reduces overall development time. Now you can investigate each claim separately. This matters because Claim B may be strongly supported while Claim D may depend heavily on the team, task, codebase, and measurement method.' },
+    { type: 'paragraph', text: 'Useful prompt: "Break your previous answer into individual factual claims. Do not add new information. Mark each claim that should be independently verified." This turns AI from an answer generator into a research organizer.' },
+    { type: 'heading', level: 3, text: 'Step 3: Classify Fact, Interpretation, and Prediction' },
+    { type: 'paragraph', text: 'One of the most useful habits in AI-assisted research is forcing different types of statements into separate categories. Use five buckets: Verified Fact (a claim that can be checked against reliable evidence), Estimate (a numerical or directional conclusion based on incomplete data), Interpretation (a conclusion drawn from facts), Prediction (a statement about what may happen), and Unknown or Uncertain (a claim where reliable evidence is currently insufficient).' },
+    { type: 'paragraph', text: 'This classification prevents one of the most common AI research failures: treating predictions as facts because they are written in the same confident tone. The [[AI research tools landscape](https://www.techtarget.com/searchenterpriseai/feature/AI-for-research)] continues to evolve, but the fundamental need for human classification of claims remains constant.' },
+    { type: 'heading', level: 3, text: 'Step 4: Find the Primary Source' },
+    { type: 'paragraph', text: 'For important claims, move as close as possible to the origin of the information. A useful evidence hierarchy is: Primary Source, High-Quality Secondary Source, Community Discussion. Primary sources may include official product documentation, company announcements, government publications, regulatory documents, academic research, original datasets, financial filings, technical documentation, official pricing pages, or direct statements from the organization involved.' },
+    { type: 'paragraph', text: 'For example, if AI tells you "Tool X includes unlimited access to Feature Y on the free plan," instead of trusting the statement or finding a random comparison blog, check the product\'s official pricing page, its current documentation, and recent release notes if necessary. Because software plans change frequently. A blog article from last year can be perfectly accurate for its publication date and still be wrong today. Check resources like [[Google Scholar](https://scholar.google.com/)] or [[Semantic Scholar](https://www.semanticscholar.org/)] for academic verification.' },
+    { type: 'heading', level: 3, text: 'Step 5: Triangulate Important Claims' },
+    { type: 'paragraph', text: 'One source can confirm that something was said. Multiple independent sources help determine whether it is broadly supported. This process is called triangulation. Suppose you are researching: "Does generative AI improve employee productivity?" A weak approach is finding one article claiming productivity improved and treating the question as settled. A better approach is comparing evidence from controlled research, workplace case studies, reports covering different job types, evidence of failure or limitations, and observations from organizations implementing the technology.' },
+    { type: 'paragraph', text: 'Then ask: Under what conditions does the benefit appear? This produces a better conclusion than asking "Does AI improve productivity: yes or no?" Watch for false triangulation. Five websites repeating the same statistic do not necessarily equal five independent sources. They may all cite the same original study. Trace the information backward. Ask: Where did this number originally come from? That question alone can eliminate a surprising amount of weak evidence.' },
+    { type: 'heading', level: 3, text: 'Step 6: Verify the Context, Not Just the Number' },
+    { type: 'paragraph', text: 'Statistics are especially persuasive because they make an article sound precise. They are also easy to misuse. Imagine you find: "AI increased productivity by 30%." Before using that number, ask: Productivity for whom? Doing what task? Compared with what baseline? How many participants were involved? How was productivity measured? Over what period? Were participants experienced or inexperienced? Were there tasks where AI made results worse? Does the result generalize beyond the experiment?' },
+    { type: 'paragraph', text: 'A number without context can be technically true and still create a misleading conclusion. Good verification prompt: "Explain the context required to interpret this statistic correctly. Identify the study population, task, measurement method, timeframe, limitations, and whether the result can be generalized." If those details cannot be established, reconsider using the statistic.' },
+    { type: 'heading', level: 3, text: 'Step 7: Build the Final Answer From Verified Material' },
+    { type: 'paragraph', text: 'After verification, there is one more place where hallucinations can return: the writing stage. You may carefully verify your research, then ask AI to "write a complete article." The model can introduce new claims that were never part of your evidence. Instead, constrain the synthesis. Better prompt: "Write the final section using only the verified facts below. Do not introduce new statistics, studies, product features, dates, or factual claims. Clearly distinguish evidence from interpretation."' },
+    { type: 'paragraph', text: 'The final workflow becomes: AI explores, Human verifies, AI organizes, Human reviews. This division of labor is more reliable than expecting either AI or a human researcher to do every part perfectly.' },
+    { type: 'image', src: '/blog/ai-research-verification-hero.svg', alt: '7-Step AI Research Verification Workflow diagram showing the pipeline from raw AI output through verification to reliable research', caption: 'The complete verification workflow: from raw AI output to reliable, evidence-backed research.' },
+    { type: 'heading', level: 2, text: 'A Practical Example: Researching Whether AI Will Replace Graphic Designers' },
+    { type: 'paragraph', text: 'Let\'s apply the workflow to a real research question. Suppose you want to write: "Will AI replace graphic designers?" The easiest approach would be asking an AI assistant for an opinion and turning its answer into an article. That will probably produce generic content. Instead, build the research progressively.' },
+    { type: 'heading', level: 3, text: 'Phase 1: Map the Question' },
+    { type: 'paragraph', text: 'Ask: "What factors should be evaluated when analyzing the impact of generative AI on professional graphic design jobs?" Possible areas might include image generation, repetitive production work, concept exploration, client communication, creative direction, branding, revisions, copyright concerns, human judgment, and changing skill requirements. This stage is discovery. You are creating a map, not reaching a conclusion.' },
+    { type: 'heading', level: 3, text: 'Phase 2: Identify Claims' },
+    { type: 'paragraph', text: 'Next, ask: "Which statements from that analysis are factual claims that require evidence?" Now the model may reveal claims about adoption, job demand, software capabilities, workflow changes, or employer expectations. Verify those independently.' },
+    { type: 'heading', level: 3, text: 'Phase 3: Search for Counter-Evidence' },
+    { type: 'paragraph', text: 'Then ask: "What evidence could contradict the argument that generative AI will significantly reduce demand for graphic designers?" This is important because AI systems can follow the direction implied by your original question. If your prompt assumes AI will replace designers, the answer may naturally build evidence around that assumption. Actively searching for counter-evidence reduces confirmation bias.' },
+    { type: 'heading', level: 3, text: 'Phase 4: Separate Tasks From Jobs' },
+    { type: 'paragraph', text: 'One of the strongest improvements you can make to this research is changing the unit of analysis. Instead of asking "Will AI replace graphic designers?" ask "Which graphic-design tasks are becoming easier to automate, and which still depend heavily on human judgment?" Jobs are collections of tasks. AI may automate some tasks without eliminating the entire profession. This framing usually produces a much more useful article.' },
+    { type: 'heading', level: 3, text: 'Phase 5: Write a Conditional Conclusion' },
+    { type: 'paragraph', text: 'Avoid conclusions like "AI will replace graphic designers" or "AI will never replace graphic designers." A stronger conclusion might explain which work is most exposed to automation, where AI functions primarily as an assistant, what new skills are becoming useful, and what remains uncertain. Conditional conclusions are not weaker. They are often more accurate.' },
+    { type: 'heading', level: 2, text: 'Five Prompts That Make AI Research More Reliable' },
+    { type: 'paragraph', text: 'You do not need complicated prompt engineering. A few reusable prompts are enough.' },
+    { type: 'heading', level: 3, text: '1. The Claim Extractor' },
+    { type: 'paragraph', text: 'Prompt: "Break this answer into individual factual claims. Mark which claims require verification before publication." Use it immediately after a long answer.' },
+    { type: 'heading', level: 3, text: '2. The Uncertainty Check' },
+    { type: 'paragraph', text: 'Prompt: "Identify the parts of your answer where the evidence is weak, disputed, outdated, or uncertain. Do not defend the previous answer." The phrase "do not defend the previous answer" matters. You want critique, not self-justification.' },
+    { type: 'heading', level: 3, text: '3. The Source Audit' },
+    { type: 'paragraph', text: 'Prompt: "For every major factual claim, tell me what type of primary source would provide the strongest verification. Do not invent citations." This shifts the model from pretending to know sources toward helping you find the right evidence.' },
+    { type: 'heading', level: 3, text: '4. The Counterargument Prompt' },
+    { type: 'paragraph', text: 'Prompt: "Build the strongest evidence-based argument against the conclusion above. Identify assumptions that may not hold." This is useful for analysis, reviews, strategy, and opinion writing.' },
+    { type: 'heading', level: 3, text: '5. The Final Evidence Guardrail' },
+    { type: 'paragraph', text: 'Prompt: "Write using only the verified information I provide below. Do not add new factual claims. If a conclusion requires information I have not provided, label it as uncertain." This is especially valuable before publication.' },
+    { type: 'heading', level: 2, text: 'How to Evaluate Sources Suggested by AI' },
+    { type: 'paragraph', text: 'Finding a link is not the same as validating a source. Use four questions.' },
+    { type: 'heading', level: 3, text: 'Who produced it?' },
+    { type: 'paragraph', text: 'Is it the organization being discussed, an independent researcher, a regulator, a news publisher, a vendor with commercial incentives, or an anonymous author? Authority depends on the type of claim. A software company\'s documentation may be the best source for how its API works. It may not be the best independent source for proving its product is better than every competitor.' },
+    { type: 'heading', level: 3, text: 'When was it published?' },
+    { type: 'paragraph', text: 'Freshness matters for AI tools, pricing, product features, regulations, cybersecurity threats, company leadership, software documentation, and market conditions. For more stable topics, an older high-quality source can remain useful.' },
+    { type: 'heading', level: 3, text: 'Does the source actually support the claim?' },
+    { type: 'paragraph', text: 'This sounds obvious, but it is a major failure point. An article may cite a legitimate source that discusses AI productivity. That does not mean the source supports the exact percentage or conclusion stated in the article. Always compare the claim with the original evidence.' },
+    { type: 'heading', level: 3, text: 'Is the source independent?' },
+    { type: 'paragraph', text: 'If every source traces back to the same press release, you do not have broad confirmation. You have repetition. Independence matters when you are trying to establish a general conclusion. Use tools like [[Scite.ai](https://www.scite.ai/)] to check how papers are actually cited — whether they are supported or contradicted by subsequent research.' },
+    { type: 'heading', level: 2, text: 'Citation Laundering: A Hidden Problem in AI Research' },
+    { type: 'paragraph', text: 'A particularly dangerous pattern is citation laundering. It can look like this: Website A makes a claim. Website B cites Website A. Website C summarizes Website B. Multiple social posts quote Website C. An AI system then encounters the claim across many pages. It appears widely supported. But all roads lead back to one weak or missing source.' },
+    { type: 'paragraph', text: 'This is why researchers should occasionally follow the citation chain backward. For an important statistic, ask: Where did this number originate? If no primary source can be found, you have several options: remove the number, describe the trend without false precision, explicitly label the figure as an estimate, or explain that reliable verification is unavailable. Saying "the evidence is unclear" is often more valuable than producing artificial certainty.' },
+    { type: 'heading', level: 2, text: 'AI Search Is a Discovery Layer, Not the Final Evidence Layer' },
+    { type: 'paragraph', text: 'Modern AI search tools can provide answers together with citations. This is a major improvement over uncited responses. But citations do not eliminate the need for verification. The AI may still choose a weak source, misunderstand the source, use an outdated document, miss a newer correction, or draw a conclusion stronger than the source allows.' },
+    { type: 'paragraph', text: 'A useful mental model is: AI search helps you discover where to look. Source verification helps you establish what the evidence actually says. Human judgment determines what conclusion the evidence reasonably supports. All three are useful. They are not interchangeable.' },
+    { type: 'heading', level: 2, text: 'When You Need More Verification' },
+    { type: 'paragraph', text: 'Not every AI-assisted task needs the same standard. For low-risk tasks such as brainstorming headings, generating topic ideas, reorganizing notes, or creating alternative wording, extensive fact checking may be unnecessary. Verification should increase when the consequences increase.' },
+    { type: 'paragraph', text: 'Use a higher standard for financial decisions, health information, legal questions, cybersecurity, safety guidance, business strategy, current regulations, academic work, journalism, and information that could materially affect another person. A useful rule is: The higher the cost of being wrong, the stronger the verification process should be.' },
+    { type: 'heading', level: 2, text: 'Common AI Research Mistakes' },
+    { type: 'heading', level: 3, text: 'Copying the first response' },
+    { type: 'paragraph', text: 'The first answer should usually be treated as a starting point. Not a finished research product.' },
+    { type: 'heading', level: 3, text: 'Asking the AI if its own answer is correct' },
+    { type: 'paragraph', text: 'A question such as "Are you sure?" is weak. Try: "Find the three claims in your previous answer most likely to be incorrect or overstated." That creates a more useful review task.' },
+    { type: 'heading', level: 3, text: 'Trusting citations without opening them' },
+    { type: 'paragraph', text: 'A citation is evidence only after you confirm that the source supports the statement.' },
+    { type: 'heading', level: 3, text: 'Using exact statistics because they look authoritative' },
+    { type: 'paragraph', text: 'Precision is not proof. An unsupported 67% is worse than an honest statement that available evidence suggests a trend.' },
+    { type: 'heading', level: 3, text: 'Ignoring conflicting evidence' },
+    { type: 'paragraph', text: 'Good research is not a collection of information that confirms what you already believe. Search specifically for evidence that would change your conclusion.' },
+    { type: 'heading', level: 3, text: 'Using outdated AI knowledge for current information' },
+    { type: 'paragraph', text: 'Current pricing, product availability, leadership, regulations, and software capabilities should be verified using current sources.' },
+    { type: 'heading', level: 3, text: 'Confusing a summary with analysis' },
+    { type: 'paragraph', text: 'AI is very good at summarizing. Analysis requires another step: What does the evidence mean, and how strong is the conclusion?' },
+    { type: 'heading', level: 2, text: 'A Pre-Publication Checklist for AI-Assisted Research' },
+    { type: 'paragraph', text: 'Before publishing an article, report, presentation, or business document, check the following.' },
+    { type: 'heading', level: 3, text: 'Facts' },
+    { type: 'list', items: [
+      'Are important factual claims verifiable?',
+      'Are dates correct?',
+      'Are company and product names accurate?',
+      'Are current product features still available?',
+    ]},
+    { type: 'heading', level: 3, text: 'Statistics' },
+    { type: 'list', items: [
+      'Does every important number have a traceable source?',
+      'Is the original source available?',
+      'Is the statistic presented with enough context?',
+    ]},
+    { type: 'heading', level: 3, text: 'Sources' },
+    { type: 'list', items: [
+      'Do sources actually support the surrounding claim?',
+      'Are primary sources available?',
+      'Are multiple references genuinely independent?',
+    ]},
+    { type: 'heading', level: 3, text: 'Language' },
+    { type: 'list', items: [
+      'Does the article distinguish facts from predictions?',
+      'Are uncertain conclusions presented as uncertain?',
+      'Are there overly absolute statements?',
+    ]},
+    { type: 'heading', level: 3, text: 'AI-Specific Risks' },
+    { type: 'list', items: [
+      'Did the AI invent a reference?',
+      'Did it add claims during rewriting?',
+      'Did it combine two separate events or products?',
+      'Did it provide outdated information as current?',
+    ]},
+    { type: 'heading', level: 3, text: 'Final Review' },
+    { type: 'list', items: [
+      'Would the article still make sense if every unsupported statistic were removed?',
+      'Does it provide original structure or analysis?',
+      'Does the reader leave with something actionable?',
+    ]},
+    { type: 'paragraph', text: 'If the answer is yes, the AI has helped create value rather than simply generating more text.' },
+    { type: 'heading', level: 2, text: 'The Best AI Research Workflow Is Human-AI Collaboration' },
+    { type: 'paragraph', text: 'The most useful question is not "Should we trust AI for research?" It is "Which parts of research should AI handle, and which parts still require human judgment?" AI is exceptionally useful for exploring a topic, generating research questions, identifying possible arguments, organizing notes, extracting claims, comparing perspectives, summarizing source material, and challenging an existing conclusion.' },
+    { type: 'paragraph', text: 'Human review remains critical for deciding which sources are trustworthy, evaluating context, identifying conflicts of interest, judging whether evidence is strong enough, recognizing when uncertainty matters, and deciding what should ultimately be published. That combination is far more powerful than either extreme: blindly trusting AI or refusing to use it at all.' },
+    { type: 'heading', level: 2, text: 'A Simple Workflow You Can Reuse' },
+    { type: 'paragraph', text: 'If you remember nothing else from this article, use this seven-step workflow:' },
+    { type: 'list', items: [
+      '1. Ask — Define a narrow research question.',
+      '2. Decompose — Turn the AI answer into individual claims.',
+      '3. Classify — Separate fact, interpretation, prediction, and uncertainty.',
+      '4. Verify — Check important claims against primary sources.',
+      '5. Triangulate — Look for independent evidence and counter-evidence.',
+      '6. Contextualize — Understand what statistics and studies actually measure.',
+      '7. Synthesize — Write only from evidence that survived verification.',
+    ]},
+    { type: 'paragraph', text: 'That is the difference between using AI to generate information and using AI to conduct better research. If you want to put this workflow into practice, start by [[exploring Farisium AI Tools](/ai)] and applying these verification steps to your next research task.' },
+    { type: 'heading', level: 2, text: 'Frequently Asked Questions' },
+    { type: 'heading', level: 3, text: 'Can I use ChatGPT or other AI tools for research?' },
+    { type: 'paragraph', text: 'Yes. AI can be highly useful for exploring topics, creating research questions, summarizing information, comparing viewpoints, and organizing findings. Important factual claims should still be verified using reliable sources.' },
+    { type: 'heading', level: 3, text: 'How can I tell if an AI answer is hallucinated?' },
+    { type: 'paragraph', text: 'You often cannot determine this from writing style alone. Warning signs include unsupported statistics, unclear sources, highly specific claims without evidence, outdated information, inconsistent answers, and citations that do not support the statement.' },
+    { type: 'heading', level: 3, text: 'Should I trust sources provided by AI?' },
+    { type: 'paragraph', text: 'Treat them as leads, not automatic proof. Open the source, verify the publication date, identify who produced it, and confirm that it actually supports the claim.' },
+    { type: 'heading', level: 3, text: 'What is the best way to fact-check AI?' },
+    { type: 'paragraph', text: 'Break the answer into individual claims, prioritize the important ones, verify them using primary sources, and compare independent evidence when the conclusion matters.' },
+    { type: 'heading', level: 3, text: 'Can AI hallucinations be completely eliminated?' },
+    { type: 'paragraph', text: 'No workflow can guarantee that every AI output will be error-free. The goal is to reduce risk by separating generation from verification and increasing the level of checking when the consequences of an error are higher.' },
+    { type: 'heading', level: 3, text: 'Is AI-generated content bad for SEO?' },
+    { type: 'paragraph', text: 'The important question is not simply whether AI was involved. Content should provide genuine value to users, be accurate, useful, well reviewed, and created for people rather than primarily to manipulate search rankings. AI can assist the process, but human editorial judgment remains important.' },
+    { type: 'heading', level: 3, text: 'Is AI research reliable enough for professional work?' },
+    { type: 'paragraph', text: 'It can be part of a professional workflow, but the verification standard should reflect the risk. High-impact financial, legal, medical, security, or business decisions should not rely on an unverified AI answer.' },
+    { type: 'heading', level: 2, text: 'Final Thoughts' },
+    { type: 'paragraph', text: 'AI has made accessing information dramatically faster. But faster access does not automatically produce better understanding. The researchers, professionals, creators, and businesses that benefit most from AI will not necessarily be those who generate the largest amount of information. They will be the ones who develop the best verification habits. Use AI to explore quickly. Use sources to establish facts. Use skepticism to test conclusions. And use human judgment to decide what deserves to be trusted. That is how AI becomes more than a shortcut. It becomes a genuinely useful research tool.' },
+    { type: 'cta', text: 'Put your AI research skills to the test with Farisium tools', label: 'Explore Farisium AI Tools', href: '/ai' },
+  ],
+
 }
 
 const posts: BlogPost[] = [
+  {
+    id: 'ai-research-verification',
+    date: '27 Agustus 2026',
+    image: '/blog/ai-research-verification-hero.svg',
+    imageAlt: '7-step AI research verification workflow diagram showing the pipeline from raw AI output through verification to reliable research',
+    translations: {
+      en: {
+        slug: 'how-to-use-ai-for-research-without-hallucinations',
+        title: 'How to Use AI for Research Without Hallucinations: A 7-Step Verification Workflow for 2026',
+        excerpt: 'Learn how to use AI for research without blindly trusting its answers. This practical 7-step workflow helps you verify sources, detect hallucinations, fact-check claims, and produce more reliable research.',
+        readTime: '18 min read',
+        category: 'Technology',
+        keywords: [
+          'how to use AI for research',
+          'AI research workflow',
+          'AI hallucination',
+          'verify AI answers',
+          'AI fact checking',
+          'AI research tools',
+          'how to fact check AI',
+          'reliable AI research',
+          'Farisium AI Tools',
+        ],
+        content: enArticles['ai-research-verification'],
+      },
+    },
+  },
   {
     id: 'chatgpt-for-teens',
     date: '23 Agustus 2026',
@@ -7904,7 +8097,7 @@ export function getFeaturedPosts(count: number = 3): BlogPost[] {
 }
 
 export function generatePostSchema(post: BlogPost, lang: Lang, slug?: string) {
-  const t = post.translations[lang]
+  const t = post.translations[lang]!
   const canonicalSlug = slug ?? t.slug
   const isoDate = parseDate(post.date).toISOString()
   return {
@@ -7977,9 +8170,10 @@ export function getRelatedPosts(
 ): BlogPost[] {
   return posts
     .filter((post) => {
-      const slugMatch = Object.values(post.translations).some((t) => t.slug === currentSlug)
-      const catMatch = Object.values(post.translations).some((t) => t.category === category)
-      return !slugMatch && catMatch
+      const t = post.translations[lang]
+      if (!t) return false
+      const slugMatch = Object.values(post.translations).some((tt) => tt?.slug === currentSlug)
+      return !slugMatch && t.category === category
     })
     .slice(0, limit)
 }
@@ -8011,14 +8205,16 @@ export function generateCollectionPageSchema(posts: BlogPost[], lang: Lang) {
     url: getCanonicalUrl(lang, '/blog'),
     mainEntity: {
       '@type': 'ItemList',
-      itemListElement: posts.map((post, i) => {
+      itemListElement: posts.reduce((acc, post, i) => {
         const t = post.translations[lang]
-        return {
+        if (!t) return acc
+        acc.push({
           '@type': 'ListItem',
-          position: i + 1,
+          position: acc.length + 1,
           url: getCanonicalUrl(lang, `/blog/${t.slug}`),
-        }
-      }),
+        })
+        return acc
+      }, [] as Array<{ '@type': string; position: number; url: string }>),
     },
   }
 }

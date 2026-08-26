@@ -72,6 +72,7 @@ export function BlogSection({ lang = 'id' }: Props) {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {posts.map((post, i) => {
           const p = post.translations[lang] ?? post.translations.id
+          if (!p) return null
           return (
           <Link
             key={p.slug}

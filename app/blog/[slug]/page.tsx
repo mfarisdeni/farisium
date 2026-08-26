@@ -89,7 +89,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const articleLang = getPostLangFromSlug(slug)
   if (!articleLang) return {}
 
-  const t = post.translations[articleLang]
+  const t = post.translations[articleLang]!
 
   const canonicalSlug = t.slug
   const canonicalUrl = getCanonicalUrl(articleLang, `/blog/${canonicalSlug}`)
@@ -391,7 +391,7 @@ export default async function BlogPostPage({ params }: Props) {
     redirect(getCanonicalUrl(articleLang, `/blog/${slug}`))
   }
 
-  const t = post.translations[articleLang]
+  const t = post.translations[articleLang]!
   const label = labels[articleLang] ?? labels.id
 
   // Filter out FAQ sections from body to avoid duplication with ArticleFAQ component.
