@@ -174,7 +174,7 @@ export function Navbar() {
                 >
                   <img src="/google.jpg" alt="" className="h-5 w-5 shrink-0" />
                   <div className="flex flex-col items-start leading-tight">
-                    <span className="text-sm font-semibold text-black">Masuk</span>
+                    <span className="text-sm font-semibold text-black">Login</span>
                     <span className="text-[10px] font-normal text-black">+1 FREE FRSC</span>
                   </div>
                 </button>
@@ -248,7 +248,7 @@ export function Navbar() {
                   className="mt-2 flex w-full items-center justify-center gap-3 rounded-xl bg-white py-3.5 text-sm font-semibold text-black transition-all hover:bg-zinc-100"
                 >
                   <img src="/google.jpg" alt="" className="h-5 w-5 shrink-0" />
-                  Masuk dengan Google
+                  Login with Google
                 </button>
               )}
             </div>

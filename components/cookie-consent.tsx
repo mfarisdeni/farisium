@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { Settings } from 'lucide-react'
+import { useLang } from '@/hooks/useLang'
 
 declare global {
   interface Window {
@@ -58,6 +59,7 @@ function applyConsent(prefs: ConsentPreferences) {
 }
 
 export function CookieConsent() {
+  const { lang } = useLang()
   const [visible, setVisible] = useState(false)
   const [showPrefs, setShowPrefs] = useState(false)
   const [prefs, setPrefs] = useState<ConsentPreferences>({
@@ -65,6 +67,8 @@ export function CookieConsent() {
     analytics: false,
     advertising: false,
   })
+
+  const isEn = lang === 'en'
 
   useEffect(() => {
     const stored = getStoredConsent()
@@ -115,7 +119,9 @@ export function CookieConsent() {
         {!showPrefs ? (
           <>
             <p className="text-sm leading-relaxed text-frsc-text-200">
-              Kami menggunakan cookie untuk menjaga keamanan akun, menganalisis penggunaan, dan — ketika diaktifkan — menayangkan iklan yang relevan. Anda dapat menerima semua, menolak yang tidak esensial, atau mengelola preferensi Anda.
+              {isEn
+                ? 'We use cookies to keep your account secure, analyze usage, and — when enabled — serve relevant ads. You can accept all, reject non-essential ones, or manage your preferences.'
+                : 'Kami menggunakan cookie untuk menjaga keamanan akun, menganalisis penggunaan, dan — ketika diaktifkan — menayangkan iklan yang relevan. Anda dapat menerima semua, menolak yang tidak esensial, atau mengelola preferensi Anda.'}
             </p>
             <div className="mt-4 flex flex-wrap items-center gap-3">
               <button
@@ -123,14 +129,14 @@ export function CookieConsent() {
                 onClick={acceptAll}
                 className="rounded-xl bg-frsc-crimson-700 px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-frsc-crimson-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-frsc-crimson-500/50"
               >
-                Terima Semua
+                {isEn ? 'Accept All' : 'Terima Semua'}
               </button>
               <button
                 type="button"
                 onClick={rejectNonEssential}
                 className="rounded-xl border border-white/[0.1] bg-white/[0.04] px-4 py-2 text-xs font-semibold text-frsc-text-200 transition-colors hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-frsc-crimson-500/50"
               >
-                Tolak Non-Esensial
+                {isEn ? 'Reject Non-Essential' : 'Tolak Non-Esensial'}
               </button>
               <button
                 type="button"
@@ -138,18 +144,18 @@ export function CookieConsent() {
                 className="flex items-center gap-1.5 rounded-xl border border-white/[0.1] bg-white/[0.04] px-4 py-2 text-xs font-semibold text-frsc-text-200 transition-colors hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-frsc-crimson-500/50"
               >
                 <Settings className="h-3 w-3" />
-                Kelola
+                {isEn ? 'Manage' : 'Kelola'}
               </button>
             </div>
           </>
         ) : (
           <>
-            <h3 className="text-sm font-semibold text-frsc-white-bright">Preferensi Cookie</h3>
+            <h3 className="text-sm font-semibold text-frsc-white-bright">{isEn ? 'Cookie Preferences' : 'Preferensi Cookie'}</h3>
             <div className="mt-4 space-y-3">
               <label className="flex items-center gap-3 text-sm text-frsc-text-200">
                 <input type="checkbox" checked disabled className="h-4 w-4 rounded border-white/20 bg-white/10 accent-frsc-crimson-600" />
                 <span>
-                  <span className="font-medium text-frsc-white-bright">Esensial</span> — Diperlukan untuk keamanan dan autentikasi. Tidak dapat dinonaktifkan.
+                  <span className="font-medium text-frsc-white-bright">{isEn ? 'Essential' : 'Esensial'}</span> — {isEn ? 'Required for security and authentication. Cannot be disabled.' : 'Diperlukan untuk keamanan dan autentikasi. Tidak dapat dinonaktifkan.'}
                 </span>
               </label>
               <label className="flex items-center gap-3 text-sm text-frsc-text-200">
@@ -160,7 +166,7 @@ export function CookieConsent() {
                   className="h-4 w-4 rounded border-white/20 bg-white/10 accent-frsc-crimson-600"
                 />
                 <span>
-                  <span className="font-medium text-frsc-white-bright">Analytics</span> — Membantu kami memahami penggunaan platform.
+                  <span className="font-medium text-frsc-white-bright">Analytics</span> — {isEn ? 'Helps us understand platform usage.' : 'Membantu kami memahami penggunaan platform.'}
                 </span>
               </label>
               <label className="flex items-center gap-3 text-sm text-frsc-text-200">
@@ -171,7 +177,7 @@ export function CookieConsent() {
                   className="h-4 w-4 rounded border-white/20 bg-white/10 accent-frsc-crimson-600"
                 />
                 <span>
-                  <span className="font-medium text-frsc-white-bright">Periklanan</span> — Iklan yang relevan berdasarkan konten halaman.
+                  <span className="font-medium text-frsc-white-bright">{isEn ? 'Advertising' : 'Periklanan'}</span> — {isEn ? 'Relevant ads based on page content.' : 'Iklan yang relevan berdasarkan konten halaman.'}
                 </span>
               </label>
             </div>
@@ -181,22 +187,22 @@ export function CookieConsent() {
                 onClick={savePrefs}
                 className="rounded-xl bg-frsc-crimson-700 px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-frsc-crimson-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-frsc-crimson-500/50"
               >
-                Simpan Preferensi
+                {isEn ? 'Save Preferences' : 'Simpan Preferensi'}
               </button>
               <button
                 type="button"
                 onClick={() => setShowPrefs(false)}
                 className="rounded-xl border border-white/[0.1] bg-white/[0.04] px-4 py-2 text-xs font-semibold text-frsc-text-200 transition-colors hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-frsc-crimson-500/50"
               >
-                Kembali
+                {isEn ? 'Back' : 'Kembali'}
               </button>
             </div>
           </>
         )}
         <p className="mt-3 text-[11px] text-frsc-text-300">
-          <Link href="/cookie-policy" className="underline underline-offset-2 hover:text-frsc-text-200">Kebijakan Cookie</Link>
+          <Link href="/cookie-policy" className="underline underline-offset-2 hover:text-frsc-text-200">{isEn ? 'Cookie Policy' : 'Kebijakan Cookie'}</Link>
           {' · '}
-          <Link href="/privacy" className="underline underline-offset-2 hover:text-frsc-text-200">Kebijakan Privasi</Link>
+          <Link href="/privacy" className="underline underline-offset-2 hover:text-frsc-text-200">{isEn ? 'Privacy Policy' : 'Kebijakan Privasi'}</Link>
         </p>
       </div>
     </div>
