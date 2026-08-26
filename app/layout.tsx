@@ -270,10 +270,9 @@ export default async function RootLayout({
               </FRSCProvider>
             </AuthProvider>
           </PageLoader>
+          <Toaster position="bottom-center" />
+          <CookieConsent />
         </Providers>
-
-        <Toaster position="bottom-center" />
-        <CookieConsent />
         <Analytics />
       </body>
     </html>
