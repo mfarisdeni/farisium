@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { cookies } from 'next/headers'
 import Script from 'next/script'
 import { Geist, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { FRSCProvider } from '@/contexts/FRSCContext'
@@ -274,6 +275,7 @@ export default async function RootLayout({
         </Providers>
 
         <Toaster position="bottom-center" />
+        <Analytics />
       </body>
     </html>
   )
