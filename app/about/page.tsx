@@ -6,6 +6,7 @@ import { ScrollReveal } from '@/components/scroll-reveal'
 import { Info, Target, Eye, Heart, Shield, Mail, Lightbulb, Brain, Coins, Gift, Handshake, Map, Rocket } from 'lucide-react'
 import { detectLocale, COOKIE_NAME, getCanonicalUrl, getHreflangLinks } from '@/lib/i18n'
 import type { Lang } from '@/lib/translations'
+import { RenderMarkdownLinks } from '@/components/ui/RenderMarkdownLinks'
 
 const revealDelays = [
   'reveal-delay-1',
@@ -253,7 +254,7 @@ export default async function AboutPage() {
               </div>
               <div>
                 <h3 className="font-heading text-sm font-semibold text-frsc-white-bright">{content.toolsTitle}</h3>
-                <p className="mt-1 text-sm text-frsc-text-200">{content.toolsText}</p>
+                <p className="mt-1 text-sm text-frsc-text-200"><RenderMarkdownLinks text={content.toolsText} /></p>
               </div>
             </div>
             <div className="reveal-on-scroll reveal-stagger reveal-delay-2 flex items-start gap-4 rounded-2xl border border-white/[0.06] bg-gradient-to-b from-white/[0.03] to-frsc-surface-800 p-6 shadow-metallic">
@@ -271,7 +272,7 @@ export default async function AboutPage() {
               </div>
               <div>
                 <h3 className="font-heading text-sm font-semibold text-frsc-white-bright">{content.rewardsTitle}</h3>
-                <p className="mt-1 text-sm text-frsc-text-200">{content.rewardsText}</p>
+                <p className="mt-1 text-sm text-frsc-text-200"><RenderMarkdownLinks text={content.rewardsText} /></p>
               </div>
             </div>
             <div className="reveal-on-scroll reveal-stagger reveal-delay-4 flex items-start gap-4 rounded-2xl border border-white/[0.06] bg-gradient-to-b from-white/[0.03] to-frsc-surface-800 p-6 shadow-metallic">
@@ -280,7 +281,7 @@ export default async function AboutPage() {
               </div>
               <div>
                 <h3 className="font-heading text-sm font-semibold text-frsc-white-bright">{content.partnershipTitle}</h3>
-                <p className="mt-1 text-sm text-frsc-text-200">{content.partnershipText}</p>
+                <p className="mt-1 text-sm text-frsc-text-200"><RenderMarkdownLinks text={content.partnershipText} /></p>
               </div>
             </div>
           </div>

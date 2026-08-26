@@ -2735,7 +2735,7 @@ const idArticles: Record<string, BlogSection[]> = {
 
   'cara-mengatasi-ai-agent-stuck-loop': [
     { type: 'paragraph', text: 'Pernah menjalankan AI agent — entah untuk otomatisasi kerja, chatbot, atau workflow kompleks — lalu tiba-tiba agent-nya berhenti merespons, mengulang aksi yang sama berulang kali, atau bahkan membeku seluruhnya? Kamu tidak sendirian. Stuck loop adalah salah satu masalah paling umum dan paling menjengkelkan yang dihadapi developer dan pengguna AI agent di tahun 2026.' },
-    { type: 'paragraph', text: 'Masalah ini bukan sekadar gangguan kecil. Ketika AI agent masuk ke dalam stuck loop, ia bisa menghabiskan sumber daya komputasi tanpa hasil, menghabiskan kuota API yang mahal, dan bahkan merusak data atau integritas sistem. Artikel ini akan menjelaskan secara mendalam kenapa AI agent berhenti bekerja, jenis-jenis stuck loop yang perlu kamu ketahui, dan yang paling penting — [[cara mengatasi ai agent stuck loop]] secara praktis dan efektif.' },
+    { type: 'paragraph', text: 'Masalah ini bukan sekadar gangguan kecil. Ketika AI agent masuk ke dalam stuck loop, ia bisa menghabiskan sumber daya komputasi tanpa hasil, menghabiskan kuota API yang mahal, dan bahkan merusak data atau integritas sistem. Artikel ini akan menjelaskan secara mendalam kenapa AI agent berhenti bekerja, jenis-jenis stuck loop yang perlu kamu ketahui, dan yang paling penting — cara mengatasi ai agent stuck loop secara praktis dan efektif.' },
     { type: 'image', src: '/blog/ai-agent-stuck-loop-hero.svg', alt: 'Ilustrasi diagram diagnostik AI agent stuck loop: flow dari task input, agent status, hingga stuck loop dengan empat jenis error', caption: 'AI agent stuck loop bisa terjadi karena infinite loop, deadlock, API timeout, atau self-correction failure.' },
     { type: 'heading', level: 2, text: 'Apa Itu AI Agent Stuck Loop?' },
     { type: 'paragraph', text: 'AI agent stuck loop adalah kondisi di mana agent AI terjebak dalam siklus eksekusi yang tidak menghasilkan hasil yang diinginkan. Alih-alih menyelesaikan tugas dan memberikan output, agent terus mengulang langkah yang sama atau serangkaian langkah yang saling bertolak belakang tanpa batas waktu yang jelas.' },
@@ -3529,7 +3529,7 @@ const enArticles: Record<string, BlogSection[]> = {
     },
     {
       type: 'paragraph',
-      text: 'For more structured learning, check out our recommendations for the [[Best Online AI Courses 2026](/blog/best-ai-courses-2026)] suitable for beginners to professionals who want to deepen their prompt engineering and generative AI skills.',
+      text: 'For more structured learning, check out our recommendations for the [[Best Online AI Courses 2026](/blog/best-online-ai-courses-2026)] suitable for beginners to professionals who want to deepen their prompt engineering and generative AI skills.',
     },
   ],
   'ai-content-creator': [
@@ -4229,7 +4229,7 @@ const enArticles: Record<string, BlogSection[]> = {
     },
     {
       type: 'paragraph',
-      text: 'To learn AI more systematically, check out our list of the [[Best Online AI Courses 2026](/blog/best-ai-courses-2026)] suitable for professionals who want to boost their productivity with structured AI skills training.',
+      text: 'To learn AI more systematically, check out our list of the [[Best Online AI Courses 2026](/blog/best-online-ai-courses-2026)] suitable for professionals who want to boost their productivity with structured AI skills training.',
     },
     {
       type: 'cta',
@@ -4445,7 +4445,7 @@ const enArticles: Record<string, BlogSection[]> = {
     },
     {
       type: 'paragraph',
-      text: 'Use your FRSC to enroll in the [[Best Online AI Courses 2026](/blog/best-ai-courses-2026)] or explore [[AI for Small Businesses and SMEs 2026](/blog/ai-for-small-business-2026)] to maximize the Farisium ecosystem for your business growth and AI skills development.',
+      text: 'Use your FRSC to enroll in the [[Best Online AI Courses 2026](/blog/best-online-ai-courses-2026)] or explore [[AI for Small Businesses and SMEs 2026](/blog/ai-for-small-business-2026)] to maximize the Farisium ecosystem for your business growth and AI skills development.',
     },
     {
       type: 'paragraph',
@@ -5952,7 +5952,7 @@ const enArticles: Record<string, BlogSection[]> = {
     { type: 'heading', level: 3, text: 'Is superintelligence safe for humanity?' },
     { type: 'paragraph', text: 'This is a question with no definitive answer yet. Many AI safety researchers are working hard to ensure that superintelligence, when achieved, can be controlled and aligned with human values. Organizations like Anthropic and Google DeepMind make safety a top priority in their research.' },
     { type: 'heading', level: 3, text: 'How can I prepare for the superintelligence era?' },
-    { type: 'paragraph', text: 'Focus on skills that are difficult for AI to replace: creativity, critical thinking, emotional intelligence, and adaptability. Learn to use AI as a tool — [[Take the Best Online AI Courses 2026](/blog/best-ai-courses-2026)] and practice directly with [[Farisium AI Tools](/ai)] to build AI literacy.' },
+    { type: 'paragraph', text: 'Focus on skills that are difficult for AI to replace: creativity, critical thinking, emotional intelligence, and adaptability. Learn to use AI as a tool — [[Take the Best Online AI Courses 2026](/blog/best-online-ai-courses-2026)] and practice directly with [[Farisium AI Tools](/ai)] to build AI literacy.' },
     { type: 'heading', level: 3, text: 'Who is most likely to achieve superintelligence first?' },
     { type: 'paragraph', text: 'OpenAI, Google DeepMind, and Anthropic are the strongest candidates today. However, superintelligence will likely be achieved through collaboration or competition between multiple organizations, not by a single entity alone. Decisive factors include research investment, data availability, and approach to safety.' },
     { type: 'heading', level: 2, text: 'Conclusion' },
@@ -5963,7 +5963,7 @@ const enArticles: Record<string, BlogSection[]> = {
 
   'how-to-fix-ai-agent-stuck-loop': [
     { type: 'paragraph', text: 'Ever run an AI agent — whether for work automation, chatbots, or complex workflows — only to have it suddenly stop responding, repeat the same action over and over, or freeze entirely? You are not alone. Stuck loops are one of the most common and frustrating problems faced by developers and AI agent users in 2026.' },
-    { type: 'paragraph', text: 'This is not just a minor nuisance. When an AI agent enters a stuck loop, it can consume computational resources without results, drain expensive API quotas, and even corrupt data or compromise system integrity. This article provides an in-depth explanation of why AI agents stop working, the types of stuck loops you need to know about, and most importantly — [[how to fix ai agent stuck loop]] issues practically and effectively.' },
+    { type: 'paragraph', text: 'This is not just a minor nuisance. When an AI agent enters a stuck loop, it can consume computational resources without results, drain expensive API quotas, and even corrupt data or compromise system integrity. This article provides an in-depth explanation of why AI agents stop working, the types of stuck loops you need to know about, and most importantly — how to fix ai agent stuck loop issues practically and effectively.' },
     { type: 'image', src: '/blog/ai-agent-stuck-loop-hero.svg', alt: 'Illustration of AI agent stuck loop diagnostic diagram: flow from task input, agent status, to stuck loop with four error types', caption: 'AI agent stuck loops can occur due to infinite loops, deadlocks, API timeouts, or self-correction failures.' },
     { type: 'heading', level: 2, text: 'What Is an AI Agent Stuck Loop?' },
     { type: 'paragraph', text: 'An AI agent stuck loop is a condition where the AI agent gets trapped in an execution cycle that does not produce the desired result. Instead of completing the task and providing output, the agent keeps repeating the same step or a series of contradictory steps without a clear time limit.' },
@@ -8041,6 +8041,10 @@ export function extractFAQs(
       text.startsWith('how ') ||
       text.startsWith('can ') ||
       text.startsWith('does ') ||
+      text.startsWith('are ') ||
+      text.startsWith('which ') ||
+      text.startsWith('will ') ||
+      text.startsWith('who ') ||
       text.includes('perbedaan') ||
       text.includes('difference')
     if (!isQuestion) continue

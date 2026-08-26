@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { RenderMarkdownLinks } from '@/components/ui/RenderMarkdownLinks'
 
 interface FaqItem {
   question: string
@@ -63,7 +64,7 @@ export function ArticleFAQ({ items, lang = 'id', title }: ArticleFAQProps) {
               >
                 <div className="overflow-hidden">
                   <p className="border-t border-white/[0.06] px-5 py-4 text-sm leading-relaxed text-frsc-text-200">
-                    {item.answer}
+                    <RenderMarkdownLinks text={item.answer} />
                   </p>
                 </div>
               </div>
