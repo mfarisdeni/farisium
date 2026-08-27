@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a0f"/>
+      <stop offset="100%" stop-color="#0d1117"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e0304e"/>
+      <stop offset="100%" stop-color="#642f7f"/>
+    </linearGradient>
+    <linearGradient id="glow-g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0304e" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#642f7f" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="blur50"><feGaussianBlur stdDeviation="50"/></filter>
+    <style>
+      @keyframes pulse { 0%,100%{opacity:0.55;transform:scale(1)} 50%{opacity:1;transform:scale(1.1)} }
+      @keyframes glow { 0%,100%{opacity:0.35} 50%{opacity:0.8} }
+      @keyframes rise { 0%{opacity:0;transform:translateY(12px)} 100%{opacity:1;transform:translateY(0)} }
+      .pulse { animation: pulse 3s ease-in-out infinite; transform-origin:center; transform-box:fill-box; }
+      .glow { animation: glow 2.6s ease-in-out infinite; }
+      .rise { animation: rise 0.9s ease-out both; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <ellipse cx="600" cy="320" rx="430" ry="210" fill="url(#glow-g)" filter="url(#blur50)"/>
+
+  <!-- Grid -->
+  <g opacity="0.03" stroke="#e6edf3" stroke-width="0.5">
+    <line x1="0" y1="126" x2="1200" y2="126"/><line x1="0" y1="252" x2="1200" y2="252"/>
+    <line x1="0" y1="378" x2="1200" y2="378"/><line x1="0" y1="504" x2="1200" y2="504"/>
+    <line x1="240" y1="0" x2="240" y2="630"/><line x1="480" y1="0" x2="480" y2="630"/>
+    <line x1="720" y1="0" x2="720" y2="630"/><line x1="960" y1="0" x2="960" y2="630"/>
+  </g>
+
+  <!-- Title -->
+  <text x="600" y="56" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="700" fill="#e6edf3" letter-spacing="2">WHY AI WORKFLOWS FAIL</text>
+  <text x="600" y="82" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" fill="#8b949e" letter-spacing="2">TOOL-FIRST &gt; PROBLEM-FIRST</text>
+
+  <!-- Three failure cards -->
+  <!-- Card 1: Tool instead of problem -->
+  <g class="rise" style="animation-delay:0s">
+    <rect x="95" y="150" width="320" height="300" rx="16" fill="#161b22" stroke="#e0304e" stroke-width="1" opacity="0.95"/>
+    <circle cx="255" cy="225" r="32" fill="#e0304e" opacity="0.12"/>
+    <text x="255" y="233" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="700" fill="#e0304e">1</text>
+    <text x="255" y="300" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="17" font-weight="600" fill="#e6edf3">Start With Tool</text>
+    <text x="255" y="324" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#8b949e">"Where can we use this?"</text>
+    <line x1="140" y1="350" x2="370" y2="350" stroke="#30363d" stroke-width="1"/>
+    <text x="255" y="378" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#e6edf3">Forced use cases</text>
+    <text x="255" y="400" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#e6edf3">Unnecessary workflows</text>
+    <text x="255" y="422" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#8b949e">More tools, more friction</text>
+  </g>
+
+  <!-- Card 2: Automating undefined process -->
+  <g class="rise" style="animation-delay:0.3s">
+    <rect x="440" y="150" width="320" height="300" rx="16" fill="#161b22" stroke="#642f7f" stroke-width="1" opacity="0.95"/>
+    <circle cx="600" cy="225" r="32" fill="#642f7f" opacity="0.15"/>
+    <text x="600" y="233" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="700" fill="#b57edd">2</text>
+    <text x="600" y="300" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="17" font-weight="600" fill="#e6edf3">Vague Process</text>
+    <text x="600" y="324" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#8b949e">Nobody agrees who does what</text>
+    <line x1="485" y1="350" x2="715" y2="350" stroke="#30363d" stroke-width="1"/>
+    <text x="600" y="378" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#e6edf3">You automate the ambiguity</text>
+    <text x="600" y="400" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#e6edf3">No clear input or owner</text>
+    <text x="600" y="422" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#8b949e">Document first, then automate</text>
+  </g>
+
+  <!-- Card 3: High-risk too early -->
+  <g class="rise" style="animation-delay:0.6s">
+    <rect x="785" y="150" width="320" height="300" rx="16" fill="#161b22" stroke="#e0304e" stroke-width="1" opacity="0.95"/>
+    <circle cx="945" cy="225" r="32" fill="#e0304e" opacity="0.12"/>
+    <text x="945" y="233" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="700" fill="#e0304e">3</text>
+    <text x="945" y="300" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="17" font-weight="600" fill="#e6edf3">High-Risk Too Soon</text>
+    <text x="945" y="324" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#8b949e">Unsupervised decisions</text>
+    <line x1="830" y1="350" x2="1060" y2="350" stroke="#30363d" stroke-width="1"/>
+    <text x="945" y="378" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#e6edf3">Start where failure is cheap</text>
+    <text x="945" y="400" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#e6edf3">Grow autonomy gradually</text>
+    <text x="945" y="422" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#8b949e">Earn trust before autonomy</text>
+  </g>
+
+  <!-- Takeaway -->
+  <rect x="330" y="500" width="540" height="56" rx="12" fill="#161b22" stroke="url(#accent)" stroke-width="1" opacity="0.92"/>
+  <text x="600" y="536" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="600" fill="#e6edf3">Solve a defined problem — don't collect AI tools.</text>
+
+  <!-- Brand -->
+  <text x="600" y="598" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#8b949e" opacity="0.7" letter-spacing="2">farisium.com</text>
+</svg>

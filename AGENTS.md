@@ -667,6 +667,32 @@ Artikel terbaru ketiga: Ciri-Ciri WA Disadap dan Cara Mengatasinya — panduan l
 
 ## Yang Baru / Berubah di Sesi Ini
 
+### Artikel baru: How to Build an AI Workflow That Actually Saves Time (EN-only)
+
+Artikel EN-only baru `ai-workflow-that-saves-time` ditambahkan ke `lib/blog.ts` (tanggal 27 Agustus 2026), mengikuti pola EN-only yang sudah ada (`ai-research-verification`):
+
+- **EN slug**: `how-to-build-ai-workflow-that-saves-time` (~3846 kata, 24 min read, kategori Tutorials)
+- **SEO**: title/metadata sesuai brief, primary keyword "AI workflow for small business"
+- **3 SVG animated baru** di `public/blog/` (gaya konsisten: dark bg #0a0a0f→#0d1117, crimson #e0304e + purple #642f7f, Inter, grid halus, animasi):
+  - `ai-workflow-hero.svg` — hero: 4 layer framework (Trigger → AI Task → Human Control → Output) dengan flow line dash + 2 chip konsep
+  - `ai-workflow-failures.svg` — inline: 3 failure pattern (tool-first, undefined process, high-risk too early)
+  - `ai-workflow-measure.svg` — inline: Before vs After AI + metrik (completion time, correction rate, quality)
+- **4 internal + 4 external link** (EN): freelance-designers, content-marketing, work-productivity, best-ai-agents (+ zapier.com, make.com, openai.com, anthropic.com)
+- Konten ditulis ulang dari struktur artikel (framework 4 layer, workflow freelancer/SMB/content, fail-safe, measure, checklist, FAQ, final thoughts) — bukan copy-paste mentah
+- 8 H2 + 8 FAQ per locale (EN), path table scoring diubah jadi paragraf karena renderer tidak support table
+- Build verified: TypeScript 0 errors, Next.js build success, slug masuk sitemap `/en/blog/how-to-build-ai-workflow-that-saves-time`
+
+### Artikel `ai-research-verification`: dibuat versi ID + slug "halu"
+
+Artikel `ai-research-verification` (EN-only, slug `how-to-use-ai-for-research-without-hallucinations`) kini punya versi **ID** memakai **SVG yang sama** (`ai-research-verification-hero.svg`, 1 gambar inline di section workflow 7 langkah):
+
+- **ID slug**: `cara-memakai-ai-untuk-riset-tanpa-halu` (kata "hallucinasi" di judul & slug diganti "halu" atas permintaan user; ~3550 kata, 18 menit, kategori Teknologi)
+- **ID title**: "Cara Memakai AI untuk Riset Tanpa Halu: Workflow Verifikasi 7 Langkah di 2026"
+- **Internal links ID** (3 blog + `/ai` CTA): cara-menggunakan-ai-untuk-produktivitas-kerja, masa-depan-ai-indonesia-2026, + `/ai`
+- **External links ID** (5, sama dengan EN): Harvard study, TechTarget, Google Scholar, Semantic Scholar, Scite.ai
+- Konten diterjemahkan penuh dari EN (7 langkah workflow, contoh desainer grafis, 5 prompt, evaluasi sumber, citation laundering, checklist, 7 FAQ, kesimpulan)
+- Build verified: TypeScript 0 errors, Next.js build success (115 halaman), slug ID masuk sitemap `/id/blog/cara-memakai-ai-untuk-riset-tanpa-halu`
+
 ### Internal + external links untuk 3 artikel terbaru (sesi berjalan)
 
 Semua 3 artikel baru kini memenuhi standar max 4 internal + 4 external per locale. Audit via script `C:\Users\compa\AppData\Local\Temp\opencode\audit-links.cjs` (hitung link per blok artikel + deteksi format single-bracket yang tidak didukung renderer):
