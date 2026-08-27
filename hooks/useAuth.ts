@@ -63,11 +63,14 @@ if (isNew) {
   const signIn = async () => {
     setAuthError(null)
     try {
+      console.log('[Auth] Starting Google sign-in...')
       await signInWithGoogle()
+      console.log('[Auth] Google sign-in successful')
     } catch (err) {
-      setAuthError(
-        err instanceof Error ? err.message : 'Could not sign in with Google.',
-      )
+      const msg = err instanceof Error ? err.message : 'Could not sign in with Google.'
+      console.error('[Auth] Sign-in error:', err)
+      setAuthError(msg)
+      alert(msg)
     }
   }
 
