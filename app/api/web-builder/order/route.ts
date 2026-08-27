@@ -79,12 +79,12 @@ export async function POST(request: Request) {
 
     await adminDb.collection('webBuilderOrders').doc(orderId).set(orderData)
 
-    // Send customer order email (non-blocking)
+    // Send customer order email (non-blocking for order flow)
     const emailLang = locale === 'en' ? 'en' : 'id'
     const customerEmail = userEmail ?? decoded.email ?? null
     if (customerEmail) {
       try {
-        await sendCustomerOrderEmail({
+        const { messageId } = await sendCustomerOrderEmail({
           orderId,
           name: name.trim(),
           email: customerEmail,
@@ -96,9 +96,13 @@ export async function POST(request: Request) {
           createdAt: now,
           lang: emailLang,
         })
-        await adminDb.collection('webBuilderOrders').doc(orderId).update({
+        const emailUpdate: Record<string, string> = {
           customerOrderEmailSentAt: new Date().toISOString(),
-        })
+        }
+        if (messageId) {
+          emailUpdate.customerOrderEmailProviderId = messageId
+        }
+        await adminDb.collection('webBuilderOrders').doc(orderId).update(emailUpdate)
       } catch (emailErr) {
         console.error(`[OrderEmail] customer order email failed for ${orderId}:`, emailErr)
       }

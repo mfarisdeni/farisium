@@ -78,6 +78,7 @@ export interface WebBuilderOrderDocument {
   createdAt: string
   updatedAt: string
   customerOrderEmailSentAt?: string
+  customerOrderEmailProviderId?: string
   customerPaidEmailSentAt?: string
   adminPaidEmailSentAt?: string
 }
