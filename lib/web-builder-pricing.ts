@@ -74,6 +74,10 @@ export interface WebBuilderOrderDocument {
   notes: string
   status: WebBuilderOrderStatus
   paymentOrderId: string | null
+  locale: string
   createdAt: string
   updatedAt: string
+  customerOrderEmailSentAt?: string
+  customerPaidEmailSentAt?: string
+  adminPaidEmailSentAt?: string
 }

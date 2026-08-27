@@ -307,6 +307,7 @@ function WebsiteBuilderContent() {
           packageTier: selectedTier,
           pages: totalPages,
           notes,
+          locale: lang,
         }),
       })
       const data = await res.json()

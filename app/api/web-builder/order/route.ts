@@ -7,6 +7,7 @@ import {
   calculateWebBuilderTotal,
   type WebBuilderOrderDocument,
 } from '@/lib/web-builder-pricing'
+import { sendCustomerOrderEmail } from '@/lib/email/web-builder-emails'
 
 export async function POST(request: Request) {
   try {
@@ -30,13 +31,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid request body.' }, { status: 400 })
     }
 
-    const { userEmail, name, contact, packageTier, pages, notes } = body as {
+    const { userEmail, name, contact, packageTier, pages, notes, locale } = body as {
       userEmail?: string | null
       name?: string
       contact?: string
       packageTier?: string
       pages?: number
       notes?: string
+      locale?: string
     }
 
     if (!name?.trim() || !contact?.trim() || !packageTier) {
@@ -70,11 +72,39 @@ export async function POST(request: Request) {
       notes: (notes ?? '').trim().slice(0, 2000),
       status: 'pending_payment',
       paymentOrderId: null,
+      locale: locale === 'en' ? 'en' : 'id',
       createdAt: now,
       updatedAt: now,
     }
 
     await adminDb.collection('webBuilderOrders').doc(orderId).set(orderData)
+
+    // Send customer order email (non-blocking)
+    const emailLang = locale === 'en' ? 'en' : 'id'
+    const customerEmail = userEmail ?? decoded.email ?? null
+    if (customerEmail) {
+      try {
+        await sendCustomerOrderEmail({
+          orderId,
+          name: name.trim(),
+          email: customerEmail,
+          packageName: pkg.name,
+          pages: totalPages,
+          pricePerPageIdr: pkg.pricePerPageIdr,
+          totalPriceIdr,
+          notes: (notes ?? '').trim().slice(0, 2000),
+          createdAt: now,
+          lang: emailLang,
+        })
+        await adminDb.collection('webBuilderOrders').doc(orderId).update({
+          customerOrderEmailSentAt: new Date().toISOString(),
+        })
+      } catch (emailErr) {
+        console.error(`[OrderEmail] customer order email failed for ${orderId}:`, emailErr)
+      }
+    } else {
+      console.log(`[OrderEmail] skipped — no customer email for ${orderId}`)
+    }
 
     return NextResponse.json({
       success: true,

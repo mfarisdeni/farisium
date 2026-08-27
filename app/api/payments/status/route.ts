@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { adminDb } from '@/lib/firebase-admin'
 import { getKlikQRISConfig } from '@/lib/klikqris-config'
 import { FieldValue } from 'firebase-admin/firestore'
+import { sendAdminPaidEmail, sendCustomerPaidEmail } from '@/lib/email/web-builder-emails'
 
 export async function GET(request: Request) {
   const url = new URL(request.url)
@@ -60,12 +61,61 @@ export async function GET(request: Request) {
               const wbOrderRef = adminDb.collection('webBuilderOrders').doc(String(local.externalReference))
               const wbSnap = await wbOrderRef.get()
               if (wbSnap.exists && wbSnap.data()?.status === 'pending_payment') {
+                const wbData = wbSnap.data()!
+                const now = new Date().toISOString()
                 await wbOrderRef.update({
                   status: 'paid',
-                  paidAt: new Date().toISOString(),
-                  updatedAt: new Date().toISOString(),
+                  paidAt: now,
+                  updatedAt: now,
                 })
                 console.log(`Status sync: webBuilderOrder ${local.externalReference} marked paid`)
+
+                // Send paid emails — idempotent (only if not already sent)
+                if (!wbData.adminPaidEmailSentAt) {
+                  const emailPayload = {
+                    orderId: String(local.externalReference),
+                    uid: wbData.uid,
+                    name: wbData.name,
+                    email: wbData.userEmail ?? local.email ?? '',
+                    contact: wbData.contact,
+                    packageName: wbData.packageName,
+                    packageTier: wbData.packageTier,
+                    pages: wbData.pages,
+                    pricePerPageIdr: wbData.pricePerPageIdr,
+                    totalPriceIdr: wbData.totalPriceIdr,
+                    notes: wbData.notes ?? '',
+                    createdAt: wbData.createdAt,
+                    paidAt: now,
+                    paidAmount: remote.data.amount,
+                    paymentOrderId: orderId,
+                    locale: wbData.locale ?? 'id',
+                  }
+                  try {
+                    await sendAdminPaidEmail(emailPayload)
+                    await wbOrderRef.update({ adminPaidEmailSentAt: now })
+                    console.log(`Status sync: admin paid email sent for ${local.externalReference}`)
+                  } catch (emailErr) {
+                    console.error(`[PaidEmail] admin email failed for ${local.externalReference}:`, emailErr)
+                  }
+                  // Customer paid email — idempotent
+                  if (!wbData.customerPaidEmailSentAt && wbData.userEmail) {
+                    try {
+                      await sendCustomerPaidEmail({
+                        orderId: String(local.externalReference),
+                        name: wbData.name,
+                        email: wbData.userEmail,
+                        totalPriceIdr: wbData.totalPriceIdr,
+                        paidAmount: remote.data.amount,
+                        paidAt: now,
+                        lang: wbData.locale === 'en' ? 'en' : 'id',
+                      })
+                      await wbOrderRef.update({ customerPaidEmailSentAt: now })
+                      console.log(`Status sync: customer paid email sent for ${local.externalReference}`)
+                    } catch (emailErr) {
+                      console.error(`[PaidEmail] customer paid email failed for ${local.externalReference}:`, emailErr)
+                    }
+                  }
+                }
               }
             }
           }
