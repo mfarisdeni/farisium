@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getAdminDb, getAdminAuth } from '@/lib/firebase-admin'
+import { getKlikQRISConfig } from '@/lib/klikqris-config'
 import {
   WEB_BUILDER_PACKAGES,
   MAX_PAGES,
@@ -11,19 +12,6 @@ import { sendCustomerOrderEmail } from '@/lib/email/web-builder-emails'
 
 export async function POST(request: Request) {
   try {
-    const authHeader = request.headers.get('authorization')
-    if (!authHeader?.startsWith('Bearer ')) {
-      return NextResponse.json({ error: 'Unauthorized.' }, { status: 401 })
-    }
-    const idToken = authHeader.slice(7)
-    let decoded
-    try {
-      decoded = await getAdminAuth().verifyIdToken(idToken)
-    } catch {
-      return NextResponse.json({ error: 'Invalid token.' }, { status: 401 })
-    }
-    const uid = decoded.uid
-
     let body: Record<string, unknown>
     try {
       body = (await request.json()) ?? {}
@@ -31,7 +19,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid request body.' }, { status: 400 })
     }
 
-    const { userEmail, name, contact, packageTier, pages, notes, locale } = body as {
+    const { userEmail, name, contact, packageTier, pages, notes, locale, idToken } = body as {
       userEmail?: string | null
       name?: string
       contact?: string
@@ -39,6 +27,7 @@ export async function POST(request: Request) {
       pages?: number
       notes?: string
       locale?: string
+      idToken?: string
     }
 
     if (!name?.trim() || !contact?.trim() || !packageTier) {
@@ -52,26 +41,88 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid package.' }, { status: 400 })
     }
 
+    // Optional auth — guest orders allowed
+    let uid: string | null = null
+    let decodedEmail: string | null = null
+    if (idToken) {
+      try {
+        const decoded = await getAdminAuth().verifyIdToken(idToken)
+        uid = decoded.uid
+        decodedEmail = decoded.email ?? null
+      } catch {
+        // Invalid token — continue as guest
+      }
+    }
+
     const orderId = generateWebBuilderOrderId()
     const now = new Date().toISOString()
     const adminDb = getAdminDb()
+    const cfg = getKlikQRISConfig()
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://farisium.com'
 
+    // Create QRIS payment
+    const payRes = await fetch(`${cfg.base}/qris/create`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': cfg.apiKey,
+        'id_merchant': cfg.merchantId,
+      },
+      body: JSON.stringify({
+        order_id: orderId,
+        amount: totalPriceIdr,
+        id_merchant: cfg.merchantId,
+        keterangan: `Pembuatan Website ${pkg.name} x${totalPages} halaman`,
+        callback_url: `${siteUrl}/api/payments/webhook`,
+      }),
+    })
+
+    const payData = await payRes.json()
+
+    if (!payData.status) {
+      console.error('KlikQRIS create failed:', payData)
+      return NextResponse.json({
+        error: payData.message || 'Payment service error',
+      }, { status: 502 })
+    }
+
+    const { signature, total_amount, qris_url, qris_image, expired_at } = payData.data
+
+    // Persist payment record
+    await adminDb.collection('payments').doc(orderId).set({
+      uid: uid ?? 'guest',
+      amount: 0,
+      price: totalPriceIdr,
+      orderId,
+      externalReference: orderId,
+      signature,
+      totalAmount: total_amount,
+      qrisUrl: qris_url,
+      qrisImage: qris_image,
+      status: 'PENDING',
+      expiredAt: expired_at,
+      createdAt: now,
+      updatedAt: now,
+    })
+
+    // Persist order document
+    const customerEmail = userEmail || decodedEmail || null
     const orderData: WebBuilderOrderDocument = {
       orderId,
       uid,
-      userEmail: userEmail ?? null,
+      userEmail: customerEmail,
       name: name.trim(),
       contact: contact.trim(),
       packageTier,
       packageName: pkg.name,
       pages: totalPages,
       pricePerPageIdr: pkg.pricePerPageIdr,
-      normalPricePerPageIdr: pkg.normalPricePerPageIdr,
+      normalPricePerPageIdr: normalTotalPriceIdr,
       totalPriceIdr,
       discountPercent,
       notes: (notes ?? '').trim().slice(0, 2000),
       status: 'pending_payment',
-      paymentOrderId: null,
+      paymentOrderId: orderId,
       locale: locale === 'en' ? 'en' : 'id',
       createdAt: now,
       updatedAt: now,
@@ -80,9 +131,8 @@ export async function POST(request: Request) {
     await adminDb.collection('webBuilderOrders').doc(orderId).set(orderData)
 
     // Send customer order email (non-blocking for order flow)
-    const emailLang = locale === 'en' ? 'en' : 'id'
-    const customerEmail = userEmail ?? decoded.email ?? null
     if (customerEmail) {
+      const emailLang = locale === 'en' ? 'en' : 'id'
       try {
         const { messageId } = await sendCustomerOrderEmail({
           orderId,
@@ -114,6 +164,11 @@ export async function POST(request: Request) {
       success: true,
       orderId,
       totalPriceIdr,
+      qrisImage: qris_image,
+      qrisUrl: qris_url,
+      totalAmount: total_amount,
+      expiredAt: expired_at,
+      paymentOrderId: orderId,
     })
   } catch (err) {
     const message =

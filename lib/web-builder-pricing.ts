@@ -60,7 +60,7 @@ export type WebBuilderOrderStatus = 'pending_payment' | 'paid' | 'processing' | 
 
 export interface WebBuilderOrderDocument {
   orderId: string
-  uid: string
+  uid: string | null
   userEmail: string | null
   name: string
   contact: string
@@ -73,7 +73,7 @@ export interface WebBuilderOrderDocument {
   discountPercent: number
   notes: string
   status: WebBuilderOrderStatus
-  paymentOrderId: string | null
+  paymentOrderId: string
   locale: string
   createdAt: string
   updatedAt: string

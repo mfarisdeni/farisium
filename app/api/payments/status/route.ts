@@ -34,27 +34,30 @@ export async function GET(request: Request) {
           })
           // Credit coins when status transitions to paid
           if ((remoteStatus === 'SUCCESS' || remoteStatus === 'PAID') && local.status === 'PENDING') {
-            const userRef = adminDb.collection('users').doc(local.uid)
-            await userRef.update({
-              coins: FieldValue.increment(local.amount),
-            })
+            // Skip FRSC coin logic for guest/direct QRIS orders (uid='guest', amount=0)
+            if (local.uid && local.uid !== 'guest' && local.amount > 0) {
+              const userRef = adminDb.collection('users').doc(local.uid)
+              await userRef.update({
+                coins: FieldValue.increment(local.amount),
+              })
 
-            const userSnap = await userRef.get()
-            const userData = userSnap.data()
+              const userSnap = await userRef.get()
+              const userData = userSnap.data()
 
-            await adminDb.collection('frscTransactions').add({
-              uid: local.uid,
-              email: userData?.email ?? local.email ?? null,
-              displayName: userData?.displayName ?? null,
-              type: 'purchase',
-              amount: local.amount,
-              direction: 'in',
-              description: `Top-up ${local.amount} FRSC via KlikQRIS (status sync)`,
-              referenceId: orderId,
-              createdAt: new Date().toISOString(),
-            })
+              await adminDb.collection('frscTransactions').add({
+                uid: local.uid,
+                email: userData?.email ?? local.email ?? null,
+                displayName: userData?.displayName ?? null,
+                type: 'purchase',
+                amount: local.amount,
+                direction: 'in',
+                description: `Top-up ${local.amount} FRSC via KlikQRIS (status sync)`,
+                referenceId: orderId,
+                createdAt: new Date().toISOString(),
+              })
 
-            console.log(`Status sync: ${orderId} — ${local.amount} FRSC credited to ${local.uid}`)
+              console.log(`Status sync: ${orderId} — ${local.amount} FRSC credited to ${local.uid}`)
+            }
 
             // If this payment is for a WebBuilder order, sync the order status
             if (local.externalReference && String(local.externalReference).startsWith('WB-')) {

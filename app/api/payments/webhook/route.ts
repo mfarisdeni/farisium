@@ -47,27 +47,30 @@ export async function POST(request: Request) {
         updatedAt: new Date().toISOString(),
       })
 
-      const userRef = adminDb.collection('users').doc(tx.uid)
-      await userRef.update({
-        coins: FieldValue.increment(tx.amount),
-      })
+      // Skip FRSC coin logic for guest/direct QRIS orders (uid='guest', amount=0)
+      if (tx.uid && tx.uid !== 'guest' && tx.amount > 0) {
+        const userRef = adminDb.collection('users').doc(tx.uid)
+        await userRef.update({
+          coins: FieldValue.increment(tx.amount),
+        })
 
-      const userSnap = await userRef.get()
-      const userData = userSnap.data()
+        const userSnap = await userRef.get()
+        const userData = userSnap.data()
 
-      await adminDb.collection('frscTransactions').add({
-        uid: tx.uid,
-        email: userData?.email ?? tx.email ?? null,
-        displayName: userData?.displayName ?? null,
-        type: 'purchase',
-        amount: tx.amount,
-        direction: 'in',
-        description: `Top-up ${tx.amount} FRSC via KlikQRIS`,
-        referenceId: order_id,
-        createdAt: new Date().toISOString(),
-      })
+        await adminDb.collection('frscTransactions').add({
+          uid: tx.uid,
+          email: userData?.email ?? tx.email ?? null,
+          displayName: userData?.displayName ?? null,
+          type: 'purchase',
+          amount: tx.amount,
+          direction: 'in',
+          description: `Top-up ${tx.amount} FRSC via KlikQRIS`,
+          referenceId: order_id,
+          createdAt: new Date().toISOString(),
+        })
 
-      console.log(`Webhook: ${order_id} — ${tx.amount} FRSC credited to ${tx.uid}`)
+        console.log(`Webhook: ${order_id} — ${tx.amount} FRSC credited to ${tx.uid}`)
+      }
 
       // If this payment is for a WebBuilder order, sync the order status
       if (tx.externalReference && String(tx.externalReference).startsWith('WB-')) {
