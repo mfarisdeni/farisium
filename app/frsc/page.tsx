@@ -8,6 +8,7 @@ import { TopupButton } from '@/components/TopupButton'
 import { Coins, Wand2, Shield, ArrowRight, Globe, Headphones, FileText } from 'lucide-react'
 import { detectLocale, COOKIE_NAME, getCanonicalUrl, getHreflangLinks } from '@/lib/i18n'
 import type { Lang } from '@/lib/translations'
+import { WebBuilderCheckout } from '@/components/WebBuilderCheckout'
 
 const revealDelays = [
   'reveal-delay-1',
@@ -18,9 +19,27 @@ const revealDelays = [
   'reveal-delay-6',
 ] as const
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({ searchParams }: { searchParams: Promise<{ order?: string }> }): Promise<Metadata> {
+  const params = await searchParams
   const cookieStore = await cookies()
   const lang = detectLocale(cookieStore.get(COOKIE_NAME)?.value) as Lang
+
+  if (params.order) {
+    const titles = {
+      id: `Bayar Pesanan — Farisium`,
+      en: `Pay Order — Farisium`,
+    }
+    const descriptions = {
+      id: 'Selesaikan pembayaran pesanan Website Builder kamu.',
+      en: 'Complete payment for your Website Builder order.',
+    }
+    return {
+      title: titles[lang],
+      description: descriptions[lang],
+      robots: { index: false, follow: false },
+    }
+  }
+
   const titles = { id: 'FRSC — Farisium', en: 'FRSC — Farisium' }
   const descriptions = {
     id: 'Pelajari tentang FRSC, utility point resmi ekosistem Farisium. Cara mendapatkan, cara menggunakan, dan FAQ lengkap.',
@@ -115,9 +134,27 @@ const pageContent = {
   },
 }
 
-export default async function FRSCPage() {
+export default async function FRSCPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ order?: string }>
+}) {
+  const params = await searchParams
+  const orderId = params.order
   const cookieStore = await cookies()
   const lang = detectLocale(cookieStore.get(COOKIE_NAME)?.value) as Lang
+
+  if (orderId && orderId.startsWith('WB-')) {
+    return (
+      <>
+        <Navbar />
+        <WebBuilderCheckout orderId={orderId} initialLang={lang} />
+        <SiteFooter />
+        <ScrollReveal />
+      </>
+    )
+  }
+
   const content = pageContent[lang] ?? pageContent.id
 
   return (

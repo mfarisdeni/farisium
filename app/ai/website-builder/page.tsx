@@ -1,7 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
-import Link from 'next/link'
+import { useState, useRef } from 'react'
 import {
   Rocket,
   Briefcase,
@@ -10,14 +9,14 @@ import {
   Check,
   X,
   Clock,
-  MessageCircle,
   LogIn,
   Loader2,
   ArrowRight,
   Sparkles,
   ChevronDown,
-  ShieldCheck,
+  CreditCard,
 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { Navbar } from '@/components/layout/Navbar'
 import { SiteFooter } from '@/components/layout/SiteFooter'
 import { ScrollReveal } from '@/components/scroll-reveal'
@@ -25,15 +24,13 @@ import { GlassCard } from '@/components/ui/GlassCard'
 import { Badge } from '@/components/ui/Badge'
 import { Input, TextArea } from '@/components/ui/Input'
 import { useAuthContext } from '@/contexts/AuthContext'
-import { useKlikQRIS } from '@/hooks/useKlikQRIS'
-import { useCoins } from '@/hooks/useCoins'
 import { LangContext, useLangState, useLang } from '@/hooks/useLang'
 
 const PACKAGES = [
-  { tier: 'startup', icon: Rocket, priceIdr: 100000, normalIdr: 500000, frsc: 100 },
-  { tier: 'freelance', icon: Briefcase, priceIdr: 50000, normalIdr: 250000, frsc: 50 },
-  { tier: 'lokal', icon: Store, priceIdr: 30000, normalIdr: 150000, frsc: 30 },
-  { tier: 'portfolio', icon: FileUser, priceIdr: 20000, normalIdr: 100000, frsc: 20 },
+  { tier: 'startup', icon: Rocket, priceIdr: 100000, normalIdr: 500000 },
+  { tier: 'freelance', icon: Briefcase, priceIdr: 50000, normalIdr: 250000 },
+  { tier: 'lokal', icon: Store, priceIdr: 30000, normalIdr: 150000 },
+  { tier: 'portfolio', icon: FileUser, priceIdr: 20000, normalIdr: 100000 },
 ] as const
 
 type Tier = (typeof PACKAGES)[number]['tier']
@@ -84,17 +81,8 @@ type PageContent = {
   successTitle: string
   successDesc: string
   successBack: string
-  payTitle: string
-  payDesc: string
-  payWaiting: string
-  payExpired: string
   faqTitle: string
   faqs: { q: string; a: string }[]
-  // EN-only (FRSC flow)
-  balanceLabel?: string
-  afterLabel?: string
-  insufficient?: string
-  topup?: string
 }
 
 const pageContent: Record<'id' | 'en', PageContent> = {
@@ -148,8 +136,8 @@ const pageContent: Record<'id' | 'en', PageContent> = {
     notesLabel: 'Ceritakan kebutuhanmu (opsional)',
     notesPlaceholder: 'Contoh: saya punya usaha laundry, mau website berisi layanan, harga, dan lokasi...',
     totalLabel: 'Total pesanan',
-    payButton: 'Bayar & Kirim Pesanan',
-    paying: 'Memproses...',
+    payButton: 'Lanjut ke Pembayaran',
+    paying: 'Membuat pesanan...',
     loginTitle: 'Login dulu untuk memesan',
     loginDesc: 'Pesanan membutuhkan akun Farisium. Gratis, cukup satu klik dengan Google.',
     loginBtn: 'Masuk dengan Google',
@@ -158,10 +146,6 @@ const pageContent: Record<'id' | 'en', PageContent> = {
     successTitle: 'Pesanan Diterima!',
     successDesc: 'Terima kasih! Tim kami akan menghubungimu lewat WhatsApp dalam 1x24 jam. Simpan ID pesananmu:',
     successBack: 'Buat Pesanan Lain',
-    payTitle: 'Bayar Pesanan',
-    payDesc: 'Scan QRIS di bawah untuk membayar:',
-    payWaiting: 'Menunggu pembayaran...',
-    payExpired: 'Pembayaran kedaluwarsa',
     faqTitle: 'Pertanyaan yang Sering Ditanyakan',
     faqs: [
       {
@@ -185,7 +169,7 @@ const pageContent: Record<'id' | 'en', PageContent> = {
   en: {
     kicker: 'Website Building Service',
     h1: 'Get a Website, Zero Hassle',
-    sub: "No coding or AI knowledge needed. Tell us what you need in a short form, pay with FRSC, and our team builds it until it's live.",
+    sub: 'No coding or AI knowledge needed. Tell us what you need in a short form, pay with QRIS, and our team builds it until it\'s live.',
     urgency: 'Launch pricing for the first 50 orders — may go up anytime.',
     heroCta: 'See Packages & Pricing',
     saveLabel: 'Save 80%',
@@ -217,12 +201,12 @@ const pageContent: Record<'id' | 'en', PageContent> = {
     stepsTitle: 'How It Works — That Simple',
     steps: [
       { title: 'Fill a Short Form', desc: 'Just 2 minutes. No confusing technical terms.' },
-      { title: 'Pay with FRSC', desc: "Farisium's digital coin. Top up via QRIS from IDR 10k." },
+      { title: 'Pay with QRIS', desc: 'Scan the QR and pay instantly. Easy, fast, and secure.' },
       { title: 'We Build It', desc: '3–5 working days once your details are complete.' },
       { title: 'Receive Your Preview', desc: 'One revision if anything feels off, then your site is ready.' },
     ],
     formTitle: 'Order Now',
-    formSub: "Fill in the 5 fields below — we'll handle the rest.",
+    formSub: 'Fill in the 5 fields below — we\'ll handle the rest.',
     nameLabel: 'Your name',
     namePlaceholder: 'e.g. John Doe',
     contactLabel: 'WhatsApp number',
@@ -230,43 +214,35 @@ const pageContent: Record<'id' | 'en', PageContent> = {
     packageLabel: 'Choose a package',
     pagesLabel: 'Number of pages',
     notesLabel: 'Tell us what you need (optional)',
-    notesPlaceholder: "e.g. I run a laundry business, I want a page with services, pricing, and location...",
+    notesPlaceholder: 'e.g. I run a laundry business, I want a page with services, pricing, and location...',
     totalLabel: 'Order total',
-    payButton: 'Pay with FRSC',
-    paying: 'Processing...',
+    payButton: 'Continue to Payment',
+    paying: 'Creating order...',
     loginTitle: 'Log in to place an order',
     loginDesc: 'Orders require a Farisium account. Free — one click with Google.',
     loginBtn: 'Sign in with Google',
     fillAll: 'Please fill in your name and WhatsApp number first.',
     genericError: 'Something went wrong. Try again or contact us.',
     successTitle: 'Order Received!',
-    successDesc: "Thank you! Our team will reach out via WhatsApp within 24 hours. Keep your order ID:",
+    successDesc: 'Thank you! Our team will reach out via WhatsApp within 24 hours. Keep your order ID:',
     successBack: 'Place Another Order',
-    balanceLabel: 'Your FRSC balance',
-    afterLabel: 'Balance after payment',
-    insufficient: 'Not enough FRSC balance. Top up first.',
-    topup: 'Top Up FRSC',
-    payTitle: 'Pay Order',
-    payDesc: 'Scan the QRIS below to pay:',
-    payWaiting: 'Waiting for payment...',
-    payExpired: 'Payment expired',
     faqTitle: 'Frequently Asked Questions',
     faqs: [
       {
-        q: "I'm not tech-savvy. How does my website go live?",
-        a: "Don't worry — we handle everything until it's live. You just receive the link and start using it. A short guide is included in case you want to update it yourself later.",
+        q: 'I\'m not tech-savvy. How does my website go live?',
+        a: 'Don\'t worry — we handle everything until it\'s live. You just receive the link and start using it. A short guide is included in case you want to update it yourself later.',
       },
       {
         q: 'Why is it this affordable?',
         a: 'We use AI to speed up most of the work, then humans polish the quality. Faster turnaround means lower cost — and we pass that saving on to you.',
       },
       {
-        q: "What if I don't like the result?",
+        q: 'What if I don\'t like the result?',
         a: 'Every order includes 1 revision. Tip: gather all your feedback into one list and we execute it in one pass for the best result.',
       },
       {
         q: 'How do I pay?',
-        a: 'Payments use FRSC, the Farisium digital coin. 1 FRSC = Rp 1, so it is easy to calculate. No FRSC yet? Top up via QRIS from IDR 10k, or claim free daily rewards.',
+        a: 'Payments use QRIS. Scan the QR code shown after placing your order and pay from any bank or e-wallet. Simple and secure.',
       },
     ],
   },
@@ -284,12 +260,9 @@ export default function WebsiteBuilderPage() {
 function WebsiteBuilderContent() {
   const { lang } = useLang()
   const t = pageContent[lang] ?? pageContent.id
+  const router = useRouter()
 
   const { user, loading, signIn } = useAuthContext()
-  const { coins: balance } = useCoins()
-  const { createPayment, openSnap, startPolling, stopPolling, loading: paymentLoading, paid, error: paymentError, payment, reset } = useKlikQRIS({
-    uid: user?.uid ?? '',
-  })
 
   const [selectedTier, setSelectedTier] = useState<Tier>('lokal')
   const [name, setName] = useState('')
@@ -299,75 +272,19 @@ function WebsiteBuilderContent() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [successOrderId, setSuccessOrderId] = useState<string | null>(null)
-  const [paymentStep, setPaymentStep] = useState<'idle' | 'qr' | 'success'>('idle')
 
   const formRef = useRef<HTMLDivElement>(null)
 
   const pkg = PACKAGES.find((p) => p.tier === selectedTier) ?? PACKAGES[0]
   const totalPages = Math.min(Math.max(Number(pages) || 1, 1), MAX_PAGES)
   const totalPriceIdr = pkg.priceIdr * totalPages
-  const totalPriceFrsc = pkg.frsc * totalPages
-  const isId = lang === 'id'
-  const enoughFrsc = balance >= totalPriceFrsc
-  const afterFrsc = balance - totalPriceFrsc
-
-  useEffect(() => {
-    if (paid && paymentStep === 'qr') {
-      setPaymentStep('success')
-      setSuccessOrderId(payment?.orderId ?? null)
-    }
-  }, [paid, paymentStep, payment?.orderId])
-
-  useEffect(() => {
-    return () => stopPolling()
-  }, [stopPolling])
 
   function selectPackage(tier: Tier) {
     setSelectedTier(tier)
     formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
-  async function handlePayId() {
-    if (!user || submitting) return
-    if (!name.trim() || !contact.trim()) {
-      setError(t.fillAll)
-      return
-    }
-    setError(null)
-    setSubmitting(true)
-    try {
-      const idToken = await user.getIdToken()
-      const res = await fetch('/api/web-builder/payment', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${idToken}`,
-        },
-        body: JSON.stringify({
-          userEmail: user.email,
-          name,
-          contact,
-          packageTier: selectedTier,
-          pages: totalPages,
-          notes,
-        }),
-      })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error || t.genericError)
-      setPaymentStep('qr')
-      setSuccessOrderId(data.orderId)
-      if (data.qrisImage) {
-        openSnap(data.signature)
-      }
-      startPolling(data.paymentOrderId)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : t.genericError)
-    } finally {
-      setSubmitting(false)
-    }
-  }
-
-  async function handleSubmitOrderEn() {
+  async function handleSubmit() {
     if (!user || submitting) return
     if (!name.trim() || !contact.trim()) {
       setError(t.fillAll)
@@ -394,19 +311,10 @@ function WebsiteBuilderContent() {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || t.genericError)
-      setSuccessOrderId(data.orderId)
+      router.push(`/${lang}/frsc?order=${data.orderId}`)
     } catch (err) {
       setError(err instanceof Error ? err.message : t.genericError)
-    } finally {
       setSubmitting(false)
-    }
-  }
-
-  function handlePay() {
-    if (isId) {
-      handlePayId()
-    } else {
-      handleSubmitOrderEn()
     }
   }
 
@@ -492,7 +400,7 @@ function WebsiteBuilderContent() {
                         <Badge variant="crimson" size="sm">-{DISCOUNT_PERCENT}%</Badge>
                       </div>
                       <p className="mt-1.5 text-xs font-medium text-frsc-crimson-400">
-                        {p.frsc} FRSC{t.perPage} · {t.saveLabel}
+                        {t.saveLabel}
                       </p>
                     </div>
 
@@ -583,26 +491,13 @@ function WebsiteBuilderContent() {
                   <div className="mt-6">
                     <button
                       type="button"
-                      onClick={() => { setSuccessOrderId(null); setName(''); setContact(''); setNotes(''); setPages(1); setPaymentStep('idle'); reset() }}
+                      onClick={() => { setSuccessOrderId(null); setName(''); setContact(''); setNotes(''); setPages(1) }}
                       className="rounded-xl border border-border px-5 py-2.5 text-sm font-medium text-frsc-text-100 transition-colors hover:border-frsc-crimson-500/40 hover:text-frsc-crimson-300"
                     >
                       {t.successBack}
                     </button>
                   </div>
                 </div>
-              ) : paymentStep === 'qr' ? (
-                <QRISPaymentModal
-                  payment={payment}
-                  loading={paymentLoading}
-                  error={paymentError}
-                  totalPriceIdr={totalPriceIdr}
-                  payTitle={t.payTitle}
-                  payDesc={t.payDesc}
-                  payWaiting={t.payWaiting}
-                  payExpired={t.payExpired}
-                  lang={lang}
-                  onClose={() => { stopPolling(); reset(); setPaymentStep('idle') }}
-                />
               ) : loading ? (
                 <div className="flex justify-center py-12">
                   <Loader2 className="h-6 w-6 animate-spin text-frsc-crimson-400" />
@@ -720,20 +615,6 @@ function WebsiteBuilderContent() {
                           {formatIdr(totalPriceIdr)}
                         </span>
                       </div>
-                      {!isId && (
-                        <>
-                          <div className="flex items-center justify-between text-xs text-frsc-text-300">
-                            <span>{t.balanceLabel}</span>
-                            <span>{balance.toLocaleString()} FRSC</span>
-                          </div>
-                          <div className="flex items-center justify-between text-xs text-frsc-text-300">
-                            <span>{t.afterLabel}</span>
-                            <span className={enoughFrsc ? 'text-emerald-400' : 'text-frsc-crimson-400'}>
-                              {afterFrsc.toLocaleString()} FRSC
-                            </span>
-                          </div>
-                        </>
-                      )}
                     </div>
 
                     {error && (
@@ -744,8 +625,8 @@ function WebsiteBuilderContent() {
 
                     <button
                       type="button"
-                      onClick={handlePay}
-                      disabled={submitting || (!isId && !enoughFrsc)}
+                      onClick={handleSubmit}
+                      disabled={submitting}
                       className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-frsc-crimson-800 via-frsc-crimson-700 to-frsc-crimson-600 bg-[length:200%_100%] px-6 py-3.5 text-base font-bold text-white transition-all duration-300 hover:bg-[length:100%_100%] hover:shadow-[0_0_24px_rgba(224,48,78,0.35)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       {submitting ? (
@@ -753,28 +634,13 @@ function WebsiteBuilderContent() {
                           <Loader2 className="h-4 w-4 animate-spin" />
                           {t.paying}
                         </>
-                      ) : isId ? (
-                        <>
-                          <MessageCircle className="h-4 w-4" />
-                          {t.payButton} · {formatIdr(totalPriceIdr)}
-                        </>
                       ) : (
                         <>
-                          <MessageCircle className="h-4 w-4" />
-                          {t.payButton} · {totalPriceFrsc} FRSC
+                          <CreditCard className="h-4 w-4" />
+                          {t.payButton} · {formatIdr(totalPriceIdr)}
                         </>
                       )}
                     </button>
-
-                    {!isId && !enoughFrsc && (
-                      <Link
-                        href="/frsc"
-                        className="mt-2 flex items-center justify-center gap-2 rounded-xl border border-frsc-crimson-500/30 bg-frsc-crimson-500/10 px-5 py-3 text-sm font-medium text-frsc-crimson-300 transition-colors hover:bg-frsc-crimson-500/20"
-                      >
-                        <span className="h-4 w-4 rounded-full bg-frsc-crimson-500" />
-                        {t.topup}
-                      </Link>
-                    )}
                   </form>
                 </>
               )}
@@ -813,129 +679,6 @@ function WebsiteBuilderContent() {
 
       <SiteFooter />
       <ScrollReveal />
-    </div>
-  )
-}
-
-/* ── QRIS Payment Modal ── */
-function QRISPaymentModal({
-  payment,
-  loading,
-  error,
-  totalPriceIdr,
-  payTitle,
-  payDesc,
-  payWaiting,
-  payExpired,
-  lang,
-  onClose,
-}: {
-  payment: {
-    totalAmount?: string
-    qrisImage?: string
-    qrisUrl?: string
-    expiredAt?: string
-  } | null
-  loading: boolean
-  error: string | null
-  totalPriceIdr: number
-  payTitle: string
-  payDesc: string
-  payWaiting: string
-  payExpired: string
-  lang: string
-  onClose: () => void
-}) {
-  const [countdown, setCountdown] = useState('')
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
-
-  useEffect(() => {
-    if (!payment?.expiredAt) return
-    const end = new Date(payment.expiredAt.replace(' ', 'T')).getTime()
-    timerRef.current = setInterval(() => {
-      const diff = end - Date.now()
-      if (diff <= 0) {
-        setCountdown('Expired')
-        timerRef.current && clearInterval(timerRef.current)
-      } else {
-        const m = Math.floor(diff / 60000)
-        const s = Math.floor((diff % 60000) / 1000)
-        setCountdown(`${m}:${s.toString().padStart(2, '0')}`)
-      }
-    }, 1000)
-    return () => { timerRef.current && clearInterval(timerRef.current) }
-  }, [payment?.expiredAt])
-
-  return (
-    <div className="py-6 text-center">
-      <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-frsc-crimson-800/20 ring-1 ring-frsc-crimson-500/30">
-        <ShieldCheck className="h-7 w-7 text-frsc-crimson-400" />
-      </div>
-      <h2 className="mt-4 font-heading text-xl font-bold text-frsc-white-bright">
-        {payTitle}
-      </h2>
-      <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-frsc-text-200">
-        {payDesc} <span className="font-bold text-frsc-crimson-300">{formatIdr(totalPriceIdr)}</span>
-      </p>
-
-      {loading && !payment && (
-        <div className="flex justify-center py-8">
-          <Loader2 className="h-8 w-8 animate-spin text-frsc-crimson-400" />
-        </div>
-      )}
-
-      {payment?.qrisImage && (
-        <div className="mx-auto mt-6 w-56 rounded-2xl border border-white/10 bg-white p-3 shadow-xl">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={payment.qrisImage}
-            alt="QRIS"
-            className="h-full w-full object-contain"
-          />
-        </div>
-      )}
-
-      {payment?.qrisUrl && !payment?.qrisImage && (
-        <div className="mx-auto mt-6 w-56 rounded-2xl border border-white/10 bg-white p-3 shadow-xl">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={payment.qrisUrl}
-            alt="QRIS"
-            className="h-full w-full object-contain"
-          />
-        </div>
-      )}
-
-      {countdown && (
-        <p className="mt-3 text-xs text-frsc-text-300">
-          {countdown === 'Expired' ? payExpired : `Sisa waktu: ${countdown}`}
-        </p>
-      )}
-
-      <div className="mt-4 flex items-center justify-center gap-2 text-xs text-frsc-text-300">
-        <span className="flex h-2 w-2 rounded-full bg-frsc-crimson-500 animate-pulse" />
-        {payWaiting}
-      </div>
-
-      <p className="mt-3 text-[11px] text-frsc-text-300/60 leading-relaxed px-2">
-        {lang === 'id'
-          ? 'Scan QRIS dengan aplikasi pembayaran lalu lakukan pembayaran. Status akan diperbarui otomatis.'
-          : 'Scan QRIS with your payment app and complete the payment. Status updates automatically.'}
-      </p>
-
-      {error && (
-        <p className="mt-3 rounded-lg border border-destructive/40 bg-destructive/10 px-4 py-2.5 text-xs text-red-300">
-          {error}
-        </p>
-      )}
-
-      <button
-        type="button"
-        onClick={onClose}
-        className="mt-4 rounded-xl border border-border px-5 py-2.5 text-sm font-medium text-frsc-text-100 transition-colors hover:border-frsc-crimson-500/40 hover:text-frsc-crimson-300"
-      >
-        {lang === 'id' ? 'Batal' : 'Cancel'}
-      </button>
     </div>
   )
 }

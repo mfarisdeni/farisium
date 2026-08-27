@@ -54,6 +54,20 @@ export async function GET(request: Request) {
             })
 
             console.log(`Status sync: ${orderId} — ${local.amount} FRSC credited to ${local.uid}`)
+
+            // If this payment is for a WebBuilder order, sync the order status
+            if (local.externalReference && String(local.externalReference).startsWith('WB-')) {
+              const wbOrderRef = adminDb.collection('webBuilderOrders').doc(String(local.externalReference))
+              const wbSnap = await wbOrderRef.get()
+              if (wbSnap.exists && wbSnap.data()?.status === 'pending_payment') {
+                await wbOrderRef.update({
+                  status: 'paid',
+                  paidAt: new Date().toISOString(),
+                  updatedAt: new Date().toISOString(),
+                })
+                console.log(`Status sync: webBuilderOrder ${local.externalReference} marked paid`)
+              }
+            }
           }
         }
       }

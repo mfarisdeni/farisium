@@ -67,11 +67,38 @@ export async function POST(request: Request) {
       })
 
       console.log(`Webhook: ${order_id} — ${tx.amount} FRSC credited to ${tx.uid}`)
+
+      // If this payment is for a WebBuilder order, sync the order status
+      if (tx.externalReference && String(tx.externalReference).startsWith('WB-')) {
+        const wbOrderRef = adminDb.collection('webBuilderOrders').doc(String(tx.externalReference))
+        const wbSnap = await wbOrderRef.get()
+        if (wbSnap.exists && wbSnap.data()?.status === 'pending_payment') {
+          await wbOrderRef.update({
+            status: 'paid',
+            paidAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          })
+          console.log(`Webhook: webBuilderOrder ${tx.externalReference} marked paid`)
+        }
+      }
     } else if (status === 'EXPIRED') {
       await docRef.update({
         status: 'EXPIRED',
         updatedAt: new Date().toISOString(),
       })
+
+      // If this payment is for a WebBuilder order, sync expiry
+      if (tx.externalReference && String(tx.externalReference).startsWith('WB-')) {
+        const wbOrderRef = adminDb.collection('webBuilderOrders').doc(String(tx.externalReference))
+        const wbSnap = await wbOrderRef.get()
+        if (wbSnap.exists && wbSnap.data()?.status === 'pending_payment') {
+          await wbOrderRef.update({
+            status: 'cancelled',
+            updatedAt: new Date().toISOString(),
+          })
+          console.log(`Webhook: webBuilderOrder ${tx.externalReference} marked cancelled (expired)`)
+        }
+      }
     }
 
     return new NextResponse(null, { status: 200 })
