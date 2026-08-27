@@ -1,3 +1,5 @@
+export const runtime = 'nodejs'
+
 import { NextResponse } from 'next/server'
 import { getAdminDb, getAdminAuth } from '@/lib/firebase-admin'
 import { getKlikQRISConfig } from '@/lib/klikqris-config'
