@@ -46,8 +46,8 @@ Jangan pernah mengorbankan arsitektur demi solusi jangka pendek.
 
 ## Deployment
 
-* Rumahweb Cpanel Node.js
-* Upload Manual melalui File Manager (tanpa Vercel dan GitHub Deployment)
+* Vercel (Hosting & CDN)
+* Terintegrasi langsung dengan GitHub (auto-deploy setiap push ke branch utama)
 
 ## AI
 
@@ -623,7 +623,7 @@ Selalu ingat bahwa:
 
 * Farisium adalah satu platform terpadu.
 * Backend utama menggunakan Firebase.
-* Deployment menggunakan Cpanel Rumahweb Node.js melalui upload manual.
+* Deployment menggunakan Vercel dengan integrasi GitHub (auto-deploy setiap push ke branch utama).
 * AI lokal menggunakan Ollama.
 * Model utama adalah Qwen2.5-Coder dan Qwen3.
 * Seluruh kode harus siap untuk produksi.
@@ -645,7 +645,7 @@ Setiap keputusan harus membuat proyek menjadi lebih mudah dikembangkan, lebih mu
 
 ## Ringkasan Singkat Sesi Saat Ini
 
-Farisium = Next.js 16.2.6, React 19, TypeScript, Tailwind CSS v4, Firebase, PM2 deployment on cPanel Rumahweb. Non-standalone build. Build command: `next build && node scripts/postbuild.mjs`. Hosted with PM2 via `ecosystem.config.js` pointing to `server.js`.
+Farisium = Next.js 16.2.6, React 19, TypeScript, Tailwind CSS v4, Firebase, Vercel deployment with GitHub integration. Non-standalone build. Build command: `next build && node scripts/postbuild.mjs`. Released by pushing commits to the main branch — Vercel auto-deploys on every push. No PM2/cPanel; deploy is fully managed by Vercel.
 
 Blog content lives in `lib/blog.ts` — flat `posts` array. Articles are added in ID and EN with links trimmed (max 4 internal + 4 external per article). Slugs differ per locale (ID slug vs EN slug).
 

@@ -160,21 +160,22 @@ Do not assume that every AI tool uses the same model.
 
 Hosting:
 
-* Node.js Hosting (cPanel)
-* Rumahweb
+* Vercel (Hosting & CDN)
+* Terintegrasi langsung dengan GitHub
 
 Application:
 
-* Next.js Standalone
+* Next.js (non-standalone)
 * Node.js
 
-Recommended process manager:
+Deployment flow:
 
-* PM2
+* Push commit ke branch utama (main)
+* Vercel otomatis build dan deploy (auto-deploy)
 
-The official deployment target is **Node.js Hosting on cPanel**.
+The official deployment target is **Vercel with GitHub integration**.
 
-Do not assume Vercel is used.
+Do not assume cPanel/PM2 or manual upload is used.
 
 ---
 
@@ -380,7 +381,7 @@ When generating code or documentation for Farisium:
 * Follow this technology stack.
 * Never replace Firebase with another backend.
 * Never replace Firestore with another database.
-* Never assume Vercel deployment.
+* Assume Vercel deployment with GitHub integration (auto-deploy on push to main); do not assume cPanel/PM2/manual upload.
 * Keep all AI tools within the `/ai/*` route.
 * Follow the single-domain architecture.
 * If information is missing, state that it is not documented instead of making assumptions.

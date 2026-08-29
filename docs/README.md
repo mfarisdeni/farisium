@@ -85,8 +85,8 @@ Windows
 
 ## Deployment
 
-* Rumahweb Node.js
-* Manual upload ke Cpanel File Manager yang sudah terinstall Node.js
+* Vercel (Hosting & CDN)
+* Terintegrasi dengan GitHub: auto-deploy setiap push commit ke branch utama (main)
 
 ---
 

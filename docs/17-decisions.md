@@ -75,18 +75,17 @@ Backend tidak diganti kecuali terdapat keputusan baru.
 
 ### Keputusan
 
-Deployment menggunakan Cpanel Rumahweb Node.js.
+Deployment menggunakan Vercel dengan integrasi GitHub.
 
 ### Workflow
 
-* Build lokal.
-* Upload manual melalui File Manager.
-* Tidak menggunakan GitHub Deployment.
-* Tidak menggunakan Vercel Deployment.
+* Push commit ke branch utama (main).
+* Vercel otomatis membangun dan mendeploy setiap push (auto-deploy).
+* Tidak perlu upload manual maupun proses manager (PM2).
 
 ### Alasan
 
-Sesuai dengan workflow pengembangan Farisium.
+Sesuai dengan workflow pengembangan Farisium: hosting dan CDN dikelola Vercel, terintegrasi langsung dengan GitHub untuk auto-deploy.
 
 ---
 

@@ -16,13 +16,13 @@
 
 ## Deployment
 
-Cpanel Rumahweb Node.js
+Vercel (Hosting & CDN)
 
-Deployment dilakukan melalui File Manager.
+Deployment dilakukan melalui integrasi GitHub.
 
-Tidak menggunakan GitHub Deployment.
+Setiap push commit ke branch utama (main) otomatis mendeploy lewat Vercel (auto-deploy).
 
-Tidak menggunakan Vercel.
+Tidak menggunakan proses manager (PM2) atau upload manual.
 
 ---
 

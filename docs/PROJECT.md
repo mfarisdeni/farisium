@@ -82,7 +82,7 @@ Development
 
 Deployment
 
-* Cpanel Rumahweb Node.js
+* Vercel (Hosting & CDN) terintegrasi dengan GitHub (auto-deploy setiap push ke branch utama)
 
 ---
 
