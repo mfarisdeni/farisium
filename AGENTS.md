@@ -723,6 +723,8 @@ Dua artikel baru ditambahkan ke `lib/blog.ts` (tanggal 22 Agustus 2026), keduany
 
 **PENTING — format inline link blog**: renderer `renderRichText()` di `app/blog/[slug]/page.tsx` HANYA mendukung format `[[teks](/url)]` (kurung tutup SETELAH paren, 468 pemakaian existing). Format `[[teks]](/url)` TIDAK match regex split/match → link dirender sebagai teks mentah. Konten draft eksternal sering datang dengan format salah — selalu konversi sebelum paste.
 
+**ATURAN AUTHORING — body artikel harus PLAIN TEXT**: `renderRichText()` memperlakukan body sebagai plain text dan TIDAK memproses sintaks Markdown emphasis. Saat menempel draft ke `lib/blog.ts`, jangan pernah menyertakan marker styling mentah seperti `**teks**`, `*teks*`, `` `teks` ``, `__teks__`, atau blokquote. Marker `**` dan backtick akan TERLIHAT LITERAL di halaman publik (efek spam double-asterisk). Tulis body apa adanya (tanpa `**`). Satu-satunya sintaks yang boleh dipakai adalah link `[[label](url)]` yang didukung renderer. Jangan menambahkan fitur bold/Markdown baru ke renderer untuk menggantikan asterisk — konvensi editor adalah plain text. (Catatan: identifier teknis seperti nama komponen/kode cukup ditulis polos, mis. `text_to_speech`, tanpa backtick.)
+
 **Catatan teknis**: script hitung kata lama (`count-blog-words.mjs`) rusak karena `lib/blog.ts` kini mengimpor `@/lib/i18n`. Script baru: `C:\Users\compa\AppData\Local\Temp\opencode\count-new-articles.cjs` (parsing substring + regex escape-aware). Semua slug internal link diverifikasi ada sebelum paste. Build verified: TypeScript 0 errors, Next.js build success (107 halaman).
 
 ### Fix SEO indexing: semua canonical/locale-aware URL + badge blog Live (sesi berjalan)

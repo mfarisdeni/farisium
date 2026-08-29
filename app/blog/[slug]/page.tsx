@@ -394,18 +394,34 @@ export default async function BlogPostPage({ params }: Props) {
   const t = post.translations[articleLang]!
   const label = labels[articleLang] ?? labels.id
 
-  // Filter out FAQ sections from body to avoid duplication with ArticleFAQ component.
-  // The FAQ heading and all following H3+paragraph Q&A pairs are rendered separately.
+  // Filter out the FAQ section from the body to avoid duplication with the
+  // ArticleFAQ component, which renders Q&A pairs separately. Only the FAQ
+  // block itself (heading + its Q&A pairs) is removed — sections that come
+  // after the FAQ (e.g. "Final Thoughts", closing CTA) are kept in the body.
   const faqHeadingPattern = /^(pertanyaan umum|frequently asked questions|faq)/i
-  let contentEndIndex = t.content.length
+  let faqIndex = -1
   for (let i = 0; i < t.content.length; i++) {
     const s = t.content[i]
     if (s.type === 'heading' && s.level === 2 && s.text && faqHeadingPattern.test(s.text)) {
-      contentEndIndex = i
+      faqIndex = i
       break
     }
   }
-  const bodyContent = t.content.slice(0, contentEndIndex)
+  let faqEndIndex = t.content.length
+  if (faqIndex !== -1) {
+    // The FAQ block ends at the next H2 heading (or the end of the article).
+    for (let i = faqIndex + 1; i < t.content.length; i++) {
+      const s = t.content[i]
+      if (s.type === 'heading' && s.level === 2) {
+        faqEndIndex = i
+        break
+      }
+    }
+  }
+  const bodyContent =
+    faqIndex === -1
+      ? t.content
+      : [...t.content.slice(0, faqIndex), ...t.content.slice(faqEndIndex)]
 
   const headings = extractHeadings(bodyContent)
   const faqs = extractFAQs(t.content)
