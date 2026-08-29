@@ -7053,7 +7053,7 @@ const enArticles: Record<string, BlogSection[]> = {
     { type: 'paragraph', text: 'Small businesses rarely suffer from a lack of information.' },
     { type: 'paragraph', text: 'The real problem is usually finding the right information quickly.' },
     { type: 'paragraph', text: 'Pricing may live in a spreadsheet. Policies may be stored in PDFs. Product details might be scattered across a website, cloud storage, internal notes, and old messages.' },
-    { type: 'paragraph', text: 'A private AI knowledge base can help bring that information together — without asking employees to search manually every time they need an answer.' },
+    { type: 'paragraph', text: 'A private AI knowledge base can help bring that information together — without asking employees to search manually every time they need an answer. For more ideas, see our guide to [[AI tools for small business](/en/blog/ai-for-small-business-2026)].' },
     { type: 'paragraph', text: 'But uploading every company document into a chatbot is not enough.' },
     { type: 'paragraph', text: 'A useful AI knowledge base needs trusted sources, clear permissions, good document structure, and rules for what the AI should do when the answer is uncertain.' },
     {
@@ -7088,7 +7088,7 @@ const enArticles: Record<string, BlogSection[]> = {
     { type: 'paragraph', text: 'Do not start with: "We want an AI that knows everything about our company."' },
     { type: 'paragraph', text: 'That scope is too broad.' },
     { type: 'paragraph', text: 'Start with one practical use case.' },
-    { type: 'paragraph', text: 'For example, a small web agency could build an assistant that answers questions about:' },
+    { type: 'paragraph', text: 'For example, a small web agency could build an [[AI agent](/en/blog/best-ai-agents-for-work-automation-2026)] that answers questions about:' },
     {
       type: 'list',
       items: [
@@ -7102,7 +7102,7 @@ const enArticles: Record<string, BlogSection[]> = {
         'project requirements.',
       ],
     },
-    { type: 'paragraph', text: 'This is easier to test and maintain.' },
+    { type: 'paragraph', text: 'This is easier to test and maintain as part of a focused [[AI productivity workflow](/en/blog/how-to-use-ai-for-work-productivity-2026)].' },
     { type: 'heading', level: 3, text: 'A useful rule' },
     { type: 'paragraph', text: 'Before adding information, ask:' },
     { type: 'paragraph', text: 'Does the AI actually need this information to perform its job?' },
@@ -7165,7 +7165,7 @@ const enArticles: Record<string, BlogSection[]> = {
     { type: 'paragraph', text: 'A good knowledge-base document should be understandable by a new employee without requiring extra explanation.' },
     { type: 'heading', level: 2, text: 'Step 4: Understand Retrieval' },
     { type: 'paragraph', text: 'A knowledge-base system usually does not send every document to the AI model.' },
-    { type: 'paragraph', text: 'Instead, it searches for the most relevant information.' },
+    { type: 'paragraph', text: 'Instead, it searches for the most relevant information. This grounding step is what [[retrieval-augmented generation (RAG)](https://www.ibm.com/think/topics/retrieval-augmented-generation)] describes.' },
     { type: 'paragraph', text: 'Suppose someone asks:' },
     { type: 'paragraph', text: 'Can I change the design after the first draft?' },
     { type: 'paragraph', text: 'The system might retrieve sections related to:' },
@@ -7177,7 +7177,7 @@ const enArticles: Record<string, BlogSection[]> = {
         'package limits.',
       ],
     },
-    { type: 'paragraph', text: 'Those sections become the context used to generate the answer.' },
+    { type: 'paragraph', text: 'Those sections become the context used to generate the answer. You can [[explore how RAG works in practice](https://www.databricks.com/glossary/retrieval-augmented-generation-rag)] to understand why this matters.' },
     { type: 'paragraph', text: 'This means two separate things affect quality:' },
     {
       type: 'list',
@@ -7215,7 +7215,7 @@ const enArticles: Record<string, BlogSection[]> = {
     { type: 'paragraph', text: 'If the policy does not clearly answer the question, the AI should not invent a decision.' },
     { type: 'paragraph', text: 'A better response would be:' },
     { type: 'paragraph', text: 'I cannot determine refund eligibility from the available policy information. This case should be reviewed by the billing team.' },
-    { type: 'paragraph', text: 'That answer is more useful than a confident guess.' },
+    { type: 'paragraph', text: 'That answer is more useful than a confident guess. Learn how to [[verify AI output without hallucination](/en/blog/how-to-use-ai-for-research-without-hallucinations)].' },
     { type: 'heading', level: 3, text: 'Good escalation cases include:' },
     {
       type: 'list',
@@ -7264,7 +7264,7 @@ const enArticles: Record<string, BlogSection[]> = {
     { type: 'paragraph', text: 'A practical architecture is:' },
     { type: 'paragraph', text: 'Knowledge base → stable information' },
     { type: 'paragraph', text: 'API/database → current operational information' },
-    { type: 'paragraph', text: 'This reduces stale answers.' },
+    { type: 'paragraph', text: 'This reduces stale answers. Grounding answers in current data is a core part of [[RAG](https://cloud.google.com/use-cases/retrieval-augmented-generation)].' },
     {
       type: 'image',
       src: '/blog/private-ai-knowledge-base-retrieval.svg',
@@ -7420,7 +7420,7 @@ const enArticles: Record<string, BlogSection[]> = {
     { type: 'paragraph', text: 'Source visibility is worth implementing.' },
     { type: 'heading', level: 2, text: 'Do You Need a Vector Database?' },
     { type: 'paragraph', text: 'Not necessarily.' },
-    { type: 'paragraph', text: 'A small business with a limited set of documents may be able to use a platform that already provides file search or knowledge-base features.' },
+    { type: 'paragraph', text: 'A small business with a limited set of documents may be able to use a platform that already provides file search or knowledge-base features. For larger sets, a [[vector database](https://www.pinecone.io/learn/vector-database/)] can handle similarity search over your documents.' },
     { type: 'paragraph', text: 'A custom retrieval system becomes more useful when you need:' },
     {
       type: 'list',
