@@ -1,0 +1,196 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a0f"/>
+      <stop offset="100%" stop-color="#0d1117"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e0304e"/>
+      <stop offset="100%" stop-color="#642f7f"/>
+    </linearGradient>
+    <linearGradient id="check-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3fb950"/>
+      <stop offset="100%" stop-color="#2ea043"/>
+    </linearGradient>
+    <linearGradient id="glow-r" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0304e" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#642f7f" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="glow-g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3fb950" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#2ea043" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="50"/></filter>
+    <filter id="shadow"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.3"/></filter>
+    <style>
+      @keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+      @keyframes dash{0%{stroke-dashoffset:0}100%{stroke-dashoffset:-16}}
+      @keyframes scan{0%{opacity:.3}50%{opacity:.7}100%{opacity:.3}}
+      @keyframes rise{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(0)}}
+      .pulse{animation:pulse 2.5s ease-in-out infinite}
+      .dash{stroke-dasharray:8 4;animation:dash 1.5s linear infinite}
+      .scan{animation:scan 3s ease-in-out infinite}
+      .rise{animation:rise .8s ease-out both}
+    </style>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <ellipse cx="350" cy="280" rx="320" ry="190" fill="url(#glow-r)" filter="url(#blur)"/>
+  <ellipse cx="900" cy="300" rx="260" ry="160" fill="url(#glow-g)" filter="url(#blur)"/>
+
+  <!-- Grid -->
+  <g opacity="0.03" stroke="#e6edf3" stroke-width="0.5">
+    <line x1="0" y1="126" x2="1200" y2="126"/><line x1="0" y1="252" x2="1200" y2="252"/>
+    <line x1="0" y1="378" x2="1200" y2="378"/><line x1="0" y1="504" x2="1200" y2="504"/>
+    <line x1="240" y1="0" x2="240" y2="630"/><line x1="480" y1="0" x2="480" y2="630"/>
+    <line x1="720" y1="0" x2="720" y2="630"/><line x1="960" y1="0" x2="960" y2="630"/>
+  </g>
+
+  <!-- Title -->
+  <text x="600" y="48" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="22" font-weight="700" fill="#e6edf3" letter-spacing="2">FACT-CHECK AI ANSWERS</text>
+  <text x="600" y="72" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="12" fill="#8b949e" letter-spacing="2">A 7-STEP WORKFLOW FOR RELIABLE RESEARCH</text>
+
+  <!-- Left: Unverified AI Output -->
+  <g filter="url(#shadow)" class="rise" style="animation-delay:0s">
+    <rect x="50" y="110" width="200" height="170" rx="10" fill="#161b22" stroke="#e0304e" stroke-width="1.5"/>
+    <text x="150" y="138" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="600" fill="#e0304e" letter-spacing="1.5">AI OUTPUT</text>
+    <rect x="75" y="155" width="150" height="6" rx="3" fill="#e0304e" opacity="0.2"/>
+    <rect x="75" y="168" width="130" height="6" rx="3" fill="#e0304e" opacity="0.15"/>
+    <rect x="75" y="181" width="145" height="6" rx="3" fill="#e0304e" opacity="0.2"/>
+    <rect x="75" y="194" width="110" height="6" rx="3" fill="#e0304e" opacity="0.15"/>
+    <rect x="75" y="207" width="140" height="6" rx="3" fill="#e0304e" opacity="0.2"/>
+    <rect x="75" y="220" width="95" height="6" rx="3" fill="#e0304e" opacity="0.15"/>
+    <rect x="75" y="233" width="155" height="6" rx="3" fill="#e0304e" opacity="0.2"/>
+    <!-- Warning icon -->
+    <circle cx="225" cy="135" r="10" fill="#0a0a0f" stroke="#f0883e" stroke-width="1.5"/>
+    <text x="225" y="139" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="700" fill="#f0883e">!</text>
+  </g>
+
+  <!-- Arrow to pipeline -->
+  <line x1="250" y1="195" x2="310" y2="195" stroke="#e0304e" stroke-width="2" class="dash"/>
+
+  <!-- 7-Step Pipeline -->
+  <!-- Step 1 -->
+  <g filter="url(#shadow)" class="rise" style="animation-delay:0.1s">
+    <rect x="310" y="110" width="130" height="50" rx="6" fill="#161b22" stroke="#e0304e" stroke-width="1.2"/>
+    <text x="375" y="132" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="700" fill="#e0304e">1. SEPARATE</text>
+    <text x="375" y="148" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="8" fill="#8b949e">Facts vs Opinions</text>
+  </g>
+  <!-- Step 2 -->
+  <g filter="url(#shadow)" class="rise" style="animation-delay:0.2s">
+    <rect x="310" y="170" width="130" height="50" rx="6" fill="#161b22" stroke="#642f7f" stroke-width="1.2"/>
+    <text x="375" y="192" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="700" fill="#642f7f">2. IDENTIFY</text>
+    <text x="375" y="208" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="8" fill="#8b949e">Key Claims</text>
+  </g>
+  <!-- Step 3 -->
+  <g filter="url(#shadow)" class="rise" style="animation-delay:0.3s">
+    <rect x="310" y="230" width="130" height="50" rx="6" fill="#161b22" stroke="#e0304e" stroke-width="1.2"/>
+    <text x="375" y="252" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="700" fill="#e0304e">3. ASK SOURCES</text>
+    <text x="375" y="268" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="8" fill="#8b949e">Evidence Map</text>
+  </g>
+  <circle cx="375" cy="165" r="2.5" fill="#e0304e" class="pulse"/>
+  <circle cx="375" cy="225" r="2.5" fill="#642f7f" class="pulse"/>
+
+  <!-- Arrow to verification zone -->
+  <line x1="440" y1="195" x2="500" y2="195" stroke="#3fb950" stroke-width="2" class="dash"/>
+
+  <!-- Verification Zone -->
+  <rect x="500" y="85" width="360" height="210" rx="12" fill="none" stroke="#3fb950" stroke-width="1" stroke-dasharray="6 3" opacity="0.4"/>
+  <text x="680" y="103" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="600" fill="#3fb950" letter-spacing="2" opacity="0.7">VERIFICATION ZONE</text>
+
+  <!-- Step 4 -->
+  <g filter="url(#shadow)" class="rise" style="animation-delay:0.4s">
+    <rect x="515" y="118" width="155" height="55" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="1.2"/>
+    <text x="592" y="140" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="700" fill="#3fb950">4. VERIFY SOURCE</text>
+    <text x="592" y="158" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="8" fill="#8b949e">Find the original</text>
+  </g>
+  <!-- Step 5 -->
+  <g filter="url(#shadow)" class="rise" style="animation-delay:0.5s">
+    <rect x="690" y="118" width="155" height="55" rx="6" fill="#161b22" stroke="#3fb950" stroke-width="1.2"/>
+    <text x="767" y="140" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="700" fill="#3fb950">5. COMPARE</text>
+    <text x="767" y="158" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="8" fill="#8b949e">Cross-validate</text>
+  </g>
+  <!-- Step 6 -->
+  <g filter="url(#shadow)" class="rise" style="animation-delay:0.6s">
+    <rect x="515" y="188" width="155" height="55" rx="6" fill="#161b22" stroke="#642f7f" stroke-width="1.2"/>
+    <text x="592" y="210" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="700" fill="#642f7f">6. CHECK DATES</text>
+    <text x="592" y="228" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="8" fill="#8b949e">Context &amp; timing</text>
+  </g>
+  <!-- Step 7 -->
+  <g filter="url(#shadow)" class="rise" style="animation-delay:0.7s">
+    <rect x="690" y="188" width="155" height="55" rx="6" fill="#161b22" stroke="#e0304e" stroke-width="1.2"/>
+    <text x="767" y="210" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="700" fill="#e0304e">7. CONFIDENCE</text>
+    <text x="767" y="228" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="8" fill="#8b949e">Score it</text>
+  </g>
+
+  <!-- Arrow to verified output -->
+  <line x1="860" y1="195" x2="920" y2="195" stroke="#3fb950" stroke-width="2" class="dash"/>
+
+  <!-- Right: Verified Research -->
+  <g filter="url(#shadow)" class="rise" style="animation-delay:0.8s">
+    <rect x="920" y="110" width="230" height="170" rx="10" fill="#161b22" stroke="#3fb950" stroke-width="1.5"/>
+    <text x="1035" y="138" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="600" fill="#3fb950" letter-spacing="1.5">VERIFIED RESEARCH</text>
+    <g transform="translate(950,158)">
+      <circle r="7" fill="#0a0a0f" stroke="#3fb950" stroke-width="1"/>
+      <text y="4" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="700" fill="#3fb950">&#x2713;</text>
+    </g>
+    <rect x="965" y="155" width="150" height="5" rx="2.5" fill="#3fb950" opacity="0.3"/>
+    <g transform="translate(950,180)">
+      <circle r="7" fill="#0a0a0f" stroke="#3fb950" stroke-width="1"/>
+      <text y="4" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="700" fill="#3fb950">&#x2713;</text>
+    </g>
+    <rect x="965" y="177" width="130" height="5" rx="2.5" fill="#3fb950" opacity="0.3"/>
+    <g transform="translate(950,202)">
+      <circle r="7" fill="#0a0a0f" stroke="#3fb950" stroke-width="1"/>
+      <text y="4" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="700" fill="#3fb950">&#x2713;</text>
+    </g>
+    <rect x="965" y="199" width="160" height="5" rx="2.5" fill="#3fb950" opacity="0.3"/>
+    <g transform="translate(950,224)">
+      <circle r="7" fill="#0a0a0f" stroke="#3fb950" stroke-width="1"/>
+      <text y="4" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="700" fill="#3fb950">&#x2713;</text>
+    </g>
+    <rect x="965" y="221" width="110" height="5" rx="2.5" fill="#3fb950" opacity="0.3"/>
+  </g>
+
+  <!-- Bottom: Confidence Scoring -->
+  <text x="600" y="340" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="600" fill="#8b949e" letter-spacing="1.5" opacity="0.6">CONFIDENCE SCORING</text>
+
+  <g filter="url(#shadow)">
+    <rect x="80" y="365" width="240" height="60" rx="8" fill="#161b22" stroke="#3fb950" stroke-width="0.8"/>
+    <rect x="92" y="380" width="8" height="30" rx="4" fill="#3fb950"/>
+    <text x="112" y="393" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="700" fill="#3fb950">HIGH</text>
+    <text x="112" y="408" font-family="Inter,system-ui,sans-serif" font-size="8" fill="#8b949e">Primary source + cross-validated</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="340" y="365" width="240" height="60" rx="8" fill="#161b22" stroke="#f0883e" stroke-width="0.8"/>
+    <rect x="352" y="380" width="8" height="30" rx="4" fill="#f0883e"/>
+    <text x="372" y="393" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="700" fill="#f0883e">MEDIUM</text>
+    <text x="372" y="408" font-family="Inter,system-ui,sans-serif" font-size="8" fill="#8b949e">Credible secondary sources</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="600" y="365" width="240" height="60" rx="8" fill="#161b22" stroke="#e0304e" stroke-width="0.8"/>
+    <rect x="612" y="380" width="8" height="30" rx="4" fill="#e0304e"/>
+    <text x="632" y="393" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="700" fill="#e0304e">LOW</text>
+    <text x="632" y="408" font-family="Inter,system-ui,sans-serif" font-size="8" fill="#8b949e">Unsourced or outdated info</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="860" y="365" width="240" height="60" rx="8" fill="#161b22" stroke="#8b949e" stroke-width="0.8"/>
+    <rect x="872" y="380" width="8" height="30" rx="4" fill="#8b949e"/>
+    <text x="892" y="393" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="700" fill="#8b949e">UNVERIFIED</text>
+    <text x="892" y="408" font-family="Inter,system-ui,sans-serif" font-size="8" fill="#8b949e">Insufficient evidence</text>
+  </g>
+
+  <!-- Bottom banner -->
+  <rect x="295" y="455" width="610" height="55" rx="10" fill="#161b22" stroke="url(#accent)" stroke-width="1" opacity="0.9"/>
+  <text x="600" y="479" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="12" font-weight="600" fill="#e6edf3">Speed should not be confused with accuracy.</text>
+  <text x="600" y="497" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="11" fill="#8b949e">Verify AI answers before you trust them.</text>
+
+  <!-- Accent line -->
+  <rect x="540" y="530" width="120" height="2" rx="1" fill="url(#accent)" opacity="0.5"/>
+
+  <text x="600" y="575" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="10" fill="#8b949e" opacity="0.5" letter-spacing="1">HOW TO FACT-CHECK AI ANSWERS IN 2026</text>
+
+  <!-- Border -->
+  <rect x="20" y="20" width="1160" height="590" rx="8" fill="none" stroke="#e6edf3" stroke-opacity="0.06" stroke-width="1"/>
+  <text x="60" y="600" font-family="Inter,system-ui,sans-serif" font-size="10" fill="#8b949e" opacity="0.5" letter-spacing="2">FARISIUM</text>
+</svg>
