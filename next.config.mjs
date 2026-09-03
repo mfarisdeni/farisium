@@ -49,6 +49,13 @@ const nextConfig = {
         ],
       },
       {
+        source: '/ads.txt',
+        headers: [
+          { key: 'Content-Type', value: 'text/plain' },
+          { key: 'Cache-Control', value: 'public, max-age=3600, must-revalidate' },
+        ],
+      },
+      {
         source: '/:all*(svg|png|jpg|jpeg|gif|ico|webp|mp4|webm)',
         locale: false,
         headers: [

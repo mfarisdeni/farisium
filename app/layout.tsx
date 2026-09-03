@@ -105,9 +105,8 @@ export async function generateMetadata(): Promise<Metadata> {
       googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
     },
     icons: {
-      icon: '/icon.svg',
+      icon: '/favicon.ico',
       apple: '/apple-icon.png',
-      other: [{ rel: 'icon', url: '/icon-light-32x32.png', sizes: '32x32' }],
     },
     manifest: '/manifest.webmanifest',
   }

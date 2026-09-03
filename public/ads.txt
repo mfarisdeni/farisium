@@ -1,11 +1,1 @@
-# ads.txt — farisium.com
-# Standar IAB Tech Lab (Authorized Digital Sellers)
-#
-# GANTI "pub-0000000000000000" DI BAWAH dengan Publisher ID asli akun AdSense kamu.
-# Cara cek Publisher ID: masuk ke akun AdSense > Account > Settings > Account information.
-# Atau ambil baris siap pakai di: Account > Sites > klik situs dengan status "Not found" > Ads.txt snippet > Copy.
-#
-# Kalau nanti kamu pakai ad network lain selain AdSense, TAMBAHKAN baris baru di bawah ini,
-# jangan hapus/ganti baris punya Google.
-
 google.com, pub-6861723745616674, DIRECT, f08c47fec0942fa0
