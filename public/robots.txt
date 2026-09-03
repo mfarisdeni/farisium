@@ -26,6 +26,10 @@ Allow: /
 User-agent: Googlebot
 Allow: /
 
+# Allows Google AdSense crawler to index pages for ad serving
+User-agent: Mediapartners-Google
+Allow: /
+
 
 # ==========================================
 # 2. BLOCK PURE LLM TRAINING BOTS
