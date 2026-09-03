@@ -14,7 +14,6 @@ import { detectLocale, COOKIE_NAME, getCanonicalUrl } from '@/lib/i18n'
 import type { Lang } from '@/lib/translations'
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? 'G-XJDXLEEYDZ'
-const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: '--font-sans',
@@ -218,6 +217,11 @@ export default async function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
         />
+        <Script
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6861723745616674"
+          strategy="beforeInteractive"
+          crossOrigin="anonymous"
+        />
       </head>
       <body className="bg-background font-sans antialiased">
         {/* Google Consent Mode v2 — default denied until user consents */}
@@ -246,13 +250,6 @@ export default async function RootLayout({
             gtag('config', '${GA_MEASUREMENT_ID}', { anonymize_ip: true });
           `}
         </Script>
-        {ADSENSE_CLIENT && (
-          <Script
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
-            strategy="afterInteractive"
-            crossOrigin="anonymous"
-          />
-        )}
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[9999] focus:rounded-xl focus:bg-frsc-crimson-800 focus:px-4 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-white"
