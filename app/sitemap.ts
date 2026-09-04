@@ -6,6 +6,7 @@ const BASE_URL = 'https://farisium.com'
 
 const staticPaths = [
   '',
+  'farisium',
   'ai',
   'ai/website-builder',
   'ai/f-stream-spotify-promotion',
@@ -28,6 +29,7 @@ const staticPaths = [
 
 const staticPathPriorities: Record<string, number> = {
   '': 1.0,
+  'farisium': 0.9,
   'ai': 0.9,
   'ai/website-builder': 0.8,
   'ai/f-stream-spotify-promotion': 0.8,
@@ -50,6 +52,7 @@ const staticPathPriorities: Record<string, number> = {
 
 const staticPathChangeFreq: Record<string, 'daily' | 'weekly' | 'monthly'> = {
   '': 'weekly',
+  'farisium': 'weekly',
   'ai': 'weekly',
   'ai/website-builder': 'weekly',
   'ai/f-stream-spotify-promotion': 'weekly',

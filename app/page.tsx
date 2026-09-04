@@ -1,63 +1,41 @@
 import type { Metadata } from 'next'
 import { cookies } from 'next/headers'
+import Link from 'next/link'
+import { ArrowRight, Clock, CalendarDays } from 'lucide-react'
 import { Navbar } from '@/components/layout/Navbar'
-import { Footer } from '@/components/layout/Footer'
-import { HeroSection } from '@/components/home/HeroSection'
-import { AIToolsSection } from '@/components/home/AIToolsSection'
-import { ComputeSection } from '@/components/home/ComputeSection'
-import { WhyFarisiumSection } from '@/components/home/WhyFarisiumSection'
-import { BlogSection } from '@/components/home/BlogSection'
-import { PartnershipSection } from '@/components/home/PartnershipSection'
-import { FAQSection } from '@/components/home/FAQSection'
-import { DiscordSection } from '@/components/ui/DiscordSection'
-import { SocialLinks } from '@/components/ui/SocialLinks'
+import { SiteFooter } from '@/components/layout/SiteFooter'
 import { ScrollReveal } from '@/components/scroll-reveal'
+import { BlogHomeGrid } from '@/components/home/BlogHomeGrid'
+import {
+  getAllPosts,
+  getBlogCategories,
+  parseDate,
+} from '@/lib/blog'
 import { detectLocale, COOKIE_NAME, getCanonicalUrl, getHreflangLinks } from '@/lib/i18n'
 import type { Lang } from '@/lib/translations'
 
 export async function generateMetadata(): Promise<Metadata> {
   const cookieStore = await cookies()
   const lang = detectLocale(cookieStore.get(COOKIE_NAME)?.value) as Lang
+  const path = '/'
 
   const titles = {
-    id: 'Farisium — AI Tools, Creative Platform & Digital Ecosystem',
-    en: 'Farisium — AI Tools, Creative Platform & Digital Ecosystem',
+    id: 'Farisium — Blog AI, Teknologi, Tutorial & Review Tools',
+    en: 'Farisium — AI & Technology Blog: Tutorials, Tools & Insights',
   }
   const descriptions = {
-    id: 'Temukan Farisium, platform AI all-in-one dengan AI tools, generator gambar anime, rewards, partnership, blog, dan solusi digital untuk kreator dan bisnis.',
-    en: 'Discover Farisium, an all-in-one AI platform featuring AI tools, anime image generation, rewards, partnerships, blogs, and digital solutions for creators and businesses.',
+    id: 'Blog AI dan teknologi terlengkap — panduan, tutorial, review tools AI, berita terkini, dan strategi untuk kreator, developer, dan bisnis.',
+    en: 'Your go-to AI and technology blog — in-depth tutorials, tool reviews, industry news, and practical strategies for creators, developers, and businesses.',
   }
-  const keywords = [
-    'AI tools',
-    'anime generator',
-    'AI image generation',
-    'AI platform',
-    'artificial intelligence',
-    'anime AI',
-    'text to image',
-    'AI art generator',
-    'digital ecosystem',
-    'Farisium',
-    'generator anime',
-    'platform AI',
-    'solusi digital',
-  ]
-  const canonicalUrl = getCanonicalUrl(lang, '/')
-  const alternates = getHreflangLinks('/', lang)
+  const canonicalUrl = getCanonicalUrl(lang, path)
+  const alternates = getHreflangLinks(path, lang)
   return {
-    title: {
-      default: titles[lang],
-      template: '%s | Farisium',
-    },
+    title: { default: titles[lang], template: '%s | Farisium' },
     description: descriptions[lang],
-    keywords,
-    authors: [{ name: 'Farisium' }],
-    creator: 'Farisium',
-    publisher: 'Farisium',
     metadataBase: new URL('https://farisium.com'),
-    alternates: { 
-      canonical: canonicalUrl, 
-      languages: Object.fromEntries(alternates.map(a => [a.lang, a.href])) 
+    alternates: {
+      canonical: canonicalUrl,
+      languages: Object.fromEntries(alternates.map((a) => [a.lang, a.href])),
     },
     openGraph: {
       type: 'website',
@@ -66,10 +44,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: 'Farisium',
       title: titles[lang],
       description: descriptions[lang],
-      images: [
-        { url: '/og-image.png', width: 1200, height: 630, alt: 'Farisium — AI Tools, Creative Platform & Digital Ecosystem' },
-        { url: '/icon-light-32x32.png', width: 32, height: 32, alt: 'Farisium' },
-      ],
+      images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Farisium Blog' }],
     },
     twitter: {
       card: 'summary_large_image',
@@ -82,86 +57,127 @@ export async function generateMetadata(): Promise<Metadata> {
       follow: true,
       googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
     },
-    icons: {
-      icon: '/favicon.ico',
-      apple: '/apple-icon.png',
-    },
-    manifest: '/manifest.webmanifest',
   }
-}
-
-const faqSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'Apa itu Farisium?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Farisium adalah platform AI terpadu yang menyediakan berbagai layanan berbasis Artificial Intelligence dalam satu ekosistem. Dimulai dari Anime Generator, platform ini akan terus berkembang dengan AI Tools baru.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Apa itu FRSC?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'FRSC (Farisium Coin) adalah utility point resmi ekosistem Farisium. FRSC digunakan untuk mengakses layanan AI, klaim reward, dan berpartisipasi dalam ekosistem. FRSC bukan mata uang dan bukan instrumen investasi.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Bagaimana cara mendapatkan FRSC secara gratis?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Kamu bisa mendapatkan FRSC melalui Starter Coin saat pertama kali mendaftar, Daily Reward setiap 24 jam, program Referral, Loyalty Reward berdasarkan aktivitas, dan event resmi Farisium.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Apakah Anime Generator aman digunakan?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Ya. AI inference berjalan di infrastruktur self-hosted Farisium. Data dan gambar yang kamu hasilkan tidak dibagikan ke pihak ketiga manapun.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'AI Tools apa saja yang akan hadir?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Roadmap Farisium mencakup Product Photo, Logo Generator, Subtitle Generator, Blog Writer, dan Influencer Generator. Semua akan tersedia di bawah domain farisium.com/ai.',
-      },
-    },
-  ],
 }
 
 export default async function HomePage() {
   const cookieStore = await cookies()
-  const lang = detectLocale(
-    cookieStore.get(COOKIE_NAME)?.value,
-  ) as Lang
+  const lang = detectLocale(cookieStore.get(COOKIE_NAME)?.value) as Lang
+  const posts = getAllPosts()
+  const categories = getBlogCategories(lang)
+
+  const featured = posts[0]
+  const featuredT = featured?.translations[lang]
+
+  const pageDescriptions = {
+    id: 'Baca artikel, tutorial, dan berita terbaru seputar AI, teknologi, dan ekosistem Farisium.',
+    en: 'Read the latest articles, tutorials, and news about AI, technology, and the Farisium ecosystem.',
+  }
+
+  const itemListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: posts
+      .filter((p) => p.translations[lang])
+      .map((p, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        url: getCanonicalUrl(lang, `/blog/${p.translations[lang]!.slug}`),
+      }))
+      .slice(0, 20),
+  }
+
+  const blogSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: lang === 'id' ? 'Blog Farisium' : 'Farisium Blog',
+    url: getCanonicalUrl(lang, '/'),
+    description: pageDescriptions[lang],
+    inLanguage: lang,
+    blogPost: posts
+      .filter((p) => p.translations[lang])
+      .slice(0, 5)
+      .map((p) => ({
+        '@type': 'BlogPosting',
+        headline: p.translations[lang]!.title,
+        datePublished: parseDate(p.date).toISOString(),
+        url: getCanonicalUrl(lang, `/blog/${p.translations[lang]!.slug}`),
+      })),
+  }
+
+  const latestLabel = lang === 'id' ? 'Artikel Terbaru' : 'Latest Articles'
+  const readLabel = lang === 'id' ? 'menit baca' : 'min read'
+  const authorName = 'M. Faris Deni K.'
+
   return (
     <div className="flex min-h-dvh flex-col">
-      <Navbar />
+      <Navbar categories={categories} />
       <main className="flex-1">
-        <HeroSection lang={lang} />
-        <AIToolsSection lang={lang} />
-        <ComputeSection lang={lang} />
-        <WhyFarisiumSection lang={lang} />
-        <BlogSection lang={lang} />
-        <PartnershipSection lang={lang} />
-        <FAQSection lang={lang} />
-        <DiscordSection lang={lang} />
-        <SocialLinks showDiscord={false} />
+        {/* Hero — featured post */}
+        {featured && featuredT && (
+          <section className="mx-auto w-full max-w-7xl px-4 pt-10 lg:px-6 lg:pt-16">
+            <span className="text-eyebrow font-semibold uppercase tracking-[0.18em] text-frsc-crimson-500">
+              {lang === 'id' ? 'Sorotan' : 'Featured'}
+            </span>
+            <h1 className="mt-3 max-w-3xl text-hero font-heading font-bold leading-[1.05] text-foreground">
+              {featuredT.title}
+            </h1>
+            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              {featuredT.excerpt}
+            </p>
+            <div className="mt-5 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+              <span className="flex items-center gap-1.5">
+                <CalendarDays className="h-4 w-4" />
+                {featured.date}
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Clock className="h-4 w-4" />
+                {featuredT.readTime} {readLabel}
+              </span>
+              <span>{authorName}</span>
+            </div>
+            <Link
+              href={`/${lang}/blog/${featuredT.slug}`}
+              className="mt-7 inline-flex cursor-pointer items-center gap-2 rounded-xl bg-frsc-crimson-500 px-5 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-frsc-crimson-600"
+            >
+              {lang === 'id' ? 'Baca Artikel' : 'Read Article'}
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+
+            <Link
+              href={`/${lang}/blog/${featuredT.slug}`}
+              className="group mt-8 block overflow-hidden rounded-2xl border border-border bg-card"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={featured.image}
+                alt={featured.imageAlt}
+                className="aspect-[21/9] w-full object-cover transition-transform duration-500 group-hover:scale-[1.01]"
+              />
+            </Link>
+          </section>
+        )}
+
+        {/* Latest grid */}
+        <section className="mx-auto w-full max-w-7xl px-4 pb-24 pt-16 lg:px-6 lg:pt-20">
+          <div className="mb-8">
+            <h2 className="text-h2 font-heading font-bold text-foreground">{latestLabel}</h2>
+          </div>
+          <BlogHomeGrid posts={posts} lang={lang} />
+        </section>
       </main>
-      <Footer />
-      <ScrollReveal />
+
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
+      />
+
+      <SiteFooter />
+      <ScrollReveal />
     </div>
   )
 }

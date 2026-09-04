@@ -142,6 +142,96 @@
  *    5% Accent (Red & Purple)   (CTAs, focus, active states)
  */
 :root {
+  color-scheme: light;
+
+  /* Core — Light mode (default) */
+  --background: #ffffff;
+  --foreground: #0f172a;
+
+  /* Cards & Surfaces */
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+
+  /* Primary — Moving Crimson */
+  --primary: #c8102e;
+  --primary-foreground: #ffffff;
+
+  /* Secondary */
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+
+  /* Muted */
+  --muted: #f1f5f9;
+  --muted-foreground: #475569;
+
+  /* Accent */
+  --accent: #e0304e;
+  --accent-foreground: #ffffff;
+
+  /* Destructive */
+  --destructive: #dc2626;
+
+  /* Borders & Inputs */
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #e0304e;
+
+  /* Radius */
+  --radius: 0.625rem;
+
+  /* ── Foundation — paper white ── */
+  --frsc-black: #ffffff;
+
+  /* ── Card Surfaces — light ── */
+  --frsc-surface-900: #ffffff;
+  --frsc-surface-800: #f8fafc;
+  --frsc-surface-700: #f1f5f9;
+  --frsc-surface-600: #e2e8f0;
+  --frsc-surface-500: #cbd5e1;
+
+  /* ── Moving Crimson Accent (brand — same in both modes) ── */
+  --frsc-crimson-900: #7f0000;
+  --frsc-crimson-800: #a3001a;
+  --frsc-crimson-700: #c8102e;
+  --frsc-crimson-600: #e0304e;
+  --frsc-crimson-500: #e0304e;
+  --frsc-crimson-400: #f0506e;
+  --frsc-crimson-300: #f0708a;
+
+  /* ── Royal Purple Ambient ── */
+  --frsc-purple-900: #3a1050;
+  --frsc-purple-800: #4a1a68;
+  --frsc-purple-700: #5c2a7f;
+  --frsc-purple-600: #642f7f;
+  --frsc-purple-500: #642f7f;
+  --frsc-purple-400: #7d4a96;
+  --frsc-purple-300: #9a6db0;
+
+  /* ── Silver / Chrome Metallic (15%) ── */
+  --frsc-platinum: #334155;
+  --frsc-platinum-black: #475569;
+  --frsc-silver: #64748b;
+  --frsc-chrome: #475569;
+
+  /* ── Text ── */
+  --frsc-white-bright: #0f172a;
+  --frsc-white-soft: rgba(15, 23, 42, 0.05);
+
+  /* ── Text shades ── */
+  --frsc-text-300: #64748b;
+  --frsc-text-200: #475569;
+  --frsc-text-100: #0f172a;
+
+  /* ── Legacy aliases ── */
+  --surface-1: #ffffff;
+  --surface-2: #f8fafc;
+  --surface-hover: rgba(15, 23, 42, 0.05);
+}
+
+/* ── Dark mode overrides — identitas premium Farisium eksisting ── */
+.dark {
   color-scheme: dark;
 
   /* Core */
@@ -191,7 +281,7 @@
   --frsc-surface-600: #363636;
   --frsc-surface-500: #424242;
 
-  /* ── Moving Crimson Accent ── */
+  /* ── Moving Crimson Accent (same as light) ── */
   --frsc-crimson-900: #3a000a;
   --frsc-crimson-800: #5c0010;
   --frsc-crimson-700: #8b0020;
@@ -264,10 +354,49 @@
   }
 }
 
-/* ── White accent utilities ── */
+/* ── Accent utilities ── */
 @utility text-white-bright { color: var(--frsc-white-bright); }
 @utility text-platinum { color: var(--frsc-platinum); }
 @utility text-silver { color: var(--frsc-silver); }
+
+/* ── Theme-aware surface / border utilities ──
+ * Light: use slate-based opacity for subtle surface & border
+ * Dark: use white-based opacity (original look)
+ */
+@utility bg-surface-subtle {
+  background: rgba(15, 23, 42, 0.04);
+  .dark & { background: rgba(255, 255, 255, 0.04); }
+}
+@utility bg-surface-hover {
+  background: rgba(15, 23, 42, 0.06);
+  .dark & { background: rgba(255, 255, 255, 0.06); }
+}
+@utility bg-surface-card {
+  background: rgba(15, 23, 42, 0.02);
+  .dark & { background: rgba(255, 255, 255, 0.03); }
+}
+@utility bg-surface-active {
+  background: rgba(15, 23, 42, 0.08);
+  .dark & { background: rgba(255, 255, 255, 0.04); }
+}
+@utility border-surface-subtle {
+  border-color: rgba(15, 23, 42, 0.08);
+  .dark & { border-color: rgba(255, 255, 255, 0.06); }
+}
+@utility border-surface-hover {
+  border-color: rgba(15, 23, 42, 0.12);
+  .dark & { border-color: rgba(255, 255, 255, 0.10); }
+}
+
+/* ── Theme-aware glass utilities (for dropdowns, drawers) ── */
+@utility glass-surface {
+  background: var(--card);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Legacy dark-only utilities kept for backward compat during migration */
 @utility border-white-subtle { border-color: rgba(255, 255, 255, 0.10); }
 @utility border-white-bright { border-color: rgba(255, 255, 255, 0.18); }
 @utility bg-white-soft { background: rgba(255, 255, 255, 0.04); }

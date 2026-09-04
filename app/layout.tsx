@@ -38,27 +38,28 @@ export async function generateMetadata(): Promise<Metadata> {
     cookieStore.get(COOKIE_NAME)?.value,
   ) as Lang
 
-  const title = 'Farisium — AI Tools, Creative Platform & Digital Ecosystem'
+  const title = 'Farisium — AI & Technology Blog, Tutorials, Tools & Insights'
 
   const descriptions = {
-    id: 'Temukan Farisium, platform AI all-in-one dengan AI tools, generator gambar anime, rewards, partnership, blog, dan solusi digital untuk kreator dan bisnis.',
-    en: 'Discover Farisium, an all-in-one AI platform featuring AI tools, anime image generation, rewards, partnerships, blogs, and digital solutions for creators and businesses.',
+    id: 'Farisium adalah blog AI dan teknologi — panduan lengkap, tutorial, review tools, berita terkini, dan insight untuk kreator, developer, dan bisnis.',
+    en: 'Farisium is an AI and technology blog — in-depth guides, tutorials, tool reviews, latest news, and actionable insights for creators, developers, and businesses.',
   }
 
   const keywords = [
-    'AI tools',
-    'anime generator',
-    'AI image generation',
-    'AI platform',
+    'AI blog',
     'artificial intelligence',
-    'anime AI',
-    'text to image',
-    'AI art generator',
-    'digital ecosystem',
+    'machine learning',
+    'AI tools',
+    'technology blog',
+    'AI tutorials',
+    'AI news',
+    'generative AI',
+    'deep learning',
+    'LLM',
+    'large language model',
+    'AI for business',
+    'AI for creators',
     'Farisium',
-    'generator anime',
-    'platform AI',
-    'solusi digital',
   ]
 
   return {
@@ -88,7 +89,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title,
       description: descriptions[lang],
       images: [
-        { url: '/og-image.png', width: 1200, height: 630, alt: 'Farisium — AI Tools, Creative Platform & Digital Ecosystem' },
+        { url: '/og-image.png', width: 1200, height: 630, alt: 'Farisium — AI & Technology Blog, Tutorials, Tools & Insights' },
         { url: '/icon-light-32x32.png', width: 32, height: 32, alt: 'Farisium' },
       ],
     },
@@ -112,8 +113,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'dark',
-  themeColor: '#0a0a0a',
+  colorScheme: 'light',
+  themeColor: '#ffffff',
 }
 
 const organizationSchema = {
@@ -123,7 +124,7 @@ const organizationSchema = {
   url: 'https://farisium.com',
   logo: 'https://farisium.com/apple-icon.png',
   description:
-    'Platform AI all-in-one dengan AI tools, generator gambar anime, rewards, partnership, blog, dan solusi digital untuk kreator dan bisnis.',
+    'Farisium is an AI and technology blog — in-depth guides, tutorials, tool reviews, latest news, and actionable insights for creators, developers, and businesses.',
   foundingDate: '2025',
   sameAs: [
     'https://discord.gg/SCDFEbRpjm',
@@ -137,9 +138,9 @@ const websiteSchema = {
   name: 'Farisium',
   url: 'https://farisium.com',
   description:
-    'Platform AI all-in-one dengan AI tools, generator gambar anime, rewards, partnership, blog, dan solusi digital untuk kreator dan bisnis.',
-  inLanguage: ['id', 'en'],
-  applicationCategory: 'AIApplication',
+    'Farisium is an AI and technology blog — in-depth guides, tutorials, tool reviews, latest news, and actionable insights for creators, developers, and businesses.',
+  inLanguage: ['en', 'id'],
+  applicationCategory: 'Blog',
 }
 
 const softwareSchema = {
@@ -148,8 +149,8 @@ const softwareSchema = {
   name: 'Farisium',
   url: 'https://farisium.com',
   description:
-    'Platform AI all-in-one dengan AI tools, generator gambar anime, rewards, partnership, blog, dan solusi digital untuk kreator dan bisnis.',
-  applicationCategory: 'AIApplication',
+    'Farisium is an AI and technology blog — in-depth guides, tutorials, tool reviews, latest news, and actionable insights for creators, developers, and businesses.',
+  applicationCategory: 'BlogApplication',
   operatingSystem: 'Web',
   offers: {
     '@type': 'Offer',
@@ -196,7 +197,8 @@ export default async function RootLayout({
   return (
     <html
       lang={lang}
-      className={`dark bg-background ${plusJakarta.variable} ${jetbrainsMono.variable} ${geistSans.variable}`}
+      suppressHydrationWarning
+      className={`bg-background ${plusJakarta.variable} ${jetbrainsMono.variable} ${geistSans.variable}`}
     >
       <head>
         <meta name="google-site-verification" content="LccxfAvkR8ZLqLkOotjF3D48nkhxoRczCcEdFwXWJBM" />

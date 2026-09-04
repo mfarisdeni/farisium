@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState, useRef } from 'react'
+import { useTheme } from 'next-themes'
 import {
   Menu,
   X,
@@ -21,24 +22,45 @@ import {
 import { useAuthContext } from '@/contexts/AuthContext'
 import { useFRSC } from '@/contexts/FRSCContext'
 import { Logo } from '@/components/ui/Logo'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
+import { BlogNavDropdown } from '@/components/blog/BlogNavDropdown'
 
 const navLinks = [
   { label: 'AI Tools', href: '/ai', icon: Sparkles },
-  { label: 'Blog', href: '/blog', icon: BookOpen },
   { label: 'Rewards', href: '/rewards', icon: Gift },
   { label: 'Partnership', href: '/partnership', icon: Users },
   { label: 'About', href: '/about', icon: Info },
   { label: 'Contact', href: '/contact', icon: Mail },
 ]
 
-export function Navbar() {
+const FALLBACK_CATEGORIES = [
+  'AI Tools',
+  'Artificial Intelligence',
+  'Cybersecurity',
+  'Education & Tips',
+  'Technology',
+  'Tutorials',
+]
+
+interface NavbarProps {
+  categories?: string[]
+}
+
+export function Navbar({ categories }: NavbarProps) {
   const pathname = usePathname()
+  const { resolvedTheme } = useTheme()
   const { user, loading, signIn, logOut } = useAuthContext()
   const { coins } = useFRSC()
+  const [mounted, setMounted] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const userMenuRef = useRef<HTMLDivElement>(null)
+  const blogCategories = categories && categories.length > 0 ? categories : FALLBACK_CATEGORIES
+
+  useEffect(() => setMounted(true), [])
+
+  const logoVariant = mounted && resolvedTheme === 'dark' ? 'white' : 'default'
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10)
@@ -75,18 +97,19 @@ export function Navbar() {
       <header
         className={`sticky top-0 z-50 border-b transition-all duration-300 ${
           scrolled
-            ? 'border-white/[0.06] bg-black/40 backdrop-blur-2xl shadow-[0_1px_0_rgba(255,255,255,0.04)] shadow-lg shadow-black/30'
+            ? 'border-border bg-background/80 backdrop-blur-2xl shadow-sm'
             : 'border-transparent bg-transparent'
         }`}
       >
         <div className="mx-auto flex h-14 sm:h-16 w-full max-w-7xl items-center justify-between px-4 lg:px-6">
           {/* Logo */}
           <Link href="/" className="flex shrink-0 items-center group">
-            <Logo variant="white" size="xl" showText={false} />
+            <Logo variant={logoVariant} size="xl" showText={false} />
           </Link>
 
           {/* Desktop nav */}
           <nav className="hidden items-center gap-0.5 md:flex" aria-label="Main navigation">
+            <BlogNavDropdown categories={blogCategories} />
             {navLinks.map(({ label, href }) => {
               const active = pathname === href || pathname.startsWith(href + '/')
               return (
@@ -96,8 +119,8 @@ export function Navbar() {
                   aria-current={active ? 'page' : undefined}
                   className={`relative rounded-lg border px-3 py-2 text-sm transition-all duration-200 ${
                     active
-                      ? 'border-frsc-crimson-500/30 bg-frsc-crimson-800/15 text-frsc-white-bright shadow-[inset_0_1px_0_rgba(224,48,78,0.12)]'
-                      : 'border-transparent text-frsc-text-300 hover:text-frsc-white-bright hover:bg-white/[0.04]'
+                      ? 'border-frsc-crimson-500/30 bg-frsc-crimson-800/15 text-frsc-text-100 shadow-[inset_0_1px_0_rgba(224,48,78,0.12)]'
+                      : 'border-transparent text-frsc-text-300 hover:text-frsc-text-100 hover:bg-surface-hover'
                   }`}
                 >
                   {label}
@@ -111,7 +134,7 @@ export function Navbar() {
             {user && (
               <Link
                 href="/frsc"
-                className="flex items-center gap-1 rounded-xl border border-white/[0.10] bg-gradient-to-b from-white/[0.05] to-transparent px-2 py-1.5 text-sm font-semibold text-frsc-white-bright shadow-metallic transition-all duration-300 hover:border-frsc-crimson-500/30 hover:from-frsc-crimson-900/10 hover:to-transparent hover-lift sm:gap-1.5 sm:px-3"
+                className="flex items-center gap-1 rounded-xl border border-surface-subtle bg-gradient-to-b from-surface-subtle to-transparent px-2 py-1.5 text-sm font-semibold text-frsc-text-100 transition-all duration-300 hover:border-frsc-crimson-500/30 hover:from-frsc-crimson-900/10 hover:to-transparent hover-lift sm:gap-1.5 sm:px-3"
               >
                 <Image src="/farisium-coin.png" alt="" width={20} height={20} className="h-5 w-5" />
                 <span>{coins} FRSC</span>
@@ -124,7 +147,7 @@ export function Navbar() {
                   <button
                     type="button"
                     onClick={() => setUserMenuOpen((v) => !v)}
-                    className="flex items-center gap-2 rounded-xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-transparent px-3 py-1.5 text-sm transition-all duration-200 hover:border-frsc-crimson-500/30 hover:from-frsc-crimson-900/10 hover:to-transparent min-h-[36px] shadow-metallic"
+                    className="flex items-center gap-2 rounded-xl border border-surface-subtle bg-gradient-to-b from-surface-subtle to-transparent px-3 py-1.5 text-sm transition-all duration-200 hover:border-frsc-crimson-500/30 hover:from-frsc-crimson-900/10 hover:to-transparent min-h-[36px]"
                     aria-expanded={userMenuOpen}
                     aria-haspopup="true"
                   >
@@ -143,18 +166,18 @@ export function Navbar() {
                   </button>
                   {/* Dropdown */}
                     {userMenuOpen && (
-                    <div className="absolute right-0 top-full mt-1 w-44 origin-top-right rounded-xl border border-white/[0.08] bg-frsc-surface-900 p-1 shadow-xl shadow-black/40 z-50 backdrop-blur-xl">
-                      <Link href="/profile" className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-frsc-text-300 hover:text-frsc-white-bright hover:bg-white/[0.06]" onClick={() => setUserMenuOpen(false)}>
+                    <div className="absolute right-0 top-full mt-1 w-44 origin-top-right rounded-xl border border-surface-subtle bg-card p-1 shadow-xl shadow-black/10 z-50 backdrop-blur-xl">
+                      <Link href="/profile" className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-frsc-text-300 hover:text-frsc-text-100 hover:bg-surface-hover" onClick={() => setUserMenuOpen(false)}>
                         Profile
                       </Link>
-                      <Link href="/settings" className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-frsc-text-300 hover:text-frsc-white-bright hover:bg-white/[0.06]" onClick={() => setUserMenuOpen(false)}>
+                      <Link href="/settings" className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-frsc-text-300 hover:text-frsc-text-100 hover:bg-surface-hover" onClick={() => setUserMenuOpen(false)}>
                         Settings
                       </Link>
-                      <Link href="/dashboard" className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-frsc-text-300 hover:text-frsc-white-bright hover:bg-white/[0.06]" onClick={() => setUserMenuOpen(false)}>
+                      <Link href="/dashboard" className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-frsc-text-300 hover:text-frsc-text-100 hover:bg-surface-hover" onClick={() => setUserMenuOpen(false)}>
                         <LayoutDashboard className="h-3.5 w-3.5" />
                         Dashboard
                       </Link>
-                      <div className="my-1 border-t border-white/[0.06]" />
+                      <div className="my-1 border-t border-surface-subtle" />
                       <button
                         type="button"
                         onClick={() => { setUserMenuOpen(false); logOut() }}
@@ -170,7 +193,7 @@ export function Navbar() {
                 <button
                   type="button"
                   onClick={signIn}
-                  className="group inline-flex items-center gap-2.5 rounded-xl bg-white px-3.5 py-1.5 text-sm font-semibold text-black transition-all hover:scale-[1.02] hover:bg-zinc-100 active:scale-[0.98]"
+                  className="group inline-flex items-center gap-2.5 rounded-xl bg-foreground px-3.5 py-1.5 text-sm font-semibold text-background transition-all hover:scale-[1.02] hover:opacity-90 active:scale-[0.98]"
                 >
                   <img src="/google.jpg" alt="" className="h-5 w-5 shrink-0" />
                   <div className="flex flex-col items-start leading-tight">
@@ -181,13 +204,16 @@ export function Navbar() {
               )
             )}
 
+            {/* Theme toggle */}
+            <ThemeToggle />
+
             {/* Mobile menu toggle */}
             <button
               type="button"
               aria-label={mobileOpen ? 'Tutup menu' : 'Buka menu'}
               aria-expanded={mobileOpen}
               onClick={() => setMobileOpen((v) => !v)}
-              className="flex h-11 w-11 items-center justify-center rounded-lg border border-white/10 text-frsc-text-300 transition-all duration-200 hover:text-frsc-white-bright hover:bg-white/[0.06] md:hidden"
+              className="flex h-11 w-11 items-center justify-center rounded-lg border border-surface-subtle text-frsc-text-300 transition-all duration-200 hover:text-frsc-text-100 hover:bg-surface-hover md:hidden"
             >
               {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
             </button>
@@ -200,11 +226,12 @@ export function Navbar() {
         <div className="fixed inset-0 z-sticky md:hidden" onClick={() => setMobileOpen(false)}>
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in" />
           <nav
-            className="absolute right-0 top-14 w-72 max-w-[calc(100vw-16px)] rounded-bl-2xl border-b border-l border-white/[0.06] bg-frsc-surface-900/95 backdrop-blur-2xl p-4 shadow-2xl animate-fade-in-up"
+            className="absolute right-0 top-14 w-72 max-w-[calc(100vw-16px)] rounded-bl-2xl border-b border-l border-surface-subtle bg-card/95 backdrop-blur-2xl p-4 shadow-2xl animate-fade-in-up"
             onClick={(e) => e.stopPropagation()}
             aria-label="Mobile navigation"
           >
             <div className="flex flex-col gap-1">
+              <BlogNavDropdown categories={blogCategories} />
               {navLinks.map(({ label, href, icon: Icon }) => {
                 const active = pathname === href || pathname.startsWith(href + '/')
                 return (
@@ -215,7 +242,7 @@ export function Navbar() {
                     className={`flex items-center gap-3 rounded-xl border px-4 py-3.5 text-sm font-medium transition-all duration-200 ${
                       active
                         ? 'border-frsc-crimson-500/30 bg-frsc-crimson-800/15 text-frsc-crimson-300 shadow-[inset_0_1px_0_rgba(224,48,78,0.12)]'
-                        : 'border-transparent text-frsc-text-300 hover:text-frsc-white-bright hover:bg-white/[0.06]'
+                        : 'border-transparent text-frsc-text-300 hover:text-frsc-text-100 hover:bg-surface-hover'
                     }`}
                   >
                     <Icon className="h-4 w-4" />
@@ -224,11 +251,11 @@ export function Navbar() {
                 )
               })}
 
-              <div className="my-2 border-t border-white/[0.06]" />
+              <div className="my-2 border-t border-surface-subtle" />
 
               {user ? (
                 <>
-                  <Link href="/frsc" className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-sm font-medium text-frsc-text-300 hover:text-frsc-white-bright hover:bg-white/[0.06]" onClick={() => setMobileOpen(false)}>
+                  <Link href="/frsc" className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-sm font-medium text-frsc-text-300 hover:text-frsc-text-100 hover:bg-surface-hover" onClick={() => setMobileOpen(false)}>
                     <Image src="/farisium-coin.png" alt="" width={20} height={20} className="h-5 w-5" />
                     {coins} FRSC
                   </Link>
@@ -245,7 +272,7 @@ export function Navbar() {
                 <button
                   type="button"
                   onClick={signIn}
-                  className="mt-2 flex w-full items-center justify-center gap-3 rounded-xl bg-white py-3.5 text-sm font-semibold text-black transition-all hover:bg-zinc-100"
+                  className="mt-2 flex w-full items-center justify-center gap-3 rounded-xl bg-foreground py-3.5 text-sm font-semibold text-background transition-all hover:opacity-90"
                 >
                   <img src="/google.jpg" alt="" className="h-5 w-5 shrink-0" />
                   Login with Google

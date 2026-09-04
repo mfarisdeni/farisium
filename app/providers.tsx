@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback, useEffect } from 'react'
+import { ThemeProvider } from 'next-themes'
 import type { Lang } from '@/lib/translations'
 import { translations } from '@/lib/translations'
 import { LangContext } from '@/hooks/useLang'
@@ -36,8 +37,15 @@ export function Providers({ children, initialLang }: ProvidersProps) {
   )
 
   return (
-    <LangContext.Provider value={{ lang, setLang, t }}>
-      {children}
-    </LangContext.Provider>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="light"
+      enableSystem={false}
+      disableTransitionOnChange
+    >
+      <LangContext.Provider value={{ lang, setLang, t }}>
+        {children}
+      </LangContext.Provider>
+    </ThemeProvider>
   )
 }

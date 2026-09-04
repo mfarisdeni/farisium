@@ -14,13 +14,13 @@ export async function generateMetadata(): Promise<Metadata> {
   const lang = detectLocale(cookieStore.get(COOKIE_NAME)?.value) as Lang
 
   const titles = {
-    id: 'Blog — Farisium',
-    en: 'Blog — Farisium',
+    id: 'Semua Artikel — Blog AI & Teknologi | Farisium',
+    en: 'All Articles — AI & Technology Blog | Farisium',
   }
 
   const descriptions = {
-    id: 'Artikel, tutorial, dan berita terbaru dari ekosistem Farisium. Pelajari AI, tips prompt engineering, dan perkembangan platform.',
-    en: 'Articles, tutorials, and latest news from the Farisium ecosystem. Learn about AI, prompt engineering tips, and platform updates.',
+    id: 'Jelajahi semua artikel blog Farisium — tutorial AI, review tools, strategi produktivitas, dan berita teknologi terkini untuk kreator dan developer.',
+    en: 'Browse all Farisium articles — AI tutorials, tool reviews, productivity strategies, and the latest technology news for creators and developers.',
   }
   const canonicalUrl = getCanonicalUrl(lang, '/blog')
   const alternates = getHreflangLinks('/blog', lang)
@@ -35,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
       type: 'website',
       locale: lang === 'id' ? 'id_ID' : 'en_US',
       siteName: 'Farisium',
-      images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Blog Farisium' }],
+      images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Farisium Blog — AI & Technology Articles' }],
     },
     twitter: {
       card: 'summary_large_image',
