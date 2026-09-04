@@ -113,19 +113,59 @@ export default async function HomePage() {
     <div className="flex min-h-dvh flex-col">
       <Navbar categories={categories} />
       <main className="flex-1">
-        {/* Hero — featured post */}
+        {/* Hero — SEO-first with tech vibes background */}
+        <section className="hero-bg relative">
+          {/* Ambient gradient orbs */}
+          <div className="hero-orb pointer-events-none" aria-hidden="true" />
+
+          <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pt-16 pb-12 lg:px-6 lg:pt-24 lg:pb-16">
+            <span className="inline-block rounded-full border border-frsc-crimson-500/20 bg-frsc-crimson-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-frsc-crimson-500">
+              {lang === 'id' ? 'Blog AI & Teknologi' : 'AI & Technology Blog'}
+            </span>
+
+            <h1 className="mt-6 max-w-4xl text-[clamp(2rem,5vw,3.5rem)] font-heading font-bold leading-[1.08] tracking-tight text-foreground">
+              {lang === 'id'
+                ? 'Farisium — Artikel AI, Tutorial & Berita Teknologi Terbaru'
+                : 'Farisium — AI Articles, Tutorials & Technology News'}
+            </h1>
+
+            <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              {lang === 'id'
+                ? 'Blog AI dan teknologi terlengkap — panduan praktis, review tools, strategi produktivitas, dan berita terkini untuk kreator, developer, dan bisnis.'
+                : 'Your go-to AI and technology blog — in-depth tutorials, tool reviews, productivity strategies, and the latest industry news for creators, developers, and businesses.'}
+            </p>
+
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <Link
+                href={`/${lang}/blog`}
+                className="inline-flex items-center gap-2 rounded-xl bg-frsc-crimson-500 px-5 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-frsc-crimson-600"
+              >
+                {lang === 'id' ? 'Baca Semua Artikel' : 'Explore All Articles'}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href={`/${lang}/blog/${featuredT?.slug}`}
+                className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-5 py-3 text-sm font-semibold text-foreground transition-colors duration-200 hover:bg-surface-hover"
+              >
+                {lang === 'id' ? 'Artikel Unggulan' : 'Featured Article'}
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Featured post card */}
         {featured && featuredT && (
-          <section className="mx-auto w-full max-w-7xl px-4 pt-10 lg:px-6 lg:pt-16">
+          <section className="mx-auto w-full max-w-7xl px-4 py-10 lg:px-6 lg:py-14">
             <span className="text-eyebrow font-semibold uppercase tracking-[0.18em] text-frsc-crimson-500">
               {lang === 'id' ? 'Sorotan' : 'Featured'}
             </span>
-            <h1 className="mt-3 max-w-3xl text-hero font-heading font-bold leading-[1.05] text-foreground">
+            <h2 className="mt-3 max-w-3xl text-2xl font-heading font-bold leading-tight text-foreground">
               {featuredT.title}
-            </h1>
-            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+            </h2>
+            <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted-foreground">
               {featuredT.excerpt}
             </p>
-            <div className="mt-5 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+            <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
               <span className="flex items-center gap-1.5">
                 <CalendarDays className="h-4 w-4" />
                 {featured.date}
@@ -138,7 +178,7 @@ export default async function HomePage() {
             </div>
             <Link
               href={`/${lang}/blog/${featuredT.slug}`}
-              className="mt-7 inline-flex cursor-pointer items-center gap-2 rounded-xl bg-frsc-crimson-500 px-5 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-frsc-crimson-600"
+              className="mt-6 inline-flex cursor-pointer items-center gap-2 rounded-xl bg-frsc-crimson-500 px-5 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-frsc-crimson-600"
             >
               {lang === 'id' ? 'Baca Artikel' : 'Read Article'}
               <ArrowRight className="h-4 w-4" />

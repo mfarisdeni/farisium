@@ -1296,3 +1296,66 @@
     transparent 70%
   );
 }
+
+/* ── Homepage Hero Background ── */
+.hero-bg {
+  position: relative;
+  overflow: hidden;
+  background: var(--background);
+}
+
+/* Dot grid — subtle tech pattern */
+.hero-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 70%);
+  z-index: 0;
+}
+
+.dark .hero-bg::before {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+}
+
+/* Animated gradient orb — crimson accent */
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  top: -200px;
+  right: -100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(224, 48, 78, 0.08) 0%, transparent 70%);
+  animation: hero-glow 8s ease-in-out infinite alternate;
+  z-index: 0;
+}
+
+.dark .hero-bg::after {
+  background: radial-gradient(circle, rgba(224, 48, 78, 0.12) 0%, transparent 70%);
+}
+
+/* Second orb — purple accent (via child div) */
+.hero-orb {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  bottom: -150px;
+  left: -100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(100, 47, 127, 0.06) 0%, transparent 70%);
+  animation: hero-glow 10s ease-in-out 2s infinite alternate;
+  z-index: 0;
+}
+
+.dark .hero-orb {
+  background: radial-gradient(circle, rgba(100, 47, 127, 0.10) 0%, transparent 70%);
+}
+
+@keyframes hero-glow {
+  0% { transform: scale(1) translate(0, 0); opacity: 0.6; }
+  100% { transform: scale(1.15) translate(10px, -10px); opacity: 1; }
+}
