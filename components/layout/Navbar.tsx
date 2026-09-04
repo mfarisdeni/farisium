@@ -197,8 +197,8 @@ export function Navbar({ categories }: NavbarProps) {
                 >
                   <img src="/google.jpg" alt="" className="h-5 w-5 shrink-0" />
                   <div className="flex flex-col items-start leading-tight">
-                    <span className="text-sm font-semibold text-black">Login</span>
-                    <span className="text-[10px] font-normal text-black">+1 FREE FRSC</span>
+                    <span className="text-sm font-semibold text-background">Login</span>
+                    <span className="text-[10px] font-normal text-background/70">+1 FREE FRSC</span>
                   </div>
                 </button>
               )
