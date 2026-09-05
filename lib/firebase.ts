@@ -1,19 +1,9 @@
 'use client'
 
 import { initializeApp, getApps, getApp, type FirebaseApp } from 'firebase/app'
-import {
-  getAuth,
-  GoogleAuthProvider,
-  signInWithPopup,
-  signOut as fbSignOut,
-  onAuthStateChanged,
-  type Auth,
-  type User,
-} from 'firebase/auth'
+import { getFirestore } from 'firebase/firestore'
 
-import {
-  getFirestore,
-} from 'firebase/firestore'
+import type { Auth, User } from 'firebase/auth'
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -35,7 +25,6 @@ export const isFirebaseConfigured = Boolean(
 )
 
 let app: FirebaseApp | null = null
-let auth: Auth | null = null
 
 export let db: ReturnType<typeof getFirestore> | null = null
 
@@ -44,29 +33,56 @@ if (isFirebaseConfigured) {
     ? getApp()
     : initializeApp(firebaseConfig)
 
-  auth = getAuth(app)
   db = getFirestore(app)
 }
 
 export type { User }
 
+/**
+ * Auth is intentionally NOT imported at module scope.
+ * `firebase/auth` (which kicks off the Firebase Auth iframe / popup machinery)
+ * is only loaded when a user actually signs in or auth state is requested.
+ * This keeps ~90 KiB of third-party JS off the initial critical path.
+ */
+async function getAuth(): Promise<Auth> {
+  if (!app) throw new Error('Firebase is not configured.')
+  const { getAuth } = await import('firebase/auth')
+  return getAuth(app)
+}
+
 export async function signInWithGoogle(): Promise<void> {
-  if (!auth) throw new Error('Firebase is not configured.')
+  const auth = await getAuth()
+  const { GoogleAuthProvider, signInWithPopup } = await import('firebase/auth')
   const provider = new GoogleAuthProvider()
   await signInWithPopup(auth, provider)
 }
 
 export async function signOut(): Promise<void> {
-  if (!auth) return
+  if (!app) return
+  const auth = await getAuth()
+  const { signOut: fbSignOut } = await import('firebase/auth')
   await fbSignOut(auth)
 }
 
 export function subscribeToAuth(
   callback: (user: User | null) => void,
 ): () => void {
-  if (!auth) {
-    callback(null)
-    return () => {}
+  let cancelled = false
+  let unsubscribe: (() => void) | undefined
+
+  getAuth()
+    .then(async (auth) => {
+      if (cancelled) return
+      const { onAuthStateChanged } = await import('firebase/auth')
+      if (cancelled) return
+      unsubscribe = onAuthStateChanged(auth, callback)
+    })
+    .catch(() => {
+      if (!cancelled) callback(null)
+    })
+
+  return () => {
+    cancelled = true
+    unsubscribe?.()
   }
-  return onAuthStateChanged(auth, callback)
 }

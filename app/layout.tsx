@@ -219,11 +219,6 @@ export default async function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
         />
-        <Script
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6861723745616674"
-          strategy="beforeInteractive"
-          crossOrigin="anonymous"
-        />
       </head>
       <body className="bg-background font-sans antialiased">
         {/* Google Consent Mode v2 — default denied until user consents */}

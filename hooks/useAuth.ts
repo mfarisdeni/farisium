@@ -19,46 +19,84 @@ export interface AuthState {
   authError: string | null
 }
 
+interface IdleHandle {
+  cancel: () => void
+}
+
+/** requestIdleCallback with a setTimeout fallback (no punishable long task). */
+function requestIdle(
+  cb: () => void,
+  timeout = 2500,
+): IdleHandle {
+  const w = window as unknown as {
+    requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number
+    cancelIdleCallback?: (id: number) => void
+  }
+
+  if (typeof w.requestIdleCallback === 'function') {
+    const id = w.requestIdleCallback(cb, { timeout })
+    return { cancel: () => w.cancelIdleCallback?.(id) }
+  }
+
+  const id = setTimeout(cb, 1000)
+  return { cancel: () => clearTimeout(id) }
+}
+
 export function useAuth(): AuthState {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
   const [authError, setAuthError] = useState<string | null>(null)
 
   useEffect(() => {
-  const unsubscribe = subscribeToAuth(async (u) => {
-  try {
-    if (u?.uid) {
-const isNew = await createUserIfNeeded(
-  u.uid,
-  u.email ?? '',
-  u.displayName ?? '',
-  u.photoURL ?? '',
-)
+    let disposed = false
+    let unsubscribe: (() => void) | undefined
 
-if (isNew) {
-  fetch('/api/auth/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      uid: u.uid,
-      email: u.email,
-      displayName: u.displayName,
-    }),
-  }).catch(() => {
-    /* silent fail */
-  })
-}
+    const start = () => {
+      if (disposed) return
+      unsubscribe = subscribeToAuth(async (u) => {
+        if (disposed) return
+        try {
+          if (u?.uid) {
+            const isNew = await createUserIfNeeded(
+              u.uid,
+              u.email ?? '',
+              u.displayName ?? '',
+              u.photoURL ?? '',
+            )
+
+            if (isNew) {
+              fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  uid: u.uid,
+                  email: u.email,
+                  displayName: u.displayName,
+                }),
+              }).catch(() => {
+                /* silent fail */
+              })
+            }
+          }
+        } catch (err) {
+          console.error(err)
+        }
+
+        setUser(u)
+        setLoading(false)
+      })
     }
-  } catch (err) {
-    console.error(err)
-  }
 
-  setUser(u)
-  setLoading(false)
-})
+    // Defer Firebase Auth bootstrap until the browser is idle so the auth
+    // iframe and its JS never block first render (FCP/LCP/TBT).
+    const handle = requestIdle(start)
 
-  return unsubscribe
-}, [])
+    return () => {
+      disposed = true
+      handle.cancel()
+      unsubscribe?.()
+    }
+  }, [])
 
   const signIn = async () => {
     setAuthError(null)
@@ -82,12 +120,12 @@ if (isNew) {
     }
   }
 
-return {
-  user,
-  loading,
-  configured: isFirebaseConfigured,
-  signIn,
-  logOut,
-  authError,
-}
+  return {
+    user,
+    loading,
+    configured: isFirebaseConfigured,
+    signIn,
+    logOut,
+    authError,
+  }
 }

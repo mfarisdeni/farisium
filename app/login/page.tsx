@@ -47,7 +47,7 @@ export default function LoginPage() {
         <button
           type="button"
           onClick={signIn}
-          className="flex w-full items-center justify-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.04] py-3 text-sm font-semibold text-frsc-white-bright shadow-metallic transition-all duration-200 hover:border-frsc-crimson-500/30 hover:from-frsc-crimson-900/10 hover:to-transparent active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-frsc-crimson-500/50"
+          className="flex w-full items-center justify-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.04] py-3 text-sm font-semibold text-white shadow-metallic transition-all duration-200 hover:border-frsc-crimson-500/30 hover:from-frsc-crimson-900/10 hover:to-transparent active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-frsc-crimson-500/50"
         >
           {/* Google icon */}
           <svg className="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">

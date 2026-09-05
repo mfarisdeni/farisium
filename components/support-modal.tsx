@@ -10,6 +10,7 @@ import { useAuthContext } from '@/contexts/AuthContext'
 import { useKlikQRIS } from '@/hooks/useKlikQRIS'
 import { useLang } from '@/hooks/useLang'
 import { useFRSC } from '@/contexts/FRSCContext'
+import { GoogleIcon } from '@/components/ui/GoogleIcon'
 
 interface SupportModalProps {
   open: boolean
@@ -267,11 +268,7 @@ function LoginPrompt({ loggingIn, onLogin }: { loggingIn: boolean; onLogin: () =
           <Loader2 className="size-5 animate-spin" />
         ) : (
           <>
-            <img
-              src="/google.jpg"
-              alt="Google"
-              className="h-6 w-6 shrink-0"
-            />
+            <GoogleIcon className="h-6 w-6 shrink-0" />
             <div className="flex flex-col items-start leading-tight">
               <span className="text-sm font-semibold text-black">Masuk dengan Google</span>
               <span className="text-[11px] font-normal text-black">+1 FREE FRSC</span>

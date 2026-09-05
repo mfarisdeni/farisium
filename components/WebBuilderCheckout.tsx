@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { Loader2, ShieldCheck, CheckCircle, ArrowLeft, Package, FileText, CreditCard } from 'lucide-react'
 import { useAuthContext } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
+import { GoogleIcon } from '@/components/ui/GoogleIcon'
 
 interface OrderSummary {
   orderId: string
@@ -168,7 +169,7 @@ export function WebBuilderCheckout({ orderId, initialLang }: { orderId: string; 
             onClick={signIn}
             className="mt-6 inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-black transition-all hover:scale-[1.02] hover:bg-zinc-100 active:scale-[0.98]"
           >
-            <img src="/google.jpg" alt="Google" className="h-5 w-5" />
+            <GoogleIcon className="h-5 w-5" />
             {isId ? 'Masuk dengan Google' : 'Sign in with Google'}
           </button>
           <div className="mt-6">

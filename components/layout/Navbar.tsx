@@ -23,6 +23,7 @@ import { useAuthContext } from '@/contexts/AuthContext'
 import { useFRSC } from '@/contexts/FRSCContext'
 import { Logo } from '@/components/ui/Logo'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
+import { GoogleIcon } from '@/components/ui/GoogleIcon'
 import { BlogNavDropdown } from '@/components/blog/BlogNavDropdown'
 
 const navLinks = [
@@ -195,7 +196,7 @@ export function Navbar({ categories }: NavbarProps) {
                   onClick={signIn}
                   className="group inline-flex items-center gap-2.5 rounded-xl bg-foreground px-3.5 py-1.5 text-sm font-semibold text-background transition-all hover:scale-[1.02] hover:opacity-90 active:scale-[0.98]"
                 >
-                  <img src="/google.jpg" alt="" className="h-5 w-5 shrink-0" />
+                  <GoogleIcon className="h-5 w-5 shrink-0" />
                   <div className="flex flex-col items-start leading-tight">
                     <span className="text-sm font-semibold text-background">Login</span>
                     <span className="text-[10px] font-normal text-background/70">+1 FREE FRSC</span>
@@ -274,7 +275,7 @@ export function Navbar({ categories }: NavbarProps) {
                   onClick={signIn}
                   className="mt-2 flex w-full items-center justify-center gap-3 rounded-xl bg-foreground py-3.5 text-sm font-semibold text-background transition-all hover:opacity-90"
                 >
-                  <img src="/google.jpg" alt="" className="h-5 w-5 shrink-0" />
+                  <GoogleIcon className="h-5 w-5 shrink-0" />
                   Login with Google
                 </button>
               )}

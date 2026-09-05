@@ -2,10 +2,8 @@
 
 import * as React from 'react'
 import { Dialog } from '@base-ui/react/dialog'
-import { motion } from 'framer-motion'
 import { X } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { easeEmphasized } from '@/lib/motion'
 
 interface ModalProps {
   open: boolean
@@ -59,13 +57,9 @@ export function Modal({
             className,
           )}
         >
-          <motion.div
-            initial={{ opacity: 0, y: 16, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.32, ease: easeEmphasized }}
-          >
+          <div className="animate-modal-pop-in">
             {children}
-          </motion.div>
+          </div>
 
           {!hideClose && (
             <Dialog.Close
