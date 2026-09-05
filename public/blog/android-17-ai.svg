@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a0f"/>
+      <stop offset="100%" stop-color="#0d1117"/>
+    </linearGradient>
+    <linearGradient id="ai" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e0304e"/>
+      <stop offset="100%" stop-color="#642f7f"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3DDC84"/>
+      <stop offset="100%" stop-color="#2ea043"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#642f7f" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#3DDC84" stop-opacity="0.05"/>
+    </linearGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="40"/></filter>
+    <filter id="sh"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.4"/></filter>
+    <style>
+      @keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+      @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+      @keyframes dash{to{stroke-dashoffset:-24}}
+      .pulse{animation:pulse 2s ease-in-out infinite}
+      .blink{animation:blink 1.5s ease-in-out infinite}
+      .dash{stroke-dasharray:8 4;animation:dash 1.2s linear infinite}
+    </style>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <ellipse cx="700" cy="300" rx="320" ry="260" fill="url(#glow)" filter="url(#blur)"/>
+
+  <g opacity="0.03" stroke="#e6edf3" stroke-width="0.5">
+    <line x1="0" y1="126" x2="1200" y2="126"/><line x1="0" y1="252" x2="1200" y2="252"/>
+    <line x1="0" y1="378" x2="1200" y2="378"/><line x1="0" y1="504" x2="1200" y2="504"/>
+    <line x1="240" y1="0" x2="240" y2="630"/><line x1="480" y1="0" x2="480" y2="630"/>
+    <line x1="720" y1="0" x2="720" y2="630"/><line x1="960" y1="0" x2="960" y2="630"/>
+  </g>
+
+  <text x="600" y="50" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="18" font-weight="600" fill="#e6edf3" letter-spacing="2" opacity="0.8">GEMINI IN CHROME: THE AGENTIC BROWSER</text>
+
+  <g transform="translate(860,305)" filter="url(#sh)">
+    <rect x="-60" y="-105" width="120" height="210" rx="20" fill="#161b22" stroke="#642f7f" stroke-width="2"/>
+    <rect x="-50" y="-93" width="100" height="10" rx="5" fill="#21262d"/>
+    <rect x="-50" y="-74" width="100" height="120" rx="6" fill="#0a0a0f"/>
+    <rect x="-44" y="-66" width="60" height="9" rx="4.5" fill="#21262d"/>
+    <rect x="-44" y="-50" width="46" height="9" rx="4.5" fill="#21262d"/>
+    <rect x="-44" y="-34" width="88" height="9" rx="4.5" fill="#2ea043" opacity="0.6"/>
+    <rect x="-44" y="-18" width="70" height="9" rx="4.5" fill="#21262d"/>
+    <rect x="-50" y="54" width="100" height="40" rx="6" fill="#642f7f" opacity="0.92"/>
+    <circle cx="8" cy="74" r="9" fill="none" stroke="#e6edf3" stroke-width="2" opacity="0.85"/>
+    <circle cx="8" cy="74" r="3" fill="#e6edf3"/>
+    <text x="24" y="78" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="600" fill="#e6edf3">auto browse</text>
+    <circle cx="8" cy="74" r="9" fill="#e0304e" class="blink" opacity="0.85"/>
+  </g>
+
+  <g transform="translate(60,300)">
+    <rect x="0" y="-30" width="72" height="72" rx="14" fill="#161b22" stroke="#e0304e" stroke-width="1.5"/>
+    <path d="M18 -4l10 22" stroke="#e0304e" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <circle cx="54" cy="-4" r="7" fill="none" stroke="#642f7f" stroke-width="2.5" class="pulse"/>
+    <path d="M22 14l28 -18" stroke="#642f7f" stroke-width="2" fill="none" stroke-linecap="round" class="dash"/>
+  </g>
+
+  <g filter="url(#sh)">
+    <rect x="170" y="120" width="250" height="56" rx="8" fill="#161b22" stroke="#e0304e" stroke-width="1"/>
+    <circle cx="26" cy="28" r="12" fill="#0a0a0f" stroke="#e0304e" stroke-width="1.5"/>
+    <text x="26" y="33" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="700" fill="#e0304e">1</text>
+    <text x="48" y="24" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="600" fill="#e6edf3">Summarize &amp; answer</text>
+    <text x="48" y="40" font-family="Inter,system-ui,sans-serif" font-size="9" fill="#8b949e">Long articles, any web page</text>
+  </g>
+  <line x1="420" y1="148" x2="560" y2="200" stroke="#e0304e" stroke-width="0.8" opacity="0.4" stroke-dasharray="4 3"/>
+
+  <g filter="url(#sh)">
+    <rect x="600" y="120" width="230" height="56" rx="8" fill="#161b22" stroke="#642f7f" stroke-width="1"/>
+    <circle cx="26" cy="28" r="12" fill="#0a0a0f" stroke="#642f7f" stroke-width="1.5"/>
+    <text x="26" y="33" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="700" fill="#642f7f">2</text>
+    <text x="48" y="24" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="600" fill="#e6edf3">Nano Banana image editing</text>
+    <text x="48" y="40" font-family="Inter,system-ui,sans-serif" font-size="9" fill="#8b949e">Generate and edit on the fly</text>
+  </g>
+  <line x1="830" y1="148" x2="800" y2="200" stroke="#642f7f" stroke-width="0.8" opacity="0.4" stroke-dasharray="4 3"/>
+
+  <g filter="url(#sh)" transform="translate(420,480)">
+    <rect x="0" y="0" width="360" height="58" rx="8" fill="#161b22" stroke="#3DDC84" stroke-width="1"/>
+    <circle cx="24" cy="29" r="11" fill="#0a0a0f" stroke="#3DDC84" stroke-width="1.5"/>
+    <text x="24" y="34" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="700" fill="#3DDC84">3</text>
+    <text x="46" y="24" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="600" fill="#e6edf3">Auto browse agentic tasks</text>
+    <text x="46" y="40" font-family="Inter,system-ui,sans-serif" font-size="9" fill="#8b949e">Book parking, update orders, plan travel</text>
+  </g>
+  <line x1="800" y1="470" x2="790" y2="445" stroke="#3DDC84" stroke-width="0.8" opacity="0.4" stroke-dasharray="4 3" transform="translate(0,20)"/>
+
+  <g filter="url(#sh)" transform="translate(90,420)">
+    <rect x="0" y="0" width="260" height="58" rx="8" fill="#161b22" stroke="#f0883e" stroke-width="1"/>
+    <circle cx="24" cy="29" r="11" fill="#0a0a0f" stroke="#f0883e" stroke-width="1.5"/>
+    <text x="24" y="34" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="700" fill="#f0883e">!</text>
+    <text x="46" y="24" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="600" fill="#e6edf3">Confirmation before sensitive actions</text>
+    <text x="46" y="40" font-family="Inter,system-ui,sans-serif" font-size="9" fill="#8b949e">Built secure by design</text>
+  </g>
+  <line x1="350" y1="449" x2="420" y2="509" stroke="#f0883e" stroke-width="0.8" opacity="0.4" stroke-dasharray="4 3" transform="translate(10,20)"/>
+
+  <rect x="0" y="580" width="1200" height="1" fill="#3DDC84" opacity="0.12" class="dash"/>
+
+  <text x="600" y="572" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="11" fill="#8b949e" letter-spacing="1" opacity="0.6">GEMINI IN CHROME FOR ANDROID — GRADUALLY ROLLING OUT</text>
+
+  <rect x="20" y="20" width="1160" height="590" rx="8" fill="none" stroke="#e6edf3" stroke-opacity="0.06" stroke-width="1"/>
+  <text x="60" y="600" font-family="Inter,system-ui,sans-serif" font-size="10" fill="#8b949e" opacity="0.5" letter-spacing="2">FARISIUM</text>
+</svg>
