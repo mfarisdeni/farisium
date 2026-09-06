@@ -224,7 +224,7 @@ export function Navbar({ categories }: NavbarProps) {
 
       {/* Mobile drawer */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-sticky md:hidden" onClick={() => setMobileOpen(false)}>
+        <div className="fixed inset-0 z-40 md:hidden" onClick={() => setMobileOpen(false)}>
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in" />
           <nav
             className="absolute right-0 top-14 w-72 max-w-[calc(100vw-16px)] rounded-bl-2xl border-b border-l border-surface-subtle bg-card/95 backdrop-blur-2xl p-4 shadow-2xl animate-fade-in-up"
