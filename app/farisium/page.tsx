@@ -119,7 +119,7 @@ const faqSchema = {
       name: 'Apakah Anime Generator aman digunakan?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Ya. AI inference berjalan di infrastruktur self-hosted Farisium. Data dan gambar yang kamu hasilkan tidak dibagikan ke pihak ketiga manapun.',
+        text: 'Ya. AI inference berjalan di infrastruktur self-hosted Farisium. Data dan gambar yang kamu hasilkan tidak dibagikan kepada pihak ketiga untuk tujuan pemasaran.',
       },
     },
     {

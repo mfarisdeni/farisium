@@ -39,7 +39,7 @@ export function WhyFarisiumSection({ lang = 'id' }: Props) {
         {
           icon: <Shield className="h-5 w-5" />,
           title: 'Privasi Terjaga',
-          description: 'Data dan hasil generate tersimpan aman. Tidak ada pihak ketiga yang memproses kontenmu.',
+          description: 'Data dan hasil generate tersimpan aman. Data generasi AI-mu tidak dibagikan kepada pihak ketiga untuk tujuan pemasaran.',
         },
       ],
     },
@@ -66,7 +66,7 @@ export function WhyFarisiumSection({ lang = 'id' }: Props) {
         {
           icon: <Shield className="h-5 w-5" />,
           title: 'Privacy Protected',
-          description: 'Your data and generated results are securely stored. No third party processes your content.',
+          description: 'Your data and generated results are securely stored. Your AI generation data is not shared with third parties for marketing purposes.',
         },
       ],
     },

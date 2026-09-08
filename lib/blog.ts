@@ -676,7 +676,7 @@ const idArticles: Record<string, BlogSection[]> = {
       type: 'list',
       items: [
         'Tujuan penggunaan: Untuk anime? Pilih Farisium Anime Generator. Untuk seni konseptual? Midjourney. Untuk desain produk? Adobe Firefly.',
-        'Anggaran: Tidak ingin bayar? Stable Diffusion (open source) atau Farisium Anime Generator (FRSC gratis dari Rewards) adalah pilihan terbaik.',
+        'Anggaran: Tidak ingin bayar? Stable Diffusion (open source) atau Farisium Anime Generator (FRSC gratis dari Rewards) adalah pilihan yang paling cocok.',
         'Kemudahan penggunaan: Pemula mulai dengan Farisium Anime Generator, DALL-E 3, atau Midjourney.',
         'Kontrol: Stable Diffusion memberikan kontrol paling penuh jika kamu memiliki pengetahuan teknis.',
       ],
@@ -735,7 +735,7 @@ const idArticles: Record<string, BlogSection[]> = {
     },
     {
       type: 'paragraph',
-      text: 'Farisium Anime Generator adalah pilihan terbaik karena modelnya telah di-fine-tune khusus untuk ilustrasi anime dan manga. Hasilnya lebih konsisten dibanding platform umum seperti Midjourney atau DALL-E 3.',
+      text: 'Untuk kebutuhan ilustrasi anime dan manga, Farisium Anime Generator adalah pilihan kami — modelnya di-fine-tune khusus untuk itu. Hasilnya lebih konsisten dibanding platform umum seperti Midjourney atau DALL-E 3.',
     },
     {
       type: 'heading',
@@ -780,7 +780,7 @@ const idArticles: Record<string, BlogSection[]> = {
     },
     {
       type: 'paragraph',
-      text: 'Setiap platform memiliki keunggulan masing-masing. Namun untuk kebutuhan ilustrasi anime dan manga, Farisium Anime Generator adalah pilihan terbaik — gratis melalui Rewards, dioptimalkan khusus untuk anime, dan mudah digunakan.',
+      text: 'Setiap platform memiliki keunggulan masing-masing. Namun untuk kebutuhan khusus ilustrasi anime dan manga, Farisium Anime Generator adalah pilihan kami — gratis melalui Rewards, dioptimalkan khusus untuk anime, dan mudah digunakan.',
     },
     {
       type: 'paragraph',
@@ -3212,10 +3212,10 @@ const idArticles: Record<string, BlogSection[]> = {
   ],
 
   'ai-watermark-explained': [
-    { type: 'paragraph', text: 'Coba perhatikan kalau kamu upload gambar hasil AI generator ke Gemini atau ChatGPT terbaru, terus tanya "ini dibuat AI nggak?" — sistemnya sekarang bisa jawab dengan pasti, bukan cuma nebak dari tampilannya. Itu bukan kebetulan. Sejak 2 Agustus 2026, Uni Eropa resmi mewajibkan sistem AI mengidentifikasi dirinya ke pengguna, dan hampir semua perusahaan AI besar — Google, OpenAI, Anthropic, ElevenLabs — kompak nambahin sistem watermark ke produk mereka dalam beberapa bulan terakhir.' },
+    { type: 'paragraph', text: 'Coba perhatikan kalau kamu upload gambar hasil AI generator ke Gemini atau ChatGPT terbaru, terus tanya "ini dibuat AI nggak?" — sistemnya sekarang bisa jawab dengan pasti, bukan cuma nebak dari tampilannya. Itu bukan kebetulan. Sejak 2 Agustus 2026, aturan transparansi AI Act Uni Eropa mulai diterapkan, yang mengharuskan sistem AI memberi tahu pengguna ketika mereka berinteraksi dengan AI atau melihat konten buatan AI. Hampir semua perusahaan AI besar — Google, OpenAI, Anthropic, ElevenLabs — kompak nambahin sistem watermark ke produk mereka dalam beberapa bulan terakhir.' },
     { type: 'paragraph', text: 'Ini bukan cuma urusan regulasi Eropa yang jauh dari kita. Kalau kamu content creator, freelancer, guru, atau bahkan cuma pembaca biasa yang sering ketemu konten di media sosial, ini langsung relevan: cara kamu memverifikasi konten, cara kamu membuktikan karya kamu asli, dan cara platform menilai konten kamu semuanya lagi berubah.' },
     { type: 'heading', level: 2, text: 'Apa yang Sebenarnya Terjadi' },
-    { type: 'paragraph', text: 'Regulasi AI Act Uni Eropa ([[artificialintelligenceact.eu](https://artificialintelligenceact.eu/)]) yang mulai berlaku 2 Agustus 2026 mewajibkan sistem AI generatif menandai kontennya sebagai buatan mesin, bukan manusia. Sebagai respons, Anthropic menambahkan watermark machine-readable ke output Claude untuk model-model yang dirilis di Eropa sejak tanggal itu, dengan model versi lama menyusul. Ini bukan langkah sendirian — di Google I/O Mei 2026, Google mengumumkan OpenAI, ElevenLabs, Kakao, dan NVIDIA semuanya ikut mengadopsi sistem watermark [[SynthID](https://deepmind.google/technologies/synthid/)] milik Google DeepMind.' },
+    { type: 'paragraph', text: 'Ketentuan transparansi AI Act Uni Eropa ([[artificialintelligenceact.eu](https://artificialintelligenceact.eu/)]) yang mulai diterapkan 2 Agustus 2026 mewajibkan penyedia sistem AI generatif menandai hasil buatan mesin secara machine-readable sebagai konten sintetis, bukan buatan manusia. Sementara itu, penyebar (deployer) wajib memberi label yang jelas pada deepfake dan mengungkapkan konten teks penting yang dihasilkan AI. Sebagai respons, Anthropic menambahkan watermark machine-readable ke output Claude untuk model-model yang dirilis di Eropa sejak tanggal itu, dengan model versi lama menyusul. Ini bukan langkah sendirian — di Google I/O Mei 2026, Google mengumumkan OpenAI, ElevenLabs, Kakao, dan NVIDIA semuanya ikut mengadopsi sistem watermark [[SynthID](https://deepmind.google/technologies/synthid/)] milik Google DeepMind.' },
     { type: 'paragraph', text: 'Intinya: konten AI sekarang punya "penanda" tersembunyi yang dirancang supaya nggak gampang dihapus, dan makin banyak perusahaan yang wajib menyertakannya secara default, bukan sebagai fitur opsional.' },
     { type: 'heading', level: 2, text: 'Bagaimana Watermark AI Ini Sebenarnya Bekerja' },
     { type: 'paragraph', text: 'Ada dua sistem utama yang perlu kamu tahu namanya, karena bakal makin sering muncul:' },
@@ -3557,7 +3557,7 @@ const idArticles: Record<string, BlogSection[]> = {
     { type: 'paragraph', text: 'Android 17 juga memperketat batasan percobaan PIN dan kata sandi. Jumlah percobaan yang diizinkan sebelum perangkat "meminta jeda" dikurangi secara signifikan, dan jeda antar percobaan yang gagal dibuat semakin lama.' },
     { type: 'paragraph', text: 'Efeknya langsung terasa pada metode serangan yang paling umum dipakai pencuri HP: brute-force manual, yaitu menebak PIN berulang kali sampai ketemu. Dengan batasan yang kini jauh lebih ketat, pendekatan ini menjadi jauh lebih lambat dan tidak praktis. Salah satu tips keamanan yang tetap berlaku: pilih PIN lebih dari enam digit kalau perangkat mendukung, karena kombinasi yang lebih panjang secara eksponensial lebih sulit ditebak.' },
     { type: 'heading', level: 2, text: 'Peran AI Semakin Besar di Android' },
-    { type: 'paragraph', text: 'Android 17 menguatkan sisi keamanan sekaligus memakai AI untuk hal-hal yang dulu butuh banyak pengaturan manual. Google menyebut kemampuan ini sebagai on-device AI — analisis dilakukan langsung di perangkat, bukan di server, sehingga lebih cepat dan lebih privat karena data tidak meninggalkan HP kamu.' },
+    { type: 'paragraph', text: 'Android 17 menguatkan sisi keamanan sekaligus memakai AI untuk hal-hal yang dulu butuh banyak pengaturan manual. Google menyebut kemampuan ini sebagai on-device AI — sebagian besar analisis dilakukan langsung di perangkat, bukan di server, sehingga lebih cepat dan lebih privat dibandingkan mengirim seluruh data ke cloud.' },
     { type: 'paragraph', text: 'Salah satu contohnya adalah Live Threat Detection: sistem AI di perangkat yang terus memantau perilaku aplikasi untuk mendeteksi pola mencurigakan seperti penerusan SMS otomatis, penyalahgunaan overlay accessibility, atau aplikasi yang menyembunyikan ikonnya sendiri. Kekuatan utama pendekatan ini adalah deteksi berbasis perilaku, bukan sekadar daftar malware yang sudah dikenal — sehingga bisa menangkap ancaman baru yang belum pernah terdaftar.' },
     { type: 'paragraph', text: 'Di sisi lain, Chrome di Android kini turut memeriksa file APK yang diunduh terhadap malware yang sudah dikenal sebelum aplikasi bisa diinstal. Kalau kamu ingin memahami lebih dalam bagaimana AI sebenarnya bekerja di balik layar sistem Google, artikel tentang [[model yang dipakai AI Mode Google](/blog/apa-itu-ai-mode-google)] bisa jadi titik awal yang bagus.' },
     { type: 'heading', level: 2, text: 'Gemini Mulai Masuk Lebih Dalam ke Chrome Android' },
@@ -4310,7 +4310,7 @@ const enArticles: Record<string, BlogSection[]> = {
       type: 'list',
       items: [
         'Purpose: For anime illustrations? Choose Farisium Anime Generator. For concept art? Midjourney excels. For product design? Adobe Firefly is better suited.',
-        'Budget: Want to avoid costs? Stable Diffusion (open source) or Farisium Anime Generator (free FRSC from Rewards) are the best picks.',
+        'Budget: Want to avoid costs? Stable Diffusion (open source) or Farisium Anime Generator (free FRSC from Rewards) are solid picks for the budget-conscious.',
         'Ease of use: Beginners should start with Farisium Anime Generator, DALL-E 3, or Midjourney.',
         'Control: Stable Diffusion offers the most control if you have technical knowledge.',
       ],
@@ -4369,7 +4369,7 @@ const enArticles: Record<string, BlogSection[]> = {
     },
     {
       type: 'paragraph',
-      text: 'Farisium Anime Generator is the best choice because its model is fine-tuned specifically for anime and manga illustrations. Results are more consistent than general platforms like Midjourney or DALL-E 3.',
+      text: 'For anime and manga illustrations, Farisium Anime Generator is our pick — its model is fine-tuned specifically for that. Results are more consistent than general platforms like Midjourney or DALL-E 3.',
     },
     {
       type: 'heading',
@@ -4414,7 +4414,7 @@ const enArticles: Record<string, BlogSection[]> = {
     },
     {
       type: 'paragraph',
-      text: 'Each platform has its strengths. For anime and manga illustrations, Farisium Anime Generator is the best choice — free through Rewards, optimized for anime, and easy to use.',
+      text: 'Each platform has its strengths. For specific anime and manga illustration needs, Farisium Anime Generator is our pick — free through Rewards, optimized for anime, and easy to use.',
     },
     {
       type: 'paragraph',
@@ -6846,10 +6846,10 @@ const enArticles: Record<string, BlogSection[]> = {
   ],
 
   'ai-watermark-explained': [
-    { type: 'paragraph', text: "Try this: upload an AI-generated image to Gemini or a recent version of ChatGPT and ask, \"was this made by AI?\" The system can now answer with real confidence, not just an educated guess based on how the image looks. That's not a coincidence. Since August 2, 2026, the European Union officially requires AI systems to identify themselves to users, and nearly every major AI company — Google, OpenAI, Anthropic, ElevenLabs — has added watermarking systems to their products within the past few months." },
+    { type: 'paragraph', text: "Try this: upload an AI-generated image to Gemini or a recent version of ChatGPT and ask, \"was this made by AI?\" The system can now answer with real confidence, not just an educated guess based on how the image looks. That's not a coincidence. Since August 2, 2026, the EU AI Act's transparency rules have been in application, requiring AI systems to let users know when they are interacting with AI or encountering AI-generated content, and nearly every major AI company — Google, OpenAI, Anthropic, ElevenLabs — has added watermarking systems to their products within the past few months." },
     { type: 'paragraph', text: "This isn't just a distant European regulatory story. If you're a content creator, freelancer, teacher, or just someone who runs into content on social media regularly, this is directly relevant: how you verify content, how you prove your own work is genuine, and how platforms judge your content are all shifting right now." },
     { type: 'heading', level: 2, text: "What's Actually Happening" },
-    { type: 'paragraph', text: "The EU AI Act provision ([[artificialintelligenceact.eu](https://artificialintelligenceact.eu/)]) that took effect August 2, 2026 requires generative AI systems to mark their output as machine-made, not human-made. In response, Anthropic added machine-readable watermarks to Claude's output for models released in Europe from that date onward, with older models expected to follow. This isn't an isolated move — at Google I/O in May 2026, Google announced that OpenAI, ElevenLabs, Kakao, and NVIDIA are all adopting its [[SynthID](https://deepmind.google/technologies/synthid/)] watermarking system." },
+    { type: 'paragraph', text: "The transparency provisions of the EU AI Act ([[artificialintelligenceact.eu](https://artificialintelligenceact.eu/)]) that became applicable on August 2, 2026 require generative AI providers to mark synthetic output in a machine-readable way as AI-generated rather than human-made. Deployers, meanwhile, must clearly label deepfakes and disclose significant AI-generated written content. In response, Anthropic added machine-readable watermarks to Claude's output for models released in Europe from that date onward, with older models expected to follow. This isn't an isolated move — at Google I/O in May 2026, Google announced that OpenAI, ElevenLabs, Kakao, and NVIDIA are all adopting its [[SynthID](https://deepmind.google/technologies/synthid/)] watermarking system." },
     { type: 'paragraph', text: "The bottom line: AI content now carries a hidden marker designed to be difficult to strip out, and a growing number of companies are required to include it by default, not as an optional feature." },
     { type: 'heading', level: 2, text: 'How AI Watermarking Actually Works' },
     { type: 'paragraph', text: "There are two main systems worth knowing by name, since you'll keep running into them:" },
@@ -7170,7 +7170,7 @@ const enArticles: Record<string, BlogSection[]> = {
     { type: 'paragraph', text: 'Small businesses rarely suffer from a lack of information.' },
     { type: 'paragraph', text: 'The real problem is usually finding the right information quickly.' },
     { type: 'paragraph', text: 'Pricing may live in a spreadsheet. Policies may be stored in PDFs. Product details might be scattered across a website, cloud storage, internal notes, and old messages.' },
-    { type: 'paragraph', text: 'A private AI knowledge base can help bring that information together — without asking employees to search manually every time they need an answer. For more ideas, see our guide to [[AI tools for small business](/en/blog/ai-for-small-business-2026)].' },
+    { type: 'paragraph', text: 'A private AI knowledge base can help bring that information together — without asking employees to search manually every time they need an answer. For more ideas, see our guide to [[AI tools for small business](/blog/ai-for-small-business-2026)].' },
     { type: 'paragraph', text: 'But uploading every company document into a chatbot is not enough.' },
     { type: 'paragraph', text: 'A useful AI knowledge base needs trusted sources, clear permissions, good document structure, and rules for what the AI should do when the answer is uncertain.' },
     {
@@ -7205,7 +7205,7 @@ const enArticles: Record<string, BlogSection[]> = {
     { type: 'paragraph', text: 'Do not start with: "We want an AI that knows everything about our company."' },
     { type: 'paragraph', text: 'That scope is too broad.' },
     { type: 'paragraph', text: 'Start with one practical use case.' },
-    { type: 'paragraph', text: 'For example, a small web agency could build an [[AI agent](/en/blog/best-ai-agents-for-work-automation-2026)] that answers questions about:' },
+    { type: 'paragraph', text: 'For example, a small web agency could build an [[AI agent](/blog/best-ai-agents-for-work-automation-2026)] that answers questions about:' },
     {
       type: 'list',
       items: [
@@ -7219,7 +7219,7 @@ const enArticles: Record<string, BlogSection[]> = {
         'project requirements.',
       ],
     },
-    { type: 'paragraph', text: 'This is easier to test and maintain as part of a focused [[AI productivity workflow](/en/blog/how-to-use-ai-for-work-productivity-2026)].' },
+    { type: 'paragraph', text: 'This is easier to test and maintain as part of a focused [[AI productivity workflow](/blog/how-to-use-ai-for-work-productivity-2026)].' },
     { type: 'heading', level: 3, text: 'A useful rule' },
     { type: 'paragraph', text: 'Before adding information, ask:' },
     { type: 'paragraph', text: 'Does the AI actually need this information to perform its job?' },
@@ -7332,7 +7332,7 @@ const enArticles: Record<string, BlogSection[]> = {
     { type: 'paragraph', text: 'If the policy does not clearly answer the question, the AI should not invent a decision.' },
     { type: 'paragraph', text: 'A better response would be:' },
     { type: 'paragraph', text: 'I cannot determine refund eligibility from the available policy information. This case should be reviewed by the billing team.' },
-    { type: 'paragraph', text: 'That answer is more useful than a confident guess. Learn how to [[verify AI output without hallucination](/en/blog/how-to-use-ai-for-research-without-hallucinations)].' },
+    { type: 'paragraph', text: 'That answer is more useful than a confident guess. Learn how to [[verify AI output without hallucination](/blog/how-to-use-ai-for-research-without-hallucinations)].' },
     { type: 'heading', level: 3, text: 'Good escalation cases include:' },
     {
       type: 'list',
@@ -7740,7 +7740,7 @@ const enArticles: Record<string, BlogSection[]> = {
     { type: 'paragraph', text: 'Android 17 also tightens the limits on PIN and password attempts. The number of allowed attempts before the device "asks for a time-out" is significantly reduced, and the pauses between failed attempts grow increasingly long.' },
     { type: 'paragraph', text: 'The effect is felt directly on the most common method used by phone thieves: manual brute-force, repeatedly guessing the PIN until it matches. With much stricter limits, this approach becomes far slower and impractical. One security tip that still applies: choose a PIN longer than six digits when your device supports it, because longer combinations are exponentially harder to guess.' },
     { type: 'heading', level: 2, text: 'The Growing Role of AI in Android' },
-    { type: 'paragraph', text: 'Android 17 strengthens the security side while also using AI for things that used to require plenty of manual setup. Google calls this capability on-device AI — the analysis happens directly on the device rather than on servers, making it faster and more private because data never leaves your phone.' },
+    { type: 'paragraph', text: 'Android 17 strengthens the security side while also using AI for things that used to require plenty of manual setup. Google calls this capability on-device AI — most of the analysis happens directly on the device rather than on servers, making it faster and more private than sending everything to the cloud.' },
     { type: 'paragraph', text: 'One example is Live Threat Detection: on-device AI that continuously monitors app behavior to detect suspicious patterns such as automatic SMS forwarding, accessibility overlay abuse, or apps that hide their own icons. The main strength of this approach is behavior-based detection rather than just a list of known malware, so it can catch new threats that have never been catalogued.' },
     { type: 'paragraph', text: 'On the other side, Chrome on Android now also checks downloaded APK files against known malware before an app can be installed. To better understand how AI works behind the scenes in Google systems, the article on [[what model AI Mode uses](/blog/what-model-does-ai-mode-on-google-use)] is a great starting point.' },
     { type: 'heading', level: 2, text: 'Gemini Goes Deeper Into Chrome on Android' },
@@ -9544,9 +9544,19 @@ export function generatePostSchema(post: BlogPost, lang: Lang, slug?: string) {
       '@id': getCanonicalUrl(lang, `/blog/${canonicalSlug}`),
     },
     inLanguage: lang,
-    wordCount: t.content
-      .filter((s) => s.type === 'paragraph')
-      .reduce((acc, s) => acc + (s.text ?? '').length, 0),
+    wordCount: t.content.reduce((acc, s) => {
+      if (s.type === 'paragraph') {
+        return acc + (s.text ?? '').split(/\s+/).filter(Boolean).length
+      }
+      if (s.type === 'list') {
+        const words = (s.items ?? []).reduce(
+          (sum, item) => sum + item.split(/\s+/).filter(Boolean).length,
+          0,
+        )
+        return acc + words
+      }
+      return acc
+    }, 0),
   }
 }
 

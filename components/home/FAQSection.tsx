@@ -31,7 +31,7 @@ export function FAQSection({ lang = 'id' }: Props) {
         },
         {
           q: 'Apakah Anime Generator aman digunakan?',
-          a: 'Ya. AI inference berjalan di infrastruktur self-hosted Farisium. Data dan gambar yang kamu hasilkan tidak dibagikan ke pihak ketiga manapun.',
+          a: 'Ya. AI inference berjalan di infrastruktur self-hosted Farisium. Data dan gambar yang kamu hasilkan tidak dibagikan kepada pihak ketiga untuk tujuan pemasaran.',
         },
         {
           q: 'AI Tools apa saja yang akan hadir?',
@@ -57,7 +57,7 @@ export function FAQSection({ lang = 'id' }: Props) {
         },
         {
           q: 'Is the Anime Generator safe to use?',
-          a: 'Yes. AI inference runs on Farisium\'s self-hosted infrastructure. Your data and generated images are not shared with any third party.',
+          a: 'Yes. AI inference runs on Farisium\'s self-hosted infrastructure. Your data and generated images are not shared with third parties for marketing purposes.',
         },
         {
           q: 'What AI Tools are coming soon?',

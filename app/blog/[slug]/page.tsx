@@ -301,6 +301,8 @@ function PostBody({ sections, articleLang }: { sections: BlogSection[]; articleL
             <img
               src={section.src ?? ''}
               alt={section.alt ?? ''}
+              width={1200}
+              height={630}
               className="w-full rounded-2xl border border-white/[0.06] object-cover shadow-metallic"
               loading="lazy"
             />
@@ -484,7 +486,9 @@ export default async function BlogPostPage({ params }: Props) {
               <img
                 src={post.image}
                 alt={post.imageAlt}
-                className="w-full object-cover"
+                width={1200}
+                height={630}
+                className="h-auto w-full object-cover"
               />
             </div>
           </GlassCard>
