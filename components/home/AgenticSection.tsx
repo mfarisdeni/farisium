@@ -1,5 +1,14 @@
 import Link from 'next/link'
-import { ReceiptText, Sparkles, Check, ShieldCheck, ArrowRight, Headphones, FileText } from 'lucide-react'
+import {
+  ReceiptText,
+  FileSpreadsheet,
+  Sparkles,
+  Check,
+  ShieldCheck,
+  ArrowRight,
+  Headphones,
+  FileText,
+} from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { GlassCard } from '@/components/ui/GlassCard'
 import type { Lang } from '@/lib/translations'
@@ -8,6 +17,7 @@ const revealDelays = [
   'reveal-delay-1',
   'reveal-delay-2',
   'reveal-delay-3',
+  'reveal-delay-4',
 ] as const
 
 interface Props {
@@ -20,18 +30,37 @@ export function AgenticSection({ lang = 'id' }: Props) {
       badge: 'Agentic AI',
       heading: 'Agen AI yang Bekerja untuk Kamu',
       description:
-        'Farisium adalah platform Agentic AI karya M. Faris Deni K. — agen cerdas yang membaca, mengekstrak, memvalidasi, dan menyelesaikan pekerjaan nyata secara otomatis. Bukan sekadar chatbot: setiap agen menghasilkan output yang bisa langsung kamu pakai.',
-      featuredBadge: 'Tool Terbaru & Terpintar',
-      featuredName: 'Struk ke Excel (Receipt to Excel)',
-      featuredDescription:
-        'Agen AI pertama Farisium yang memahami konteks dokumen. Arahkan kamera ke struk belanja, dan agen membaca setiap baris, mengekstrak item & harga, memvalidasi aritmatika, lalu menyusun file Excel yang rapi — tanpa edit manual.',
-      checklist: [
-        'Ekstraksi dua tahap dengan akurasi angka terverifikasi',
-        'Validasi aritmatika otomatis untuk subtotal, pajak, dan diskon',
-        'File dihapus otomatis setelah selesai — privasi terjaga',
+        'Farisium adalah platform Agentic AI karya M. Faris Deni K. — agen cerdas yang membaca, mengekstrak, memvalidasi, dan menyelesaikan pekerjaan nyata secara otomatis. Bukan sekadar chatbot: setiap agen menghasilkan dokumen final yang bisa langsung kamu pakai.',
+      cta: 'Coba Agen Ini',
+      agentsLabel: 'Garis AI Agents',
+      agents: [
+        {
+          icon: ReceiptText,
+          badge: 'AI Agent 1 · Live',
+          name: 'Struk ke Excel (Receipt to Excel)',
+          description:
+            'Arahkan kamera ke struk belanja dan agen membaca setiap baris, mengekstrak item & harga, memvalidasi aritmatika, lalu menyusun file Excel yang rapi.',
+          checklist: [
+            'Ekstraksi dua tahap dengan akurasi angka terverifikasi',
+            'Validasi aritmatika otomatis untuk subtotal, pajak, diskon',
+            'File dihapus otomatis setelah selesai — privasi terjaga',
+          ],
+          href: '/ai/receipt-to-excel',
+        },
+        {
+          icon: FileSpreadsheet,
+          badge: 'AI Agent 2 · Live',
+          name: 'Foto ke Invoice (Image to Invoice)',
+          description:
+            'Unggah atau foto invoice/struk apa pun — AI menyusun invoice digital profesional dengan template minimalis. Preview final, lalu download PDF plain & Excel yang bisa diedit.',
+          checklist: [
+            'Ekstraksi seller, buyer, item, pajak & total dalam sekali proses',
+            'Template invoice profesional — PDF kecil & Excel editable',
+            'Preview final sebelum download — PDF sesuai persis preview',
+          ],
+          href: '/ai/image-to-invoice',
+        },
       ],
-      primaryCta: 'Coba Agen Ini',
-      secondaryCta: 'Lihat Semua AI Tools',
       toolCta: 'Buka',
       toolsLabel: 'Garis AI Tools',
       toolsHeading: 'Satu Ekosistem, Semua Agen Farisium',
@@ -56,18 +85,37 @@ export function AgenticSection({ lang = 'id' }: Props) {
       badge: 'Agentic AI',
       heading: 'AI Agents That Work for You',
       description:
-        'Farisium is an Agentic AI platform built by M. Faris Deni K. — intelligent agents that read, extract, validate, and complete real work automatically. Not just a chatbot: every agent produces output you can actually use.',
-      featuredBadge: 'Newest & Smartest Tool',
-      featuredName: 'Receipt to Excel',
-      featuredDescription:
-        'The first Farisium agent that understands document context. Point your camera at a store receipt and the agent reads every line, extracts items & prices, validates the math, and produces a clean Excel file — no manual editing.',
-      checklist: [
-        'Two-stage extraction with verified number accuracy',
-        'Automatic math validation for subtotals, tax, and discounts',
-        'Files auto-deleted when done — privacy preserved',
+        'Farisium is an Agentic AI platform built by M. Faris Deni K. — intelligent agents that read, extract, validate, and complete real work automatically. Not just a chatbot: every agent produces a final document you can actually use.',
+      cta: 'Try This Agent',
+      agentsLabel: 'AI Agents Line',
+      agents: [
+        {
+          icon: ReceiptText,
+          badge: 'AI Agent 1 · Live',
+          name: 'Receipt to Excel',
+          description:
+            'Point your camera at a store receipt and the agent reads every line, extracts items & prices, validates the math, and produces a clean Excel file.',
+          checklist: [
+            'Two-stage extraction with verified number accuracy',
+            'Automatic math validation for subtotals, tax, discounts',
+            'Files auto-deleted when done — privacy preserved',
+          ],
+          href: '/ai/receipt-to-excel',
+        },
+        {
+          icon: FileSpreadsheet,
+          badge: 'AI Agent 2 · Live',
+          name: 'Image to Invoice',
+          description:
+            'Upload or snap any invoice or bill — AI builds a professional digital invoice with a minimalist template. Final preview, then download a plain PDF & editable Excel.',
+          checklist: [
+            'Extracts seller, buyer, items, tax & totals in one pass',
+            'Professional invoice template — small PDF & editable Excel',
+            'Final preview first — the PDF matches the preview exactly',
+          ],
+          href: '/ai/image-to-invoice',
+        },
       ],
-      primaryCta: 'Try This Agent',
-      secondaryCta: 'View All AI Tools',
       toolCta: 'Open',
       toolsLabel: 'AI Tools Line',
       toolsHeading: 'One Ecosystem, All Farisium Agents',
@@ -113,81 +161,63 @@ export function AgenticSection({ lang = 'id' }: Props) {
         </p>
       </div>
 
-      {/* Featured agent — Receipt to Excel */}
-      <GlassCard
-        variant="premium"
-        blur="medium"
-        withReflection={true}
-        withAccent="crimson"
-        withShimmer={true}
-        className="p-8 md:p-12 transition-all duration-500 hover:shadow-[0_8px_40px_rgba(0,0,0,0.35)]"
-      >
-        <div className="relative z-[2] grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-center">
-          <div>
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="kicker mb-0">
-                <span className="kicker-line" aria-hidden="true" />
-                {label.toolsLabel}
-              </span>
-              <Badge variant="crimson" size="sm">{label.featuredBadge}</Badge>
-            </div>
-
-            <div className="mt-6 flex items-start gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-frsc-crimson-800/30 to-frsc-purple-800/20 ring-1 ring-frsc-crimson-500/30">
-                <ReceiptText className="h-6 w-6 text-frsc-crimson-400" />
+      {/* Featured agents — two premium cards */}
+      <div className="grid gap-4 lg:grid-cols-2">
+        {label.agents.map(({ icon: Icon, badge, name, description, checklist, href }) => (
+          <GlassCard
+            key={name}
+            variant="premium"
+            blur="medium"
+            withReflection={true}
+            withAccent="crimson"
+            withShimmer={true}
+            className="flex flex-col p-7 transition-all duration-500 hover:shadow-[0_8px_40px_rgba(0,0,0,0.35)] md:p-9"
+          >
+            <div className="relative z-[2] flex flex-1 flex-col">
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="kicker mb-0">
+                  <span className="kicker-line" aria-hidden="true" />
+                  {label.agentsLabel}
+                </span>
+                <Badge variant="crimson" size="sm">{badge}</Badge>
               </div>
-              <h3 className="heading-fluid text-h2 text-frsc-text-100">
-                {label.featuredName}
-              </h3>
-            </div>
 
-            <p className="mt-4 text-pretty text-base leading-relaxed text-frsc-text-200">
-              {label.featuredDescription}
-            </p>
+              <div className="mt-6 flex items-start gap-4">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-frsc-crimson-800/30 to-frsc-purple-800/20 ring-1 ring-frsc-crimson-500/30">
+                  <Icon className="h-5 w-5 text-frsc-crimson-400" />
+                </div>
+                <h3 className="heading-fluid text-h2 text-frsc-text-100">{name}</h3>
+              </div>
 
-            <ul className="mt-6 flex flex-col gap-2.5">
-              {label.checklist.map((item) => (
-                <li key={item} className="flex items-start gap-2.5 text-sm text-frsc-text-200">
-                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-frsc-crimson-400" />
-                  {item}
-                </li>
-              ))}
-            </ul>
+              <p className="mt-4 text-pretty text-sm leading-relaxed text-frsc-text-200">
+                {description}
+              </p>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/ai/receipt-to-excel"
-                className="group/btn inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-frsc-crimson-800 via-frsc-crimson-700 to-frsc-crimson-600 bg-[length:200%_100%] px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-[length:100%_100%] hover:shadow-[0_0_28px_rgba(224,48,78,0.4)] active:scale-[0.97]"
-              >
-                {label.primaryCta}
-                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-0.5" />
-              </Link>
-              <Link
-                href="/ai"
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-6 py-3 text-sm font-semibold text-frsc-text-100 transition-all duration-300 hover:border-frsc-crimson-500/30 hover:bg-frsc-crimson-900/10 active:scale-[0.97]"
-              >
-                {label.secondaryCta}
-              </Link>
-            </div>
-          </div>
+              <ul className="mt-5 flex-1 flex-col space-y-2">
+                {checklist.map((item) => (
+                  <li key={item} className="flex items-start gap-2.5 text-sm text-frsc-text-200">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-frsc-crimson-400" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
 
-          {/* Visual — orbiting rings accent */}
-          <div className="group/agent flex items-center justify-center">
-            <div className="relative flex h-52 w-52 items-center justify-center sm:h-60 sm:w-60">
-              <div className="absolute inset-0 rounded-full border border-frsc-crimson-500/15 animate-[orbit-spin_20s_linear_infinite]" />
-              <div className="absolute inset-6 rounded-full border border-frsc-purple-500/8 animate-[orbit-spin_14s_linear_infinite_reverse]" />
-              <div className="absolute inset-12 rounded-full border border-frsc-crimson-500/15 animate-[orbit-spin_10s_linear_infinite]" />
-              <div className="absolute inset-16 rounded-full bg-frsc-purple-500/5 blur-xl" />
-              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-frsc-crimson-800/30 to-frsc-purple-800/20 ring-1 ring-frsc-crimson-700/30 transition-all duration-500 group-hover/agent:ring-frsc-crimson-400/30">
-                <Sparkles className="h-10 w-10 text-frsc-crimson-400 transition-all duration-500 group-hover/agent:text-frsc-crimson-300" />
+              <div className="mt-7">
+                <Link
+                  href={href}
+                  className="group/btn inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-frsc-crimson-800 via-frsc-crimson-700 to-frsc-crimson-600 bg-[length:200%_100%] px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-[length:100%_100%] hover:shadow-[0_0_28px_rgba(224,48,78,0.4)] active:scale-[0.97]"
+                >
+                  {label.cta}
+                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-0.5" />
+                </Link>
               </div>
             </div>
-          </div>
-        </div>
-      </GlassCard>
+          </GlassCard>
+        ))}
+      </div>
 
       {/* Supporting agents */}
-      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+      <div className="mt-10 grid gap-4 sm:grid-cols-2">
         {label.tools.map(({ icon: Icon, name, description, href, badge: b }, i) => (
           <Link
             key={name}

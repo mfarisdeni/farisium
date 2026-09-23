@@ -8,7 +8,16 @@ import { getAdminDb } from '@/lib/firebase-admin'
 import { ApiError } from '@/lib/api'
 
 export const RECEIPT_FEATURE = 'receipt_to_excel'
+export const INVOICE_FEATURE = 'invoice_from_image'
 export const DAILY_CONVERSION_LIMIT = 5
+
+export const KNOWN_FEATURES = [RECEIPT_FEATURE, INVOICE_FEATURE] as const
+
+export type Feature = (typeof KNOWN_FEATURES)[number]
+
+export function isKnownFeature(value: string | undefined | null): value is Feature {
+  return typeof value === 'string' && (KNOWN_FEATURES as readonly string[]).includes(value)
+}
 
 export type JobStatus = 'queued' | 'processing' | 'completed' | 'failed'
 
@@ -43,11 +52,15 @@ function db() {
  * Create a queued job and return its id. The inputKey is registered in a
  * follow-up call because it is derived from the (server-generated) job id.
  */
-export async function createJob(uid: string, input: CreateJobInput): Promise<string> {
+export async function createJob(
+  uid: string,
+  input: CreateJobInput,
+  feature: Feature = RECEIPT_FEATURE,
+): Promise<string> {
   const jobRef = db().collection('jobs').doc()
   await jobRef.set({
     userId: uid,
-    feature: RECEIPT_FEATURE,
+    feature,
     status: 'queued',
     inputKey: '',
     outputKey: null,
@@ -100,8 +113,11 @@ export async function updateJobStatus(jobId: string, status: JobStatus, extra: O
  * Keyed on users/{uid}/usage/{feature} storing { date: 'YYYY-MM-DD', count }.
  * Runs inside a transaction so two concurrent requests can't both pass.
  */
-export async function consumeDailyConversionSlot(uid: string): Promise<void> {
-  const docRef = db().collection('users').doc(uid).collection('usage').doc(RECEIPT_FEATURE)
+export async function consumeDailyConversionSlot(
+  uid: string,
+  feature: Feature = RECEIPT_FEATURE,
+): Promise<void> {
+  const docRef = db().collection('users').doc(uid).collection('usage').doc(feature)
   const today = new Date().toISOString().slice(0, 10)
 
   await db().runTransaction(async (tx) => {

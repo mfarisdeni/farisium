@@ -56,6 +56,12 @@ export function buildOutputR2Key(uid: string, jobId: string): string {
   return `users/${uid}/jobs/${jobId}/output/receipt.xlsx`
 }
 
+/** Generic output file key (e.g. `users/{uid}/jobs/{jobId}/output/invoice.xlsx`). */
+export function buildOutputFileKey(uid: string, jobId: string, fileName: string): string {
+  const safe = sanitizeFileName(fileName)
+  return `users/${uid}/jobs/${jobId}/output/${safe}`
+}
+
 export interface UploadInput {
   fileName: string
   contentType: string

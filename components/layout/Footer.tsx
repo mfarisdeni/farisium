@@ -7,6 +7,8 @@ import type { Lang } from '@/lib/translations'
 
 const footerLinks = {
   'AI Tools': [
+    { label: 'Struk ke Excel', href: '/ai/receipt-to-excel' },
+    { label: 'Foto ke Invoice', href: '/ai/image-to-invoice' },
     { label: 'AI Directory', href: '/ai' },
   ],
   Platform: [
@@ -35,6 +37,8 @@ const linkLabels: Record<Lang, Record<string, string>> = {
     'Syarat & Ketentuan': 'Syarat & Ketentuan',
     'Kebijakan Privasi': 'Kebijakan Privasi',
     'AI Directory': 'AI Directory',
+    'Struk ke Excel': 'Struk ke Excel',
+    'Foto ke Invoice': 'Foto ke Invoice',
     Rewards: 'Rewards',
     FRSC: 'FRSC',
     Partnership: 'Partnership',
@@ -52,6 +56,8 @@ const linkLabels: Record<Lang, Record<string, string>> = {
     'Kebijakan Privasi': 'Privacy Policy',
     'Kebijakan Cookie': 'Cookie Policy',
     'AI Directory': 'AI Directory',
+    'Struk ke Excel': 'Receipt to Excel',
+    'Foto ke Invoice': 'Image to Invoice',
     Rewards: 'Rewards',
     FRSC: 'FRSC',
     Partnership: 'Partnership',

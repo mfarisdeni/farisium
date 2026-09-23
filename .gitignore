@@ -38,3 +38,5 @@ Thumbs.db
 .vercel/
 # Local receipt eval fixture
 public/receipt-example/
+# Local invoice eval fixtures
+file-examples-do-not-upload/

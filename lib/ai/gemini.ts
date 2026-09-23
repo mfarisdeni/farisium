@@ -54,6 +54,57 @@ export const RECEIPT_JSON_SCHEMA = {
   },
 } as const
 
+/** JSON Schema handed to Gemini so its output directly matches invoiceSchema. */
+export const INVOICE_JSON_SCHEMA = {
+  type: Type.OBJECT,
+  properties: {
+    invoiceNumber: { type: Type.STRING },
+    issueDate: { type: Type.STRING },
+    dueDate: { type: Type.STRING },
+    currency: { type: Type.STRING },
+    seller: {
+      type: Type.OBJECT,
+      properties: {
+        name: { type: Type.STRING },
+        address: { type: Type.STRING },
+        contact: { type: Type.STRING },
+        taxId: { type: Type.STRING },
+      },
+    },
+    buyer: {
+      type: Type.OBJECT,
+      properties: {
+        name: { type: Type.STRING },
+        address: { type: Type.STRING },
+        contact: { type: Type.STRING },
+      },
+    },
+    items: {
+      type: Type.ARRAY,
+      items: {
+        type: Type.OBJECT,
+        properties: {
+          name: { type: Type.STRING },
+          description: { type: Type.STRING },
+          quantity: { type: Type.NUMBER },
+          unitPrice: { type: Type.NUMBER },
+          total: { type: Type.NUMBER },
+        },
+      },
+    },
+    subtotal: { type: Type.NUMBER },
+    tax: { type: Type.NUMBER },
+    taxRate: { type: Type.NUMBER },
+    discount: { type: Type.NUMBER },
+    shipping: { type: Type.NUMBER },
+    grandTotal: { type: Type.NUMBER },
+    paymentMethod: { type: Type.STRING },
+    notes: { type: Type.STRING },
+    needsReview: { type: Type.BOOLEAN },
+    warnings: { type: Type.ARRAY, items: { type: Type.STRING } },
+  },
+} as const
+
 interface RequestPayload {
   model: string
   contents: Array<{
@@ -134,6 +185,83 @@ export async function transcribeReceiptLines(
       },
     },
     systemInstruction,
+  )
+}
+
+/**
+ * Stage 1 — transcribe any document image verbatim into a JSON array of
+ * lines (shared by the receipt & invoice pipelines).
+ */
+export async function transcribeImageLines(
+  base64Image: string,
+  mimeType: string,
+  systemInstruction: string,
+): Promise<string> {
+  const model = getModel()
+  return run(
+    {
+      model,
+      contents: [
+        {
+          role: 'user',
+          parts: [
+            {
+              inlineData: { mimeType, data: base64Image },
+            },
+            {
+              text: 'Transkripsikan semua baris teks pada dokumen ini.',
+            },
+          ],
+        },
+      ],
+      config: {
+        responseSchema: {
+          type: Type.ARRAY,
+          items: { type: Type.STRING },
+        },
+      },
+    },
+    systemInstruction,
+  )
+}
+
+/**
+ * Stage 2 — structure the verbatim transcription into the invoice JSON.
+ * Same two-stage rationale as receipts: instructions go in the USER text.
+ */
+export async function structureInvoiceFromLines(
+  lines: string[],
+  base64Image: string,
+  mimeType: string,
+  instructions: string,
+): Promise<string> {
+  const model = getModel()
+  const parts: Array<{ inlineData?: { mimeType: string; data: string }; text?: string }> = []
+  if (base64Image && mimeType) {
+    parts.push({
+      inlineData: { mimeType, data: base64Image },
+    })
+  }
+  parts.push({
+    text:
+      instructions +
+      '\n\nVerbatim transcription of the invoice, one line per element, read top to bottom:\n' +
+      lines.join('\n') +
+      '\n\nReturn the structured JSON object now.',
+  })
+  return run(
+    {
+      model,
+      contents: [
+        {
+          role: 'user',
+          parts,
+        },
+      ],
+      config: {
+        responseSchema: INVOICE_JSON_SCHEMA,
+      },
+    },
   )
 }
 

@@ -647,6 +647,8 @@ Setiap keputusan harus membuat proyek menjadi lebih mudah dikembangkan, lebih mu
 
 Farisium = Next.js 16.2.6, React 19, TypeScript, Tailwind CSS v4, Firebase, Vercel deployment with GitHub integration. Non-standalone build. Build command: `next build && node scripts/postbuild.mjs`. Released by pushing commits to the main branch — Vercel auto-deploys on every push. No PM2/cPanel; deploy is fully managed by Vercel.
 
+**Dua AI Agent kini live**: Receipt to Excel (`/ai/receipt-to-excel`) dan Image to Invoice (`/ai/image-to-invoice`). Keduanya memakai infrastruktur berbagi: R2 presigned upload → Firestore job → Gemini 2-tahap → Zod + validasi deterministik → ExcelJS → kebijakan temp-storage (stream + hapus). Dokumentasi: `docs/30-receipt-to-excel.md` dan `docs/31-image-to-invoice.md`. Test: `npm test` = 42 test lulus (Node 24 native type-stripping + `node --test`).
+
 Blog content lives in `lib/blog.ts` — flat `posts` array. Articles are added in ID and EN with links trimmed (max 4 internal + 4 external per article). Slugs differ per locale (ID slug vs EN slug).
 
 SEO Caption Generator (`/ai/seo-caption-generator`): live tool, API uses Ollama (`llama3.2:3b`) via gateway. Cold-start model load can cause first-request 500 — that's infra, not code. The `buildSystemPrompt(language)` fix is in `lib/ai/prompts/seoCaptionPrompt.ts`; route.ts uses it.
@@ -666,6 +668,47 @@ Artikel terbaru kedua: Cara Mengatasi AI Agent Stuck Loop — tutorial troublesh
 Artikel terbaru ketiga: Ciri-Ciri WA Disadap dan Cara Mengatasinya — panduan lengkap keamanan WhatsApp: tanda penyadapan, cara memeriksa, langkah mitigasi darurat, dan tips pencegahan. 2 SVG animated (warning signs + security steps), 4 internal + 4 external links. Target keyword: ciri ciri wa disadap dan cara mengatasinya.
 
 ## Yang Baru / Berubah di Sesi Ini
+
+### AGENT: Image to Invoice (`/ai/image-to-invoice`) — agent AI kedua (sesi berjalan)
+
+Foto/unggah invoice, struk, atau tagihan → invoice digital profesional (URL ini
+masuk homepage AgenticSection + `/ai` + sitemap). Hasil ganda:
+
+- **Excel** — editable, template profesional (white cell, teks hitam eksplisit,
+  tanpa background fill, blok summary + taxRate + warnings amber).
+- **PDF** — plain (tidak editable), Helvetica-only (ukuran kecil), **tidak
+  disimpan di R2**; dibuat on-demand di `POST /api/r2/presign-download`
+  `{format: "pdf"}` dari `job.result` sehingga SELALU sesuai preview final.
+
+Arsitektur = klon pola Receipt to Excel dengan modul baru:
+`features/invoice/{schema,prompt,validation,processor}.ts`,
+`features/parsing.ts` (shared), `lib/exporters/invoice-to-excel.ts`,
+`lib/exporters/invoice-to-pdf.ts` (pdf-lib dependency baru),
+`components/invoice/InvoicePreview.tsx` (sumber kebenaran template PDF),
+`app/ai/image-to-invoice/{layout,page}.tsx`,
+`app/api/agents/image-to-invoice/route.ts`.
+
+Perubahan infrastruktur berbagi:
+- `lib/jobs/core.ts`: `INVOICE_FEATURE = 'invoice_from_image'`, `Feature`,
+  `isKnownFeature()`; `createJob`/`consumeDailyConversionSlot` menerima `feature`
+  param (rate limit tetap 5/hari per feature).
+- `app/api/r2/presign-upload`: menerima `feature` (default `receipt_to_excel`).
+- `app/api/r2/presign-download`: `format` (xlsx default / pdf); PDF hanya untuk
+  job `invoice_from_image`, selain → 400 `invalid_format`.
+- `lib/ai/gemini.ts`: `transcribeImageLines()`, `structureInvoiceFromLines()`,
+  `INVOICE_JSON_SCHEMA` (2 tahap — transkripsi lalu struktur; fallback single-call).
+- `lib/r2/keys.ts`: `buildOutputFileKey`.
+
+PENTING — pola schema invoice: field nullable SEMUA `.default(null)` (Firestore
+menolak `undefined`), dan `seller`/`buyer` diparse dengan `z.preprocess((v) =>
+v==null ? {} : v, infoSchema)` BUKAN `.default({})` — `.default({})` pada objek
+tidak melewati object schema sehingga field di dalamnya jadi `undefined`.
+`features/receipt/schema.ts` juga kini mengimpor dari `features/parsing.ts`
+(bukan menduplikasi) — import pakai ekstensi `.ts` (aturan node --test).
+
+Tests baru: `tests/invoice-schema.test.ts`, `tests/invoice-validation.test.ts`.
+`npm test` = 42 lulus, tsc bersih, `next build` sukses (124 halaman).
+Commit: `feat(agent): Image to Invoice AI agent (PDF + Excel)`.
 
 ### Temp storage R2 + Homepage jadi portofolio Agentic AI (sesi berjalan)
 

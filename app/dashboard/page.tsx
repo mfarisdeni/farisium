@@ -45,6 +45,7 @@ const content = {
     quickLinks: [
       { label: 'Klaim Daily Reward', href: '/rewards', desc: 'Dapatkan FRSC gratis setiap hari' },
       { label: 'Struk ke Excel', href: '/ai/receipt-to-excel', desc: 'Ubah foto struk jadi file Excel otomatis' },
+      { label: 'Foto ke Invoice', href: '/ai/image-to-invoice', desc: 'Ubah foto invoice jadi PDF & Excel profesional' },
       { label: 'F-Stream Boost Spotify', href: '/ai/f-stream-spotify-promotion', desc: 'Tingkatkan streaming Spotify-mu' },
       { label: 'Pelajari FRSC', href: '/frsc', desc: 'Cara mendapatkan dan menggunakan FRSC' },
       { label: 'Jelajahi AI Tools', href: '/ai', desc: 'Lihat semua layanan AI tersedia' },
@@ -67,6 +68,7 @@ const content = {
     quickLinks: [
       { label: 'Claim Daily Reward', href: '/rewards', desc: 'Earn free FRSC every day' },
       { label: 'Receipt to Excel', href: '/ai/receipt-to-excel', desc: 'Turn receipt photos into Excel automatically' },
+      { label: 'Image to Invoice', href: '/ai/image-to-invoice', desc: 'Turn invoice photos into professional PDF & Excel' },
       { label: 'F-Stream Boost Spotify', href: '/ai/f-stream-spotify-promotion', desc: 'Boost your Spotify streaming' },
       { label: 'Learn about FRSC', href: '/frsc', desc: 'How to earn and use FRSC' },
       { label: 'Explore AI Tools', href: '/ai', desc: 'See all available AI services' },

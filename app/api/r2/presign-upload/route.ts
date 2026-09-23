@@ -6,7 +6,13 @@ import {
   sanitizeFileName,
 } from '@/lib/r2/keys'
 import { r2PresignedUploadUrl } from '@/lib/r2/client'
-import { consumeDailyConversionSlot, createJob, setJobInputKey } from '@/lib/jobs/core'
+import {
+  consumeDailyConversionSlot,
+  createJob,
+  setJobInputKey,
+  isKnownFeature,
+  RECEIPT_FEATURE,
+} from '@/lib/jobs/core'
 import { getModel } from '@/lib/ai/gemini'
 
 export const runtime = 'nodejs'
@@ -34,15 +40,17 @@ export async function POST(request: Request) {
     const contentType = typeof body.contentType === 'string' ? body.contentType : ''
     const fileSize =
       typeof body.fileSize === 'number' ? body.fileSize : Number(body.fileSize)
+    const featureRaw = typeof body.feature === 'string' ? body.feature : ''
+    const feature = isKnownFeature(featureRaw) ? featureRaw : RECEIPT_FEATURE
 
     validateUploadInput({ fileName, contentType, fileSize })
 
     // Consume one of the daily slots — do this before creating the job so a
     // rejected request never leaves dangling Firestore documents.
-    await consumeDailyConversionSlot(uid)
+    await consumeDailyConversionSlot(uid, feature)
 
     const originalFileName = sanitizeFileName(fileName)
-    const jobId = await createJob(uid, { originalFileName, contentType, model: getModel() })
+    const jobId = await createJob(uid, { originalFileName, contentType, model: getModel() }, feature)
     const inputKey = buildInputR2Key(uid, jobId, originalFileName, contentType)
     await setJobInputKey(jobId, inputKey)
 

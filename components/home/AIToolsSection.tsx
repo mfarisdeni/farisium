@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { FileText, Headphones, ArrowRight, ReceiptText } from 'lucide-react'
+import { FileText, Headphones, ArrowRight, ReceiptText, FileSpreadsheet } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { GlassCard } from '@/components/ui/GlassCard'
 import type { Lang } from '@/lib/translations'
@@ -27,6 +27,15 @@ export function AIToolsSection({ lang = 'id' }: Props) {
           name: 'Struk ke Excel (Receipt to Excel)',
           description: 'Agen AI terbaru: ubah foto struk atau bukti transaksi menjadi file Excel yang rapi, lengkap dengan validasi angka otomatis.',
           href: '/ai/receipt-to-excel',
+          available: true,
+          badge: 'Live',
+          badgeVariant: 'crimson' as const,
+        },
+        {
+          icon: FileSpreadsheet,
+          name: 'Foto ke Invoice (Image to Invoice)',
+          description: 'Agen AI kedua: ubah foto invoice atau struk menjadi invoice digital profesional — preview final, download PDF plain & Excel editable.',
+          href: '/ai/image-to-invoice',
           available: true,
           badge: 'Live',
           badgeVariant: 'crimson' as const,
@@ -63,6 +72,15 @@ export function AIToolsSection({ lang = 'id' }: Props) {
           name: 'Receipt to Excel',
           description: 'The newest AI agent: turn a receipt or transaction photo into a clean Excel file, complete with automatic number validation.',
           href: '/ai/receipt-to-excel',
+          available: true,
+          badge: 'Live',
+          badgeVariant: 'crimson' as const,
+        },
+        {
+          icon: FileSpreadsheet,
+          name: 'Image to Invoice',
+          description: 'The second AI agent: turn an invoice or bill photo into a professional digital invoice — final preview, plain PDF & editable Excel.',
+          href: '/ai/image-to-invoice',
           available: true,
           badge: 'Live',
           badgeVariant: 'crimson' as const,
