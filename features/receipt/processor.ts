@@ -8,6 +8,7 @@ import { getAdminDb } from '@/lib/firebase-admin'
 import {
   downloadObjectToBuffer,
   uploadBuffer,
+  deleteObject,
 } from '@/lib/r2/client'
 import {
   buildOutputR2Key,
@@ -131,6 +132,14 @@ export async function processReceiptConversion(
       outputKey,
       result: receipt,
     })
+
+    // Temporary-storage policy: the attached input file is no longer needed
+    // once generation succeeds. Delete it immediately (best-effort).
+    if (job.inputKey) {
+      await deleteObject(job.inputKey).catch(() => {
+        /* orphaned object will be ignored; must not fail a successful job */
+      })
+    }
 
     return { receipt, outputKey, jobId }
   } catch (error) {

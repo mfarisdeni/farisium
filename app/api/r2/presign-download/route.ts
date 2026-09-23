@@ -1,14 +1,17 @@
 import { requireAuth } from '@/lib/server-auth'
 import { errorResponse } from '@/lib/api'
-import { r2PresignedDownloadUrl } from '@/lib/r2/client'
+import { downloadObjectToBuffer, deleteObject } from '@/lib/r2/client'
 import { requireOwnedJob } from '@/lib/jobs/core'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
+const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+
 /**
- * Phase 3b: presign a GET URL for the completed Excel output.
- * Ownership is checked server-side — a user can only download their own job.
+ * Temporary-storage download: streams the completed Excel back as an
+ * attachment and ALWAYS deletes the stored file right after it has been
+ * read — the job result survives in Firestore, but no file lingers in R2.
  */
 export async function POST(request: Request) {
   try {
@@ -40,16 +43,23 @@ export async function POST(request: Request) {
       )
     }
 
-    const downloadUrl = await r2PresignedDownloadUrl(job.outputKey)
+    const buffer = await downloadObjectToBuffer(job.outputKey)
+    const fileName = `receipt-${job.id}.xlsx`
 
-    return Response.json(
-      {
-        success: true,
-        downloadUrl,
-        expiresIn: 300,
+    // Delete immediately after reading. Download is fire-and-forget on the
+    // client side, so the object must be removed server-side right here.
+    await deleteObject(job.outputKey).catch(() => {
+      /* best-effort; a failed delete must not block the download */
+    })
+
+    return new Response(new Uint8Array(buffer), {
+      status: 200,
+      headers: {
+        'Content-Type': XLSX_MIME,
+        'Content-Length': String(buffer.byteLength),
+        'Content-Disposition': `attachment; filename="${fileName}"`,
       },
-      { status: 200 },
-    )
+    })
   } catch (error) {
     return errorResponse(error)
   }

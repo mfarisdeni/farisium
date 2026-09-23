@@ -1,22 +1,14 @@
 /**
  * Excel export for a validated Receipt (ExcelJS).
  * Deterministic formatting — no AI involvement here.
+ *
+ * Styling is kept deliberately plain: no background fills, black text on a
+ * white sheet, so the file stays readable in any spreadsheet app (including
+ * Google Sheets, Excel light/dark themes, and spreadsheet viewers).
  */
 
 import ExcelJS from 'exceljs'
 import type { Receipt } from '@/features/receipt/schema'
-
-const HEADER_FILL: ExcelJS.Fill = {
-  type: 'pattern',
-  pattern: 'solid',
-  fgColor: { argb: 'FF1F2030' },
-}
-
-const HEADER_FONT: Partial<ExcelJS.Font> = {
-  bold: true,
-  color: { argb: 'FFFFFFFF' },
-  size: 11,
-}
 
 function formatLabel(value: number | null, currency: string | null): string {
   if (value == null) return '-'
@@ -48,7 +40,7 @@ export async function buildReceiptWorkbook(receipt: Receipt): Promise<Buffer> {
   ws.mergeCells('A1:D1')
   const titleCell = ws.getCell('A1')
   titleCell.value = receipt.merchantName ?? 'Struk Transaksi'
-  titleCell.font = { bold: true, size: 14, color: { argb: 'FFFFFFFF' } }
+  titleCell.font = { bold: true, size: 14, color: { argb: 'FF000000' } }
   ws.getRow(1).height = 24
 
   // ── Meta rows ──
@@ -64,12 +56,12 @@ export async function buildReceiptWorkbook(receipt: Receipt): Promise<Buffer> {
   ws.getCell('B4').value = receipt.invoiceNumber ?? '-'
   ws.mergeCells('B4:D4')
 
-  ws.getCell('A2').font = { bold: true, color: { argb: 'FF9CA3AF' } }
-  ws.getCell('A3').font = { bold: true, color: { argb: 'FF9CA3AF' } }
-  ws.getCell('A4').font = { bold: true, color: { argb: 'FF9CA3AF' } }
-  ws.getCell('B2').font = { color: { argb: 'FFFFFFFF' } }
-  ws.getCell('B3').font = { color: { argb: 'FFFFFFFF' } }
-  ws.getCell('B4').font = { color: { argb: 'FFFFFFFF' } }
+  ws.getCell('A2').font = { bold: true, color: { argb: 'FF000000' } }
+  ws.getCell('A3').font = { bold: true, color: { argb: 'FF000000' } }
+  ws.getCell('A4').font = { bold: true, color: { argb: 'FF000000' } }
+  ws.getCell('B2').font = { color: { argb: 'FF000000' } }
+  ws.getCell('B3').font = { color: { argb: 'FF000000' } }
+  ws.getCell('B4').font = { color: { argb: 'FF000000' } }
 
   // ── Item table header (row 5, frozen) ──
   const headerRow = ws.getRow(5)
@@ -77,8 +69,7 @@ export async function buildReceiptWorkbook(receipt: Receipt): Promise<Buffer> {
   headers.forEach((label, index) => {
     const cell = headerRow.getCell(index + 1)
     cell.value = label
-    cell.font = HEADER_FONT
-    cell.fill = HEADER_FILL
+    cell.font = { bold: true, color: { argb: 'FF000000' }, size: 11 }
     cell.border = { bottom: { style: 'thin', color: { argb: 'FF374151' } } }
   })
   headerRow.commit()
@@ -93,11 +84,10 @@ export async function buildReceiptWorkbook(receipt: Receipt): Promise<Buffer> {
     row.getCell(2).numFmt = '#,##0.##'
     row.getCell(3).numFmt = '#,##0.00'
     row.getCell(4).numFmt = '#,##0.00'
-    if (index % 2 === 1) {
-      row.eachCell((cell) => {
-        cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF111827' } }
-      })
-    }
+    row.getCell(1).font = { color: { argb: 'FF000000' } }
+    row.getCell(2).font = { color: { argb: 'FF000000' } }
+    row.getCell(3).font = { color: { argb: 'FF000000' } }
+    row.getCell(4).font = { color: { argb: 'FF000000' } }
     row.commit()
   })
 
@@ -114,13 +104,13 @@ export async function buildReceiptWorkbook(receipt: Receipt): Promise<Buffer> {
     const row = ws.getRow(summaryStart + index)
     const isTotal = label === 'Grand Total'
     row.getCell(1).value = label
-    row.getCell(1).font = { bold: true, color: { argb: 'FFFFFFFF' } }
+    row.getCell(1).font = { bold: true, color: { argb: 'FF000000' } }
     row.getCell(4).value = formatLabel(value, receipt.currency)
-    row.getCell(4).font = { bold: isTotal, color: { argb: 'FFFFFFFF' } }
+    row.getCell(4).font = { bold: isTotal, color: { argb: 'FF000000' } }
     row.getCell(4).alignment = { horizontal: 'right' }
     if (isTotal) {
-      row.getCell(1).fill = HEADER_FILL
-      row.getCell(4).fill = HEADER_FILL
+      row.getCell(1).font = { bold: true, size: 12, color: { argb: 'FF000000' } }
+      row.getCell(4).font = { bold: true, size: 12, color: { argb: 'FF000000' } }
     }
     row.commit()
   })
@@ -130,13 +120,13 @@ export async function buildReceiptWorkbook(receipt: Receipt): Promise<Buffer> {
     const warnStart = summaryStart + summaryRows.length + 1
     const warnHeader = ws.getRow(warnStart)
     warnHeader.getCell(1).value = 'Perlu Review / Needs Review'
-    warnHeader.getCell(1).font = { bold: true, color: { argb: 'FFF59E0B' } }
+    warnHeader.getCell(1).font = { bold: true, color: { argb: 'FFB45309' } }
     warnHeader.commit()
 
     receipt.warnings.forEach((warning, index) => {
       const row = ws.getRow(warnStart + 1 + index)
       row.getCell(1).value = `• ${warning}`
-      row.getCell(1).font = { color: { argb: 'FFF59E0B' } }
+      row.getCell(1).font = { color: { argb: 'FFB45309' } }
       ws.mergeCells(`A${warnStart + 1 + index}:D${warnStart + 1 + index}`)
       row.commit()
     })

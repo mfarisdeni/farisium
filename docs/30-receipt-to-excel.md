@@ -82,3 +82,21 @@ agar modul pure bisa di-import langsung oleh Node (relative `.ts`).
 
 Set semuanya via Vercel → seperti biasa push ke `main` (auto-deploy). Tidak ada
 variabel baru di build; runtime di Vercel Node 20+ sudah cukup.
+## Update: Kebijakan Penyimpanan Sementara (Temp Storage)
+
+Semua file yang di-attach pengguna kini **tidak pernah mengendap** di R2:
+
+- **Input (foto struk)**: dihapus segera dari R2 begitu job masuk status `completed`
+  (best-effort `deleteObject(job.inputKey)` di `features/receipt/processor.ts`). File
+  hanya diperlukan saat ekstraksi berjalan.
+- **Output (Excel)**: endpoint `POST /api/r2/presign-download` berubah dari "kirim
+  presigned URL" menjadi **stream-dan-hapus** — rute membaca buffer dari R2,
+  langsung `deleteObject(job.outputKey)`, lalu mengembalikan file sebagai attachment
+  (`Content-Disposition: attachment; filename="receipt-{jobId}.xlsx"`). Output yang
+  tersisa karenanya hanya bertahan selama satu request download.
+- **Client**: `handleDownload` di `app/ai/receipt-to-excel/page.tsx` kini melakukan
+  `fetch` → `blob()` → simulasi klik `<a download>` (nama file diambil dari header).
+  Tidak lagi `window.open(url)`. `r2PresignedDownloadUrl` dihapus dari `lib/r2/client.ts`
+  karena tidak terpakai (dead code).
+- Privasi pengguna meningkat: tidak ada file pengguna yang tersimpan permanen; hasil
+  konversi tetap bisa di-render ulang dari `job.result` di Firestore.

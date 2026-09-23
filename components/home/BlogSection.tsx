@@ -60,7 +60,7 @@ export function BlogSection({ lang = 'id' }: Props) {
             {label.heading}
           </h2>
         </div>
-        <Link href="/blog" className="group/btn inline-block">
+        <Link href={`/${lang}/blog`} className="group/btn inline-block">
           <GlassCard variant="subtle" blur="light" withReflection={false} withAccent="crimson" className="px-4 py-2 transition-all duration-300 hover:shadow-metallic-lg">
             <span className="flex items-center gap-1.5 text-sm font-medium text-frsc-text-200 transition-colors duration-300 group-hover/btn:text-frsc-platinum">
               {label.cta} <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-0.5" />

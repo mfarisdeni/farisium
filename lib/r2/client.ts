@@ -7,6 +7,7 @@ import {
   S3Client,
   GetObjectCommand,
   PutObjectCommand,
+  DeleteObjectCommand,
   type GetObjectCommandOutput,
 } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
@@ -57,11 +58,6 @@ export function r2PresignedUploadUrl(
   return getSignedUrl(getR2Client(), command, { expiresIn: expiresInSeconds })
 }
 
-export function r2PresignedDownloadUrl(key: string, expiresInSeconds = 300): Promise<string> {
-  const command = new GetObjectCommand({ Bucket: getBucket(), Key: key })
-  return getSignedUrl(getR2Client(), command, { expiresIn: expiresInSeconds })
-}
-
 export async function downloadObjectToBuffer(key: string): Promise<Buffer> {
   const command = new GetObjectCommand({ Bucket: getBucket(), Key: key })
   const output: GetObjectCommandOutput = await getR2Client().send(command)
@@ -81,5 +77,10 @@ export async function uploadBuffer(
     Body: body,
     ContentType: contentType,
   })
+  await getR2Client().send(command)
+}
+
+export async function deleteObject(key: string): Promise<void> {
+  const command = new DeleteObjectCommand({ Bucket: getBucket(), Key: key })
   await getR2Client().send(command)
 }

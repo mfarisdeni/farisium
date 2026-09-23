@@ -19,16 +19,11 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: titles[lang],
     description: descriptions[lang],
-    keywords: [
-      'jasa pembuatan website murah',
-      'jasa buat website landing page',
-      'pembuatan website startup',
-      'jasa website bisnis lokal',
-      'jasa pembuatan portfolio online',
-      'website builder murah',
-      'affordable website building service',
-      'landing page service',
-    ],
+    robots: {
+      index: false,
+      follow: false,
+      googleBot: { index: false, follow: false },
+    },
     alternates: { canonical: getCanonicalUrl(lang, '/ai/website-builder'), languages: Object.fromEntries(getHreflangLinks('/ai/website-builder', lang).map(a => [a.lang, a.href])) },
     openGraph: {
       title: titles[lang],

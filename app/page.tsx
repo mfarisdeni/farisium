@@ -1,16 +1,18 @@
 import type { Metadata } from 'next'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
-import { ArrowRight, Clock, CalendarDays } from 'lucide-react'
+import { ArrowRight, Sparkles } from 'lucide-react'
 import { Navbar } from '@/components/layout/Navbar'
 import { SiteFooter } from '@/components/layout/SiteFooter'
 import { ScrollReveal } from '@/components/scroll-reveal'
-import { BlogHomeGrid } from '@/components/home/BlogHomeGrid'
-import {
-  getAllPosts,
-  getBlogCategories,
-  parseDate,
-} from '@/lib/blog'
+import { AgenticSection } from '@/components/home/AgenticSection'
+import { AIToolsSection } from '@/components/home/AIToolsSection'
+import { ComputeSection } from '@/components/home/ComputeSection'
+import { WhyFarisiumSection } from '@/components/home/WhyFarisiumSection'
+import { BlogSection } from '@/components/home/BlogSection'
+import { PartnershipSection } from '@/components/home/PartnershipSection'
+import { FAQSection } from '@/components/home/FAQSection'
+import { getBlogCategories } from '@/lib/blog'
 import { detectLocale, COOKIE_NAME, getCanonicalUrl, getHreflangLinks } from '@/lib/i18n'
 import type { Lang } from '@/lib/translations'
 
@@ -20,19 +22,30 @@ export async function generateMetadata(): Promise<Metadata> {
   const path = '/'
 
   const titles = {
-    id: 'Farisium — Blog AI, Teknologi, Tutorial & Review Tools',
-    en: 'Farisium — AI & Technology Blog: Tutorials, Tools & Insights',
+    id: 'Agentic AI Platform by M. Faris Deni K. — Farisium',
+    en: 'Agentic AI Platform by M. Faris Deni K. — Farisium',
   }
   const descriptions = {
-    id: 'Blog AI dan teknologi terlengkap — panduan, tutorial, review tools AI, berita terkini, dan strategi untuk kreator, developer, dan bisnis.',
-    en: 'Your go-to AI and technology blog — in-depth tutorials, tool reviews, industry news, and practical strategies for creators, developers, and businesses.',
+    id: 'Farisium adalah platform Agentic AI karya M. Faris Deni K. — AI agents yang mengekstrak struk ke Excel, mengotomatisasi pekerjaan, dan menyelesaikan tugas nyata dengan akurasi tinggi.',
+    en: 'Farisium is an Agentic AI platform built by M. Faris Deni K. — AI agents that turn receipts into Excel, automate real work, and get things done accurately.',
   }
+  const keywords = [
+    'agentic AI',
+    'AI agent',
+    'AI platform',
+    'M. Faris Deni K.',
+    'AI tools',
+    'receipt to excel AI',
+    'artificial intelligence',
+    'Farisium',
+    'AI automation',
+  ]
   const canonicalUrl = getCanonicalUrl(lang, path)
   const alternates = getHreflangLinks(path, lang)
   return {
     title: { default: titles[lang], template: '%s | Farisium' },
     description: descriptions[lang],
-    metadataBase: new URL('https://farisium.com'),
+    keywords,
     alternates: {
       canonical: canonicalUrl,
       languages: Object.fromEntries(alternates.map((a) => [a.lang, a.href])),
@@ -44,7 +57,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: 'Farisium',
       title: titles[lang],
       description: descriptions[lang],
-      images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Farisium Blog' }],
+      images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Farisium — Agentic AI Platform' }],
     },
     twitter: {
       card: 'summary_large_image',
@@ -63,158 +76,117 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function HomePage() {
   const cookieStore = await cookies()
   const lang = detectLocale(cookieStore.get(COOKIE_NAME)?.value) as Lang
-  const posts = getAllPosts()
   const categories = getBlogCategories(lang)
 
-  const featured = posts[0]
-  const featuredT = featured?.translations[lang]
-
-  const pageDescriptions = {
-    id: 'Baca artikel, tutorial, dan berita terbaru seputar AI, teknologi, dan ekosistem Farisium.',
-    en: 'Read the latest articles, tutorials, and news about AI, technology, and the Farisium ecosystem.',
+  const hero = {
+    id: {
+      badge: 'Agentic AI · Platform by M. Faris Deni K.',
+      heading: 'Agen AI yang',
+      headingAccent: 'Menyelesaikan Pekerjaan Nyata',
+      description:
+        'Farisium adalah platform Agentic AI yang dibangun oleh M. Faris Deni K. — agen cerdas yang membaca, mengekstrak, memvalidasi, dan menghasilkan output siap pakai, seperti mengubah foto struk menjadi file Excel yang rapi.',
+      ctaPrimary: 'Jelajahi AI Agent',
+      ctaSecondary: 'Coba Receipt to Excel',
+      stats: [
+        { value: 'Agent AI', label: 'Live & terus bertambah' },
+        { value: 'Ekstraksi', label: 'Dua tahap, akurasi terverifikasi' },
+        { value: 'Data', label: 'Dihapus otomatis setelah selesai' },
+      ],
+    },
+    en: {
+      badge: 'Agentic AI · Platform by M. Faris Deni K.',
+      heading: 'AI Agents That',
+      headingAccent: 'Get Real Work Done',
+      description:
+        'Farisium is an Agentic AI platform built by M. Faris Deni K. — intelligent agents that read, extract, validate, and produce ready-to-use output, like turning a receipt photo into a clean Excel file.',
+      ctaPrimary: 'Explore AI Agents',
+      ctaSecondary: 'Try Receipt to Excel',
+      stats: [
+        { value: 'AI Agents', label: 'Live & growing' },
+        { value: 'Extraction', label: 'Two-stage, verified accuracy' },
+        { value: 'Data', label: 'Auto-deleted when done' },
+      ],
+    },
   }
 
-  const itemListSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'ItemList',
-    itemListElement: posts
-      .filter((p) => p.translations[lang])
-      .map((p, i) => ({
-        '@type': 'ListItem',
-        position: i + 1,
-        url: getCanonicalUrl(lang, `/blog/${p.translations[lang]!.slug}`),
-      }))
-      .slice(0, 20),
-  }
-
-  const blogSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Blog',
-    name: lang === 'id' ? 'Blog Farisium' : 'Farisium Blog',
-    url: getCanonicalUrl(lang, '/'),
-    description: pageDescriptions[lang],
-    inLanguage: lang,
-    blogPost: posts
-      .filter((p) => p.translations[lang])
-      .slice(0, 5)
-      .map((p) => ({
-        '@type': 'BlogPosting',
-        headline: p.translations[lang]!.title,
-        datePublished: parseDate(p.date).toISOString(),
-        url: getCanonicalUrl(lang, `/blog/${p.translations[lang]!.slug}`),
-      })),
-  }
-
-  const latestLabel = lang === 'id' ? 'Artikel Terbaru' : 'Latest Articles'
-  const readLabel = lang === 'id' ? 'menit baca' : 'min read'
-  const authorName = 'M. Faris Deni K.'
+  const h = hero[lang] ?? hero.id
 
   return (
     <div className="flex min-h-dvh flex-col">
       <Navbar categories={categories} />
       <main className="flex-1">
-        {/* Hero — SEO-first with tech vibes background */}
-        <section className="hero-bg relative">
-          {/* Ambient gradient orbs */}
+        {/* Hero — simple, agentic-AI focused */}
+        <section className="hero-bg relative overflow-hidden">
           <div className="hero-orb pointer-events-none" aria-hidden="true" />
 
-          <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pt-16 pb-12 lg:px-6 lg:pt-24 lg:pb-16">
-            <span className="inline-block rounded-full border border-frsc-crimson-500/20 bg-frsc-crimson-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-frsc-crimson-500">
-              {lang === 'id' ? 'Blog AI & Teknologi' : 'AI & Technology Blog'}
+          <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center px-4 pb-20 pt-16 text-center lg:px-6 lg:pb-28 lg:pt-24">
+            <span className="inline-flex items-center gap-2 rounded-full border border-frsc-crimson-500/20 bg-frsc-crimson-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-frsc-crimson-500">
+              <Sparkles className="h-3.5 w-3.5" />
+              {h.badge}
             </span>
 
-            <h1 className="mt-6 max-w-4xl text-[clamp(2rem,5vw,3.5rem)] font-heading font-bold leading-[1.08] tracking-tight text-foreground">
-              {lang === 'id'
-                ? 'Farisium — Artikel AI, Tutorial & Berita Teknologi Terbaru'
-                : 'Farisium — AI Articles, Tutorials & Technology News'}
+            <h1 className="mt-7 max-w-3xl text-[clamp(2rem,5vw,3.5rem)] font-heading font-bold leading-[1.08] tracking-tight text-foreground">
+              {h.heading}{' '}
+              <span className="animated-gradient-text bg-clip-text text-transparent">
+                {h.headingAccent}
+              </span>
             </h1>
 
             <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-              {lang === 'id'
-                ? 'Blog AI dan teknologi terlengkap — panduan praktis, review tools, strategi produktivitas, dan berita terkini untuk kreator, developer, dan bisnis.'
-                : 'Your go-to AI and technology blog — in-depth tutorials, tool reviews, productivity strategies, and the latest industry news for creators, developers, and businesses.'}
+              {h.description}
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-3">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Link
-                href={`/${lang}/blog`}
+                href={`/${lang}/ai`}
                 className="inline-flex items-center gap-2 rounded-xl bg-frsc-crimson-500 px-5 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-frsc-crimson-600"
               >
-                {lang === 'id' ? 'Baca Semua Artikel' : 'Explore All Articles'}
+                {h.ctaPrimary}
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                href={`/${lang}/blog/${featuredT?.slug}`}
+                href={`/${lang}/ai/receipt-to-excel`}
                 className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-5 py-3 text-sm font-semibold text-foreground transition-colors duration-200 hover:bg-surface-hover"
               >
-                {lang === 'id' ? 'Artikel Unggulan' : 'Featured Article'}
+                {h.ctaSecondary}
               </Link>
             </div>
-          </div>
-        </section>
 
-        {/* Featured post card */}
-        {featured && featuredT && (
-          <section className="mx-auto w-full max-w-7xl px-4 py-10 lg:px-6 lg:py-14">
-            <span className="text-eyebrow font-semibold uppercase tracking-[0.18em] text-frsc-crimson-500">
-              {lang === 'id' ? 'Sorotan' : 'Featured'}
-            </span>
-            <h2 className="mt-3 max-w-3xl text-2xl font-heading font-bold leading-tight text-foreground">
-              {featuredT.title}
-            </h2>
-            <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted-foreground">
-              {featuredT.excerpt}
-            </p>
-            <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-              <span className="flex items-center gap-1.5">
-                <CalendarDays className="h-4 w-4" />
-                {featured.date}
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Clock className="h-4 w-4" />
-                {featuredT.readTime} {readLabel}
-              </span>
-              <span>{authorName}</span>
+            <div className="mt-10 grid w-full max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3">
+              {h.stats.map((s) => (
+                <div
+                  key={s.value}
+                  className="rounded-xl border border-white/[0.07] bg-white/[0.02] px-4 py-3 backdrop-blur-sm"
+                >
+                  <div className="text-sm font-semibold text-foreground">{s.value}</div>
+                  <div className="mt-0.5 text-xs text-muted-foreground">{s.label}</div>
+                </div>
+              ))}
             </div>
-            <Link
-              href={`/${lang}/blog/${featuredT.slug}`}
-              className="mt-6 inline-flex cursor-pointer items-center gap-2 rounded-xl bg-frsc-crimson-500 px-5 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-frsc-crimson-600"
-            >
-              {lang === 'id' ? 'Baca Artikel' : 'Read Article'}
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-
-            <Link
-              href={`/${lang}/blog/${featuredT.slug}`}
-              className="group mt-8 block overflow-hidden rounded-2xl border border-border bg-card"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={featured.image}
-                alt={featured.imageAlt}
-                className="aspect-[21/9] w-full object-cover transition-transform duration-500 group-hover:scale-[1.01]"
-              />
-            </Link>
-          </section>
-        )}
-
-        {/* Latest grid */}
-        <section className="mx-auto w-full max-w-7xl px-4 pb-24 pt-16 lg:px-6 lg:pt-20">
-          <div className="mb-8">
-            <h2 className="text-h2 font-heading font-bold text-foreground">{latestLabel}</h2>
           </div>
-          <BlogHomeGrid posts={posts} lang={lang} />
         </section>
-      </main>
 
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
-      />
+        {/* Agentic AI — dedicated section highlighting the newest tool */}
+        <AgenticSection lang={lang} />
+
+        {/* AI Tools */}
+        <AIToolsSection lang={lang} />
+
+        {/* AI Compute */}
+        <ComputeSection lang={lang} />
+
+        {/* Why Farisium */}
+        <WhyFarisiumSection lang={lang} />
+
+        {/* Blog — only 3 latest posts */}
+        <BlogSection lang={lang} />
+
+        {/* Partnership */}
+        <PartnershipSection lang={lang} />
+
+        {/* FAQ */}
+        <FAQSection lang={lang} />
+      </main>
 
       <SiteFooter />
       <ScrollReveal />

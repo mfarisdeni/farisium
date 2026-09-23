@@ -8,7 +8,6 @@ import type { Lang } from '@/lib/translations'
 const footerLinks = {
   'AI Tools': [
     { label: 'AI Directory', href: '/ai' },
-    { label: 'Jasa Pembuatan Website', href: '/ai/website-builder' },
   ],
   Platform: [
     { label: 'Rewards', href: '/rewards' },
@@ -36,7 +35,6 @@ const linkLabels: Record<Lang, Record<string, string>> = {
     'Syarat & Ketentuan': 'Syarat & Ketentuan',
     'Kebijakan Privasi': 'Kebijakan Privasi',
     'AI Directory': 'AI Directory',
-    'Jasa Pembuatan Website': 'Jasa Pembuatan Website',
     Rewards: 'Rewards',
     FRSC: 'FRSC',
     Partnership: 'Partnership',
@@ -54,7 +52,6 @@ const linkLabels: Record<Lang, Record<string, string>> = {
     'Kebijakan Privasi': 'Privacy Policy',
     'Kebijakan Cookie': 'Cookie Policy',
     'AI Directory': 'AI Directory',
-    'Jasa Pembuatan Website': 'Website Building Service',
     Rewards: 'Rewards',
     FRSC: 'FRSC',
     Partnership: 'Partnership',

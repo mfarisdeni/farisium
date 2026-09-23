@@ -667,6 +667,31 @@ Artikel terbaru ketiga: Ciri-Ciri WA Disadap dan Cara Mengatasinya — panduan l
 
 ## Yang Baru / Berubah di Sesi Ini
 
+### Temp storage R2 + Homepage jadi portofolio Agentic AI (sesi berjalan)
+
+**1. R2 temporary-storage untuk Receipt to Excel (privacy-first)**
+
+- Input foto struk dihapus otomatis dari R2 begitu job `completed` (`deleteObject(job.inputKey)` di `features/receipt/processor.ts`).
+- `POST /api/r2/presign-download` berubah fungsi: **stream + hapus**. Rute membaca buffer output dari R2 → `deleteObject` → kirim file sebagai attachment. Output tidak pernah mengendap.
+- Client `handleDownload` → `fetch` + `blob()` + klik `<a download>` (nama file `receipt-{jobId}.xlsx` dari header). `r2PresignedDownloadUrl` dihapus (dead code).
+- `deleteObject(key)` ditambahkan di `lib/r2/client.ts` (DeleteObjectCommand).
+
+**2. Homepage TIDAK lagi blog-focused → portofolio Agentic AI (branding M. Faris Deni K.)**
+
+- `app/page.tsx` rewrite penuh: Hero baru (simple, centered, badge "Agentic AI · Platform by M. Faris Deni K.", stats chips: Agent AI / Ekstraksi / Data) lalu urutan standard AGENTS.md: Hero → AgenticSection → AIToolsSection → ComputeSection → WhyFarisiumSection → BlogSection → PartnershipSection → FAQSection → Footer.
+- Komponen baru `components/home/AgenticSection.tsx`: section khusus Agentic AI; kartu premium sorotan **Receipt to Excel** badge "Tool Terbaru & Terpintar" (copy agentik: membaca→mengekstrak→memvalidasi→menyusun), checklist 3 capability, orbs animasi, CTA ganda; 2 kartu pendukung F-Stream + AI Blog; footer note "file disimpan sementara & dihapus otomatis".
+- Blog homepage = `BlogSection` (sudah 3 posting + tombol "Lihat Semua"); CTA diubah locale-aware `/${lang}/blog`.
+- Metadata root (`app/layout.tsx`): default title → `Farisium — Agentic AI Platform by M. Faris Deni K.`, description + keywords agentic; OG/Twitter ikut; authors/creator → M. Faris Deni K. (link `/author/faris`); JSON-LD Organization/WebSite/SoftwareApplication description di-update, `applicationCategory` → `AIApplication`.
+- `app/page.tsx` generateMetadata → agentic; `/ai` metadata → "AI Agents & AI Tools".
+
+**3. Website builder DIHIDE (bukan dihapus)**
+
+- Kartu dihapus dari `app/ai/page.tsx` toolsData & `components/home/AIToolsSection.tsx` (ID+EN; import `Globe` dibersihkan; Receipt to Excel naik ke posisi pertama).
+- Direktori AI Tools kini: Receipt to Excel, F-Stream, AI Blog.
+- Footer (`components/layout/Footer.tsx`) & Dashboard `quickLinks` (ID+EN) link website-builder dihapus (diganti quick link "Struk ke Excel"/"Receipt to Excel" di dashboard).
+- `app/sitemap.ts`: entri `ai/website-builder` dihapus (staticPaths/priorities/changeFreq).
+- `app/ai/website-builder/layout.tsx`: ditambah `robots noindex` (halaman masih live kalau diakses langsung, tapi tidak diindeks). Semua file rute/checkout/API web-builder TETAP ada.
+
 ### AGENT: Receipt to Excel (`/ai/receipt-to-excel`) — agent AI pertama
 
 Foto struk/bukti transaksi → file Excel rapi via **upload langsung ke R2**, **Gemini** ekstrak JSON, **validasi Zod + aritmatika deterministik**, **ExcelJS**. Dokumentasi lengkap di `docs/30-receipt-to-excel.md`.

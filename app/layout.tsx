@@ -38,23 +38,24 @@ export async function generateMetadata(): Promise<Metadata> {
     cookieStore.get(COOKIE_NAME)?.value,
   ) as Lang
 
-  const title = 'Farisium — AI & Technology Blog, Tutorials, Tools & Insights'
+  const title = 'Farisium — Agentic AI Platform by M. Faris Deni K.'
 
   const descriptions = {
-    id: 'Farisium adalah blog AI dan teknologi — panduan lengkap, tutorial, review tools, berita terkini, dan insight untuk kreator, developer, dan bisnis.',
-    en: 'Farisium is an AI and technology blog — in-depth guides, tutorials, tool reviews, latest news, and actionable insights for creators, developers, and businesses.',
+    id: 'Farisium adalah platform Agentic AI karya M. Faris Deni K. — AI agents yang mengekstrak struk ke Excel, mengotomatisasi pekerjaan, dan menyelesaikan tugas nyata dengan akurasi tinggi.',
+    en: 'Farisium is an Agentic AI platform built by M. Faris Deni K. — AI agents that turn receipts into Excel, automate real work, and get things done accurately.',
   }
 
   const keywords = [
-    'AI blog',
+    'agentic AI',
+    'AI agent',
+    'AI platform',
+    'M. Faris Deni K.',
+    'AI tools',
+    'receipt to excel AI',
     'artificial intelligence',
     'machine learning',
-    'AI tools',
-    'technology blog',
-    'AI tutorials',
-    'AI news',
+    'AI automation',
     'generative AI',
-    'deep learning',
     'LLM',
     'large language model',
     'AI for business',
@@ -69,8 +70,8 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description: descriptions[lang],
     keywords,
-    authors: [{ name: 'Farisium' }],
-    creator: 'Farisium',
+    authors: [{ name: 'M. Faris Deni K.', url: 'https://farisium.com/author/faris' }],
+    creator: 'M. Faris Deni K.',
     publisher: 'Farisium',
     metadataBase: new URL('https://farisium.com'),
     alternates: {
@@ -89,7 +90,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title,
       description: descriptions[lang],
       images: [
-        { url: '/og-image.png', width: 1200, height: 630, alt: 'Farisium — AI & Technology Blog, Tutorials, Tools & Insights' },
+        { url: '/og-image.png', width: 1200, height: 630, alt: 'Farisium — Agentic AI Platform by M. Faris Deni K.' },
         { url: '/icon-light-32x32.png', width: 32, height: 32, alt: 'Farisium' },
       ],
     },
@@ -124,7 +125,7 @@ const organizationSchema = {
   url: 'https://farisium.com',
   logo: 'https://farisium.com/apple-icon.png',
   description:
-    'Farisium is an AI and technology blog — in-depth guides, tutorials, tool reviews, latest news, and actionable insights for creators, developers, and businesses.',
+    'Farisium is an Agentic AI platform built by M. Faris Deni K. — AI agents that turn receipts into Excel, automate real work, and get things done accurately.',
   foundingDate: '2025',
   sameAs: [
     'https://discord.gg/SCDFEbRpjm',
@@ -138,9 +139,9 @@ const websiteSchema = {
   name: 'Farisium',
   url: 'https://farisium.com',
   description:
-    'Farisium is an AI and technology blog — in-depth guides, tutorials, tool reviews, latest news, and actionable insights for creators, developers, and businesses.',
+    'Farisium is an Agentic AI platform built by M. Faris Deni K. — AI agents that turn receipts into Excel, automate real work, and get things done accurately.',
   inLanguage: ['en', 'id'],
-  applicationCategory: 'Blog',
+  applicationCategory: 'AIApplication',
 }
 
 const softwareSchema = {
@@ -149,8 +150,8 @@ const softwareSchema = {
   name: 'Farisium',
   url: 'https://farisium.com',
   description:
-    'Farisium is an AI and technology blog — in-depth guides, tutorials, tool reviews, latest news, and actionable insights for creators, developers, and businesses.',
-  applicationCategory: 'BlogApplication',
+    'Farisium is an Agentic AI platform built by M. Faris Deni K. — AI agents that turn receipts into Excel, automate real work, and get things done accurately.',
+  applicationCategory: 'AIApplication',
   operatingSystem: 'Web',
   offers: {
     '@type': 'Offer',

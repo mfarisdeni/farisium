@@ -356,9 +356,26 @@ function ReceiptToExcelContent() {
         },
         body: JSON.stringify({ jobId }),
       })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error || t.genericError)
-      window.open(data.downloadUrl, '_blank', 'noopener,noreferrer')
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        throw new Error(err.error || t.genericError)
+      }
+
+      // Direct blob download (file is deleted from storage after this fetch,
+      // so it never lingers on the server).
+      const blob = await res.blob()
+      const cd = res.headers.get('Content-Disposition') ?? ''
+      const match = cd.match(/filename="?([^";]+)"?/)
+      const fileName = match?.[1] ?? 'receipt.xlsx'
+
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = fileName
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      setTimeout(() => URL.revokeObjectURL(url), 1000)
     } catch (err) {
       toast.error(err instanceof Error ? err.message : t.genericError)
     } finally {

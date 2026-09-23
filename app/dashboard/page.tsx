@@ -44,7 +44,7 @@ const content = {
     generateLabel: 'Total Generate',
     quickLinks: [
       { label: 'Klaim Daily Reward', href: '/rewards', desc: 'Dapatkan FRSC gratis setiap hari' },
-      { label: 'Jasa Pembuatan Website', href: '/ai/website-builder', desc: 'Website profesional mulai Rp 20rb/halaman' },
+      { label: 'Struk ke Excel', href: '/ai/receipt-to-excel', desc: 'Ubah foto struk jadi file Excel otomatis' },
       { label: 'F-Stream Boost Spotify', href: '/ai/f-stream-spotify-promotion', desc: 'Tingkatkan streaming Spotify-mu' },
       { label: 'Pelajari FRSC', href: '/frsc', desc: 'Cara mendapatkan dan menggunakan FRSC' },
       { label: 'Jelajahi AI Tools', href: '/ai', desc: 'Lihat semua layanan AI tersedia' },
@@ -66,7 +66,7 @@ const content = {
     generateLabel: 'Total Generations',
     quickLinks: [
       { label: 'Claim Daily Reward', href: '/rewards', desc: 'Earn free FRSC every day' },
-      { label: 'Website Building Service', href: '/ai/website-builder', desc: 'Professional websites from IDR 20k/page' },
+      { label: 'Receipt to Excel', href: '/ai/receipt-to-excel', desc: 'Turn receipt photos into Excel automatically' },
       { label: 'F-Stream Boost Spotify', href: '/ai/f-stream-spotify-promotion', desc: 'Boost your Spotify streaming' },
       { label: 'Learn about FRSC', href: '/frsc', desc: 'How to earn and use FRSC' },
       { label: 'Explore AI Tools', href: '/ai', desc: 'See all available AI services' },
