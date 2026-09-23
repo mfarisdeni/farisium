@@ -15,11 +15,19 @@ import {
   MAX_FILE_SIZE_BYTES,
 } from '@/lib/r2/keys'
 import { requireOwnedJob, updateJobStatus, RECEIPT_FEATURE, type JobRecord } from '@/lib/jobs/core'
-import { extractReceiptJson } from '@/lib/ai/gemini'
+import {
+  transcribeReceiptLines,
+  structureReceiptFromLines,
+  extractReceiptJson,
+} from '@/lib/ai/gemini'
 import { buildReceiptWorkbook } from '@/lib/exporters/receipt-to-excel'
 import { parseReceiptJson, type Receipt } from './schema'
 import { validateReceiptTotals, applyValidation } from './validation'
-import { buildSystemInstruction } from './prompt'
+import {
+  buildTranscribeInstruction,
+  buildStructuredInstruction,
+  buildSystemInstruction,
+} from './prompt'
 import { ApiError } from '@/lib/api'
 
 export interface ReceiptConversionResult {
@@ -83,7 +91,31 @@ export async function processReceiptConversion(
     }
 
     const base64 = inputBuffer.toString('base64')
-    const raw = await extractReceiptJson(base64, job.contentType, buildSystemInstruction())
+
+    // Stage 1: verbatim transcription (preserves every digit).
+    const transcription = await transcribeReceiptLines(
+      base64,
+      job.contentType,
+      buildTranscribeInstruction(),
+    )
+    let lines: unknown = []
+    try {
+      lines = JSON.parse(transcription)
+    } catch {
+      lines = []
+    }
+
+    // Stage 2: structure the transcription (text-only — forcing the model to
+    // reason from the exact transcript is far more accurate than re-OCR-ing the
+    // photo again). Fall back to single-call when transcription was empty.
+    const raw = Array.isArray(lines) && lines.length > 0
+      ? await structureReceiptFromLines(
+          lines as string[],
+          '',
+          '',
+          buildStructuredInstruction(),
+        )
+      : await extractReceiptJson(base64, job.contentType, buildSystemInstruction())
 
     const parsed = parseReceiptJson(raw)
     const validation = validateReceiptTotals(parsed)

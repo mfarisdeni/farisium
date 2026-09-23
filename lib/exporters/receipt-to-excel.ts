@@ -60,10 +60,16 @@ export async function buildReceiptWorkbook(receipt: Receipt): Promise<Buffer> {
   ws.getCell('B3').value = receipt.currency ?? '-'
   ws.mergeCells('B3:D3')
 
+  ws.getCell('A4').value = 'No. Struk / Receipt No.'
+  ws.getCell('B4').value = receipt.invoiceNumber ?? '-'
+  ws.mergeCells('B4:D4')
+
   ws.getCell('A2').font = { bold: true, color: { argb: 'FF9CA3AF' } }
   ws.getCell('A3').font = { bold: true, color: { argb: 'FF9CA3AF' } }
+  ws.getCell('A4').font = { bold: true, color: { argb: 'FF9CA3AF' } }
   ws.getCell('B2').font = { color: { argb: 'FFFFFFFF' } }
   ws.getCell('B3').font = { color: { argb: 'FFFFFFFF' } }
+  ws.getCell('B4').font = { color: { argb: 'FFFFFFFF' } }
 
   // ── Item table header (row 5, frozen) ──
   const headerRow = ws.getRow(5)

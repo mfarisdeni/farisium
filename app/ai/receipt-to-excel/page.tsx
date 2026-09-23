@@ -20,6 +20,7 @@ import {
   CheckCircle2,
   Sparkles,
   ShieldCheck,
+  Camera,
   X,
 } from 'lucide-react'
 
@@ -40,6 +41,8 @@ const pageContent = {
     browse: 'Pilih file',
     fileAccepted: 'File siap diproses',
     changeFile: 'Ganti file',
+    camera: 'Buka Kamera',
+    cameraHint: 'Foto struk langsung dari kamera HP',
     convert: 'Konversi ke Excel',
     converting: 'Memproses...',
     loginRequired: 'Login untuk Menggunakan',
@@ -62,6 +65,7 @@ const pageContent = {
     resultTitle: 'Hasil Konversi',
     merchant: 'Toko / Merchant',
     date: 'Tanggal',
+    invoiceNo: 'No. Struk',
     currency: 'Mata uang',
     total: 'Total',
     itemsCount: 'Item',
@@ -86,6 +90,8 @@ const pageContent = {
     browse: 'Browse files',
     fileAccepted: 'File ready to process',
     changeFile: 'Change file',
+    camera: 'Open Camera',
+    cameraHint: 'Snap a receipt straight from your phone camera',
     convert: 'Convert to Excel',
     converting: 'Processing...',
     loginRequired: 'Sign in to Continue',
@@ -108,6 +114,7 @@ const pageContent = {
     resultTitle: 'Conversion Result',
     merchant: 'Store / Merchant',
     date: 'Date',
+    invoiceNo: 'Receipt No.',
     currency: 'Currency',
     total: 'Total',
     itemsCount: 'Items',
@@ -131,6 +138,7 @@ interface ReceiptItem {
 interface Receipt {
   merchantName: string | null
   transactionDate: string | null
+  invoiceNumber: string | null
   currency: string | null
   subtotal: number | null
   tax: number | null
@@ -153,6 +161,8 @@ type PageContent = {
   browse: string
   fileAccepted: string
   changeFile: string
+  camera: string
+  cameraHint: string
   convert: string
   converting: string
   loginRequired: string
@@ -174,6 +184,7 @@ type PageContent = {
   resultTitle: string
   merchant: string
   date: string
+  invoiceNo: string
   currency: string
   total: string
   itemsCount: string
@@ -218,6 +229,7 @@ function ReceiptToExcelContent() {
   const [error, setError] = useState<string | null>(null)
   const [downloading, setDownloading] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+  const cameraInputRef = useRef<HTMLInputElement>(null)
   const stepTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   const pickFile = useCallback(
@@ -478,33 +490,54 @@ function ReceiptToExcelContent() {
                   className="hidden"
                   onChange={(e) => pickFile(e.target.files?.[0])}
                 />
+                <input
+                  ref={cameraInputRef}
+                  type="file"
+                  accept="image/*"
+                  capture="environment"
+                  className="hidden"
+                  onChange={(e) => pickFile(e.target.files?.[0])}
+                />
 
                 {!file ? (
-                  <div
-                    role="button"
-                    tabIndex={0}
-                    aria-label={t.uploadTitle}
-                    onClick={() => inputRef.current?.click()}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') inputRef.current?.click()
-                    }}
-                    onDragOver={(e) => e.preventDefault()}
-                    onDrop={(e) => {
-                      e.preventDefault()
-                      pickFile(e.dataTransfer.files?.[0])
-                    }}
-                    className="group mt-6 flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-frsc-crimson-500/30 bg-white/[0.02] px-6 py-14 text-center transition-colors hover:border-frsc-crimson-500/60 hover:bg-white/[0.04]"
-                  >
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-frsc-crimson-800/30 to-frsc-purple-800/20 ring-1 ring-frsc-crimson-500/30 transition-transform group-hover:scale-105">
-                      <UploadCloud className="h-6 w-6 text-frsc-crimson-400" />
+                  <>
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      aria-label={t.uploadTitle}
+                      onClick={() => inputRef.current?.click()}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') inputRef.current?.click()
+                      }}
+                      onDragOver={(e) => e.preventDefault()}
+                      onDrop={(e) => {
+                        e.preventDefault()
+                        pickFile(e.dataTransfer.files?.[0])
+                      }}
+                      className="group mt-6 flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-frsc-crimson-500/30 bg-white/[0.02] px-6 py-14 text-center transition-colors hover:border-frsc-crimson-500/60 hover:bg-white/[0.04]"
+                    >
+                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-frsc-crimson-800/30 to-frsc-purple-800/20 ring-1 ring-frsc-crimson-500/30 transition-transform group-hover:scale-105">
+                        <UploadCloud className="h-6 w-6 text-frsc-crimson-400" />
+                      </div>
+                      <p className="mt-4 text-sm text-frsc-text-200">
+                        {t.drop}{' '}
+                        <span className="font-semibold text-frsc-crimson-300 underline-offset-4 group-hover:underline">
+                          {t.browse}
+                        </span>
+                      </p>
                     </div>
-                    <p className="mt-4 text-sm text-frsc-text-200">
-                      {t.drop}{' '}
-                      <span className="font-semibold text-frsc-crimson-300 underline-offset-4 group-hover:underline">
-                        {t.browse}
-                      </span>
-                    </p>
-                  </div>
+
+                    {/* Camera */}
+                    <button
+                      type="button"
+                      onClick={() => cameraInputRef.current?.click()}
+                      className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-sm font-medium text-frsc-text-100 transition-colors hover:border-frsc-crimson-500/40 hover:text-frsc-crimson-200"
+                    >
+                      <Camera className="h-4 w-4" />
+                      {t.camera}
+                      <span className="text-xs text-frsc-text-300">· {t.cameraHint}</span>
+                    </button>
+                  </>
                 ) : (
                   <div className="mt-6">
                     <div className="flex items-center gap-4 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4">
@@ -679,9 +712,9 @@ function ReceiptToExcelContent() {
 
                 <div className="mt-3 grid gap-3 sm:grid-cols-2">
                   <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
-                    <p className="text-xs uppercase tracking-wide text-frsc-text-300">{t.currency}</p>
+                    <p className="text-xs uppercase tracking-wide text-frsc-text-300">{t.invoiceNo}</p>
                     <p className="mt-1 font-semibold text-frsc-white-bright">
-                      {receipt.currency ?? '-'}
+                      {receipt.invoiceNumber ?? '-'}
                     </p>
                   </div>
                   <div className="rounded-xl border border-frsc-crimson-500/20 bg-gradient-to-br from-frsc-crimson-900/20 to-frsc-purple-900/10 p-4">

@@ -81,6 +81,19 @@ test('parseAmount handles Indonesian number formats', () => {
   assert.equal(parseAmount('tidak terbaca'), null)
 })
 
+test('literal "null" strings from the model are normalized to null', () => {
+  const receipt = parseReceiptJson(
+    JSON.stringify({
+      merchantName: 'Toko',
+      transactionDate: null,
+      invoiceNumber: 'null',
+      currency: 'IDR',
+      items: [],
+    }),
+  )
+  assert.equal(receipt.invoiceNumber, null)
+})
+
 test('schema rejects structurally wrong payloads', () => {
   assert.throws(() => receiptSchema.parse('not-an-object'))
   assert.throws(() => receiptSchema.parse({ merchantName: { weird: true } }))

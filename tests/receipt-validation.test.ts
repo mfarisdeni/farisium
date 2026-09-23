@@ -12,6 +12,7 @@ function receipt(overrides: Partial<Receipt> & Record<string, unknown> = {}): Re
   return {
     merchantName: 'Toko Berkah',
     transactionDate: '2026-09-20',
+    invoiceNumber: null,
     currency: 'IDR',
     subtotal: 3000,
     tax: 0,

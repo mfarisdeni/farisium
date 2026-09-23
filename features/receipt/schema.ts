@@ -51,12 +51,14 @@ const nullableAmount = z.preprocess(
 )
 
 /** Coerce strings to trimmed non-empty; unreadable/missing ones become null. */
+const NULLISH = /^(null|undefined|none|n\/a|nan|-+)$/i
 const nullableString = z.preprocess(
   (val) => {
     if (val == null) return null
     if (typeof val !== 'string') return val
     const trimmed = val.trim()
-    return trimmed.length === 0 ? null : trimmed
+    if (trimmed.length === 0 || NULLISH.test(trimmed)) return null
+    return trimmed
   },
   z.string().min(1).nullable(),
 )
@@ -73,6 +75,7 @@ export type ReceiptItem = z.infer<typeof itemSchema>
 export const receiptSchema = z.object({
   merchantName: nullableString,
   transactionDate: nullableString,
+  invoiceNumber: nullableString,
   currency: nullableString,
   subtotal: nullableAmount,
   tax: nullableAmount,

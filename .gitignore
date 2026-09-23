@@ -36,3 +36,5 @@ Thumbs.db
 
 # Vercel
 .vercel/
+# Local receipt eval fixture
+public/receipt-example/

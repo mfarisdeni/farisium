@@ -1,10 +1,11 @@
 /**
- * Gemini gateway for receipt extraction (structured JSON output).
- * Lazy singleton; model and key come from env (never hardcoded in logic).
+ * Gemini gateway for receipt extraction (two-stage: verbatim transcription
+ * → structured JSON). Lazy singleton; model and key come from env (never
+ * hardcoded in logic).
  */
 
 import { GoogleGenAI, Type } from '@google/genai'
-import { ApiError } from '@/lib/api'
+import { ApiError } from '../api.ts'
 
 const DEFAULT_MODEL = 'gemini-3.5-flash-lite'
 
@@ -30,6 +31,7 @@ export const RECEIPT_JSON_SCHEMA = {
   properties: {
     merchantName: { type: Type.STRING },
     transactionDate: { type: Type.STRING },
+    invoiceNumber: { type: Type.STRING },
     currency: { type: Type.STRING },
     subtotal: { type: Type.NUMBER },
     tax: { type: Type.NUMBER },
@@ -52,41 +54,27 @@ export const RECEIPT_JSON_SCHEMA = {
   },
 } as const
 
-/**
- * Extract structured data as raw JSON text. The caller validates with zod.
- * Returns the model's text output (first candidate's concatenated text parts).
- */
-export async function extractReceiptJson(
-  base64Image: string,
-  mimeType: string,
-  systemInstruction: string,
-): Promise<string> {
-  const model = getModel()
-  const client = getAI()
+interface RequestPayload {
+  model: string
+  contents: Array<{
+    role: string
+    parts: Array<{ inlineData?: { mimeType: string; data: string }; text?: string }>
+  }>
+  config?: Record<string, unknown>
+}
 
+async function run(content: RequestPayload, systemInstruction?: string): Promise<string> {
+  const client = getAI()
   let response
   try {
     response = await client.models.generateContent({
-      model,
-      contents: [
-        {
-          role: 'user',
-          parts: [
-            {
-              inlineData: { mimeType, data: base64Image },
-            },
-            {
-              text: 'Ekstrak semua data dari foto struk/bukti transaksi ini ke dalam JSON sesuai instruksi sistem.',
-            },
-          ],
-        },
-      ],
+      ...content,
       config: {
-        systemInstruction,
+        ...(content.config ?? {}),
+        ...(systemInstruction ? { systemInstruction } : {}),
         responseMimeType: 'application/json',
-        responseSchema: RECEIPT_JSON_SCHEMA,
-        temperature: 0.2,
-        maxOutputTokens: 4096,
+        temperature: 0.1,
+        maxOutputTokens: 8192,
       },
     })
   } catch (err) {
@@ -110,4 +98,120 @@ export async function extractReceiptJson(
   }
 
   return text.trim()
+}
+
+/**
+ * Stage 1 — transcribe the receipt verbatim into a JSON array of lines.
+ * Returns the raw JSON array string (caller parses).
+ */
+export async function transcribeReceiptLines(
+  base64Image: string,
+  mimeType: string,
+  systemInstruction: string,
+): Promise<string> {
+  const model = getModel()
+  return run(
+    {
+      model,
+      contents: [
+        {
+          role: 'user',
+          parts: [
+            {
+              inlineData: { mimeType, data: base64Image },
+            },
+            {
+              text: 'Transkripsikan semua baris teks pada struk ini.',
+            },
+          ],
+        },
+      ],
+      config: {
+        responseSchema: {
+          type: Type.ARRAY,
+          items: { type: Type.STRING },
+        },
+      },
+    },
+    systemInstruction,
+  )
+}
+
+/**
+ * Stage 2 — structure the verbatim transcription into the receipt JSON.
+ * NOTE: instructions are embedded in the USER text, NOT passed as
+ * systemInstruction — empirically, systemInstruction makes these small
+ * models return minimal/empty output (only merchant + date), while the same
+ * text in the user prompt yields the full structured receipt.
+ */
+export async function structureReceiptFromLines(
+  lines: string[],
+  base64Image: string,
+  mimeType: string,
+  instructions: string,
+): Promise<string> {
+  const model = getModel()
+  const parts: Array<{ inlineData?: { mimeType: string; data: string }; text?: string }> = []
+  if (base64Image && mimeType) {
+    parts.push({
+      inlineData: { mimeType, data: base64Image },
+    })
+  }
+  parts.push({
+    text:
+      instructions +
+      '\n\nVerbatim transcription of the receipt, one line per element, read top to bottom:\n' +
+      lines.join('\n') +
+      '\n\nReturn the structured JSON object now.',
+  })
+  return run(
+    {
+      model,
+      contents: [
+        {
+          role: 'user',
+          parts,
+        },
+      ],
+      config: {
+        responseSchema: RECEIPT_JSON_SCHEMA,
+      },
+    },
+  )
+}
+
+/**
+ * Legacy single-call extraction (fallback only). Returns raw JSON text;
+ * the caller validates with zod. Instructions live in the user text — see
+ * structureReceiptFromLines for why no systemInstruction.
+ */
+export async function extractReceiptJson(
+  base64Image: string,
+  mimeType: string,
+  instructions: string,
+): Promise<string> {
+  const model = getModel()
+  return run(
+    {
+      model,
+      contents: [
+        {
+          role: 'user',
+          parts: [
+            {
+              inlineData: { mimeType, data: base64Image },
+            },
+            {
+              text:
+                instructions +
+                '\n\nRead the provided receipt image carefully and return the structured JSON object now.',
+            },
+          ],
+        },
+      ],
+      config: {
+        responseSchema: RECEIPT_JSON_SCHEMA,
+      },
+    },
+  )
 }

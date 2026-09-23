@@ -30,8 +30,8 @@ export function validateReceiptTotals(receipt: Receipt): ValidationResult {
     0,
   )
 
-  // 1. sum(item.total) vs subtotal
-  if (!closeEnough(itemsTotal, receipt.subtotal)) {
+  // 1. sum(item.total) vs subtotal (only when subtotal is printed)
+  if (isNumber(receipt.subtotal) && !closeEnough(itemsTotal, receipt.subtotal)) {
     needsReview = true
     warnings.push(
       'Total item tidak cocok dengan subtotal. Periksa kembali sebelum dipakai.',
@@ -53,12 +53,17 @@ export function validateReceiptTotals(receipt: Receipt): ValidationResult {
     }
   })
 
-  // 3. grandTotal vs subtotal + tax - discount
-  const expectedGrand = (receipt.subtotal ?? 0) + (receipt.tax ?? 0) - (receipt.discount ?? 0)
+  // 3. grandTotal vs (subtotal or items sum) + tax - discount
+  const baseTotal = isNumber(receipt.subtotal)
+    ? (receipt.subtotal as number)
+    : isNumber(itemsTotal)
+      ? itemsTotal
+      : null
+  const expectedGrand = (baseTotal ?? 0) + (receipt.tax ?? 0) - (receipt.discount ?? 0)
   if (!isNumber(receipt.grandTotal)) {
     needsReview = true
     warnings.push('Total akhir tidak terbaca dari struk.')
-  } else if (!closeEnough(expectedGrand, receipt.grandTotal)) {
+  } else if (baseTotal !== null && !closeEnough(expectedGrand, receipt.grandTotal)) {
     needsReview = true
     warnings.push('Total akhir tidak cocok dengan subtotal + pajak - diskon.')
   }
