@@ -667,6 +667,37 @@ Artikel terbaru ketiga: Ciri-Ciri WA Disadap dan Cara Mengatasinya — panduan l
 
 ## Yang Baru / Berubah di Sesi Ini
 
+### AGENT: Receipt to Excel (`/ai/receipt-to-excel`) — agent AI pertama
+
+Foto struk/bukti transaksi → file Excel rapi via **upload langsung ke R2**, **Gemini** ekstrak JSON, **validasi Zod + aritmatika deterministik**, **ExcelJS**. Dokumentasi lengkap di `docs/30-receipt-to-excel.md`.
+
+**Alur**: browser → `POST /api/r2/presign-upload` (auth + validasi + rate limit) → `PUT` langsung ke R2 (presigned, bind Content-Type) → `POST /api/agents/receipt-to-excel` (download→Gemini→validate→Excel→upload→update job, `maxDuration 120`) → `POST /api/r2/presign-download` (5 menit) → buka URL.
+
+**Modul baru** (semua server-side, `runtime = 'nodejs'`):
+- `lib/api.ts` — `ApiError`, `errorResponse` (tersensor: 500 generik tanpa stack/secret), `extractBearerToken`
+- `lib/server-auth.ts` — `requireAuth(request)` verifikasi Firebase ID token (JANGAN tiru `app/api/auth/login` yang tidak verifikasi token)
+- `lib/r2/keys.ts` — build key `users/{uid}/jobs/{jobId}/input|output/*`; ekstensi dikunci dari content-type (jpg/png/webp); `sanitizeFileName` anti path-traversal; `validateUploadInput` (max 10 MB); `buildOutputR2Key`
+- `lib/r2/client.ts` — S3Client (region `auto`, endpoint `https://ACCOUNTID.r2.cloudflarestorage.com`), presigned PUT/GET, download/upload buffer (lazy singleton; env `R2_ACCOUNT_ID/ACCESS_KEY_ID/SECRET_ACCESS_KEY/BUCKET_NAME`)
+- `lib/jobs/core.ts` — Firestore `jobs` (`queued|processing|completed|failed`), `requireOwnedJob` (ownership `job.userId === uid`), rate limit **5 konversi/hari** via `users/{uid}/usage/receipt_to_excel` (transaksi Firestore)
+- `lib/ai/gemini.ts` — `@google/genai`, model `GEMINI_MODEL` default `gemini-3.5-flash-lite`, key `GEMINI_API_KEY`, `responseSchema` JSON + `responseMimeType: application/json`, temp 0.2
+- `features/receipt/schema.ts` — Zod `receiptSchema` + `parseAmount` (dukung pemisah ribuan & koma desimal ID, mis. `Rp 12.500,00` → 12500); `parseReceiptJson`; string/amount tak terbaca → `null` (bukan gagal)
+- `features/receipt/validation.ts` — validasi aritmatika deterministik (Σ item.total vs subtotal, qty×harga vs total, grandTotal vs subtotal+pajak−diskon); **tidak pernah mengubah nilai AI**, hanya set `needsReview` + warnings; `applyValidation` merge tanpa duplikasi
+- `features/receipt/prompt.ts` — system instruction ekstraksi (larang mengarang, ISO date, angka polos)
+- `features/receipt/processor.ts` — orkestrasi + idempoten (job completed dikembalikan tanpa proses ulang); job failure disimpan sebagai error ramah pengguna
+- `lib/exporters/receipt-to-excel.ts` — ExcelJS sheet "Receipt": freeze pane ySplit 5, header, format angka, blok summary + warnings
+- `app/api/r2/presign-upload`, `app/api/r2/presign-download`, `app/api/agents/receipt-to-excel`, `app/api/jobs/[jobId]` (params Promise + `await params` pola Next 16)
+- `app/ai/receipt-to-excel/layout.tsx` (metadata bilingual + canonical locale-aware) + `page.tsx` (pola `LangContext.Provider` + `useLangState`, `pageContent {id,en}`, state Upload→Processing→Result, dropzone + preview, tombol Download via presign)
+
+**PENTING — test tanpa dependency baru**: Node 24 native type-stripping + `node --test "tests/*.test.ts"` (paket `test` script di package.json). Modul yang di-import test memakai import relatif berekstensi `.ts` (perlu `allowImportingTsExtensions: true` di tsconfig — sudah diaktifkan, aman karena `noEmit`). Jangan pindahkan test ke framework lain tanpa alasan.
+
+**Env baru**: `GEMINI_API_KEY`, `GEMINI_MODEL`, `R2_*` (sudah di `.env.local`, jangan commit). Bucket R2 harus **Private**. Semua server-side, tanpa `NEXT_PUBLIC_`.
+
+**firestore.rules**: tambah `jobs` (hanya pemilik) + `users/{uid}/usage/{feature}`. Penulisan via Admin SDK bypass rules; ini pertahanan berlapis untuk klien.
+
+**Discoverability**: kartu "Receipt to Excel" / "Struk ke Excel" (icon `ReceiptText`, badge `Live`) ditambahkan di `app/ai/page.tsx` toolsData dan `components/home/AIToolsSection.tsx` (ID+EN).
+
+Build verified: TypeScript 0 errors, `next build` success, rute `/ai/receipt-to-excel`, `/api/r2/presign-upload|download`, `/api/agents/receipt-to-excel`, `/api/jobs/[jobId]` ada di output. `npm test` = 28 test lulus.
+
 ### Artikel baru: How to Build an AI Workflow That Actually Saves Time (EN-only)
 
 Artikel EN-only baru `ai-workflow-that-saves-time` ditambahkan ke `lib/blog.ts` (tanggal 27 Agustus 2026), mengikuti pola EN-only yang sudah ada (`ai-research-verification`):

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Wand2, FileText, MessageSquare, Zap, ArrowRight, Headphones, Globe } from 'lucide-react'
+import { Wand2, FileText, MessageSquare, Zap, ArrowRight, Headphones, Globe, ReceiptText } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { GlassCard } from '@/components/ui/GlassCard'
 import type { Lang } from '@/lib/translations'
@@ -49,6 +49,15 @@ export function AIToolsSection({ lang = 'id' }: Props) {
           badge: 'Live',
           badgeVariant: 'crimson' as const,
         },
+        {
+          icon: ReceiptText,
+          name: 'Struk ke Excel (Receipt to Excel)',
+          description: 'Ubah foto struk atau bukti transaksi menjadi file Excel yang rapi secara otomatis. Gratis dan akurat.',
+          href: '/ai/receipt-to-excel',
+          available: true,
+          badge: 'Live',
+          badgeVariant: 'crimson' as const,
+        },
       ],
       badge: 'AI Tools',
       heading: 'Alat AI yang Kamu Butuhkan',
@@ -81,6 +90,15 @@ export function AIToolsSection({ lang = 'id' }: Props) {
           name: 'AI Blog (Tech News)',
           description: 'Read the latest news and insights on technology, AI, and current digital developments.',
           href: '/blog',
+          available: true,
+          badge: 'Live',
+          badgeVariant: 'crimson' as const,
+        },
+        {
+          icon: ReceiptText,
+          name: 'Receipt to Excel',
+          description: 'Turn a receipt or transaction photo into a clean Excel file automatically. Free and accurate.',
+          href: '/ai/receipt-to-excel',
           available: true,
           badge: 'Live',
           badgeVariant: 'crimson' as const,

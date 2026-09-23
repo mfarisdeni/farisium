@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { Navbar } from '@/components/layout/Navbar'
 import { SiteFooter } from '@/components/layout/SiteFooter'
-import { FileText, ArrowRight, Headphones, Globe } from 'lucide-react'
+import { FileText, ArrowRight, Headphones, Globe, ReceiptText } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { detectLocale, COOKIE_NAME, getCanonicalUrl, getHreflangLinks } from '@/lib/i18n'
 import type { Lang } from '@/lib/translations'
@@ -43,11 +43,13 @@ const toolsData = {
     { icon: Globe, name: 'Jasa Pembuatan Website', description: 'Website landing page untuk startup, freelancer, bisnis lokal, dan portfolio — mulai Rp 20 ribu/halaman, hemat hingga 80%.', href: '/ai/website-builder', available: true, badge: 'Promo', badgeVariant: 'crimson' as const },
     { icon: Headphones, name: 'F-Stream Boost Spotify Promotion', description: 'Tingkatkan streaming Spotify-mu dengan kampanye global, curator pitching, dan AI performance tracking.', href: '/ai/f-stream-spotify-promotion', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
     { icon: FileText, name: 'AI Blog (Tech News)', description: 'Baca berita dan wawasan terbaru seputar teknologi, AI, dan perkembangan digital terkini.', href: '/blog', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
+    { icon: ReceiptText, name: 'Struk ke Excel (Receipt to Excel)', description: 'Ubah foto struk atau bukti transaksi menjadi file Excel yang rapi secara otomatis. Gratis dan akurat.', href: '/ai/receipt-to-excel', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
   ],
   en: [
     { icon: Globe, name: 'Website Building Service', description: 'Landing page websites for startups, freelancers, local businesses, and portfolios — from IDR 20k per page, save up to 80%.', href: '/ai/website-builder', available: true, badge: 'Promo', badgeVariant: 'crimson' as const },
     { icon: Headphones, name: 'F-Stream Boost Spotify Promotion', description: 'Boost your Spotify streaming with global campaigns, curator pitching, and AI performance tracking.', href: '/ai/f-stream-spotify-promotion', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
     { icon: FileText, name: 'AI Blog (Tech News)', description: 'Read the latest news and insights on technology, AI, and current digital developments.', href: '/blog', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
+    { icon: ReceiptText, name: 'Receipt to Excel', description: 'Turn a receipt or transaction photo into a clean Excel file automatically. Free and accurate.', href: '/ai/receipt-to-excel', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
   ],
 }
 
