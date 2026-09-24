@@ -24,8 +24,8 @@ export function AIToolsSection({ lang = 'id' }: Props) {
       tools: [
         {
           icon: ReceiptText,
-          name: 'Struk ke Excel (Receipt to Excel)',
-          description: 'Agen AI terbaru: ubah foto struk atau bukti transaksi menjadi file Excel yang rapi, lengkap dengan validasi angka otomatis.',
+          name: 'Struk Belanja ke Excel',
+          description: 'Agen AI terbaru: konversi foto struk belanja ke file Excel yang rapi, lengkap dengan validasi angka otomatis.',
           href: '/ai/receipt-to-excel',
           available: true,
           badge: 'Live',
@@ -69,8 +69,8 @@ export function AIToolsSection({ lang = 'id' }: Props) {
       tools: [
         {
           icon: ReceiptText,
-          name: 'Receipt to Excel',
-          description: 'The newest AI agent: turn a receipt or transaction photo into a clean Excel file, complete with automatic number validation.',
+          name: 'Image Receipt to Excel',
+          description: 'The newest AI agent: turn a shopping receipt photo into a clean Excel file, complete with automatic number validation.',
           href: '/ai/receipt-to-excel',
           available: true,
           badge: 'Live',

@@ -1,6 +1,6 @@
-# 30. AI Agent: Receipt to Excel (`/ai/receipt-to-excel`)
+# 30. AI Agent: Image Receipt to Excel (`/ai/receipt-to-excel`)
 
-Agent AI pertama Farisium: foto struk/bukti transaksi → file Excel rapi.
+Agent AI pertama Farisium: foto struk belanja/bukti transaksi → file Excel rapi.
 Alur: upload langsung ke Cloudflare R2 (presigned) → Firestore job → Gemini
 ekstrak JSON → validasi Zod + aritmatika deterministik → ExcelJS → simpan ke R2
 → download via presigned URL.
@@ -40,8 +40,8 @@ Alasan desain:
 | `lib/ai/gemini.ts` | GoogleGenAI, model dari env (`GEMINI_MODEL`, default `gemini-3.5-flash-lite`), `responseSchema` JSON, temp 0.2. |
 | `features/receipt/schema.ts` | Schema Zod + `parseAmount` (dukungan pemisah ribuan & koma desimal ID: `12.500,00`), `parseReceiptJson`. |
 | `features/receipt/validation.ts` | Validasi aritmatika deterministik (item total vs subtotal, qty×harga vs total, grandTotal vs subtotal+pajak-diskon). Nilai AI tidak pernah diubah — hanya flag `needsReview` + warnings. |
-| `features/receipt/prompt.ts` | System instruction ekstraksi (tanpa invent value, ISO date, angka polos). |
-| `features/receipt/processor.ts` | Orkestrasi: download→AI→validate→Excel→upload→status. Idempoten (job completed dikembalikan tanpa proses ulang). |
+| `features/receipt/prompt.ts` | System instruction ekstraksi dua tahap (transkripsi verbatim + struktur): tanpa invent value, ISO date, angka polos, "setiap baris item = satu item", blok total (SUBTOTAL/PPN/DISKON/TOTAL) wajib dipertahankan. |
+| `features/receipt/processor.ts` | Orkestrasi: download→AI→validate→Excel→upload→status. Idempoten (job completed dikembalikan tanpa proses ulang). Stage 2 mengirim GAMBAR kembali ke Gemini; quality gate `isStubReceipt()` → retry `extractReceiptJson()` (single-call) bila hasil dua-tahap stubs. |
 | `lib/exporters/receipt-to-excel.ts` | ExcelJS: sheet "Receipt", freeze pane, header, format angka, blok summary + warnings. |
 | `app/api/*` | `r2/presign-upload`, `agents/receipt-to-excel` (maxDuration 120), `r2/presign-download`, `jobs/[jobId]`. Semua `runtime = 'nodejs'`. |
 
@@ -100,3 +100,29 @@ Semua file yang di-attach pengguna kini **tidak pernah mengendap** di R2:
   karena tidak terpakai (dead code).
 - Privasi pengguna meningkat: tidak ada file pengguna yang tersimpan permanen; hasil
   konversi tetap bisa di-render ulang dari `job.result` di Firestore.
+
+## Update: Reliabilitas Ekstraksi (percobaan pertama tidak lagi blank)
+
+Memperbaiki kasus "hasil kosong / seakan tidak bisa baca file" pada percobaan
+pertama. Pola yang sama dengan perbaikan invoice:
+
+- **Instruksi transkripsi & struktur kini masuk ke USER text, bukan
+  `systemInstruction`.** `transcribeReceiptLines` dan `transcribeImageLines`
+  (di `lib/ai/gemini.ts`) meng-embed instruction ke prompt user — model kecil
+  (flash-lite) terbukti mereturn output minimal/terpotong saat instruksi dikirim
+  sebagai systemInstruction. Signature fungsi tidak berubah (param `instruction`).
+- **`buildTranscribeInstruction` diperkuat**: larang berhenti lebih awal — blok
+  total di bagian bawah struk (SUBTOTAL, PPN, DISKON, TOTAL, Tunai) wajib
+  ditranskripsikan sampai baris terakhir.
+- **`buildStructuredInstruction` diperkuat**: "output SEMUA field (null/[] bila
+  kosong)", "setiap baris item = satu item (jangan di-drop)", pemetaan
+  SUBTOTAL/PPN/DISKON/TOTAL, pembacaan tanggal dd/mm/yyyy → ISO.
+- **Stage 2 mengirim gambar kembali** ke Gemini (`structureReceiptFromLines` dipanggil
+  dengan base64 + contentType) agar model bisa memastikan kolom tabel & urutan.
+- **Quality gate `isStubReceipt()`**: jika hasil dua-tahap stubs (tanpa items,
+  merchant, maupun total) padahal transkripsi terbaca → retry single-call
+  `extractReceiptJson()` sebelum job dianggap selesai.
+
+Verifikasi live (struk belanja sintetis ID): merchant, tanggal ISO, invoice no.,
+5 item (qty 2x tertangkap), subtotal 215.500, PPN 23.705, grandTotal 239.205 —
+semua ter-ekstrak lengkap, `needsReview: false`.

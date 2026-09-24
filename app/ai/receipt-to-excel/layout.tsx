@@ -8,12 +8,12 @@ export async function generateMetadata(): Promise<Metadata> {
   const lang = detectLocale(cookieStore.get(COOKIE_NAME)?.value) as Lang
 
   const titles = {
-    id: 'Struk ke Excel — Farisium',
-    en: 'Receipt to Excel — Farisium',
+    id: 'Struk Belanja ke Excel — Farisium',
+    en: 'Image Receipt to Excel — Farisium',
   }
   const descriptions = {
-    id: 'Ubah foto struk atau bukti transaksi menjadi file Excel yang rapi secara otomatis. Gratis, cepat, dan akurat.',
-    en: 'Turn a receipt or transaction photo into a clean Excel file automatically. Free, fast, and accurate.',
+    id: 'Konversi foto struk belanja ke file Excel otomatis — rapi, cepat, dan akurat.',
+    en: 'Turn a shopping receipt photo into a clean Excel file automatically. Free, fast, and accurate.',
   }
   const canonicalUrl = getCanonicalUrl(lang, '/ai/receipt-to-excel')
   const alternates = getHreflangLinks('/ai/receipt-to-excel', lang)
@@ -28,7 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: 'Farisium',
       locale: lang === 'id' ? 'id_ID' : 'en_US',
       type: 'website',
-      images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Receipt to Excel Farisium' }],
+      images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Image Receipt to Excel Farisium' }],
     },
     twitter: {
       card: 'summary_large_image',

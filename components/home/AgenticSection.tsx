@@ -37,7 +37,7 @@ export function AgenticSection({ lang = 'id' }: Props) {
         {
           icon: ReceiptText,
           badge: 'AI Agent 1 · Live',
-          name: 'Struk ke Excel (Receipt to Excel)',
+          name: 'Struk Belanja ke Excel',
           description:
             'Arahkan kamera ke struk belanja dan agen membaca setiap baris, mengekstrak item & harga, memvalidasi aritmatika, lalu menyusun file Excel yang rapi.',
           checklist: [
@@ -92,7 +92,7 @@ export function AgenticSection({ lang = 'id' }: Props) {
         {
           icon: ReceiptText,
           badge: 'AI Agent 1 · Live',
-          name: 'Receipt to Excel',
+          name: 'Image Receipt to Excel',
           description:
             'Point your camera at a store receipt and the agent reads every line, extracts items & prices, validates the math, and produces a clean Excel file.',
           checklist: [

@@ -669,6 +669,49 @@ Artikel terbaru ketiga: Ciri-Ciri WA Disadap dan Cara Mengatasinya — panduan l
 
 ## Yang Baru / Berubah di Sesi Ini
 
+### Renama & perbaikan reliabilitas Image Receipt to Excel (sesi berjalan)
+
+**1. Judul tool di-rename** di ALL lokasi UI (halaman tool, layout metadata,
+listing `/ai`, homepage AgenticSection + AIToolsSection, dashboard quickLinks,
+footer, CTA homepage, meta `/ai`):
+- EN: "Receipt to Excel" → **"Image Receipt to Excel"**
+- ID: "Struk ke Excel (Receipt to Excel)" → **"Struk Belanja ke Excel"** dengan
+  deskripsi baru "konversi foto struk belanja ke Excel". Route `/ai/receipt-to-excel`
+  TIDAK berubah.
+
+**2. Fix "hasil blank / seakan tidak bisa baca file" pada percobaan pertama**
+(dilaporkan user). Akar masalah = pola yang sama seperti bug invoice dulu:
+instruksi transkripsi dikirim via `systemInstruction` — model kecil (flash-lite)
+mereturn output minimal/terpotong. Perbaikan (mengikuti pola invoice yang terbukti):
+
+- `lib/ai/gemini.ts`: `transcribeReceiptLines()` DAN `transcribeImageLines()`
+  kini meng-embed instruction ke **USER text** (bukan systemInstruction); tanda
+  tangan fungsi tidak berubah (nama param jadi `instruction`). Ini juga memperbaiki
+  konsistensi dengan stage struktur yang sudah lebih dulu pakai user-text.
+- `features/receipt/prompt.ts`: `buildTranscribeInstruction()` kini melarang berhenti
+  lebih awal dan WAJIB mempertahankan blok total bawah struk (SUBTOTAL/PPN/DISKON/
+  TOTAL/Tunai); `buildStructuredInstruction()` diperkuat: "output SEMUA field",
+  "setiap baris item = satu item (jangan di-drop)", mapping SUBTOTAL/PPN/TOTAL,
+  tanggal dd/mm/yyyy → ISO.
+- `features/receipt/processor.ts`: stage 2 kini **mengirim gambar kembali** ke Gemini
+  (`structureReceiptFromLines(lines, base64, contentType, ...)`), ditambah quality
+  gate `isStubReceipt()` — jika hasil dua-tahap stubs padahal transkripsi terbaca,
+  retry single-call `extractReceiptJson()`.
+
+Verifikasi live dengan struk belanja sintetis ID (render SVG→PNG via qlmanage,
+tanpa gambar asli user): merchant "TOKO SEJAHTERA", tanggal ISO 2026-09-14,
+invoice no., 5 item (qty 2x telur tertangkap), subtotal 215.500, PPN 23.705,
+grandTotal 239.205 — lengkap, `needsReview: false`. Pipeline invoice
+(re-transcribe) juga diuji ulang dengan UK invoice: tetap lengkap (items 400+200,
+grandTotal 600, tanpa paymentMethod karangan).
+
+Catatan teknis verifikasi: qlmanage thumbnail untuk SVG 420×760 membuat konten
+vertical-scale terlalu kecil (baris bawah tak terbaca OCR/Gemini — bukan bug
+pipeline). Gunakan artboard mendekati persegi (760×900) agar teks tetap besar;
+jangan pernah menilai akurasi pipeline dari render yang terlalu kecil.
+
+- `docs/30-receipt-to-excel.md` diperbarui (judul + catatan reliabilitas + tabel modul).
+
 ### Fix: ekstraksi angka invoice + layout PDF bertabrakan (Image to Invoice)
 
 Dua bug dilaporkan user dan diperbaiki, diverifikasi pakai contoh invoice di

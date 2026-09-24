@@ -86,7 +86,7 @@ export default async function HomePage() {
       description:
         'Farisium adalah platform Agentic AI yang dibangun oleh M. Faris Deni K. — agen cerdas yang membaca, mengekstrak, memvalidasi, dan menghasilkan output siap pakai, seperti mengubah foto struk menjadi file Excel yang rapi.',
       ctaPrimary: 'Jelajahi AI Agent',
-      ctaSecondary: 'Coba Receipt to Excel',
+      ctaSecondary: 'Coba Struk Belanja ke Excel',
       stats: [
         { value: 'Agent AI', label: 'Live & terus bertambah' },
         { value: 'Ekstraksi', label: 'Dua tahap, akurasi terverifikasi' },
@@ -100,7 +100,7 @@ export default async function HomePage() {
       description:
         'Farisium is an Agentic AI platform built by M. Faris Deni K. — intelligent agents that read, extract, validate, and produce ready-to-use output, like turning a receipt photo into a clean Excel file.',
       ctaPrimary: 'Explore AI Agents',
-      ctaSecondary: 'Try Receipt to Excel',
+      ctaSecondary: 'Try Image Receipt to Excel',
       stats: [
         { value: 'AI Agents', label: 'Live & growing' },
         { value: 'Extraction', label: 'Two-stage, verified accuracy' },

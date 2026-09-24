@@ -37,6 +37,16 @@ export interface ReceiptConversionResult {
   jobId: string
 }
 
+/** True when the model returned an empty stub instead of real receipt data. */
+function isStubReceipt(receipt: Receipt): boolean {
+  return (
+    receipt.items.length === 0 &&
+    !receipt.merchantName &&
+    !receipt.grandTotal &&
+    !receipt.subtotal
+  )
+}
+
 export async function processReceiptConversion(
   jobId: string,
   uid: string,
@@ -106,19 +116,30 @@ export async function processReceiptConversion(
       lines = []
     }
 
-    // Stage 2: structure the transcription (text-only — forcing the model to
-    // reason from the exact transcript is far more accurate than re-OCR-ing the
-    // photo again). Fall back to single-call when transcription was empty.
-    const raw = Array.isArray(lines) && lines.length > 0
+    // Stage 2: structure the transcription while also passing the image back,
+    // so the model can confirm item rows and column order. Fall back to
+    // single-call extraction when the transcription came back empty.
+    const hadLines = Array.isArray(lines) && lines.length > 0
+    const raw = hadLines
       ? await structureReceiptFromLines(
           lines as string[],
-          '',
-          '',
+          base64,
+          job.contentType,
           buildStructuredInstruction(),
         )
       : await extractReceiptJson(base64, job.contentType, buildSystemInstruction())
 
-    const parsed = parseReceiptJson(raw)
+    let parsed = parseReceiptJson(raw)
+
+    // Quality gate: if the two-stage result is an empty stub (no items, no
+    // merchant, no totals) despite a readable transcription, retry with the
+    // single-call image extraction before giving up.
+    if (hadLines && isStubReceipt(parsed)) {
+      parsed = parseReceiptJson(
+        await extractReceiptJson(base64, job.contentType, buildSystemInstruction()),
+      )
+    }
+
     const validation = validateReceiptTotals(parsed)
     const receipt = applyValidation(parsed, validation)
 

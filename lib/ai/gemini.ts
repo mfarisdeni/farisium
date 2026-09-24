@@ -158,23 +158,26 @@ async function run(content: RequestPayload, systemInstruction?: string): Promise
 export async function transcribeReceiptLines(
   base64Image: string,
   mimeType: string,
-  systemInstruction: string,
+  instruction: string,
 ): Promise<string> {
   const model = getModel()
+  const parts: Array<{ inlineData?: { mimeType: string; data: string }; text?: string }> = [
+    {
+      inlineData: { mimeType, data: base64Image },
+    },
+    {
+      text:
+        instruction +
+        '\n\nTranskripsikan semua baris teks pada struk ini dari baris pertama hingga baris terakhir, lalu kembalikan JSON array-nya sekarang.',
+    },
+  ]
   return run(
     {
       model,
       contents: [
         {
           role: 'user',
-          parts: [
-            {
-              inlineData: { mimeType, data: base64Image },
-            },
-            {
-              text: 'Transkripsikan semua baris teks pada struk ini.',
-            },
-          ],
+          parts,
         },
       ],
       config: {
@@ -184,7 +187,6 @@ export async function transcribeReceiptLines(
         },
       },
     },
-    systemInstruction,
   )
 }
 
@@ -195,23 +197,26 @@ export async function transcribeReceiptLines(
 export async function transcribeImageLines(
   base64Image: string,
   mimeType: string,
-  systemInstruction: string,
+  instruction: string,
 ): Promise<string> {
   const model = getModel()
+  const parts: Array<{ inlineData?: { mimeType: string; data: string }; text?: string }> = [
+    {
+      inlineData: { mimeType, data: base64Image },
+    },
+    {
+      text:
+        instruction +
+        '\n\nTranskripsikan semua baris teks pada dokumen ini dari baris pertama hingga baris terakhir, lalu kembalikan JSON array-nya sekarang.',
+    },
+  ]
   return run(
     {
       model,
       contents: [
         {
           role: 'user',
-          parts: [
-            {
-              inlineData: { mimeType, data: base64Image },
-            },
-            {
-              text: 'Transkripsikan semua baris teks pada dokumen ini.',
-            },
-          ],
+          parts,
         },
       ],
       config: {
@@ -221,7 +226,6 @@ export async function transcribeImageLines(
         },
       },
     },
-    systemInstruction,
   )
 }
 

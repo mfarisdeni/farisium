@@ -30,9 +30,9 @@ const MAX_SIZE = 10 * 1024 * 1024
 const pageContent = {
   id: {
     badge: 'AI Agent',
-    title: 'Struk ke Excel',
+    title: 'Struk Belanja ke Excel',
     description:
-      'Foto struk atau bukti transaksi apa pun langsung diubah menjadi file Excel yang rapi. Tanpa mengetik manual.',
+      'Konversi foto struk belanja ke file Excel yang rapi. Tanpa mengetik manual.',
     stepsLabel: '3 langkah cepat',
     steps: ['Upload foto struk', 'AI membaca & mengoreksi data', 'Download file Excel'],
     uploadTitle: 'Upload Foto Struk',
@@ -79,7 +79,7 @@ const pageContent = {
   },
   en: {
     badge: 'AI Agent',
-    title: 'Receipt to Excel',
+    title: 'Image Receipt to Excel',
     description:
       'Turn any receipt or transaction photo into a clean Excel file automatically. No manual typing.',
     stepsLabel: '3 quick steps',
