@@ -669,6 +669,53 @@ Artikel terbaru ketiga: Ciri-Ciri WA Disadap dan Cara Mengatasinya — panduan l
 
 ## Yang Baru / Berubah di Sesi Ini
 
+### Fix: ekstraksi angka invoice + layout PDF bertabrakan (Image to Invoice)
+
+Dua bug dilaporkan user dan diperbaiki, diverifikasi pakai contoh invoice di
+`file-examples-do-not-upload/` (`UK-invoice-template_2.png` + `invoice-example.webp`):
+
+**1. Angka/grand total tidak ter-load.** Reproduksi pipeline asli → Gemini
+(stage 2) mengembalikan JSON nyaris kosong: items/harga/subtotal hilang dan
+`paymentMethod: "Transfer"` dihalusinasi padahal tidak ada di invoice. Akar
+masalah = instruksi stage-2 terlalu lemah. Perbaikan:
+
+- `features/invoice/prompt.ts` dirombak: `buildInvoiceTranscribeInstruction()`
+  kini menyuruh mempertahankan baris tabel dalam satu string dengan pemisah
+  `" | "`; `buildInvoiceStructuredInstruction()` menegaskan "setiap baris tabel
+  = satu item (jangan di-drop)", "output SEMUA field (null/[] bila kosong)",
+  mapping TOTAL/SUB-TOTAL/GRAND TOTAL/TOTAL DUE, dan "paymentMethod hanya jika
+  invoice benar-benar menyatakannya — never invent".
+- `features/invoice/processor.ts`: stage 2 kini **mengirim gambar kembali**
+  (`structureInvoiceFromLines(lines, base64, contentType, ...)`) agar model
+  bisa memastikan urutan kolom tabel; tambah **quality gate** `isStubInvoice()` —
+  jika hasil struktur stubs (tanpa items/seller/buyer/total), retry pakai
+  single-call baru `extractInvoiceJson()` (schema invoice) di `lib/ai/gemini.ts`.
+  Menggantikan fallback lama yang salah memakai schema receipt.
+- Hasil uji live: UK invoice (042022) dan Studio Shodwe (000001) ter-ekstrak
+  lengkap — items, unitPrice, total, subtotal, grandTotal, seller/buyer, dates.
+
+**2. PDF banyak error teks & angka (kolom bertabrakan).** Verifikasi glyph + OCR
+render membuktikan layout lama di `lib/exporters/invoice-to-pdf.ts` menimpa:
+header "HARGA SATUAN" menutup "TOTAL" (OCR terbaca "HARGA SATOTAL"), dan angka
+panjang `1.500.000` vs `3.000.000` antar kolom saling tumpang tindih. Perbaikan
+geometri tabel:
+
+- Kolom nilai kini right-aligned ke sumbu terpisah: QTY → 356, HARGA SATUAN →
+  452, TOTAL → 539.28 (`PAGE_W - MARGIN`); header ikut right-aligned; nama item
+  dipotong 40 char.
+- Blok totals digeser kiri (`totalsX = 360`), nilai grand total right-aligned
+  ke margin; meta kanan (No. Invoice dst.) juga right-aligned ke margin dengan
+  truncate 20 agar nomor panjang tidak meluber.
+- Verifikasi geometris: 0 overlap pada 41 teks/22 baseline; OCR render final
+  menampilkan kolom terpisah dan angka terbaca benar.
+- Contoh ekstraksi UK = GBP, item 400 + 200, subtotal & grandTotal 600, seller
+  "Ellington Wood Decor", buyer "Your client". (Attribute vendor `seller.name`
+  default "Farisium" hanya untuk invoice TANPA header.)
+
+Docs diperbarui di `docs/31-image-to-invoice.md` (catatan stabilitas + tabel
+modul). `npm test` 42 lulus, `tsc --noEmit` bersih, `next build` sukses
+(124 halaman, rute `/ai/image-to-invoice` + `/api/agents/image-to-invoice` ada).
+
 ### AGENT: Image to Invoice (`/ai/image-to-invoice`) — agent AI kedua (sesi berjalan)
 
 Foto/unggah invoice, struk, atau tagihan → invoice digital profesional (URL ini

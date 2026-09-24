@@ -11,6 +11,25 @@ Alur ini berbagi keseluruhan infrastruktur agent pertama (Receipt to Excel):
 R2 presigned upload, Firestore job, Gemini, Zod + validasi deterministik,
 ExcelJS, dan kebijakan penyimpanan sementara (temp storage).
 
+> **Catatan stabilitas (sesi 24 Sep 2026):** dua perbaikan penting sudah
+> diuji terhadap contoh invoice di `file-examples-do-not-upload/`
+> (`UK-invoice-template_2.png` + `invoice-example.webp`):
+>
+> 1. **Ekstraksi angka kekar lagi** — instruksi strukturisasi di
+>    `features/invoice/prompt.ts` dirombak (transkripsi tabel memakai pemisah
+>    `|`, aturan "setiap baris tabel = satu item", "output SEMUA field", dan
+>    "jangan pernah mengarang paymentMethod"). Sebelumnya model kecil kerap
+>    mengembalikan JSON nyaris kosong (items/harga/jumlah hilang) dan bahkan
+>    menghalusinasi `paymentMethod: "Transfer"`. Kini kedua contoh invoice
+>    ter-ekstrak lengkap: items, harga satuan, total, subtotal, grand total,
+>    seller & buyer.
+> 2. **Layout PDF sudah tidak bertabrakan** — kolom tabel di
+>    `lib/exporters/invoice-to-pdf.ts` semula terlalu rapat sehingga header
+>    "HARGA SATUAN" menimpa "TOTAL" dan angka besar antar kolom saling tumpang
+>    tindih (mis. `1.500.000` vs `3.000.000`). Kolom QTY/HARGA/TOTAL kini
+>    right-aligned ke sumbu terpisah (356 / 452 / margin) dan blok totals
+>    digeser kiri; diverifikasi 0 overlap pada semua 41 teks.
+
 ## Alur Teknis
 
 ```
@@ -45,9 +64,9 @@ Browser ──(4b) POST /api/r2/presign-download {jobId, format: "pdf"}  → bua
 |---|---|
 | `features/parsing.ts` | Shared parsing: `parseAmount`, `nullableAmount`, `nullableString`. Dipakai schema receipt & invoice. |
 | `features/invoice/schema.ts` | Schema Zod invoice: `seller`/`buyer` (name/address/contact/taxId), `items`, `subtotal/tax/taxRate/shipping/discount/grandTotal`, `paymentMethod`, `notes`. Semua field nullable dinormalisasi `.default(null)` agar aman untuk Firestore (tidak pernah `undefined`). |
-| `features/invoice/prompt.ts` | Prompt instruksi dua tahap: transkripsi baris-baris invoice + strukturisasi JSON. |
+| `features/invoice/prompt.ts` | Prompt instruksi dua tahap: transkripsi baris-baris invoice (tabel dipisah `|`) + strukturisasi JSON (setiap baris tabel → item, never invent paymentMethod, output semua field). |
 | `features/invoice/validation.ts` | Validasi aritmatika deterministik (Σ item vs subtotal, qty×harga vs total item, grandTotal vs subtotal+pajak+ongkir−diskon). Nilai AI tidak pernah diubah — hanya `needsReview` + warnings. |
-| `features/invoice/processor.ts` | Orkestrasi `processInvoiceConversion`: download→transkripsi→struktur (fallback single-call)→validasi→Excel→upload→`completed`. Idempoten. Input dihapus dari R2. |
+| `features/invoice/processor.ts` | Orkestrasi `processInvoiceConversion`: download→transkripsi→struktur (gambar ikut dikirim ke stage 2; jika hasil stubs, retry single-call `extractInvoiceJson`)→validasi→Excel→upload→`completed`. Idempoten. Input dihapus dari R2. |
 | `lib/exporters/invoice-to-excel.ts` | ExcelJS profesional: white cell (tanpa background agar aman untuk print/copy), teks hitam eksplisit, frame border tipis, blok summary + taxRate + warnings amber. |
 | `lib/exporters/invoice-to-pdf.ts` | `buildInvoicePdf(invoice)` — pdf-lib, A4, Helvetica-only, canvas minimalis (accent bar, meta kanan, tabel item, tous totals, footer). |
 | `components/invoice/InvoicePreview.tsx` | Preview final invoice (bilingual) — satu-satunya sumber kebenaran tampilan yang ditiru PDF. |
@@ -56,7 +75,7 @@ Browser ──(4b) POST /api/r2/presign-download {jobId, format: "pdf"}  → bua
 | `app/api/r2/presign-upload/route.ts` | Diubah: menerima `feature` + `isKnownFeature()` default `receipt_to_excel`. |
 | `app/api/r2/presign-download/route.ts` | Diubah: `format` (xlsx default / pdf). PDF hanya untuk job `invoice_from_image` (selain itu 400 `invalid_format`). |
 | `lib/jobs/core.ts` | Diubah: `INVOICE_FEATURE = 'invoice_from_image'`, `KNOWN_FEATURES`, `Feature`, `isKnownFeature()`; `createJob`/`consumeDailyConversionSlot` menerima param `feature`. |
-| `lib/ai/gemini.ts` | Diubah: `transcribeImageLines()`, `structureInvoiceFromLines()`, `INVOICE_JSON_SCHEMA`. |
+| `lib/ai/gemini.ts` | Diubah: `transcribeImageLines()`, `structureInvoiceFromLines()`, `extractInvoiceJson()` (retry single-call), `INVOICE_JSON_SCHEMA`. |
 | `lib/r2/keys.ts` | Diubah: `buildOutputFileKey`. |
 | `tests/invoice-schema.test.ts`, `tests/invoice-validation.test.ts` | Test schema + validasi invoice (mirror pola receipt). |
 

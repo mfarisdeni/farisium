@@ -20,6 +20,7 @@ import { requireOwnedJob, updateJobStatus, INVOICE_FEATURE } from '@/lib/jobs/co
 import {
   transcribeImageLines,
   structureInvoiceFromLines,
+  extractInvoiceJson,
 } from '@/lib/ai/gemini'
 import { buildInvoiceWorkbook } from '@/lib/exporters/invoice-to-excel'
 import { parseInvoiceJson, type Invoice } from './schema'
@@ -29,13 +30,27 @@ import {
   buildInvoiceStructuredInstruction,
   buildInvoiceSystemInstruction,
 } from './prompt'
-import { extractReceiptJson } from '@/lib/ai/gemini'
 import { ApiError } from '@/lib/api'
 
 export interface InvoiceConversionResult {
   invoice: Invoice
   outputKey: string
   jobId: string
+}
+
+/**
+ * True when the structured result carries essentially no invoice data — a
+ * signal that the two-stage pipeline failed and a single-call retry is worth
+ * it before marking the job done.
+ */
+function isStubInvoice(invoice: Invoice): boolean {
+  return (
+    invoice.items.length === 0 &&
+    !invoice.seller.name &&
+    !invoice.buyer.name &&
+    invoice.subtotal == null &&
+    invoice.grandTotal == null
+  )
 }
 
 export async function processInvoiceConversion(
@@ -107,19 +122,31 @@ export async function processInvoiceConversion(
       lines = []
     }
 
-    // Stage 2: structure the transcription. Fall back to single-call
-    // extraction (receipt-shaped) when the transcription came back empty —
-    // it only drives the generic image prompt, then we parse as invoice.
-    const raw = Array.isArray(lines) && lines.length > 0
-      ? await structureInvoiceFromLines(
-          lines as string[],
-          '',
-          '',
-          buildInvoiceStructuredInstruction(),
-        )
-      : await extractReceiptJson(base64, job.contentType, buildInvoiceSystemInstruction())
+    // Stage 2: structure the transcription while also passing the image back,
+    // so the model can confirm the table's column order. Fall back to a
+    // single-call extraction when the transcription came back empty.
+    const raw =
+      Array.isArray(lines) && lines.length > 0
+        ? await structureInvoiceFromLines(
+            lines as string[],
+            base64,
+            job.contentType,
+            buildInvoiceStructuredInstruction(),
+          )
+        : await extractInvoiceJson(base64, job.contentType, buildInvoiceSystemInstruction())
 
-    const parsed = parseInvoiceJson(raw)
+    let parsed = parseInvoiceJson(raw)
+
+    // Quality gate: if the two-stage result is an empty stub (no items, no
+    // parties, no totals) despite a readable transcription, retry with the
+    // single-call image extraction before giving up.
+    if (isStubInvoice(parsed)) {
+      const retried = parseInvoiceJson(
+        await extractInvoiceJson(base64, job.contentType, buildInvoiceSystemInstruction()),
+      )
+      parsed = retried
+    }
+
     const validation = validateInvoiceTotals(parsed)
     const invoice = applyInvoiceValidation(parsed, validation)
 

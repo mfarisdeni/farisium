@@ -110,9 +110,10 @@ export async function buildInvoicePdf(invoice: Invoice): Promise<Buffer> {
     y -= 12
   }
 
-  // Right block: invoice meta (number, dates, currency)
+  // Right block: invoice meta (number, dates, currency). Values are
+  // right-aligned to the page margin so long numbers cannot overflow.
   const metaX = PAGE_W - MARGIN - 175
-  const metaValX = PAGE_W - MARGIN - 78
+  const metaValX = PAGE_W - MARGIN
   let metaY = sellerY
   const meta: Array<[string, string]> = [
     ['No. Invoice', invoice.invoiceNumber ?? '-'],
@@ -122,7 +123,7 @@ export async function buildInvoicePdf(invoice: Invoice): Promise<Buffer> {
   ]
   meta.forEach(([label, value]) => {
     drawText(page, metaX, metaY, label, helvBold, 8.5, COLOR.muted)
-    drawText(page, metaValX, metaY, truncate(value, 22), helv, 9)
+    drawRight(page, metaValX, metaY, truncate(value, 20), helv, 9)
     metaY -= 14
   })
 
@@ -142,25 +143,26 @@ export async function buildInvoicePdf(invoice: Invoice): Promise<Buffer> {
     drawText(page, MARGIN, by, truncate(line, 72), helv, 9.5)
   })
 
-  // ── Items table ──
+  // ── Items table: distinct right-aligned column edges so big numbers
+  // cannot collide. Amounts share the page margin line as in the preview.
   const tableTop = by - 20
   const itemX = MARGIN
-  const qtyX = PAGE_W - MARGIN - 132
-  const unitX = PAGE_W - MARGIN - 84
-  const amountX = PAGE_W - MARGIN - 40
+  const qtyRight = 356
+  const unitRight = 452
+  const amountRight = PAGE_W - MARGIN
 
   drawText(page, itemX, tableTop, 'ITEM', helvBold, 9, COLOR.muted)
-  drawText(page, qtyX, tableTop, 'QTY', helvBold, 9, COLOR.muted)
-  drawText(page, unitX, tableTop, 'HARGA SATUAN', helvBold, 8.5, COLOR.muted)
-  drawText(page, amountX, tableTop, 'TOTAL', helvBold, 9, COLOR.muted)
+  drawRight(page, qtyRight, tableTop, 'QTY', helvBold, 9, COLOR.muted)
+  drawRight(page, unitRight, tableTop, 'HARGA SATUAN', helvBold, 8.5, COLOR.muted)
+  drawRight(page, amountRight, tableTop, 'TOTAL', helvBold, 9, COLOR.muted)
   drawLine(page, MARGIN, tableTop - 7, PAGE_W - MARGIN, tableTop - 7, COLOR.line, 1)
 
   let itemY = tableTop - 23
   invoice.items.slice(0, 20).forEach((item) => {
-    drawText(page, itemX, itemY, truncate(item.name ?? item.description ?? '-', 44), helv, 9)
-    drawRight(page, qtyX + 40, itemY, item.quantity == null ? '-' : String(item.quantity), helv, 9)
-    drawRight(page, unitX + 40, itemY, money(item.unitPrice, null), helv, 9)
-    drawRight(page, amountX, itemY, money(item.total, null), helv, 9.5, COLOR.ink)
+    drawText(page, itemX, itemY, truncate(item.name ?? item.description ?? '-', 40), helv, 9)
+    drawRight(page, qtyRight, itemY, item.quantity == null ? '-' : String(item.quantity), helv, 9)
+    drawRight(page, unitRight, itemY, money(item.unitPrice, null), helv, 9)
+    drawRight(page, amountRight, itemY, money(item.total, null), helv, 9.5, COLOR.ink)
     itemY -= 16
   })
 
@@ -169,9 +171,11 @@ export async function buildInvoicePdf(invoice: Invoice): Promise<Buffer> {
     itemY -= 16
   }
 
-  // ── Totals ──
-  const totalsX = PAGE_W - MARGIN - 150
-  const totalsValX = PAGE_W - MARGIN - 40
+  // ── Totals: labels left, values right-aligned to the margin; the totals
+  // block starts further left than the item amounts so long numbers stay
+  // clear of the labels.
+  const totalsX = 360
+  const totalsValX = PAGE_W - MARGIN
   let totalY = itemY - 16
   const totals: Array<[string, number | null]> = [
     ['Subtotal', invoice.subtotal],

@@ -309,6 +309,42 @@ export async function structureReceiptFromLines(
 }
 
 /**
+ * Single-call invoice extraction (fallback when the two-stage pipeline
+ * returns an empty stub). Reads the image directly with the invoice schema.
+ * Instructions live in the user text (see structureReceiptFromLines).
+ */
+export async function extractInvoiceJson(
+  base64Image: string,
+  mimeType: string,
+  instructions: string,
+): Promise<string> {
+  const model = getModel()
+  return run(
+    {
+      model,
+      contents: [
+        {
+          role: 'user',
+          parts: [
+            {
+              inlineData: { mimeType, data: base64Image },
+            },
+            {
+              text:
+                instructions +
+                '\n\nRead the provided invoice image carefully and return the structured JSON object now.',
+            },
+          ],
+        },
+      ],
+      config: {
+        responseSchema: INVOICE_JSON_SCHEMA,
+      },
+    },
+  )
+}
+
+/**
  * Legacy single-call extraction (fallback only). Returns raw JSON text;
  * the caller validates with zod. Instructions live in the user text — see
  * structureReceiptFromLines for why no systemInstruction.
