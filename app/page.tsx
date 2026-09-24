@@ -118,6 +118,14 @@ export default async function HomePage() {
         {/* Hero — simple, agentic-AI focused */}
         <section className="hero-bg relative overflow-hidden">
           <div className="hero-orb pointer-events-none" aria-hidden="true" />
+          <div className="hero-tech pointer-events-none" aria-hidden="true">
+            <span className="hero-tech-grid" />
+            <span className="hero-tech-sweep" />
+            <span className="hero-tech-scan" />
+            <span className="hero-tech-node n1" />
+            <span className="hero-tech-node n2" />
+            <span className="hero-tech-node n3" />
+          </div>
 
           <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center px-4 pb-20 pt-16 text-center lg:px-6 lg:pb-28 lg:pt-24">
             <span className="inline-flex items-center gap-2 rounded-full border border-frsc-crimson-500/20 bg-frsc-crimson-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-frsc-crimson-500">
