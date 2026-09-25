@@ -171,7 +171,7 @@ const personSchema = {
   name: 'M. Faris Deni K.',
   url: 'https://farisium.com/author/faris',
   image: 'https://farisium.com/faris.webp',
-  jobTitle: 'Founder & CEO',
+  jobTitle: 'Agentic AI Leader',
   worksFor: {
     '@type': 'Organization',
     name: 'Farisium',

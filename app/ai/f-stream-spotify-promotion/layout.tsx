@@ -9,8 +9,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const titles = { id: 'F-Stream Boost Spotify Promotion — Farisium', en: 'F-Stream Boost Spotify Promotion — Farisium' }
   const descriptions = {
-    id: 'Tingkatkan streaming Spotify-mu dengan kampanye global, curator pitching, dan AI performance tracking. 1.000+ streams, 7–10 hari.',
-    en: 'Boost your Spotify streaming with global campaigns, curator pitching, and AI performance tracking. 1,000+ streams, 7–10 days.',
+    id: 'Kampanye Spotify yang dikelola AI agent: lagu di-pitch ke kurator playlist dan iklan tertarget dijalankan otomatis. 1.000+ streams, 7–10 hari.',
+    en: 'AI agent-run Spotify campaign: your track is pitched to playlist curators and targeted ads run automatically. 1,000+ streams, 7–10 days.',
   }
   const canonicalUrl = getCanonicalUrl(lang, '/ai/f-stream-spotify-promotion')
   const alternates = getHreflangLinks('/ai/f-stream-spotify-promotion', lang)

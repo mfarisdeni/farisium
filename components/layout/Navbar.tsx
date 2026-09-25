@@ -8,7 +8,6 @@ import { useTheme } from 'next-themes'
 import {
   Menu,
   X,
-  Sparkles,
   LayoutDashboard,
   BookOpen,
   Users,
@@ -25,9 +24,9 @@ import { Logo } from '@/components/ui/Logo'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { GoogleIcon } from '@/components/ui/GoogleIcon'
 import { BlogNavDropdown } from '@/components/blog/BlogNavDropdown'
+import { AgenticAIDropdown } from '@/components/layout/AgenticAIDropdown'
 
 const navLinks = [
-  { label: 'AI Tools', href: '/ai', icon: Sparkles },
   { label: 'Rewards', href: '/rewards', icon: Gift },
   { label: 'Partnership', href: '/partnership', icon: Users },
   { label: 'About', href: '/about', icon: Info },
@@ -111,6 +110,7 @@ export function Navbar({ categories }: NavbarProps) {
           {/* Desktop nav */}
           <nav className="hidden items-center gap-0.5 md:flex" aria-label="Main navigation">
             <BlogNavDropdown categories={blogCategories} />
+            <AgenticAIDropdown />
             {navLinks.map(({ label, href }) => {
               const active = pathname === href || pathname.startsWith(href + '/')
               return (
@@ -233,6 +233,7 @@ export function Navbar({ categories }: NavbarProps) {
           >
             <div className="flex flex-col gap-1">
               <BlogNavDropdown categories={blogCategories} />
+              <AgenticAIDropdown />
               {navLinks.map(({ label, href, icon: Icon }) => {
                 const active = pathname === href || pathname.startsWith(href + '/')
                 return (

@@ -12,10 +12,10 @@ export async function generateMetadata(): Promise<Metadata> {
   const cookieStore = await cookies()
   const lang = detectLocale(cookieStore.get(COOKIE_NAME)?.value) as Lang
 
-  const titles = { id: 'M. Faris Deni K. — Founder Farisium', en: 'M. Faris Deni K. — Founder of Farisium' }
+  const titles = { id: 'M. Faris Deni K. — Agentic AI Leader', en: 'M. Faris Deni K. — Agentic AI Leader' }
   const descriptions = {
-    id: 'M. Faris Deni K. adalah Founder & Pengembang Farisium. Pelajari lebih lanjut tentang visi, misi, dan perjalanan membangun platform AI all-in-one.',
-    en: 'M. Faris Deni K. is the Founder & Developer of Farisium. Learn more about the vision, mission, and journey of building an all-in-one AI platform.',
+    id: 'M. Faris Deni K. adalah Agentic AI Leader di balik Farisium. Memimpin pengembangan AI agents yang mengubah operasional bisnis menjadi efisiensi bertenaga AI yang skalabel.',
+    en: 'M. Faris Deni K. is the Agentic AI Leader behind Farisium. Leading the development of AI agents that turn business operations into scalable, AI-powered efficiency.',
   }
   const canonicalUrl = getCanonicalUrl(lang, '/author/faris')
   const alternates = getHreflangLinks('/author/faris', lang)
@@ -47,12 +47,12 @@ export async function generateMetadata(): Promise<Metadata> {
     robots: { index: true, follow: true },
     keywords: [
       'M. Faris Deni K.',
-      'Founder Farisium',
-      'pengembang AI',
-      'AI developer Indonesia',
-      'Farisium founder',
-      'pembuat Farisium',
-      'teknologi AI Indonesia',
+      'Agentic AI Leader',
+      'AI agent developer',
+      'pengembang AI agents',
+      'Farisium',
+      'AI Indonesia',
+      'agentic AI Indonesia',
     ],
   }
 }
@@ -101,28 +101,28 @@ export default async function AuthorPage() {
   const content = {
     id: {
       title: 'Tentang Penulis',
-      role: 'Founder & Pengembang Farisium',
+      role: 'Agentic AI Leader',
       bio: [
-        'M. Faris Deni K. adalah pendiri dan pengembang utama Farisium — platform AI all-in-one yang menyediakan berbagai alat kecerdasan buatan untuk kreator, pebisnis, dan pengguna umum di Indonesia.',
-        'Dengan latar belakang di bidang pengembangan perangkat lunak dan kecerdasan buatan, Faris membangun Farisium dengan visi untuk membuat teknologi AI lebih mudah diakses oleh semua orang, tanpa memandang latar belakang teknis.',
-        'Faris percaya bahwa AI memiliki potensi luar biasa untuk meningkatkan produktivitas, kreativitas, dan kualitas hidup. Melalui Farisium, ia berkomitmen untuk menghadirkan solusi AI yang premium, mudah digunakan, dan bermanfaat bagi masyarakat Indonesia.',
+        'M. Faris Deni K. adalah Agentic AI Leader di balik Farisium — platform AI mandiri yang merancang kecerdasan buatan untuk benar-benar bekerja: membaca dokumen, mengekstrak data, memvalidasi hasil, dan menyelesaikan pekerjaan nyata secara otomatis.',
+        'Dengan latar belakang di bidang pengembangan perangkat lunak dan arsitektur AI, Faris memimpin pengembangan AI agents yang mengubah operasional bisnis menjadi efisiensi bertenaga AI yang skalabel — dari konversi struk belanja ke Excel, pembuatan invoice digital, hingga kampanye promosi berbasis AI agent.',
+        'Faris percaya bahwa AI terbaik bukan yang paling pintar bicara, melainkan yang paling bisa diandalkan untuk menuntaskan pekerjaan. Melalui Farisium, ia berkomitmen menghadirkan agentic AI yang premium, akurat, dan bermanfaat bagi masyarakat Indonesia.',
       ],
       writing: 'Menulis tentang AI, teknologi, dan pengembangan platform di Blog Farisium.',
-      quote: 'Saya percaya bahwa teknologi terbaik adalah yang bisa digunakan oleh siapa saja, kapan saja, dan di mana saja — tanpa hambatan.',
+      quote: 'AI terbaik bukan yang paling pintar menjawab — melainkan yang paling bisa diandalkan menyelesaikan pekerjaan.',
       articles: 'Artikel Terbaru',
       readMore: 'Baca Artikel',
       social: 'Temukan Saya',
     },
     en: {
       title: 'About the Author',
-      role: 'Founder & Developer of Farisium',
+      role: 'Agentic AI Leader',
       bio: [
-        'M. Faris Deni K. is the founder and lead developer of Farisium — an all-in-one AI platform providing various artificial intelligence tools for creators, business owners, and general users.',
-        'With a background in software development and artificial intelligence, Faris built Farisium with the vision of making AI technology more accessible to everyone, regardless of technical background.',
-        'Faris believes that AI has extraordinary potential to enhance productivity, creativity, and quality of life. Through Farisium, he is committed to delivering premium, easy-to-use AI solutions that benefit the Indonesian community.',
+        'M. Faris Deni K. is the Agentic AI Leader behind Farisium — an autonomous AI platform that designs intelligence to actually work: reading documents, extracting data, validating results, and completing real work automatically.',
+        'With a background in software development and AI architecture, Faris leads the development of AI agents that turn business operations into scalable, AI-powered efficiency — from converting shopping receipts to Excel, creating digital invoices, to running AI agent-driven promotion campaigns.',
+        'Faris believes the best AI is not the one that talks the most, but the one you can rely on to finish the work. Through Farisium, he is committed to delivering agentic AI that is premium, accurate, and beneficial to the Indonesian community.',
       ],
       writing: 'Writing about AI, technology, and platform development on the Farisium Blog.',
-      quote: 'I believe the best technology is one that anyone can use, anytime, anywhere — without barriers.',
+      quote: 'The best AI is not the one that answers the most — it is the one you can rely on to get the job done.',
       articles: 'Latest Articles',
       readMore: 'Read Articles',
       social: 'Find Me',

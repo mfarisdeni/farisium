@@ -6,7 +6,7 @@ import { useLang } from '@/hooks/useLang'
 import type { Lang } from '@/lib/translations'
 
 const footerLinks = {
-  'AI Tools': [
+  'Agentic AI': [
     { label: 'Struk Belanja ke Excel', href: '/ai/receipt-to-excel' },
     { label: 'Foto ke Invoice', href: '/ai/image-to-invoice' },
     { label: 'AI Directory', href: '/ai' },
@@ -28,8 +28,8 @@ const footerLinks = {
 }
 
 const groupLabels: Record<Lang, Record<string, string>> = {
-  id: { 'AI Tools': 'AI Tools', Platform: 'Platform', Akun: 'Akun', Legal: 'Legal' },
-  en: { 'AI Tools': 'AI Tools', Platform: 'Platform', Akun: 'Account', Legal: 'Legal' },
+  id: { 'Agentic AI': 'Agentic AI', Platform: 'Platform', Akun: 'Akun', Legal: 'Legal' },
+  en: { 'Agentic AI': 'Agentic AI', Platform: 'Platform', Akun: 'Account', Legal: 'Legal' },
 }
 
 const linkLabels: Record<Lang, Record<string, string>> = {

@@ -8,7 +8,7 @@ const content = {
   id: {
     eyebrow: 'Cara Kerja',
     title: 'Mulai Kampanye dalam 5 Langkah Mudah',
-    desc: 'Dari pengajuan hingga hasil — bantu musikmu didengar oleh pendengar asli di seluruh dunia.',
+    desc: 'Dari pengajuan hingga hasil — AI agent mengurus pitch playlist dan iklan untuk musikmu.',
     steps: [
       {
         number: '01',
@@ -18,34 +18,34 @@ const content = {
       },
       {
         number: '02',
-        title: 'Farisium review genre dan audiens',
+        title: 'AI agent menganalisis & menyusun pitch',
         description:
-          'Tim kami mereview lagumu untuk memastikan audiens dan kategori kurator yang tepat demi performa kampanye optimal.',
+          'AI agent menganalisis genre, tempo, dan karakter lagumu untuk menyusun pitch dan menentukan kurator playlist yang paling cocok.',
       },
       {
         number: '03',
         title: 'Konfigurasi kampanye dan konfirmasi pembayaran',
         description:
-          'Setelah review disetujui, konfirmasi pembayaran via IDR atau FRSC. Kampanye siap dijadwalkan.',
+          'Setelah pitch siap, konfirmasi pembayaran via IDR atau FRSC. AI agent menyiapkan dan menjadwalkan kampanye.',
       },
       {
         number: '04',
-        title: 'Kampanye berjalan selama 7–10 hari',
+        title: 'AI agent push playlist & jalankan iklan',
         description:
-          'Lagu masuk ke kampanye pendengar global dengan curator pitching nyata dan penargetan audiens berbasis AI.',
+          'AI agent mengirim lagu ke pitch playlist kurator dan menjalankan iklan tertarget kepada calon pendengar selama 7–10 hari.',
       },
       {
         number: '05',
         title: 'Pantau progres dan ringkasan hasil',
         description:
-          'Pantau progres kampanye melalui dashboard dan terima ringkasan hasil lengkap setelah selesai.',
+          'AI agent memantau performa dan menyusun laporan hasil otomatis. Kamu bisa pantau progres di dashboard dan terima ringkasan lengkap setelah selesai.',
       },
     ],
   },
   en: {
     eyebrow: 'How It Works',
     title: 'Start Your Campaign in 5 Simple Steps',
-    desc: 'From submission to results — get your music heard by real listeners worldwide.',
+    desc: 'From submission to results — the AI agent handles playlist pitching and ads for your music.',
     steps: [
       {
         number: '01',
@@ -55,27 +55,27 @@ const content = {
       },
       {
         number: '02',
-        title: 'Farisium reviews your genre and audience fit',
+        title: 'AI agent analyzes & builds the pitch',
         description:
-          'Our team reviews your track to ensure it matches the right audience and curator categories for optimal campaign performance.',
+          'The AI agent analyzes your track\'s genre, tempo, and characteristics to build the pitch and pick the playlist curators that fit best.',
       },
       {
         number: '03',
         title: 'Campaign setup and payment confirmation',
         description:
-          'After review approval, confirm your payment via IDR or FRSC. Your campaign is prepared and scheduled.',
+          'Once the pitch is ready, confirm your payment via IDR or FRSC. The AI agent prepares and schedules the campaign.',
       },
       {
         number: '04',
-        title: 'Campaign runs for 7–10 days',
+        title: 'AI agent pushes playlists & runs ads',
         description:
-          'Your track enters a worldwide listener campaign with real curator pitching and AI-assisted audience targeting.',
+          'The AI agent sends your track to curator playlist pitches and runs targeted ads toward potential listeners over 7–10 days.',
       },
       {
         number: '05',
         title: 'Track campaign progress and result summary',
         description:
-          'Monitor your campaign progress through the dashboard and receive a full result summary upon completion.',
+          'The AI agent monitors performance and produces automatic result reports. Track progress in the dashboard and receive a full summary upon completion.',
       },
     ],
   },

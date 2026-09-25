@@ -68,7 +68,7 @@ export function AgenticSection({ lang = 'id' }: Props) {
         {
           icon: Headphones,
           name: 'F-Stream Boost',
-          description: 'Kampanye promosi Spotify berbasis AI dengan performance tracking.',
+          description: 'Kampanye Spotify dikelola AI agent — lagu di-pitch ke kurator playlist dan iklan dijalankan otomatis.',
           href: '/ai/f-stream-spotify-promotion',
           badge: 'Live',
         },
@@ -123,7 +123,7 @@ export function AgenticSection({ lang = 'id' }: Props) {
         {
           icon: Headphones,
           name: 'F-Stream Boost',
-          description: 'AI-driven Spotify promotion campaigns with performance tracking.',
+          description: 'AI agent-run Spotify campaigns — tracks pitched to playlist curators and ads run automatically.',
           href: '/ai/f-stream-spotify-promotion',
           badge: 'Live',
         },

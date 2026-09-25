@@ -42,20 +42,20 @@ const toolsData = {
   id: [
     { icon: ReceiptText, name: 'Struk Belanja ke Excel', description: 'Agen AI terbaru: konversi foto struk belanja ke file Excel yang rapi, lengkap dengan validasi angka otomatis.', href: '/ai/receipt-to-excel', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
     { icon: FileSpreadsheet, name: 'Foto ke Invoice (Image to Invoice)', description: 'Agen AI kedua: ubah foto invoice atau struk menjadi invoice digital profesional — preview final, download PDF plain & Excel editable.', href: '/ai/image-to-invoice', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
-    { icon: Headphones, name: 'F-Stream Boost Spotify Promotion', description: 'Tingkatkan streaming Spotify-mu dengan kampanye global, curator pitching, dan AI performance tracking.', href: '/ai/f-stream-spotify-promotion', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
+    { icon: Headphones, name: 'F-Stream Boost Spotify Promotion', description: 'Kampanye Spotify-mu dijalankan AI agent: lagu di-pitch ke kurator playlist dan iklan tertarget berjalan otomatis dengan performance tracking.', href: '/ai/f-stream-spotify-promotion', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
     { icon: FileText, name: 'AI Blog (Tech News)', description: 'Baca berita dan wawasan terbaru seputar teknologi, AI, dan perkembangan digital terkini.', href: '/blog', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
   ],
   en: [
     { icon: ReceiptText, name: 'Image Receipt to Excel', description: 'The newest AI agent: turn a shopping receipt photo into a clean Excel file, complete with automatic number validation.', href: '/ai/receipt-to-excel', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
     { icon: FileSpreadsheet, name: 'Image to Invoice', description: 'The second AI agent: turn an invoice or bill photo into a professional digital invoice — final preview, plain PDF & editable Excel.', href: '/ai/image-to-invoice', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
-    { icon: Headphones, name: 'F-Stream Boost Spotify Promotion', description: 'Boost your Spotify streaming with global campaigns, curator pitching, and AI performance tracking.', href: '/ai/f-stream-spotify-promotion', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
+    { icon: Headphones, name: 'F-Stream Boost Spotify Promotion', description: 'Your Spotify campaign is run by an AI agent: the track gets pitched to playlist curators and targeted ads run automatically with performance tracking.', href: '/ai/f-stream-spotify-promotion', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
     { icon: FileText, name: 'AI Blog (Tech News)', description: 'Read the latest news and insights on technology, AI, and current digital developments.', href: '/blog', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
   ],
 }
 
 const labels = {
-  id: { badge: 'AI Tools', heading: 'Semua AI Tools', description: 'Semua layanan AI Farisium tersedia di satu tempat. Pilih tool yang kamu butuhkan dan mulai berkreasi.', cta: 'Coba Sekarang' },
-  en: { badge: 'AI Tools', heading: 'All AI Tools', description: 'All Farisium AI services in one place. Pick the tool you need and start creating.', cta: 'Try Now' },
+  id: { badge: 'Agentic AI', heading: 'Semua AI Agents & AI Tools', description: 'Seluruh AI agents dan tools Farisium di satu tempat. Pilih agen yang kamu butuhkan dan biarkan AI menyelesaikan pekerjaannya.', cta: 'Coba Sekarang' },
+  en: { badge: 'Agentic AI', heading: 'All AI Agents & AI Tools', description: 'All Farisium AI agents and tools in one place. Pick the agent you need and let AI get the work done.', cta: 'Try Now' },
 }
 
 export default async function AIDirectoryPage() {

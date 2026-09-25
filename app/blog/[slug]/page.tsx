@@ -530,8 +530,8 @@ export default async function BlogPostPage({ params }: Props) {
                 </p>
                 <p className="mt-0.5 text-xs text-frsc-text-300">
                   {articleLang === 'id'
-                    ? 'Founder & Pengembang Farisium. Menulis tentang AI, teknologi, dan pengembangan platform.'
-                    : 'Founder & Developer of Farisium. Writing about AI, technology, and platform development.'}
+                    ? 'Agentic AI Leader. Menulis tentang AI, teknologi, dan pengembangan platform.'
+                    : 'Agentic AI Leader. Writing about AI, technology, and platform development.'}
                 </p>
               </div>
             </div>
