@@ -1329,13 +1329,13 @@
   top: -200px;
   right: -100px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(224, 48, 78, 0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(224, 48, 78, 0.055) 0%, transparent 70%);
   animation: hero-glow 8s ease-in-out infinite alternate;
   z-index: 0;
 }
 
 .dark .hero-bg::after {
-  background: radial-gradient(circle, rgba(224, 48, 78, 0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(224, 48, 78, 0.09) 0%, transparent 70%);
 }
 
 /* Second orb — purple accent (via child div) */
@@ -1346,13 +1346,13 @@
   bottom: -150px;
   left: -100px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(100, 47, 127, 0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(100, 47, 127, 0.05) 0%, transparent 70%);
   animation: hero-glow 10s ease-in-out 2s infinite alternate;
   z-index: 0;
 }
 
 .dark .hero-orb {
-  background: radial-gradient(circle, rgba(100, 47, 127, 0.10) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(100, 47, 127, 0.08) 0%, transparent 70%);
 }
 
 @keyframes hero-glow {
@@ -1367,8 +1367,12 @@
   width: 100%;
   height: 100%;
   z-index: 0;
-  opacity: 0.9;
+  opacity: 0.5;
   pointer-events: none;
+}
+
+.dark .hero-plexus {
+  opacity: 0.65;
 }
 
 /* ── Modal pop-in (CSS replacement for framer-motion entry) ── */

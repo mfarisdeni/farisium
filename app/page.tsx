@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
-import { ArrowRight, Sparkles } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { Navbar } from '@/components/layout/Navbar'
 import { SiteFooter } from '@/components/layout/SiteFooter'
 import { ScrollReveal } from '@/components/scroll-reveal'
@@ -122,46 +122,49 @@ export default async function HomePage() {
           <PlexusCanvas className="hero-plexus" />
 
           <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center px-4 pb-20 pt-16 text-center lg:px-6 lg:pb-28 lg:pt-24">
-            <span className="inline-flex items-center gap-2 rounded-full border border-frsc-crimson-500/20 bg-frsc-crimson-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-frsc-crimson-500">
-              <Sparkles className="h-3.5 w-3.5" />
+            <span className="inline-flex items-center gap-2.5 rounded-full border border-frsc-crimson-500/20 bg-frsc-crimson-500/[0.04] py-1.5 pl-2.5 pr-4 text-[13px] font-medium text-muted-foreground">
+              <span className="relative flex h-2 w-2" aria-hidden="true">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-frsc-crimson-500 opacity-60 animate-ping" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-frsc-crimson-500" />
+              </span>
               {h.badge}
             </span>
 
-            <h1 className="mt-7 max-w-3xl text-[clamp(2rem,5vw,3.5rem)] font-heading font-bold leading-[1.08] tracking-tight text-foreground">
+            <h1 className="mt-8 max-w-3xl text-balance text-[clamp(2rem,5vw,3.5rem)] font-heading font-bold leading-[1.08] tracking-tight text-foreground">
               {h.heading}{' '}
               <span className="animated-gradient-text bg-clip-text text-transparent">
                 {h.headingAccent}
               </span>
             </h1>
 
-            <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+            <p className="mt-5 max-w-2xl text-pretty text-lg leading-relaxed text-muted-foreground">
               {h.description}
             </p>
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Link
                 href={`/${lang}/ai`}
-                className="inline-flex items-center gap-2 rounded-xl bg-frsc-crimson-500 px-5 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-frsc-crimson-600"
+                className="inline-flex items-center gap-2 rounded-xl bg-frsc-crimson-500 px-6 py-3 text-sm font-semibold text-white shadow-[0_10px_30px_-10px_rgba(224,48,78,0.55)] transition-all duration-200 hover:-translate-y-px hover:bg-frsc-crimson-600"
               >
                 {h.ctaPrimary}
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href={`/${lang}/ai/receipt-to-excel`}
-                className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-5 py-3 text-sm font-semibold text-foreground transition-colors duration-200 hover:bg-surface-hover"
+                className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-6 py-3 text-sm font-semibold text-foreground transition-colors duration-200 hover:border-foreground/20 hover:bg-surface-hover"
               >
                 {h.ctaSecondary}
               </Link>
             </div>
 
-            <div className="mt-10 grid w-full max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3">
+            <div className="mt-12 flex w-full max-w-2xl flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:gap-0 sm:divide-x sm:divide-border">
               {h.stats.map((s) => (
                 <div
                   key={s.value}
-                  className="rounded-xl border border-white/[0.07] bg-white/[0.02] px-4 py-3 backdrop-blur-sm"
+                  className="flex flex-1 flex-col items-center gap-1 px-6 py-2"
                 >
                   <div className="text-sm font-semibold text-foreground">{s.value}</div>
-                  <div className="mt-0.5 text-xs text-muted-foreground">{s.label}</div>
+                  <div className="text-xs text-muted-foreground">{s.label}</div>
                 </div>
               ))}
             </div>
