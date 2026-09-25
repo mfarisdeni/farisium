@@ -7,7 +7,7 @@ import { SiteFooter } from '@/components/layout/SiteFooter'
 import { ScrollReveal } from '@/components/scroll-reveal'
 import { PlexusCanvas } from '@/components/home/PlexusCanvas'
 import { AgenticSection } from '@/components/home/AgenticSection'
-import { AIToolsSection } from '@/components/home/AIToolsSection'
+import { FounderSection } from '@/components/home/FounderSection'
 import { ComputeSection } from '@/components/home/ComputeSection'
 import { WhyFarisiumSection } from '@/components/home/WhyFarisiumSection'
 import { BlogSection } from '@/components/home/BlogSection'
@@ -174,8 +174,8 @@ export default async function HomePage() {
         {/* Agentic AI — dedicated section highlighting the newest tool */}
         <AgenticSection lang={lang} />
 
-        {/* AI Tools */}
-        <AIToolsSection lang={lang} />
+        {/* Meet the founder */}
+        <FounderSection lang={lang} />
 
         {/* AI Compute */}
         <ComputeSection lang={lang} />

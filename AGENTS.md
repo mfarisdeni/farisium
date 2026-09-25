@@ -669,6 +669,26 @@ Artikel terbaru ketiga: Ciri-Ciri WA Disadap dan Cara Mengatasinya — panduan l
 
 ## Yang Baru / Berubah di Sesi Ini
 
+### Hero premium + FounderSection + rebrand Agentic AI (sesi berjalan)
+
+**1. Hero premium/lightweight** (tanpa ubah arsitektur & `animated-gradient-text` DI-PERTAHANKAN):
+- Badge "Agentic AI · Platform by M. Faris Deni K." dirombak: hilang pill merah + ikon `Sparkles` + `uppercase tracking-widest` (sinyal "AI slop") → pill hairline tipis, teks sentence-case tenang, **dot live crimson berdenyut halus** (status indicator).
+- Stats: 3 kotak kaca (backdrop-blur) → **satu baris dibatasi `divide-x` hairline** (pola Stripe/Linear).
+- CTA primary dapat bayangan lembut + hover lift; heading ditambah `text-balance`.
+- Latar lebih ringan: plexus opacity 0.9 → 0.5 (dark 0.65); orb crimson 0.08→0.055 & purple 0.06→0.05 (dark 0.09/0.08).
+- `components/home/PlexusCanvas.tsx` TIDAK diubah (live di commit `c2cad42`).
+
+**2. Homepage: `AIToolsSection` DI-GANTI `FounderSection`** ("Kenalin, M. Faris Deni K."/"Meet M. Faris Deni K.") karena section AI tools repeat konten AgenticSection di atasnya. Urutan homepage kini: Hero → AgenticSection → FounderSection → ComputeSection → WhyFarisiumSection → BlogSection → PartnershipSection → FAQSection → Footer.
+- File baru `components/home/FounderSection.tsx`: GlassCard split layout, **foto `public/faris.webp` (480×480, medium, h-40 md:h-44, rounded-2xl, ring crimson tipis)**, eyebrow "Pembuat Farisium"/"Founder", heading "Kenalin, M. Faris Deni K.", desc singkat Agentic AI Leader, CTA ganda ke `/author/faris` + `/about`. Jaga ringan & tidak overshadow section agen.
+- `AIToolsSection.tsx` TETAP ADA (masih dipakai di `app/farisium/page.tsx`), hanya tidak dipakai homepage.
+
+**3. Rebrand Agentic AI Identity (batch commit `3ed4f03`)**:
+- Role founder di About/author/blog/layout JSON-LD → **"Agentic AI Leader"** + tagline "Leading Agentic AI for smarter workflows, turning business operations into scalable AI-powered efficiency".
+- Navbar: "AI Tools" → **"Agentic AI"** + submenu dropdown baru `components/layout/AgenticAIDropdown.tsx` (Struk Belanja ke Excel, Foto ke Invoice, F-Stream Boost, AI Blog, "Semua Agentic AI" → `/ai`); mobile accordion.
+- Footer group label → "Agentic AI"; `/ai` badge/heading → "Agentic AI"/"Semua AI Agents & AI Tools".
+- F-Stream copywriting agentic (5 langkah: agen menganalisis→menyusun pitch→push playlist→menjalankan iklan→memantau).
+- Label badge agent di AgenticSection: `'AI Agent 1/2 · Live'` → **`'Live'`** saja (user: tidak perlu "first/second AI agent", langsung deskripsikan).
+
 ### Renama & perbaikan reliabilitas Image Receipt to Excel (sesi berjalan)
 
 **1. Judul tool di-rename** di ALL lokasi UI (halaman tool, layout metadata,
@@ -811,7 +831,7 @@ Commit: `feat(agent): Image to Invoice AI agent (PDF + Excel)`.
 
 **2. Homepage TIDAK lagi blog-focused → portofolio Agentic AI (branding M. Faris Deni K.)**
 
-- `app/page.tsx` rewrite penuh: Hero baru (simple, centered, badge "Agentic AI · Platform by M. Faris Deni K.", stats chips: Agent AI / Ekstraksi / Data) lalu urutan standard AGENTS.md: Hero → AgenticSection → AIToolsSection → ComputeSection → WhyFarisiumSection → BlogSection → PartnershipSection → FAQSection → Footer.
+- `app/page.tsx` rewrite penuh: Hero baru (simple, centered, badge "Agentic AI · Platform by M. Faris Deni K.", stats chips: Agent AI / Ekstraksi / Data) lalu urutan standard AGENTS.md: Hero → AgenticSection → **FounderSection (Kenalin, M. Faris Deni K.)** → ComputeSection → WhyFarisiumSection → BlogSection → PartnershipSection → FAQSection → Footer.
 - Komponen baru `components/home/AgenticSection.tsx`: section khusus Agentic AI; kartu premium sorotan **Receipt to Excel** badge "Tool Terbaru & Terpintar" (copy agentik: membaca→mengekstrak→memvalidasi→menyusun), checklist 3 capability, orbs animasi, CTA ganda; 2 kartu pendukung F-Stream + AI Blog; footer note "file disimpan sementara & dihapus otomatis".
 - Blog homepage = `BlogSection` (sudah 3 posting + tombol "Lihat Semua"); CTA diubah locale-aware `/${lang}/blog`.
 - Metadata root (`app/layout.tsx`): default title → `Farisium — Agentic AI Platform by M. Faris Deni K.`, description + keywords agentic; OG/Twitter ikut; authors/creator → M. Faris Deni K. (link `/author/faris`); JSON-LD Organization/WebSite/SoftwareApplication description di-update, `applicationCategory` → `AIApplication`.

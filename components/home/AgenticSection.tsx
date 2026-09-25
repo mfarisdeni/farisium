@@ -36,7 +36,7 @@ export function AgenticSection({ lang = 'id' }: Props) {
       agents: [
         {
           icon: ReceiptText,
-          badge: 'AI Agent 1 · Live',
+          badge: 'Live',
           name: 'Struk Belanja ke Excel',
           description:
             'Arahkan kamera ke struk belanja dan agen membaca setiap baris, mengekstrak item & harga, memvalidasi aritmatika, lalu menyusun file Excel yang rapi.',
@@ -49,7 +49,7 @@ export function AgenticSection({ lang = 'id' }: Props) {
         },
         {
           icon: FileSpreadsheet,
-          badge: 'AI Agent 2 · Live',
+          badge: 'Live',
           name: 'Foto ke Invoice (Image to Invoice)',
           description:
             'Unggah atau foto invoice/struk apa pun — AI menyusun invoice digital profesional dengan template minimalis. Preview final, lalu download PDF plain & Excel yang bisa diedit.',
@@ -91,7 +91,7 @@ export function AgenticSection({ lang = 'id' }: Props) {
       agents: [
         {
           icon: ReceiptText,
-          badge: 'AI Agent 1 · Live',
+          badge: 'Live',
           name: 'Image Receipt to Excel',
           description:
             'Point your camera at a store receipt and the agent reads every line, extracts items & prices, validates the math, and produces a clean Excel file.',
@@ -104,7 +104,7 @@ export function AgenticSection({ lang = 'id' }: Props) {
         },
         {
           icon: FileSpreadsheet,
-          badge: 'AI Agent 2 · Live',
+          badge: 'Live',
           name: 'Image to Invoice',
           description:
             'Upload or snap any invoice or bill — AI builds a professional digital invoice with a minimalist template. Final preview, then download a plain PDF & editable Excel.',
