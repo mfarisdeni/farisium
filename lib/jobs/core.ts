@@ -9,11 +9,31 @@ import { ApiError } from '@/lib/api'
 
 export const RECEIPT_FEATURE = 'receipt_to_excel'
 export const INVOICE_FEATURE = 'invoice_from_image'
+export const EXPENSE_FEATURE = 'expense_report'
 export const DAILY_CONVERSION_LIMIT = 5
 
-export const KNOWN_FEATURES = [RECEIPT_FEATURE, INVOICE_FEATURE] as const
+export const KNOWN_FEATURES = [
+  RECEIPT_FEATURE,
+  INVOICE_FEATURE,
+  EXPENSE_FEATURE,
+] as const
 
 export type Feature = (typeof KNOWN_FEATURES)[number]
+
+/**
+ * Per-feature daily budget. The expense report consumes one slot per receipt
+ * (a report holds up to 20 receipts), so it gets a proportionally larger
+ * allowance while every other feature keeps the original 5/day limit.
+ */
+export const DAILY_LIMITS: Record<Feature, number> = {
+  [RECEIPT_FEATURE]: DAILY_CONVERSION_LIMIT,
+  [INVOICE_FEATURE]: DAILY_CONVERSION_LIMIT,
+  [EXPENSE_FEATURE]: 25,
+}
+
+export function getDailyLimit(feature: Feature): number {
+  return DAILY_LIMITS[feature] ?? DAILY_CONVERSION_LIMIT
+}
 
 export function isKnownFeature(value: string | undefined | null): value is Feature {
   return typeof value === 'string' && (KNOWN_FEATURES as readonly string[]).includes(value)
@@ -117,6 +137,7 @@ export async function consumeDailyConversionSlot(
   uid: string,
   feature: Feature = RECEIPT_FEATURE,
 ): Promise<void> {
+  const limit = getDailyLimit(feature)
   const docRef = db().collection('users').doc(uid).collection('usage').doc(feature)
   const today = new Date().toISOString().slice(0, 10)
 
@@ -130,9 +151,9 @@ export async function consumeDailyConversionSlot(
     }
 
     const count = typeof data?.count === 'number' ? (data.count as number) : 0
-    if (count >= DAILY_CONVERSION_LIMIT) {
+    if (count >= limit) {
       throw new ApiError(
-        `Batas harian ${DAILY_CONVERSION_LIMIT} konversi telah tercapai. Silakan coba lagi besok.`,
+        `Batas harian ${limit} konversi telah tercapai. Silakan coba lagi besok.`,
         { status: 429, code: 'daily_limit_reached' },
       )
     }

@@ -105,6 +105,41 @@ export const INVOICE_JSON_SCHEMA = {
   },
 } as const
 
+/**
+ * JSON Schema handed to Gemini so its output directly matches expenseSchema.
+ * Same contract as a receipt plus paymentMethod / category / notes.
+ */
+export const EXPENSE_JSON_SCHEMA = {
+  type: Type.OBJECT,
+  properties: {
+    merchantName: { type: Type.STRING },
+    transactionDate: { type: Type.STRING },
+    invoiceNumber: { type: Type.STRING },
+    currency: { type: Type.STRING },
+    paymentMethod: { type: Type.STRING },
+    category: { type: Type.STRING },
+    notes: { type: Type.STRING },
+    subtotal: { type: Type.NUMBER },
+    tax: { type: Type.NUMBER },
+    discount: { type: Type.NUMBER },
+    grandTotal: { type: Type.NUMBER },
+    items: {
+      type: Type.ARRAY,
+      items: {
+        type: Type.OBJECT,
+        properties: {
+          name: { type: Type.STRING },
+          quantity: { type: Type.NUMBER },
+          unitPrice: { type: Type.NUMBER },
+          total: { type: Type.NUMBER },
+        },
+      },
+    },
+    needsReview: { type: Type.BOOLEAN },
+    warnings: { type: Type.ARRAY, items: { type: Type.STRING } },
+  },
+} as const
+
 interface RequestPayload {
   model: string
   contents: Array<{
@@ -152,13 +187,15 @@ async function run(content: RequestPayload, systemInstruction?: string): Promise
 }
 
 /**
- * Stage 1 — transcribe the receipt verbatim into a JSON array of lines.
- * Returns the raw JSON array string (caller parses).
+ * Stage 1 — transcribe a document image verbatim into a JSON array of lines.
+ * Returns the raw JSON array string (caller parses). Shared by the receipt,
+ * invoice, and expense pipelines.
  */
-export async function transcribeReceiptLines(
+async function transcribeImage(
   base64Image: string,
   mimeType: string,
   instruction: string,
+  documentLabel: string,
 ): Promise<string> {
   const model = getModel()
   const parts: Array<{ inlineData?: { mimeType: string; data: string }; text?: string }> = [
@@ -168,7 +205,7 @@ export async function transcribeReceiptLines(
     {
       text:
         instruction +
-        '\n\nTranskripsikan semua baris teks pada struk ini dari baris pertama hingga baris terakhir, lalu kembalikan JSON array-nya sekarang.',
+        `\n\nTranskripsikan semua baris teks pada ${documentLabel} ini dari baris pertama hingga baris terakhir, lalu kembalikan JSON array-nya sekarang.`,
     },
   ]
   return run(
@@ -190,54 +227,37 @@ export async function transcribeReceiptLines(
   )
 }
 
-/**
- * Stage 1 — transcribe any document image verbatim into a JSON array of
- * lines (shared by the receipt & invoice pipelines).
- */
-export async function transcribeImageLines(
+/** Stage 1 — verbatim transcription of a receipt (preserves every digit). */
+export function transcribeReceiptLines(
   base64Image: string,
   mimeType: string,
   instruction: string,
 ): Promise<string> {
-  const model = getModel()
-  const parts: Array<{ inlineData?: { mimeType: string; data: string }; text?: string }> = [
-    {
-      inlineData: { mimeType, data: base64Image },
-    },
-    {
-      text:
-        instruction +
-        '\n\nTranskripsikan semua baris teks pada dokumen ini dari baris pertama hingga baris terakhir, lalu kembalikan JSON array-nya sekarang.',
-    },
-  ]
-  return run(
-    {
-      model,
-      contents: [
-        {
-          role: 'user',
-          parts,
-        },
-      ],
-      config: {
-        responseSchema: {
-          type: Type.ARRAY,
-          items: { type: Type.STRING },
-        },
-      },
-    },
-  )
+  return transcribeImage(base64Image, mimeType, instruction, 'struk')
+}
+
+/** Stage 1 — verbatim transcription of any document image. */
+export function transcribeImageLines(
+  base64Image: string,
+  mimeType: string,
+  instruction: string,
+): Promise<string> {
+  return transcribeImage(base64Image, mimeType, instruction, 'dokumen')
 }
 
 /**
- * Stage 2 — structure the verbatim transcription into the invoice JSON.
+ * Stage 2 — structure a verbatim transcription into a feature JSON contract.
  * Same two-stage rationale as receipts: instructions go in the USER text.
+ * The image is passed back alongside the lines so the model can confirm item
+ * rows and column order. `documentLabel` only shapes the prompt wording.
  */
-export async function structureInvoiceFromLines(
+async function structureFromLines(
   lines: string[],
   base64Image: string,
   mimeType: string,
   instructions: string,
+  responseSchema: object,
+  documentLabel: string,
 ): Promise<string> {
   const model = getModel()
   const parts: Array<{ inlineData?: { mimeType: string; data: string }; text?: string }> = []
@@ -249,7 +269,7 @@ export async function structureInvoiceFromLines(
   parts.push({
     text:
       instructions +
-      '\n\nVerbatim transcription of the invoice, one line per element, read top to bottom:\n' +
+      `\n\nVerbatim transcription of the ${documentLabel}, one line per element, read top to bottom:\n` +
       lines.join('\n') +
       '\n\nReturn the structured JSON object now.',
   })
@@ -263,9 +283,66 @@ export async function structureInvoiceFromLines(
         },
       ],
       config: {
-        responseSchema: INVOICE_JSON_SCHEMA,
+        responseSchema,
       },
     },
+  )
+}
+
+/**
+ * Single-call extraction (fallback when the two-stage pipeline returns an
+ * empty stub). Reads the image directly with the feature schema. Instructions
+ * live in the user text (see structureFromLines for why no systemInstruction).
+ */
+async function extractWithSchema(
+  base64Image: string,
+  mimeType: string,
+  instructions: string,
+  responseSchema: object,
+  documentLabel: string,
+): Promise<string> {
+  const model = getModel()
+  return run(
+    {
+      model,
+      contents: [
+        {
+          role: 'user',
+          parts: [
+            {
+              inlineData: { mimeType, data: base64Image },
+            },
+            {
+              text:
+                instructions +
+                `\n\nRead the provided ${documentLabel} image carefully and return the structured JSON object now.`,
+            },
+          ],
+        },
+      ],
+      config: {
+        responseSchema,
+      },
+    },
+  )
+}
+
+/**
+ * Stage 2 — structure the verbatim transcription into the invoice JSON.
+ */
+export function structureInvoiceFromLines(
+  lines: string[],
+  base64Image: string,
+  mimeType: string,
+  instructions: string,
+): Promise<string> {
+  return structureFromLines(
+    lines,
+    base64Image,
+    mimeType,
+    instructions,
+    INVOICE_JSON_SCHEMA,
+    'invoice',
   )
 }
 
@@ -276,110 +353,80 @@ export async function structureInvoiceFromLines(
  * models return minimal/empty output (only merchant + date), while the same
  * text in the user prompt yields the full structured receipt.
  */
-export async function structureReceiptFromLines(
+export function structureReceiptFromLines(
   lines: string[],
   base64Image: string,
   mimeType: string,
   instructions: string,
 ): Promise<string> {
-  const model = getModel()
-  const parts: Array<{ inlineData?: { mimeType: string; data: string }; text?: string }> = []
-  if (base64Image && mimeType) {
-    parts.push({
-      inlineData: { mimeType, data: base64Image },
-    })
-  }
-  parts.push({
-    text:
-      instructions +
-      '\n\nVerbatim transcription of the receipt, one line per element, read top to bottom:\n' +
-      lines.join('\n') +
-      '\n\nReturn the structured JSON object now.',
-  })
-  return run(
-    {
-      model,
-      contents: [
-        {
-          role: 'user',
-          parts,
-        },
-      ],
-      config: {
-        responseSchema: RECEIPT_JSON_SCHEMA,
-      },
-    },
+  return structureFromLines(
+    lines,
+    base64Image,
+    mimeType,
+    instructions,
+    RECEIPT_JSON_SCHEMA,
+    'receipt',
   )
 }
 
-/**
- * Single-call invoice extraction (fallback when the two-stage pipeline
- * returns an empty stub). Reads the image directly with the invoice schema.
- * Instructions live in the user text (see structureReceiptFromLines).
- */
-export async function extractInvoiceJson(
+/** Stage 2 — structure a transcription into the expense JSON contract. */
+export function structureExpenseFromLines(
+  lines: string[],
   base64Image: string,
   mimeType: string,
   instructions: string,
 ): Promise<string> {
-  const model = getModel()
-  return run(
-    {
-      model,
-      contents: [
-        {
-          role: 'user',
-          parts: [
-            {
-              inlineData: { mimeType, data: base64Image },
-            },
-            {
-              text:
-                instructions +
-                '\n\nRead the provided invoice image carefully and return the structured JSON object now.',
-            },
-          ],
-        },
-      ],
-      config: {
-        responseSchema: INVOICE_JSON_SCHEMA,
-      },
-    },
+  return structureFromLines(
+    lines,
+    base64Image,
+    mimeType,
+    instructions,
+    EXPENSE_JSON_SCHEMA,
+    'receipt',
   )
 }
 
-/**
- * Legacy single-call extraction (fallback only). Returns raw JSON text;
- * the caller validates with zod. Instructions live in the user text — see
- * structureReceiptFromLines for why no systemInstruction.
- */
-export async function extractReceiptJson(
+/** Single-call invoice extraction (fallback). */
+export function extractInvoiceJson(
   base64Image: string,
   mimeType: string,
   instructions: string,
 ): Promise<string> {
-  const model = getModel()
-  return run(
-    {
-      model,
-      contents: [
-        {
-          role: 'user',
-          parts: [
-            {
-              inlineData: { mimeType, data: base64Image },
-            },
-            {
-              text:
-                instructions +
-                '\n\nRead the provided receipt image carefully and return the structured JSON object now.',
-            },
-          ],
-        },
-      ],
-      config: {
-        responseSchema: RECEIPT_JSON_SCHEMA,
-      },
-    },
+  return extractWithSchema(
+    base64Image,
+    mimeType,
+    instructions,
+    INVOICE_JSON_SCHEMA,
+    'invoice',
+  )
+}
+
+/** Legacy single-call receipt extraction (fallback only). */
+export function extractReceiptJson(
+  base64Image: string,
+  mimeType: string,
+  instructions: string,
+): Promise<string> {
+  return extractWithSchema(
+    base64Image,
+    mimeType,
+    instructions,
+    RECEIPT_JSON_SCHEMA,
+    'receipt',
+  )
+}
+
+/** Single-call expense extraction (fallback). */
+export function extractExpenseJson(
+  base64Image: string,
+  mimeType: string,
+  instructions: string,
+): Promise<string> {
+  return extractWithSchema(
+    base64Image,
+    mimeType,
+    instructions,
+    EXPENSE_JSON_SCHEMA,
+    'receipt',
   )
 }

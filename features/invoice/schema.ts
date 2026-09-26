@@ -4,8 +4,7 @@
  */
 
 import { z } from 'zod'
-import { ApiError } from '../../lib/api.ts'
-import { nullableAmount, nullableString } from '../parsing.ts'
+import { nullableAmount, nullableString, parseJsonObject } from '../parsing.ts'
 
 const infoSchema = z.object({
   name: nullableString.default(null),
@@ -52,32 +51,5 @@ export type Invoice = z.infer<typeof invoiceSchema>
  * Extracts the first balanced object defensively and re-validates with zod.
  */
 export function parseInvoiceJson(text: string): Invoice {
-  const start = text.indexOf('{')
-  const end = text.lastIndexOf('}')
-  if (start === -1 || end === -1) {
-    throw new ApiError('Respons AI tidak valid. Coba lagi.', {
-      status: 502,
-      code: 'invalid_ai_response',
-    })
-  }
-
-  let data: unknown
-  try {
-    data = JSON.parse(text.slice(start, end + 1))
-  } catch {
-    throw new ApiError('Respons AI tidak valid. Coba lagi.', {
-      status: 502,
-      code: 'invalid_ai_json',
-    })
-  }
-
-  const parsed = invoiceSchema.safeParse(data)
-  if (!parsed.success) {
-    throw new ApiError('Hasil ekstraksi AI tidak sesuai format. Coba lagi.', {
-      status: 502,
-      code: 'schema_validation_failed',
-    })
-  }
-
-  return parsed.data
+  return parseJsonObject(text, invoiceSchema)
 }

@@ -8,6 +8,7 @@ import {
   ArrowRight,
   Headphones,
   FileText,
+  Wallet,
 } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { GlassCard } from '@/components/ui/GlassCard'
@@ -34,6 +35,19 @@ export function AgenticSection({ lang = 'id' }: Props) {
       cta: 'Coba Agen Ini',
       agentsLabel: 'Garis AI Agents',
       agents: [
+        {
+          icon: Wallet,
+          badge: 'Live',
+          name: 'AI Expense Report Generator',
+          description:
+            'Unggah banyak struk sekaligus. Agen membaca tiap struk, mengekstrak tanggal, merchant, item, dan total, mengkategorikan pengeluarannya, lalu kamu periksa dan ekspor laporan siap kirim.',
+          checklist: [
+            'Dua puluh struk per laporan, diproses bertahap dengan progres transparan',
+            'Kategorisasi otomatis + deteksi struk duplikat sebelum ekspor',
+            'Export Excel 3 sheet & PDF multi-halaman dari data yang sudah kamu periksa',
+          ],
+          href: '/ai/expense-report',
+        },
         {
           icon: ReceiptText,
           badge: 'Live',
@@ -66,6 +80,13 @@ export function AgenticSection({ lang = 'id' }: Props) {
       toolsHeading: 'Satu Ekosistem, Semua Agen Farisium',
       tools: [
         {
+          icon: FileSpreadsheet,
+          name: 'Foto ke Invoice',
+          description: 'Foto invoice atau tagihan jadi invoice digital profesional — PDF & Excel.',
+          href: '/ai/image-to-invoice',
+          badge: 'Live',
+        },
+        {
           icon: Headphones,
           name: 'F-Stream Boost',
           description: 'Kampanye Spotify dikelola AI agent — lagu di-pitch ke kurator playlist dan iklan dijalankan otomatis.',
@@ -90,6 +111,19 @@ export function AgenticSection({ lang = 'id' }: Props) {
       agentsLabel: 'AI Agents Line',
       agents: [
         {
+          icon: Wallet,
+          badge: 'Live',
+          name: 'AI Expense Report Generator',
+          description:
+            'Upload many receipts at once. The agent reads each one, extracts the date, merchant, items, and total, categorizes the expense, then you review it and export a report ready to send.',
+          checklist: [
+            'Twenty receipts per report, processed in batches with transparent progress',
+            'Automatic categorization + duplicate detection before export',
+            'Export a 3-sheet Excel or multi-page PDF from the data you reviewed',
+          ],
+          href: '/ai/expense-report',
+        },
+        {
           icon: ReceiptText,
           badge: 'Live',
           name: 'Image Receipt to Excel',
@@ -102,24 +136,18 @@ export function AgenticSection({ lang = 'id' }: Props) {
           ],
           href: '/ai/receipt-to-excel',
         },
-        {
-          icon: FileSpreadsheet,
-          badge: 'Live',
-          name: 'Image to Invoice',
-          description:
-            'Upload or snap any invoice or bill — AI builds a professional digital invoice with a minimalist template. Final preview, then download a plain PDF & editable Excel.',
-          checklist: [
-            'Extracts seller, buyer, items, tax & totals in one pass',
-            'Professional invoice template — small PDF & editable Excel',
-            'Final preview first — the PDF matches the preview exactly',
-          ],
-          href: '/ai/image-to-invoice',
-        },
       ],
       toolCta: 'Open',
       toolsLabel: 'AI Tools Line',
       toolsHeading: 'One Ecosystem, All Farisium Agents',
       tools: [
+        {
+          icon: FileSpreadsheet,
+          name: 'Foto ke Invoice',
+          description: 'Foto invoice atau tagihan jadi invoice digital profesional — PDF & Excel.',
+          href: '/ai/image-to-invoice',
+          badge: 'Live',
+        },
         {
           icon: Headphones,
           name: 'F-Stream Boost',
@@ -217,7 +245,7 @@ export function AgenticSection({ lang = 'id' }: Props) {
       </div>
 
       {/* Supporting agents */}
-      <div className="mt-10 grid gap-4 sm:grid-cols-2">
+      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {label.tools.map(({ icon: Icon, name, description, href, badge: b }, i) => (
           <Link
             key={name}

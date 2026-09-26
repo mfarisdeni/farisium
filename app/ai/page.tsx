@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { Navbar } from '@/components/layout/Navbar'
 import { SiteFooter } from '@/components/layout/SiteFooter'
-import { FileText, ArrowRight, Headphones, ReceiptText, FileSpreadsheet } from 'lucide-react'
+import { FileText, ArrowRight, Headphones, ReceiptText, FileSpreadsheet, Wallet } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { detectLocale, COOKIE_NAME, getCanonicalUrl, getHreflangLinks } from '@/lib/i18n'
 import type { Lang } from '@/lib/translations'
@@ -40,13 +40,15 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const toolsData = {
   id: [
-    { icon: ReceiptText, name: 'Struk Belanja ke Excel', description: 'Agen AI terbaru: konversi foto struk belanja ke file Excel yang rapi, lengkap dengan validasi angka otomatis.', href: '/ai/receipt-to-excel', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
+    { icon: Wallet, name: 'AI Expense Report Generator', description: 'Agen AI terbaru: upload banyak struk sekaligus, AI mengekstrak & mengkategorikan setiap pengeluaran, lalu kamu export laporan ke Excel atau PDF.', href: '/ai/expense-report', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
+    { icon: ReceiptText, name: 'Struk Belanja ke Excel', description: 'Konversi foto struk belanja ke file Excel yang rapi, lengkap dengan validasi angka otomatis.', href: '/ai/receipt-to-excel', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
     { icon: FileSpreadsheet, name: 'Foto ke Invoice (Image to Invoice)', description: 'Agen AI kedua: ubah foto invoice atau struk menjadi invoice digital profesional — preview final, download PDF plain & Excel editable.', href: '/ai/image-to-invoice', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
     { icon: Headphones, name: 'F-Stream Boost Spotify Promotion', description: 'Kampanye Spotify-mu dijalankan AI agent: lagu di-pitch ke kurator playlist dan iklan tertarget berjalan otomatis dengan performance tracking.', href: '/ai/f-stream-spotify-promotion', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
     { icon: FileText, name: 'AI Blog (Tech News)', description: 'Baca berita dan wawasan terbaru seputar teknologi, AI, dan perkembangan digital terkini.', href: '/blog', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
   ],
   en: [
-    { icon: ReceiptText, name: 'Image Receipt to Excel', description: 'The newest AI agent: turn a shopping receipt photo into a clean Excel file, complete with automatic number validation.', href: '/ai/receipt-to-excel', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
+    { icon: Wallet, name: 'AI Expense Report Generator', description: 'The newest AI agent: upload many receipts at once, AI extracts and categorizes every expense, then you export the report to Excel or PDF.', href: '/ai/expense-report', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
+    { icon: ReceiptText, name: 'Image Receipt to Excel', description: 'Turn a shopping receipt photo into a clean Excel file, complete with automatic number validation.', href: '/ai/receipt-to-excel', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
     { icon: FileSpreadsheet, name: 'Image to Invoice', description: 'The second AI agent: turn an invoice or bill photo into a professional digital invoice — final preview, plain PDF & editable Excel.', href: '/ai/image-to-invoice', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
     { icon: Headphones, name: 'F-Stream Boost Spotify Promotion', description: 'Your Spotify campaign is run by an AI agent: the track gets pitched to playlist curators and targeted ads run automatically with performance tracking.', href: '/ai/f-stream-spotify-promotion', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
     { icon: FileText, name: 'AI Blog (Tech News)', description: 'Read the latest news and insights on technology, AI, and current digital developments.', href: '/blog', available: true, badge: 'Live', badgeVariant: 'crimson' as const },

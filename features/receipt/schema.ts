@@ -4,19 +4,23 @@
  */
 
 import { z } from 'zod'
-import { ApiError } from '../../lib/api.ts'
-import { parseAmount, nullableAmount, nullableString } from '../parsing.ts'
+import { parseAmount, nullableAmount, nullableString, parseJsonObject } from '../parsing.ts'
 
 export { parseAmount }
 
-const itemSchema = z.object({
-  name: nullableString,
-  quantity: nullableAmount,
-  unitPrice: nullableAmount,
-  total: nullableAmount,
+/**
+ * Exported so sibling features (expense) extend the same item contract instead
+ * of redefining it. Every field defaults to null: a partially-read line item
+ * must never fail the whole extraction.
+ */
+export const receiptItemSchema = z.object({
+  name: nullableString.default(null),
+  quantity: nullableAmount.default(null),
+  unitPrice: nullableAmount.default(null),
+  total: nullableAmount.default(null),
 })
 
-export type ReceiptItem = z.infer<typeof itemSchema>
+export type ReceiptItem = z.infer<typeof receiptItemSchema>
 
 export const receiptSchema = z.object({
   merchantName: nullableString,
@@ -27,7 +31,7 @@ export const receiptSchema = z.object({
   tax: nullableAmount,
   discount: nullableAmount,
   grandTotal: nullableAmount,
-  items: z.array(itemSchema).default([]),
+  items: z.array(receiptItemSchema).default([]),
   needsReview: z.boolean().optional().default(false),
   warnings: z.array(z.string()).default([]),
 })
@@ -40,32 +44,5 @@ export type Receipt = z.infer<typeof receiptSchema>
  * balanced object defensively and re-validate with zod.
  */
 export function parseReceiptJson(text: string): Receipt {
-  const start = text.indexOf('{')
-  const end = text.lastIndexOf('}')
-  if (start === -1 || end === -1) {
-    throw new ApiError('Respons AI tidak valid. Coba lagi.', {
-      status: 502,
-      code: 'invalid_ai_response',
-    })
-  }
-
-  let data: unknown
-  try {
-    data = JSON.parse(text.slice(start, end + 1))
-  } catch {
-    throw new ApiError('Respons AI tidak valid. Coba lagi.', {
-      status: 502,
-      code: 'invalid_ai_json',
-    })
-  }
-
-  const parsed = receiptSchema.safeParse(data)
-  if (!parsed.success) {
-    throw new ApiError('Hasil ekstraksi AI tidak sesuai format. Coba lagi.', {
-      status: 502,
-      code: 'schema_validation_failed',
-    })
-  }
-
-  return parsed.data
+  return parseJsonObject(text, receiptSchema)
 }

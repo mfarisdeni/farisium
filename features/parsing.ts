@@ -1,10 +1,11 @@
 /**
  * Shared parsing preprocessors for AI-extracted JSON contracts.
  * Pure module (only depends on zod) — testable with `node --test`.
- * Used by both the receipt and invoice feature schemas.
+ * Used by the receipt, invoice, and expense feature schemas.
  */
 
 import { z } from 'zod'
+import { ApiError } from '../lib/api.ts'
 
 /**
  * Parse currency-ish strings that may include thousands separators and the
@@ -62,3 +63,39 @@ export const nullableString = z.preprocess(
   },
   z.string().min(1).nullable(),
 )
+
+/**
+ * Defensive parser for a model's raw JSON output: extract the first balanced
+ * object, JSON.parse it, then validate against a feature schema. Shared by the
+ * receipt, invoice, and expense contracts so the error codes stay identical.
+ */
+export function parseJsonObject<T>(text: string, schema: z.ZodType<T>): T {
+  const start = text.indexOf('{')
+  const end = text.lastIndexOf('}')
+  if (start === -1 || end === -1) {
+    throw new ApiError('Respons AI tidak valid. Coba lagi.', {
+      status: 502,
+      code: 'invalid_ai_response',
+    })
+  }
+
+  let data: unknown
+  try {
+    data = JSON.parse(text.slice(start, end + 1))
+  } catch {
+    throw new ApiError('Respons AI tidak valid. Coba lagi.', {
+      status: 502,
+      code: 'invalid_ai_json',
+    })
+  }
+
+  const parsed = schema.safeParse(data)
+  if (!parsed.success) {
+    throw new ApiError('Hasil ekstraksi AI tidak sesuai format. Coba lagi.', {
+      status: 502,
+      code: 'schema_validation_failed',
+    })
+  }
+
+  return parsed.data
+}

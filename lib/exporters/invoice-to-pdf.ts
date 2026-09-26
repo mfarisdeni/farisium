@@ -3,80 +3,25 @@
  * Uses only Helvetica (built-in, zero font embedding) so files stay tiny.
  * The layout mirrors the on-screen preview (same design tokens), so the PDF
  * is exactly "the preview you saw" — no rework needed.
+ *
+ * Page metrics, colors, and drawing helpers live in `pdf-kit` so every
+ * Farisium PDF stays visually consistent.
  */
 
-import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from 'pdf-lib'
+import { PDFDocument, StandardFonts } from 'pdf-lib'
 import type { Invoice } from '@/features/invoice/schema'
-
-const PAGE_W = 595.28
-const PAGE_H = 841.89
-const MARGIN = 56
-
-const COLOR = {
-  ink: rgb(0.106, 0.141, 0.188), // #1B2430
-  muted: rgb(0.36, 0.39, 0.45), // #5B6270
-  accent: rgb(0.878, 0.188, 0.306), // #E0304E
-  line: rgb(0.89, 0.91, 0.92), // #E3E5E9
-}
-
-function fmt(value: number | null): string {
-  if (value == null) return '-'
-  return value.toLocaleString('id-ID', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2,
-  })
-}
-
-function money(value: number | null, currency: string | null): string {
-  if (value == null) return '-'
-  return currency ? `${currency} ${fmt(value)}` : fmt(value)
-}
-
-function truncate(text: string | null | undefined, max = 36): string {
-  if (!text || text.trim().length === 0) return '-'
-  const trimmed = text.trim()
-  return trimmed.length > max ? `${trimmed.slice(0, max - 1).trim()}…` : trimmed
-}
-
-function drawText(
-  page: PDFPage,
-  x: number,
-  y: number,
-  text: string,
-  font: PDFFont,
-  size: number,
-  color: ReturnType<typeof rgb> = COLOR.ink,
-): void {
-  page.drawText(text, { x, y, size, font, color })
-}
-
-function drawLine(
-  page: PDFPage,
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
-  color = COLOR.line,
-  width = 1,
-): void {
-  page.drawLine({ start: { x: x1, y: y1 }, end: { x: x2, y: y2 }, thickness: width, color })
-}
-
-/**
- * Right-align a short value so totals line up under the amount column.
- */
-function drawRight(
-  page: PDFPage,
-  rightX: number,
-  y: number,
-  text: string,
-  font: PDFFont,
-  size: number,
-  color: ReturnType<typeof rgb> = COLOR.ink,
-): void {
-  const width = font.widthOfTextAtSize(text, size)
-  page.drawText(text, { x: rightX - width, y, size, font, color })
-}
+import {
+  COLOR,
+  MARGIN,
+  PAGE_H,
+  PAGE_W,
+  drawLine,
+  drawRight,
+  drawText,
+  fmt,
+  money,
+  truncate,
+} from './pdf-kit'
 
 export async function buildInvoicePdf(invoice: Invoice): Promise<Buffer> {
   const doc = await PDFDocument.create()
