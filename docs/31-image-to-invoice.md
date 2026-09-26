@@ -34,7 +34,7 @@ ExcelJS, dan kebijakan penyimpanan sementara (temp storage).
 
 ```
 Browser ──(1) POST /api/r2/presign-upload {feature: "invoice_from_image", ...}─> Server
-Server  ──(auth, validasi, rate limit 5/hari, buat Firestore job)──> {jobId, uploadUrl}
+Server  ──(auth, validasi, rate limit 10/hari, buat Firestore job)──> {jobId, uploadUrl}
 Browser ──(2) PUT file langsung ke R2 (presigned, bind Content-Type)────────────> R2
 Browser ──(3) POST /api/agents/image-to-invoice {jobId}─────────────────────────> Server
 Server  ──(download R2 → Gemini 2-tahap (transkripsi → struktur) → Zod

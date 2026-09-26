@@ -15,7 +15,8 @@ import {
   isAllowedContentType,
   MAX_FILE_SIZE_BYTES,
 } from '@/lib/r2/keys'
-import { requireOwnedJob, updateJobStatus, RECEIPT_FEATURE, type JobRecord } from '@/lib/jobs/core'
+import { requireOwnedJob, updateJobStatus, type JobRecord } from '@/lib/jobs/core'
+import { RECEIPT_FEATURE } from '@/lib/limits'
 import {
   transcribeReceiptLines,
   structureReceiptFromLines,

@@ -1,7 +1,8 @@
 import { requireAuth } from '@/lib/server-auth'
 import { errorResponse } from '@/lib/api'
 import { downloadObjectToBuffer, deleteObject } from '@/lib/r2/client'
-import { requireOwnedJob, INVOICE_FEATURE } from '@/lib/jobs/core'
+import { requireOwnedJob } from '@/lib/jobs/core'
+import { INVOICE_FEATURE } from '@/lib/limits'
 import { buildInvoicePdf } from '@/lib/exporters/invoice-to-pdf'
 import type { Invoice } from '@/features/invoice/schema'
 

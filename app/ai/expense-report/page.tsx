@@ -25,6 +25,7 @@ import {
   Wallet,
 } from 'lucide-react'
 
+import { EXPENSE_FEATURE } from '@/lib/limits'
 import {
   MAX_REPORT_ITEMS,
   toExpenseRow,
@@ -50,14 +51,6 @@ import { defaultReportName, expenseContent } from '@/components/expense/content'
 /** Per-receipt AI calls run with limited concurrency to stay well inside the
  *  rate limit and keep latency predictable on mobile connections. */
 const CONCURRENCY = 2
-
-/**
- * Feature key for the job + daily rate limit. Duplicated as a literal on
- * purpose: `lib/jobs/core.ts` pulls in firebase-admin and is server-only, so
- * it can never be imported from a client component. Keep in sync with
- * `EXPENSE_FEATURE` in `lib/jobs/core.ts`.
- */
-const EXPENSE_FEATURE = 'expense_report'
 
 type Stage = 'upload' | 'processing' | 'review'
 
@@ -364,33 +357,33 @@ function ExpenseReportContent() {
 
   if (authLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#0a0a0f]">
-        <Loader2 className="h-6 w-6 animate-spin text-white/40" />
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <Loader2 className="h-6 w-6 animate-spin text-frsc-text-300" />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white">
+    <div className="min-h-screen bg-background text-frsc-text-100">
       <Navbar />
 
       <main className="mx-auto w-full max-w-5xl px-4 pb-24 pt-10 sm:px-6">
         {/* ── Hero ── */}
         <section className="text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">
-            <Sparkles className="h-3 w-3 text-crimson" />
+          <span className="inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 text-xs text-frsc-text-200">
+            <Sparkles className="h-3 w-3 text-frsc-crimson-600 dark:text-frsc-crimson-400" />
             {t.badge}
           </span>
           <h1 className="mt-4 text-balance text-3xl font-semibold sm:text-4xl">{t.title}</h1>
-          <p className="mx-auto mt-2 max-w-2xl text-sm text-white/55 sm:text-base">{t.description}</p>
+          <p className="mx-auto mt-2 max-w-2xl text-sm text-frsc-text-200 sm:text-base">{t.description}</p>
 
           <ol className="mx-auto mt-6 grid max-w-2xl gap-2 sm:grid-cols-4">
             {t.steps.map((step, index) => (
               <li
                 key={step}
-                className="rounded-xl border border-white/10 bg-white/[0.02] px-3 py-2 text-xs text-white/55"
+                className="rounded-xl border border-border bg-muted px-3 py-2 text-xs text-frsc-text-200"
               >
-                <span className="mr-1.5 text-crimson">{index + 1}</span>
+                <span className="mr-1.5 text-frsc-crimson-600 dark:text-frsc-crimson-400">{index + 1}</span>
                 {step}
               </li>
             ))}
@@ -402,12 +395,12 @@ function ExpenseReportContent() {
           <section className="mt-10">
             <GlassCard className="mx-auto max-w-md p-6 text-center sm:p-8">
               <h2 className="text-lg font-medium">{t.loginTitle}</h2>
-              <p className="mt-2 text-sm text-white/50">{t.loginDesc}</p>
+              <p className="mt-2 text-sm text-frsc-text-300">{t.loginDesc}</p>
               <Button type="button" onClick={() => void signIn()} className="mt-5 w-full">
                 <GoogleIcon className="h-4 w-4" />
                 {t.signInGoogle}
               </Button>
-              <p className="mt-3 text-xs text-white/35">{t.loginRequired}</p>
+              <p className="mt-3 text-xs text-frsc-text-300">{t.loginRequired}</p>
             </GlassCard>
           </section>
         ) : stage === 'upload' ? (
@@ -415,17 +408,17 @@ function ExpenseReportContent() {
           <section className="mt-10 space-y-5">
             <GlassCard className="p-5 sm:p-6">
               <div className="grid gap-4 sm:grid-cols-2">
-                <label className="text-xs text-white/50">
+                <label className="text-xs text-frsc-text-300">
                   {t.reportNameLabel}
                   <input
                     type="text"
                     value={reportName}
                     onChange={(event) => setReportName(event.target.value)}
                     placeholder={t.reportNamePlaceholder}
-                    className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none focus:border-crimson/60"
+                    className="mt-1 w-full rounded-lg border border-border bg-input px-3 py-2 text-sm text-frsc-text-100 outline-none focus:border-frsc-crimson-500/60"
                   />
                 </label>
-                <label className="text-xs text-white/50">
+                <label className="text-xs text-frsc-text-300">
                   {t.currencyLabel}
                   <select
                     value={currency}
@@ -433,22 +426,22 @@ function ExpenseReportContent() {
                       const next = event.target.value
                       setCurrency(isCurrencyOption(next) ? next : 'IDR')
                     }}
-                    className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none focus:border-crimson/60"
+                    className="mt-1 w-full rounded-lg border border-border bg-input px-3 py-2 text-sm text-frsc-text-100 outline-none focus:border-frsc-crimson-500/60"
                   >
                     {CURRENCY_OPTIONS.map((code) => (
-                      <option key={code} value={code} className="bg-[#0d0d12]">
+                      <option key={code} value={code} className="bg-card">
                         {code}
                       </option>
                     ))}
                   </select>
-                  <span className="mt-1 block text-[11px] text-white/35">{t.currencyHint}</span>
+                  <span className="mt-1 block text-[11px] text-frsc-text-300">{t.currencyHint}</span>
                 </label>
               </div>
             </GlassCard>
 
             <GlassCard className="p-5 sm:p-6">
-              <h2 className="text-sm font-medium text-white/85">{t.uploadTitle}</h2>
-              <p className="mt-0.5 text-xs text-white/40">{t.uploadHint}</p>
+              <h2 className="text-sm font-medium text-frsc-text-100">{t.uploadTitle}</h2>
+              <p className="mt-0.5 text-xs text-frsc-text-300">{t.uploadHint}</p>
               <div className="mt-4">
                 <ExpenseUploader
                   t={t}
@@ -476,7 +469,7 @@ function ExpenseReportContent() {
               </Button>
             </GlassCard>
 
-            <p className="inline-flex items-start gap-2 text-xs text-white/35">
+            <p className="inline-flex items-start gap-2 text-xs text-frsc-text-300">
               <ShieldCheck className="h-4 w-4 shrink-0" />
               {t.privacy}
             </p>
@@ -485,13 +478,13 @@ function ExpenseReportContent() {
           /* ── Stage 2: progress ── */
           <section className="mt-10">
             <GlassCard className="p-6 text-center sm:p-8">
-              <Loader2 className="mx-auto h-6 w-6 animate-spin text-crimson" />
-              <p className="mt-4 text-sm text-white/80">
+              <Loader2 className="mx-auto h-6 w-6 animate-spin text-frsc-crimson-600 dark:text-frsc-crimson-400" />
+              <p className="mt-4 text-sm text-frsc-text-100">
                 {t.processingOf} {currentIndex} {t.processingOfCount} {queue.length}
               </p>
-              <div className="mx-auto mt-4 h-1.5 w-full max-w-sm overflow-hidden rounded-full bg-white/10">
+              <div className="mx-auto mt-4 h-1.5 w-full max-w-sm overflow-hidden rounded-full bg-border">
                 <div
-                  className="h-full rounded-full bg-crimson transition-all"
+                  className="h-full rounded-full bg-frsc-crimson-500 transition-all"
                   style={{ width: `${queue.length > 0 ? (doneCount / queue.length) * 100 : 0}%` }}
                   role="progressbar"
                   aria-valuemin={0}
@@ -499,7 +492,7 @@ function ExpenseReportContent() {
                   aria-valuenow={doneCount}
                 />
               </div>
-              <p className="mt-4 text-xs text-white/40">{t.processingHint}</p>
+              <p className="mt-4 text-xs text-frsc-text-300">{t.processingHint}</p>
             </GlassCard>
           </section>
         ) : (
@@ -592,7 +585,7 @@ function ExpenseReportContent() {
                 </Button>
               </div>
 
-              <div className="mt-4 flex flex-col gap-2 border-t border-white/5 pt-4 sm:flex-row">
+              <div className="mt-4 flex flex-col gap-2 border-t border-border pt-4 sm:flex-row">
                 <Button
                   type="button"
                   variant="ghost"
@@ -617,7 +610,7 @@ function ExpenseReportContent() {
               </div>
             </GlassCard>
 
-            <p className="inline-flex items-center gap-2 text-xs text-white/35">
+            <p className="inline-flex items-center gap-2 text-xs text-frsc-text-300">
               <Wallet className="h-4 w-4" />
               {t.privacy}
               <CheckCircle2 className="h-3.5 w-3.5" />

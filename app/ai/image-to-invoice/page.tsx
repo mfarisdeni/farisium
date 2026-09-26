@@ -25,9 +25,11 @@ import {
   X,
   FileDown,
 } from 'lucide-react'
+import { ALLOWED_CONTENT_TYPES, MAX_FILE_SIZE_BYTES } from '@/lib/r2/keys'
+import { DAILY_CONVERSION_LIMIT } from '@/lib/limits'
 
-const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/webp']
-const MAX_SIZE = 10 * 1024 * 1024
+const ACCEPTED_TYPES = ALLOWED_CONTENT_TYPES
+const MAX_SIZE = MAX_FILE_SIZE_BYTES
 
 const pageContent = {
   id: {
@@ -52,7 +54,7 @@ const pageContent = {
     loginDesc:
       'Login gratis dengan Google untuk menyimpan progres dan hasil konversimu di akun Farisium.',
     signInGoogle: 'Masuk dengan Google',
-    limitReached: 'Kamu sudah memakai 5 konversi hari ini. Coba lagi besok.',
+    limitReached: `Kamu sudah memakai ${DAILY_CONVERSION_LIMIT} konversi hari ini. Coba lagi besok.`,
     typeError: 'Tipe file tidak didukung. Gunakan JPG, PNG, atau WebP.',
     sizeError: 'Ukuran file melebihi batas 10 MB.',
     uploadFailed: 'Gagal mengunggah file ke server. Coba lagi.',
@@ -102,7 +104,7 @@ const pageContent = {
     loginDesc:
       'Free Google sign-in lets you save your progress and results to your Farisium account.',
     signInGoogle: 'Sign in with Google',
-    limitReached: 'You have used today’s 5 conversions. Try again tomorrow.',
+    limitReached: `You have used today’s ${DAILY_CONVERSION_LIMIT} conversions. Try again tomorrow.`,
     typeError: 'Unsupported file type. Use JPG, PNG, or WebP.',
     sizeError: 'File exceeds the 10 MB limit.',
     uploadFailed: 'Failed to upload the file. Please try again.',

@@ -19,7 +19,7 @@ import { receiptItemSchema, receiptSchema } from '../receipt/schema.ts'
 import { isExpenseCategory, DEFAULT_CATEGORY } from './categories.ts'
 
 /** Max receipts the tool accepts per report (UI + server export guard). */
-export const MAX_REPORT_ITEMS = 20
+export const MAX_REPORT_ITEMS = 10
 
 /** AI extraction contract: one receipt, no client id. */
 export const expenseRecordSchema = receiptSchema.extend({

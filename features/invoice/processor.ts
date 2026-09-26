@@ -16,7 +16,8 @@ import {
   isAllowedContentType,
   MAX_FILE_SIZE_BYTES,
 } from '@/lib/r2/keys'
-import { requireOwnedJob, updateJobStatus, INVOICE_FEATURE } from '@/lib/jobs/core'
+import { requireOwnedJob, updateJobStatus } from '@/lib/jobs/core'
+import { INVOICE_FEATURE } from '@/lib/limits'
 import {
   transcribeImageLines,
   structureInvoiceFromLines,

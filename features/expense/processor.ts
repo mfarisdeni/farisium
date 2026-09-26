@@ -20,7 +20,8 @@ import {
   isAllowedContentType,
   MAX_FILE_SIZE_BYTES,
 } from '@/lib/r2/keys'
-import { requireOwnedJob, updateJobStatus, EXPENSE_FEATURE } from '@/lib/jobs/core'
+import { requireOwnedJob, updateJobStatus } from '@/lib/jobs/core'
+import { EXPENSE_FEATURE } from '@/lib/limits'
 import {
   transcribeReceiptLines,
   structureExpenseFromLines,
@@ -100,7 +101,7 @@ export async function processExpenseReceipt(
     }
 
     if (inputBuffer.byteLength > MAX_FILE_SIZE_BYTES) {
-      throw new ApiError('Ukuran file melebihi batas 10 MB.', {
+      throw new ApiError('Ukuran file melebihi batas 5 MB.', {
         status: 400,
         code: 'file_too_large',
       })

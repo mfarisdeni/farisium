@@ -42,7 +42,7 @@ export function AgenticSection({ lang = 'id' }: Props) {
           description:
             'Unggah banyak struk sekaligus. Agen membaca tiap struk, mengekstrak tanggal, merchant, item, dan total, mengkategorikan pengeluarannya, lalu kamu periksa dan ekspor laporan siap kirim.',
           checklist: [
-            'Dua puluh struk per laporan, diproses bertahap dengan progres transparan',
+            'Sepuluh struk per laporan, diproses bertahap dengan progres transparan',
             'Kategorisasi otomatis + deteksi struk duplikat sebelum ekspor',
             'Export Excel 3 sheet & PDF multi-halaman dari data yang sudah kamu periksa',
           ],
@@ -117,7 +117,7 @@ export function AgenticSection({ lang = 'id' }: Props) {
           description:
             'Upload many receipts at once. The agent reads each one, extracts the date, merchant, items, and total, categorizes the expense, then you review it and export a report ready to send.',
           checklist: [
-            'Twenty receipts per report, processed in batches with transparent progress',
+            'Ten receipts per report, processed in batches with transparent progress',
             'Automatic categorization + duplicate detection before export',
             'Export a 3-sheet Excel or multi-page PDF from the data you reviewed',
           ],

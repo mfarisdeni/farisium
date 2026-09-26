@@ -15,7 +15,7 @@ struk yang sudah ada, bukan menyalinnya.
 Browser ──(1) POST /api/r2/presign-upload {feature: "expense_report", ...}  (per file)
 Server  ──(auth, validasi tipe/ukuran, rate limit, buat Firestore job)──> {jobId, uploadUrl}
 Browser ──(2) PUT file langsung ke R2 (presigned, bind Content-Type)────────> R2
-        (ulangi (1)–(2) untuk semua file, maksimal 20 struk)
+        (ulangi (1)–(2) untuk semua file, maksimal 10 struk)
 
 Browser ──(3) POST /api/agents/expense-report {jobId}   (concurrency = 2, per struk)
 Server  ──(download R2 → Gemini 2-tahap (transkripsi → struktur) → Zod
@@ -47,7 +47,7 @@ payload dengan kontrak Zod yang sama sebelum membangun file.
 | File | Tanggung jawab |
 | --- | --- |
 | `features/expense/categories.ts` | 12 kategori kanonik + alias + keyword fallback. Tidak pernah mengarang kategori di luar daftar. |
-| `features/expense/schema.ts` | `expenseRecordSchema` (AI), `expenseRowSchema` (+`id`, kontrak validasi export), `expenseReportSchema`, `MAX_REPORT_ITEMS = 20`. |
+| `features/expense/schema.ts` | `expenseRecordSchema` (AI), `expenseRowSchema` (+`id`, kontrak validasi export), `expenseReportSchema`, `MAX_REPORT_ITEMS = 10`. |
 | `features/expense/prompt.ts` | Instruksi transkripsi & strukturisasi khusus expense (kategori + metode pembayaran). |
 | `features/expense/summary.ts` | **Semua** perhitungan: `resolveExpenseTotal`, `buildExpenseSummary`, `normalizeRowCategory`, `CURRENCY_OPTIONS`. Dipakai bersama oleh UI, Excel, dan PDF. |
 | `features/expense/duplicates.ts` | Deteksi duplikat *advisory* (merchant + tanggal kompatibel + total dalam toleransi). |
@@ -56,7 +56,8 @@ payload dengan kontrak Zod yang sama sebelum membangun file.
 | `lib/exporters/pdf-kit.ts` | Token desain + primitive menggambar PDF (halaman, warna, `fmt`, `money`, `truncate`, `drawRight`). Diekstrak dari `invoice-to-pdf.ts` agar semua PDF Farisium konsisten. |
 | `lib/exporters/expense-report-to-excel.ts` | 3 sheet: *Expense Report* (auto-filter + baris total), *Summary* (metadata + rincian kategori), *Items* (detail baris barang, hanya bila ada). |
 | `lib/exporters/expense-report-to-pdf.ts` | Multi-halaman: header/meta, total, rincian kategori, tabel detail yang otomatis pecah halaman + footer bernomor. |
-| `components/expense/content.ts` | Semua string bilingual (`id`/`en`) dalam satu objek, mengikuti pola halaman tool lain. |
+| `lib/limits.ts` | Feature key + `DAILY_LIMITS` (murni, tanpa Firebase) — satu sumber kebenaran untuk batas harian yang dibaca server, client, dan test. |
+| `components/expense/content.ts` | Semua string bilingual (`id`/`en`) dalam satu objek, mengikuti pola halaman tool lain. Copy angka batas di-interpolasi dari konstanta aslinya. |
 | `components/expense/ExpenseUploader.tsx` | Dropzone + input kamera, validasi tipe/ukuran, antrean pratinjau dengan revoke object URL. |
 | `components/expense/ExpenseReviewTable.tsx` | Tabel review: ubah tanggal/merchant/kategori/pembayaran/angka/catatan, hapus, tambah pengeluaran manual. |
 | `components/expense/ExpenseSummaryPanel.tsx` | Total, rincian per kategori, bar persentase. |
@@ -93,23 +94,31 @@ Sepenuhnya advisory — **tidak pernah menghapus data**:
 
 ## Rate Limit
 
-`lib/jobs/core.ts` memakai peta `DAILY_LIMITS`:
+Peta `DAILY_LIMITS` berada di `lib/limits.ts` (modul murni, bisa diimpor client
+dan `node --test`), sedangkan `lib/jobs/core.ts` yang menegakkan batas tersebut di server.
+Copy batas di UI meng-interpolasi konstanta yang sama, jadi angka yang tampil
+selalu sama dengan yang ditegakkan server.
 
 | Feature | Limit/hari |
 | --- | --- |
-| `receipt_to_excel` | 5 |
-| `invoice_from_image` | 5 |
-| `expense_report` | 25 |
+| `receipt_to_excel` | 10 struk |
+| `invoice_from_image` | 10 invoice |
+| `expense_report` | 20 struk |
 
-Batas expense 25/hari (= 1 laporan penuh 20 struk + sisa), mengikuti prinsip
-satu laporan per hari tanpa membuat pengguna kehabisan jatah harian.
+Batas expense 20/hari = tepat 2 laporan penuh (10 struk per laporan), sehingga
+pengguna bisa menyelesaikan dua laporan sehari tanpa kehabisan jatah.
+
+Batas lain:
+
+- Maksimal **10 struk per laporan** (`MAX_REPORT_ITEMS`, di `features/expense/schema.ts`).
+- Maksimal **5 MB per file** (`MAX_FILE_SIZE_BYTES`, di `lib/r2/keys.ts`).
 
 ## Privasi & Keamanan
 
 - Bucket R2 **private**; gambar input **dihapus segera** setelah ekstraksi sukses
   (`deleteObject` di processor, best-effort sehingga tidak menggagalkan job).
 - Semua route memakai `requireAuth` (verifikasi Firebase ID token).
-- Ukuran dibatasi 10 MB per file, tipe dikunci ke `jpg/png/webp`, nama file
+- Ukuran dibatasi 5 MB per file, tipe dikunci ke `jpg/png/webp`, nama file
   di-sanitize anti path-traversal, dan kunci R2 dibangun dari `uid` + `jobId`.
 - Job hanya bisa diakses pemiliknya (`requireOwnedJob`).
 - Error 500 tidak pernah membocorkan stack atau secret (`errorResponse`).
@@ -117,9 +126,12 @@ satu laporan per hari tanpa membuat pengguna kehabisan jatah harian.
 
 ## Catatan Teknis
 
-- `EXPENSE_FEATURE` di-server (`lib/jobs/core.ts`) **tidak** bisa diimpor ke
-  komponen client karena modul itu memakai `firebase-admin`. Halaman client
-  memakai literal `'expense_report'` dengan komentar sinkronisasi.
+- `lib/jobs/core.ts` memakai `firebase-admin`, jadi tidak bisa diimpor komponen
+  client maupun `node --test`. Karena itu feature key + angka batas harian
+  dipindah ke `lib/limits.ts` (modul murni). Halaman client sekarang mengimpor
+  `EXPENSE_FEATURE` dan `DAILY_LIMITS` dari sana — tidak ada lagi literal
+  `'expense_report'` yang harus disinkronkan manual, dan angka batas yang
+  tampil di UI dijamin sama dengan yang ditegakkan server.
 - `features/expense/summary.ts` sengaja **tidak** mengimpor ulang `ExpenseReport`
   dari `schema.ts`; exporter mengimpor tipe dari `schema.ts` langsung agar
   tidak ada siklus.

@@ -1,43 +1,22 @@
 /**
- * Generic jobs collection + daily usage rate limiting (Firestore, server-side).
+ * Jobs collection + daily usage rate limiting (Firestore, server-side).
  * Every read enforces ownership: a job is only visible to its owner uid.
+ *
+ * Firebase Admin is imported here, so this module is server-only. The feature
+ * keys and daily budgets live in `lib/limits.ts` (pure) so the client and the
+ * tests can read the same policy.
  */
 
 import { FieldValue } from 'firebase-admin/firestore'
 import { getAdminDb } from '@/lib/firebase-admin'
 import { ApiError } from '@/lib/api'
-
-export const RECEIPT_FEATURE = 'receipt_to_excel'
-export const INVOICE_FEATURE = 'invoice_from_image'
-export const EXPENSE_FEATURE = 'expense_report'
-export const DAILY_CONVERSION_LIMIT = 5
-
-export const KNOWN_FEATURES = [
+import {
   RECEIPT_FEATURE,
-  INVOICE_FEATURE,
-  EXPENSE_FEATURE,
-] as const
+  getDailyLimit,
+  type Feature,
+} from '@/lib/limits'
 
-export type Feature = (typeof KNOWN_FEATURES)[number]
-
-/**
- * Per-feature daily budget. The expense report consumes one slot per receipt
- * (a report holds up to 20 receipts), so it gets a proportionally larger
- * allowance while every other feature keeps the original 5/day limit.
- */
-export const DAILY_LIMITS: Record<Feature, number> = {
-  [RECEIPT_FEATURE]: DAILY_CONVERSION_LIMIT,
-  [INVOICE_FEATURE]: DAILY_CONVERSION_LIMIT,
-  [EXPENSE_FEATURE]: 25,
-}
-
-export function getDailyLimit(feature: Feature): number {
-  return DAILY_LIMITS[feature] ?? DAILY_CONVERSION_LIMIT
-}
-
-export function isKnownFeature(value: string | undefined | null): value is Feature {
-  return typeof value === 'string' && (KNOWN_FEATURES as readonly string[]).includes(value)
-}
+export type { Feature }
 
 export type JobStatus = 'queued' | 'processing' | 'completed' | 'failed'
 

@@ -73,10 +73,10 @@ export function ExpenseReviewTable({
 
   return (
     <GlassCard className="overflow-hidden">
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 p-4 sm:p-5">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border p-4 sm:p-5">
         <div className="min-w-0">
-          <p className="text-sm font-medium text-white/85">{t.reviewTitle}</p>
-          <p className="text-xs text-white/45">{t.reviewSubtitle}</p>
+          <p className="text-sm font-medium text-frsc-text-100">{t.reviewTitle}</p>
+          <p className="text-xs text-frsc-text-300">{t.reviewSubtitle}</p>
         </div>
         <Button type="button" variant="outline" size="sm" onClick={onAddManual}>
           <Plus className="h-4 w-4" />
@@ -85,7 +85,7 @@ export function ExpenseReviewTable({
       </div>
 
       {rows.length === 0 ? (
-        <p className="p-6 text-center text-sm text-white/40">{t.emptyQueue}</p>
+        <p className="p-6 text-center text-sm text-frsc-text-300">{t.emptyQueue}</p>
       ) : (
         <ul className="divide-y divide-white/5">
           {rows.map((row) => {
@@ -97,19 +97,19 @@ export function ExpenseReviewTable({
               <li key={row.id} className="p-4 sm:p-5">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm text-white/85">
+                    <p className="truncate text-sm text-frsc-text-100">
                       {row.merchantName || '—'}
                       {row.invoiceNumber ? (
-                        <span className="ml-2 text-xs text-white/35">#{row.invoiceNumber}</span>
+                        <span className="ml-2 text-xs text-frsc-text-300">#{row.invoiceNumber}</span>
                       ) : null}
                     </p>
-                    <p className="mt-0.5 text-xs text-white/45">
+                    <p className="mt-0.5 text-xs text-frsc-text-300">
                       {row.transactionDate || t.missing}
                       {row.paymentMethod ? ` · ${row.paymentMethod}` : ''}
                     </p>
                   </div>
                   <div className="flex shrink-0 items-center gap-2">
-                    <span className="text-sm tabular-nums text-white/85">
+                    <span className="text-sm tabular-nums text-frsc-text-100">
                       {formatAmount(row.grandTotal ?? row.subtotal, row.currency)}
                     </span>
                     <button
@@ -117,7 +117,7 @@ export function ExpenseReviewTable({
                       onClick={() => setEditingId(editing ? null : row.id)}
                       aria-label={t.editRow}
                       aria-expanded={editing}
-                      className="rounded-lg p-1.5 text-white/40 transition-colors hover:bg-white/5 hover:text-white/70"
+                      className="rounded-lg p-1.5 text-frsc-text-300 transition-colors hover:bg-input hover:text-frsc-text-200"
                     >
                       {editing ? <X className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                     </button>
@@ -125,7 +125,7 @@ export function ExpenseReviewTable({
                       type="button"
                       onClick={() => onDelete(row.id)}
                       aria-label={t.deleteRow}
-                      className="rounded-lg p-1.5 text-white/40 transition-colors hover:bg-white/5 hover:text-rose-400"
+                      className="rounded-lg p-1.5 text-frsc-text-300 transition-colors hover:bg-input hover:text-rose-400"
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
@@ -151,7 +151,7 @@ export function ExpenseReviewTable({
 
                 {editing ? (
                   <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                    <label className="text-xs text-white/50">
+                    <label className="text-xs text-frsc-text-300">
                       {t.colDate}
                       <input
                         type="date"
@@ -159,10 +159,10 @@ export function ExpenseReviewTable({
                         onChange={(event) =>
                           onChange(row.id, { transactionDate: event.target.value || null })
                         }
-                        className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none focus:border-crimson/60"
+                        className="mt-1 w-full rounded-lg border border-border bg-input px-3 py-2 text-sm text-frsc-text-100 outline-none focus:border-frsc-crimson-500/60"
                       />
                     </label>
-                    <label className="text-xs text-white/50">
+                    <label className="text-xs text-frsc-text-300">
                       {t.colMerchant}
                       <input
                         type="text"
@@ -170,10 +170,10 @@ export function ExpenseReviewTable({
                         onChange={(event) =>
                           onChange(row.id, { merchantName: event.target.value || null })
                         }
-                        className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none focus:border-crimson/60"
+                        className="mt-1 w-full rounded-lg border border-border bg-input px-3 py-2 text-sm text-frsc-text-100 outline-none focus:border-frsc-crimson-500/60"
                       />
                     </label>
-                    <label className="text-xs text-white/50">
+                    <label className="text-xs text-frsc-text-300">
                       {t.colCategory}
                       {/* Native select: consistent with the rest of the app and
                           keyboard/screen-reader friendly on every platform. */}
@@ -182,16 +182,16 @@ export function ExpenseReviewTable({
                         onChange={(event) =>
                           onChange(row.id, { category: event.target.value as ExpenseCategory })
                         }
-                        className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none focus:border-crimson/60"
+                        className="mt-1 w-full rounded-lg border border-border bg-input px-3 py-2 text-sm text-frsc-text-100 outline-none focus:border-frsc-crimson-500/60"
                       >
                         {EXPENSE_CATEGORIES.map((category) => (
-                          <option key={category} value={category} className="bg-[#0d0d12]">
+                          <option key={category} value={category} className="bg-card">
                             {CATEGORY_LABELS[category][lang]}
                           </option>
                         ))}
                       </select>
                     </label>
-                    <label className="text-xs text-white/50">
+                    <label className="text-xs text-frsc-text-300">
                       {t.colPayment}
                       <input
                         type="text"
@@ -199,11 +199,11 @@ export function ExpenseReviewTable({
                         onChange={(event) =>
                           onChange(row.id, { paymentMethod: event.target.value || null })
                         }
-                        className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none focus:border-crimson/60"
+                        className="mt-1 w-full rounded-lg border border-border bg-input px-3 py-2 text-sm text-frsc-text-100 outline-none focus:border-frsc-crimson-500/60"
                       />
                     </label>
                     {NUMERIC_FIELDS.map((field) => (
-                      <label key={field} className="text-xs text-white/50">
+                      <label key={field} className="text-xs text-frsc-text-300">
                         {NUMERIC_LABELS[field](t)}
                         <input
                           type="text"
@@ -212,20 +212,20 @@ export function ExpenseReviewTable({
                           onChange={(event) =>
                             onChange(row.id, { [field]: parseAmountInput(event.target.value) })
                           }
-                          className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm tabular-nums text-white outline-none focus:border-crimson/60"
+                          className="mt-1 w-full rounded-lg border border-border bg-input px-3 py-2 text-sm tabular-nums text-frsc-text-100 outline-none focus:border-frsc-crimson-500/60"
                         />
                       </label>
                     ))}
-                    <label className="text-xs text-white/50 sm:col-span-2 lg:col-span-3">
+                    <label className="text-xs text-frsc-text-300 sm:col-span-2 lg:col-span-3">
                       {t.colNotes}
                       <input
                         type="text"
                         value={row.notes ?? ''}
                         onChange={(event) => onChange(row.id, { notes: event.target.value || null })}
-                        className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none focus:border-crimson/60"
+                        className="mt-1 w-full rounded-lg border border-border bg-input px-3 py-2 text-sm text-frsc-text-100 outline-none focus:border-frsc-crimson-500/60"
                       />
                     </label>
-                    <p className="text-xs text-white/35 sm:col-span-2 lg:col-span-3">
+                    <p className="text-xs text-frsc-text-300 sm:col-span-2 lg:col-span-3">
                       {t.rowTotalHint}
                     </p>
                   </div>

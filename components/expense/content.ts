@@ -3,7 +3,35 @@
  * Same pattern as the receipt & invoice tool pages: one `pageContent` object
  * with `id` + `en` keys, only the labels are translated — the logic, API
  * calls, and component interfaces stay locale-independent.
+ *
+ * The numeric limits are interpolated from their source of truth so the copy
+ * can never advertise a different limit than the server enforces.
  */
+
+import { MAX_REPORT_ITEMS } from '@/features/expense/schema'
+import { MAX_FILE_SIZE_BYTES } from '@/lib/r2/keys'
+import { DAILY_LIMITS, EXPENSE_FEATURE } from '@/lib/limits'
+
+const MAX_SIZE_MB = Math.round(MAX_FILE_SIZE_BYTES / (1024 * 1024))
+const DAILY_RECEIPTS = DAILY_LIMITS[EXPENSE_FEATURE]
+
+/** Limit-derived copy, so the UI can never advertise a stale number. */
+const limits = {
+  id: {
+    perFile: `maksimal ${MAX_SIZE_MB} MB per file`,
+    perReport: `hingga ${MAX_REPORT_ITEMS} struk`,
+    perDay: `${DAILY_RECEIPTS} struk per hari per pengguna`,
+    reportFull: `Batas ${MAX_REPORT_ITEMS} struk per laporan sudah tercapai.`,
+    tooBig: `Ukuran file melebihi batas ${MAX_SIZE_MB} MB.`,
+  },
+  en: {
+    perFile: `up to ${MAX_SIZE_MB} MB each`,
+    perReport: `${MAX_REPORT_ITEMS} receipts per report`,
+    perDay: `${DAILY_RECEIPTS} receipts per day per user`,
+    reportFull: `A report holds up to ${MAX_REPORT_ITEMS} receipts.`,
+    tooBig: `File exceeds the ${MAX_SIZE_MB} MB limit.`,
+  },
+} as const
 
 export const expenseContent = {
   id: {
@@ -32,7 +60,7 @@ export const expenseContent = {
     currencyHint: 'AI tetap mendeteksi mata uang dari struk.',
 
     uploadTitle: 'Upload Foto Struk',
-    uploadHint: 'JPG, PNG, atau WebP — maksimal 10 MB per file, hingga 20 struk',
+    uploadHint: `JPG, PNG, atau WebP — ${limits.id.perFile}, ${limits.id.perReport}, ${limits.id.perDay}`,
     drop: 'Seret & letakkan struk di sini, atau',
     browse: 'Pilih file',
     camera: 'Buka Kamera',
@@ -41,10 +69,10 @@ export const expenseContent = {
     fileReady: 'Siap diproses',
     remove: 'Hapus',
     emptyQueue: 'Belum ada struk dipilih.',
-    limitReached: 'Batas 20 struk per laporan sudah tercapai.',
+    limitReached: limits.id.reportFull,
     duplicateFile: 'File ini sudah ada di daftar.',
     typeError: 'Tipe file tidak didukung. Gunakan JPG, PNG, atau WebP.',
-    sizeError: 'Ukuran file melebihi batas 10 MB.',
+    sizeError: limits.id.tooBig,
     uploadFailed: 'Gagal mengunggah file ke server. Coba lagi.',
     processFailed: 'Gagal memproses struk. Coba lagi.',
     genericError: 'Terjadi kesalahan. Coba lagi nanti.',
@@ -144,7 +172,7 @@ export const expenseContent = {
     currencyHint: 'AI still detects the currency from each receipt.',
 
     uploadTitle: 'Upload Receipt Photos',
-    uploadHint: 'JPG, PNG or WebP — up to 10 MB each, 20 receipts per report',
+    uploadHint: `JPG, PNG or WebP — ${limits.en.perFile}, ${limits.en.perReport}, ${limits.en.perDay}`,
     drop: 'Drag & drop your receipts here, or',
     browse: 'Browse files',
     camera: 'Open Camera',
@@ -153,10 +181,10 @@ export const expenseContent = {
     fileReady: 'Ready to process',
     remove: 'Remove',
     emptyQueue: 'No receipts selected yet.',
-    limitReached: 'A report holds up to 20 receipts.',
+    limitReached: limits.en.reportFull,
     duplicateFile: 'This file is already in the list.',
     typeError: 'Unsupported file type. Use JPG, PNG, or WebP.',
-    sizeError: 'File exceeds the 10 MB limit.',
+    sizeError: limits.en.tooBig,
     uploadFailed: 'Failed to upload the file. Please try again.',
     processFailed: 'Failed to process the receipt. Please try again.',
     genericError: 'Something went wrong. Please try again later.',

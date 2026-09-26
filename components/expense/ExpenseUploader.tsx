@@ -5,10 +5,10 @@ import { Button } from '@/components/ui/button'
 import { GlassCard } from '@/components/ui/GlassCard'
 import { Camera, FileImage, Loader2, UploadCloud, X } from 'lucide-react'
 import { MAX_REPORT_ITEMS } from '@/features/expense/schema'
+import { ALLOWED_CONTENT_TYPES, MAX_FILE_SIZE_BYTES } from '@/lib/r2/keys'
 import type { ExpenseContent } from './content'
 
-export const ACCEPTED_RECEIPT_TYPES = ['image/jpeg', 'image/png', 'image/webp']
-export const MAX_RECEIPT_SIZE = 10 * 1024 * 1024
+export const ACCEPTED_RECEIPT_TYPES = ALLOWED_CONTENT_TYPES
 
 export type QueueStatus = 'ready' | 'uploading' | 'processing' | 'completed' | 'failed'
 
@@ -61,7 +61,7 @@ export function ExpenseUploader({ t, queue, onAdd, onRemove, disabled }: Expense
           setError(t.typeError)
           continue
         }
-        if (file.size > MAX_RECEIPT_SIZE) {
+        if (file.size > MAX_FILE_SIZE_BYTES) {
           setError(t.sizeError)
           continue
         }
@@ -72,7 +72,7 @@ export function ExpenseUploader({ t, queue, onAdd, onRemove, disabled }: Expense
       }
 
       const valid = incoming.filter(
-        (file) => ACCEPTED_RECEIPT_TYPES.includes(file.type) && file.size > 0 && file.size <= MAX_RECEIPT_SIZE,
+        (file) => ACCEPTED_RECEIPT_TYPES.includes(file.type) && file.size > 0 && file.size <= MAX_FILE_SIZE_BYTES,
       )
       if (valid.length > 0) onAdd(valid)
     },
@@ -94,22 +94,22 @@ export function ExpenseUploader({ t, queue, onAdd, onRemove, disabled }: Expense
           handleFiles(event.dataTransfer.files)
         }}
         className={`rounded-2xl border border-dashed p-6 text-center transition-colors sm:p-10 ${
-          dragging ? 'border-crimson/60 bg-crimson/5' : 'border-white/10 bg-white/[0.02]'
+          dragging ? 'border-frsc-crimson-500/60 bg-frsc-crimson-500/5' : 'border-border bg-muted'
         }`}
       >
-        <UploadCloud className="mx-auto h-8 w-8 text-white/40" />
-        <p className="mt-3 text-sm text-white/70">
+        <UploadCloud className="mx-auto h-8 w-8 text-frsc-text-300" />
+        <p className="mt-3 text-sm text-frsc-text-200">
           {t.drop}{' '}
           <button
             type="button"
             onClick={() => inputRef.current?.click()}
             disabled={disabled || full}
-            className="font-medium text-crimson underline underline-offset-4 disabled:opacity-40"
+            className="font-medium text-frsc-crimson-600 dark:text-frsc-crimson-400 underline underline-offset-4 disabled:opacity-40"
           >
             {t.browse}
           </button>
         </p>
-        <p className="mt-1 text-xs text-white/40">{t.uploadHint}</p>
+        <p className="mt-1 text-xs text-frsc-text-300">{t.uploadHint}</p>
 
         <input
           ref={inputRef}
@@ -134,7 +134,7 @@ export function ExpenseUploader({ t, queue, onAdd, onRemove, disabled }: Expense
             <Camera className="h-4 w-4" />
             {t.camera}
           </Button>
-          <span className="text-xs text-white/35">{t.cameraHint}</span>
+          <span className="text-xs text-frsc-text-300">{t.cameraHint}</span>
         </div>
         <input
           ref={cameraInputRef}
@@ -150,16 +150,16 @@ export function ExpenseUploader({ t, queue, onAdd, onRemove, disabled }: Expense
       </div>
 
       {error ? <p className="text-sm text-amber-400">{error}</p> : null}
-      {full ? <p className="text-sm text-white/50">{t.limitReached}</p> : null}
+      {full ? <p className="text-sm text-frsc-text-300">{t.limitReached}</p> : null}
 
       {queue.length === 0 ? (
-        <p className="text-center text-sm text-white/40">{t.emptyQueue}</p>
+        <p className="text-center text-sm text-frsc-text-300">{t.emptyQueue}</p>
       ) : (
         <ul className="grid gap-2 sm:grid-cols-2">
           {queue.map((entry) => (
             <li
               key={entry.id}
-              className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-2"
+              className="flex items-center gap-3 rounded-xl border border-border bg-muted p-2"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -168,8 +168,8 @@ export function ExpenseUploader({ t, queue, onAdd, onRemove, disabled }: Expense
                 className="h-12 w-12 shrink-0 rounded-lg object-cover"
               />
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm text-white/80">{entry.file.name}</p>
-                <p className="text-xs text-white/40">
+                <p className="truncate text-sm text-frsc-text-100">{entry.file.name}</p>
+                <p className="text-xs text-frsc-text-300">
                   {entry.status === 'uploading' ? (
                     <span className="inline-flex items-center gap-1">
                       <Loader2 className="h-3 w-3 animate-spin" />
@@ -197,7 +197,7 @@ export function ExpenseUploader({ t, queue, onAdd, onRemove, disabled }: Expense
                 onClick={() => onRemove(entry.id)}
                 disabled={disabled}
                 aria-label={t.remove}
-                className="rounded-lg p-1.5 text-white/40 transition-colors hover:bg-white/5 hover:text-white/70 disabled:opacity-30"
+                className="rounded-lg p-1.5 text-frsc-text-300 transition-colors hover:bg-input hover:text-frsc-text-200 disabled:opacity-30"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -208,7 +208,7 @@ export function ExpenseUploader({ t, queue, onAdd, onRemove, disabled }: Expense
 
       {queue.length > 0 && !disabled ? (
         <GlassCard className="flex flex-col gap-1 p-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="inline-flex items-center gap-2 text-xs text-white/50">
+          <p className="inline-flex items-center gap-2 text-xs text-frsc-text-300">
             <FileImage className="h-3.5 w-3.5" />
             {queue.length} / {MAX_REPORT_ITEMS}
           </p>

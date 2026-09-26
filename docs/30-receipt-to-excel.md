@@ -9,7 +9,7 @@ ekstrak JSON → validasi Zod + aritmatika deterministik → ExcelJS → simpan 
 
 ```
 Browser ──(1) POST /api/r2/presign-upload {fileName, contentType, fileSize}──> Server
-Server  ──(auth, validasi, rate limit 5/hari, buat Firestore job)──> {jobId, uploadUrl}
+Server  ──(auth, validasi, rate limit 10/hari, buat Firestore job)──> {jobId, uploadUrl}
 Browser ──(2) PUT file langsung ke R2 (presigned, bind Content-Type)────────────> R2
 Browser ──(3) POST /api/agents/receipt-to-excel {jobId}────────────────────────> Server
 Server  ──(download R2 → Gemini JSON → Zod → validasi aritmatika → ExcelJS
@@ -34,9 +34,9 @@ Alasan desain:
 |---|---|
 | `lib/api.ts` | `ApiError`, `errorResponse` (safety: tidak bocorkan detail 500 ke klien), `extractBearerToken`. Pure & di-test. |
 | `lib/server-auth.ts` | `requireAuth(request)` — verifikasi Firebase ID token (Bearer). |
-| `lib/r2/keys.ts` | Build key + `validateUploadInput` (tipe JPG/PNG/WebP, max 10 MB), `sanitizeFileName` anti path-traversal. Pure & di-test. |
+| `lib/r2/keys.ts` | Build key + `validateUploadInput` (tipe JPG/PNG/WebP, max 5 MB), `sanitizeFileName` anti path-traversal. Pure & di-test. |
 | `lib/r2/client.ts` | S3Client singleton (region `auto`, endpoint R2), presigned PUT/GET, download/upload buffer. |
-| `lib/jobs/core.ts` | Firestore `jobs` (queued→processing→completed/failed), ownership guard, rate limit 5 konversi/hari via `users/{uid}/usage/receipt_to_excel` (transaksi). |
+| `lib/jobs/core.ts` | Firestore `jobs` (queued→processing→completed/failed), ownership guard, rate limit 10 konversi/hari via `users/{uid}/usage/receipt_to_excel` (transaksi). |
 | `lib/ai/gemini.ts` | GoogleGenAI, model dari env (`GEMINI_MODEL`, default `gemini-3.5-flash-lite`), `responseSchema` JSON, temp 0.2. |
 | `features/receipt/schema.ts` | Schema Zod + `parseAmount` (dukungan pemisah ribuan & koma desimal ID: `12.500,00`), `parseReceiptJson`. |
 | `features/receipt/validation.ts` | Validasi aritmatika deterministik (item total vs subtotal, qty×harga vs total, grandTotal vs subtotal+pajak-diskon). Nilai AI tidak pernah diubah — hanya flag `needsReview` + warnings. |
@@ -74,7 +74,7 @@ npm test          # node --test "tests/*.test.ts"
 ```
 
 Mencakup: schema valid, malformed JSON, missing values, parsing angka ID,
-total mismatch → review, key R2 aman, tipe tak didukung, file > 10 MB,
+total mismatch → review, key R2 aman, tipe tak didukung, file > 5 MB,
 auth header. Catatan: `allowImportingTsExtensions: true` diaktifkan di tsconfig
 agar modul pure bisa di-import langsung oleh Node (relative `.ts`).
 

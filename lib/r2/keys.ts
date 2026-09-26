@@ -1,13 +1,24 @@
 /**
  * R2 key builders + upload validation.
- * Pure module — no SDK import. Server-side only; keys are never built on the client.
+ * Pure module — no SDK import. Keys are only ever built server-side, but the
+ * size/type limits below are imported by the upload widgets so the browser
+ * rejects an oversized file before spending a round-trip on the API.
  */
 
 import { ApiError } from '../api.ts'
 
-export const ALLOWED_CONTENT_TYPES = ['image/jpeg', 'image/png', 'image/webp'] as const
+/**
+ * Accepted upload MIME types. Typed as `readonly string[]` rather than an
+ * `as const` tuple so client components can call `.includes(file.type)` with a
+ * plain `string` without a cast at every call site.
+ */
+export const ALLOWED_CONTENT_TYPES: readonly string[] = [
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+]
 
-export const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024 // 10 MB
+export const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024 // 5 MB
 
 export const OUTPUT_SHEET_CONTENT_TYPE =
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -19,7 +30,7 @@ const CONTENT_TYPE_EXT: Record<string, string> = {
 }
 
 export function isAllowedContentType(contentType: string): boolean {
-  return (ALLOWED_CONTENT_TYPES as readonly string[]).includes(contentType)
+  return ALLOWED_CONTENT_TYPES.includes(contentType)
 }
 
 /** Strip path separators, control characters, and path-traversal sequences. */
@@ -97,7 +108,7 @@ export function validateUploadInput(input: UploadInput): void {
   }
 
   if (fileSize > MAX_FILE_SIZE_BYTES) {
-    throw new ApiError('Ukuran file maksimal 10 MB.', {
+    throw new ApiError('Ukuran file maksimal 5 MB.', {
       status: 400,
       code: 'file_too_large',
     })

@@ -10,9 +10,8 @@ import {
   consumeDailyConversionSlot,
   createJob,
   setJobInputKey,
-  isKnownFeature,
-  RECEIPT_FEATURE,
 } from '@/lib/jobs/core'
+import { isKnownFeature, RECEIPT_FEATURE } from '@/lib/limits'
 import { getModel } from '@/lib/ai/gemini'
 
 export const runtime = 'nodejs'

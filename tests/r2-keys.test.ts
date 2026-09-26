@@ -47,7 +47,9 @@ test('validateUploadInput rejects oversized files', () => {
         contentType: 'image/png',
         fileSize: MAX_FILE_SIZE_BYTES + 1,
       }),
-    /10 MB/,
+    // Matches whatever the shared limit currently is, so the assertion keeps
+    // its meaning when the cap is retuned.
+    new RegExp(`${MAX_FILE_SIZE_BYTES / (1024 * 1024)} MB`),
   )
 })
 
