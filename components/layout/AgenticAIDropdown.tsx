@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
-import { ChevronDown, ReceiptText, FileSpreadsheet, Headphones, FileText, Sparkles, ArrowRight, Wallet } from 'lucide-react'
+import { ChevronDown, ReceiptText, FileSpreadsheet, Headphones, FileText, Sparkles, ArrowRight, Wallet, PackageSearch } from 'lucide-react'
 import { useLang } from '@/hooks/useLang'
 
 interface AgenticAIDropdownItem {
@@ -17,6 +17,7 @@ interface AgenticAIDropdownProps {
 }
 
 const DEFAULT_ITEMS: AgenticAIDropdownItem[] = [
+  { href: '/ai/product-catalog', icon: PackageSearch, name: { id: 'Product Catalog', en: 'Product Catalog' }, desc: { id: 'Screenshot katalog → Excel', en: 'Catalog screenshots → Excel' } },
   { href: '/ai/expense-report', icon: Wallet, name: { id: 'Expense Report', en: 'Expense Report' }, desc: { id: 'Banyak struk → laporan biaya', en: 'Many receipts → expense report' } },
   { href: '/ai/receipt-to-excel', icon: ReceiptText, name: { id: 'Struk Belanja ke Excel', en: 'Image Receipt to Excel' }, desc: { id: 'Foto struk → Excel tervalidasi', en: 'Receipt photo → validated Excel' } },
   { href: '/ai/image-to-invoice', icon: FileSpreadsheet, name: { id: 'Foto ke Invoice', en: 'Image to Invoice' }, desc: { id: 'Foto invoice → PDF & Excel', en: 'Invoice photo → PDF & Excel' } },

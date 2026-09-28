@@ -102,3 +102,34 @@ export function drawRight(
 export function textWidth(text: string, font: PDFFont, size: number): number {
   return font.widthOfTextAtSize(pdfSafe(text), size)
 }
+
+/**
+ * Trim text to a *column width* rather than to a character count. A 34-char
+ * Indonesian title is far narrower than 34 CJK characters at the same size, so
+ * a fixed character limit either wastes half a column or spills into the
+ * neighbouring one. This measures the exact string that will be drawn and
+ * returns the longest prefix that still fits, with an ellipsis when it does
+ * not. Binary search keeps it cheap even for long marketplace titles.
+ */
+export function truncateToWidth(
+  text: string | null | undefined,
+  font: PDFFont,
+  size: number,
+  maxWidth: number,
+): string {
+  const safe = pdfSafe(text ?? '')
+  if (safe.length === 0) return '-'
+  if (textWidth(safe, font, size) <= maxWidth) return safe
+
+  const ellipsis = '...'
+  const ellipsisWidth = textWidth(ellipsis, font, size)
+  let low = 0
+  let high = safe.length
+  while (low < high) {
+    const mid = Math.ceil((low + high) / 2)
+    if (textWidth(`${safe.slice(0, mid)} ${ellipsis}`, font, size) <= maxWidth) low = mid
+    else high = mid - 1
+  }
+  if (low <= 0) return ellipsis
+  return `${safe.slice(0, low).trimEnd()}${ellipsis}`
+}

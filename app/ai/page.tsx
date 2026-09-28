@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { Navbar } from '@/components/layout/Navbar'
 import { SiteFooter } from '@/components/layout/SiteFooter'
-import { FileText, ArrowRight, Headphones, ReceiptText, FileSpreadsheet, Wallet } from 'lucide-react'
+import { FileText, ArrowRight, Headphones, ReceiptText, FileSpreadsheet, Wallet, PackageSearch } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { detectLocale, COOKIE_NAME, getCanonicalUrl, getHreflangLinks } from '@/lib/i18n'
 import type { Lang } from '@/lib/translations'
@@ -13,8 +13,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const lang = detectLocale(cookieStore.get(COOKIE_NAME)?.value) as Lang
   const titles = { id: 'AI Agents & AI Tools — Farisium', en: 'AI Agents & AI Tools — Farisium' }
   const descriptions = {
-    id: 'Jelajahi AI agents dan tools Farisium — Struk Belanja ke Excel, Image to Invoice, F-Stream Spotify, dan lainnya. Semua dalam satu platform agentic AI.',
-    en: 'Explore Farisium AI agents and tools — Image Receipt to Excel, Image to Invoice, F-Stream Spotify, and more. All in one agentic AI platform.',
+    id: 'Jelajahi AI agents dan tools Farisium — Product Catalog, Struk Belanja ke Excel, Image to Invoice, F-Stream Spotify, dan lainnya. Semua dalam satu platform agentic AI.',
+    en: 'Explore Farisium AI agents and tools — Product Catalog, Image Receipt to Excel, Image to Invoice, F-Stream Spotify, and more. All in one agentic AI platform.',
   }
   return {
     title: titles[lang],
@@ -40,6 +40,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const toolsData = {
   id: [
+    { icon: PackageSearch, name: 'Product Catalog AI Agent', description: 'Agen AI: upload screenshot katalog marketplace, AI membaca tiap kartu produk beserta nama toko & harganya, lalu kamu periksa dan export ke Excel atau PDF.', href: '/ai/product-catalog', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
     { icon: Wallet, name: 'AI Expense Report Generator', description: 'Agen AI terbaru: upload banyak struk sekaligus, AI mengekstrak & mengkategorikan setiap pengeluaran, lalu kamu export laporan ke Excel atau PDF.', href: '/ai/expense-report', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
     { icon: ReceiptText, name: 'Struk Belanja ke Excel', description: 'Konversi foto struk belanja ke file Excel yang rapi, lengkap dengan validasi angka otomatis.', href: '/ai/receipt-to-excel', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
     { icon: FileSpreadsheet, name: 'Foto ke Invoice (Image to Invoice)', description: 'Agen AI kedua: ubah foto invoice atau struk menjadi invoice digital profesional — preview final, download PDF plain & Excel editable.', href: '/ai/image-to-invoice', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
@@ -47,6 +48,7 @@ const toolsData = {
     { icon: FileText, name: 'AI Blog (Tech News)', description: 'Baca berita dan wawasan terbaru seputar teknologi, AI, dan perkembangan digital terkini.', href: '/blog', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
   ],
   en: [
+    { icon: PackageSearch, name: 'Product Catalog AI Agent', description: 'The catalog agent: upload marketplace screenshots, AI reads every product card with its shop name and price, then you review and export to Excel or PDF.', href: '/ai/product-catalog', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
     { icon: Wallet, name: 'AI Expense Report Generator', description: 'The newest AI agent: upload many receipts at once, AI extracts and categorizes every expense, then you export the report to Excel or PDF.', href: '/ai/expense-report', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
     { icon: ReceiptText, name: 'Image Receipt to Excel', description: 'Turn a shopping receipt photo into a clean Excel file, complete with automatic number validation.', href: '/ai/receipt-to-excel', available: true, badge: 'Live', badgeVariant: 'crimson' as const },
     { icon: FileSpreadsheet, name: 'Image to Invoice', description: 'The second AI agent: turn an invoice or bill photo into a professional digital invoice — final preview, plain PDF & editable Excel.', href: '/ai/image-to-invoice', available: true, badge: 'Live', badgeVariant: 'crimson' as const },

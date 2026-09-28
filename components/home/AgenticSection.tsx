@@ -9,6 +9,7 @@ import {
   Headphones,
   FileText,
   Wallet,
+  PackageSearch,
 } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { GlassCard } from '@/components/ui/GlassCard'
@@ -74,6 +75,19 @@ export function AgenticSection({ lang = 'id' }: Props) {
           ],
           href: '/ai/image-to-invoice',
         },
+        {
+          icon: PackageSearch,
+          badge: 'Live',
+          name: 'Product Catalog AI Agent',
+          description:
+            'Unggah screenshot katalog marketplace atau foto halaman produk. Agen membaca setiap kartu produk, memisahkan harga coret dari harga payable, menempelkan nama toko dari header di atasnya, lalu menyusun katalog rapi.',
+          checklist: [
+            'Nama produk, varian, toko, harga, diskon, rating, dan terjual sekaligus',
+            'Deteksi baris perlu diperiksa & produk duplikat sebelum ekspor',
+            'Export Excel 3 sheet & PDF multi-halaman dari data yang sudah kamu periksa',
+          ],
+          href: '/ai/product-catalog',
+        },
       ],
       toolCta: 'Buka',
       toolsLabel: 'Garis AI Tools',
@@ -135,6 +149,19 @@ export function AgenticSection({ lang = 'id' }: Props) {
             'Files auto-deleted when done — privacy preserved',
           ],
           href: '/ai/receipt-to-excel',
+        },
+        {
+          icon: PackageSearch,
+          badge: 'Live',
+          name: 'Product Catalog AI Agent',
+          description:
+            'Upload marketplace catalog screenshots or product page photos. The agent reads every product card, separates the struck-through price from the payable one, attaches the shop name from the header above it, then builds a clean catalog.',
+          checklist: [
+            'Product name, variant, store, price, discount, rating, and sold count in one pass',
+            'Rows needing review and duplicate products flagged before export',
+            'Export a 3-sheet Excel or multi-page PDF from the data you reviewed',
+          ],
+          href: '/ai/product-catalog',
         },
       ],
       toolCta: 'Open',

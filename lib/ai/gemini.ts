@@ -9,8 +9,57 @@ import { ApiError } from '../api.ts'
 
 const DEFAULT_MODEL = 'gemini-3.5-flash-lite'
 
-export function getModel(): string {
+/**
+ * Features that need a different extraction model than the default one.
+ *
+ * A product catalog page is a grid of many cards with several small text
+ * clusters, which is materially harder than a single receipt or invoice: the
+ * default `flash-lite` model dropped the whole `products` array on a 20-card
+ * page. Such a feature may pin its own model through an env var without
+ * affecting the agents already running on the default.
+ */
+export type ExtractionFeature = 'catalog'
+
+const FEATURE_MODEL_ENV: Record<ExtractionFeature, string> = {
+  catalog: 'GEMINI_MODEL_CATALOG',
+}
+
+export function getModel(feature?: ExtractionFeature): string {
+  if (feature) {
+    const override = process.env[FEATURE_MODEL_ENV[feature]]
+    if (override) return override
+  }
   return process.env.GEMINI_MODEL || DEFAULT_MODEL
+}
+
+/**
+ * Models tried in order when one model cannot serve a request.
+ *
+ * Gemini's free tier enforces its daily request quota **per model**, so hitting
+ * the quota on one model says nothing about the others: measured on a real
+ * catalog page, `gemini-3-flash` was quota-exhausted while `gemini-flash-latest`
+ * and the 3.1/3.6 aliases still answered. A single fallback therefore made the
+ * whole agent fail for the rest of the day; a chain keeps it serving.
+ *
+ * Order = feature model → shared default → `GEMINI_FALLBACK_MODELS` (override,
+ * comma separated) → these built-ins. `gemini-3.5-flash-lite` comes first
+ * because it is the one verified to return every product on a dense page, and
+ * the thinking-capable aliases come last as a better-than-nothing tier.
+ */
+const KNOWN_FALLBACK_MODELS = [
+  'gemini-3.5-flash-lite',
+  'gemini-flash-latest',
+  'gemini-3.6-flash',
+  'gemini-3.1-flash-lite',
+]
+
+export function getModelChain(feature?: ExtractionFeature): string[] {
+  const shared = process.env.GEMINI_MODEL || DEFAULT_MODEL
+  const configured = (process.env.GEMINI_FALLBACK_MODELS ?? '')
+    .split(',')
+    .map((model) => model.trim())
+    .filter(Boolean)
+  return [...new Set([getModel(feature), shared, ...configured, ...KNOWN_FALLBACK_MODELS])]
 }
 
 let ai: GoogleGenAI | null = null
@@ -149,6 +198,19 @@ interface RequestPayload {
   config?: Record<string, unknown>
 }
 
+/**
+ * Detect a provider failure that is worth retrying on another model or later:
+ * overload, capacity, rate limit, and timeouts. A malformed request (400) or a
+ * bad key (401/403) is not retryable and must surface immediately.
+ */
+export function isTransientProviderError(err: unknown): boolean {
+  const raw = err instanceof Error ? err.message : String(err)
+  if (/\b(400|401|403)\b/.test(raw) && !/429/.test(raw)) return false
+  return /\b(429|500|502|503|504)\b|UNAVAILABLE|RESOURCE_EXHAUSTED|OVERLOADED|high demand|deadline|timed? ?out|ETIMEDOUT|ECONNRESET|socket hang up|fetch failed/i.test(
+    raw,
+  )
+}
+
 async function run(content: RequestPayload, systemInstruction?: string): Promise<string> {
   const client = getAI()
   let response
@@ -168,6 +230,7 @@ async function run(content: RequestPayload, systemInstruction?: string): Promise
     throw new ApiError('Model AI sedang tidak tersedia. Coba lagi beberapa saat.', {
       status: 502,
       code: 'ai_unavailable',
+      retryable: isTransientProviderError(err),
     })
   }
 
@@ -196,8 +259,8 @@ async function transcribeImage(
   mimeType: string,
   instruction: string,
   documentLabel: string,
+  model: string = getModel(),
 ): Promise<string> {
-  const model = getModel()
   const parts: Array<{ inlineData?: { mimeType: string; data: string }; text?: string }> = [
     {
       inlineData: { mimeType, data: base64Image },
@@ -241,8 +304,17 @@ export function transcribeImageLines(
   base64Image: string,
   mimeType: string,
   instruction: string,
+  feature?: ExtractionFeature,
+  /** Explicit model, used by a fallback chain. Wins over `feature`. */
+  model?: string,
 ): Promise<string> {
-  return transcribeImage(base64Image, mimeType, instruction, 'dokumen')
+  return transcribeImage(
+    base64Image,
+    mimeType,
+    instruction,
+    'dokumen',
+    model ?? getModel(feature),
+  )
 }
 
 /**
@@ -250,16 +322,24 @@ export function transcribeImageLines(
  * Same two-stage rationale as receipts: instructions go in the USER text.
  * The image is passed back alongside the lines so the model can confirm item
  * rows and column order. `documentLabel` only shapes the prompt wording.
+ *
+ * `responseSchema` may be omitted. Measured on gemini-3.5-flash-lite, a wide
+ * `products` array (13 fields per item) made the model return a schema-shaped
+ * object with the array *entirely missing* — 50 output tokens, finishReason
+ * STOP — while the same prompt without `responseSchema` returned every product.
+ * Features whose arrays are too wide for the model to honour a responseSchema
+ * therefore ask for plain JSON and rely on `parseJsonObject` + Zod for
+ * validation, which is the same guarantee with a stricter failure mode.
  */
 async function structureFromLines(
   lines: string[],
   base64Image: string,
   mimeType: string,
   instructions: string,
-  responseSchema: object,
+  responseSchema: object | undefined,
   documentLabel: string,
+  model: string = getModel(),
 ): Promise<string> {
-  const model = getModel()
   const parts: Array<{ inlineData?: { mimeType: string; data: string }; text?: string }> = []
   if (base64Image && mimeType) {
     parts.push({
@@ -282,9 +362,7 @@ async function structureFromLines(
           parts,
         },
       ],
-      config: {
-        responseSchema,
-      },
+      config: responseSchema ? { responseSchema } : {},
     },
   )
 }
@@ -298,10 +376,10 @@ async function extractWithSchema(
   base64Image: string,
   mimeType: string,
   instructions: string,
-  responseSchema: object,
+  responseSchema: object | undefined,
   documentLabel: string,
+  model: string = getModel(),
 ): Promise<string> {
-  const model = getModel()
   return run(
     {
       model,
@@ -320,9 +398,7 @@ async function extractWithSchema(
           ],
         },
       ],
-      config: {
-        responseSchema,
-      },
+      config: responseSchema ? { responseSchema } : {},
     },
   )
 }
@@ -428,5 +504,54 @@ export function extractExpenseJson(
     instructions,
     EXPENSE_JSON_SCHEMA,
     'receipt',
+  )
+}
+
+/**
+ * Single-call product catalog extraction.
+ *
+ * Deliberately passes no `responseSchema` — see `structureFromLines` for the
+ * measurement showing the model drops the array when one is supplied.
+ */
+export function extractProductCatalogJson(
+  base64Image: string,
+  mimeType: string,
+  instructions: string,
+  feature?: ExtractionFeature,
+  /** Explicit model, used by a fallback chain. Wins over `feature`. */
+  model?: string,
+): Promise<string> {
+  return extractWithSchema(
+    base64Image,
+    mimeType,
+    instructions,
+    undefined,
+    'product catalog',
+    model ?? getModel(feature),
+  )
+}
+
+/**
+ * Stage 2 for the catalog — structure a verbatim transcription into the product
+ * contract. The image is passed back so the model can confirm grid order and
+ * which of two prices is the struck-through one.
+ */
+export function structureProductCatalogFromLines(
+  lines: string[],
+  base64Image: string,
+  mimeType: string,
+  instructions: string,
+  feature?: ExtractionFeature,
+  /** Explicit model, used by a fallback chain. Wins over `feature`. */
+  model?: string,
+): Promise<string> {
+  return structureFromLines(
+    lines,
+    base64Image,
+    mimeType,
+    instructions,
+    undefined,
+    'product catalog page',
+    model ?? getModel(feature),
   )
 }

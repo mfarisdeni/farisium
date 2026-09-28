@@ -7,6 +7,7 @@ import type { Lang } from '@/lib/translations'
 
 const footerLinks = {
   'Agentic AI': [
+    { label: 'Product Catalog', href: '/ai/product-catalog' },
     { label: 'AI Expense Report', href: '/ai/expense-report' },
     { label: 'Struk Belanja ke Excel', href: '/ai/receipt-to-excel' },
     { label: 'Foto ke Invoice', href: '/ai/image-to-invoice' },
@@ -38,6 +39,7 @@ const linkLabels: Record<Lang, Record<string, string>> = {
     'Syarat & Ketentuan': 'Syarat & Ketentuan',
     'Kebijakan Privasi': 'Kebijakan Privasi',
     'AI Directory': 'AI Directory',
+    'Product Catalog': 'Product Catalog',
     'AI Expense Report': 'AI Expense Report',
     'Struk Belanja ke Excel': 'Struk Belanja ke Excel',
     'Foto ke Invoice': 'Foto ke Invoice',
@@ -58,6 +60,7 @@ const linkLabels: Record<Lang, Record<string, string>> = {
     'Kebijakan Privasi': 'Privacy Policy',
     'Kebijakan Cookie': 'Cookie Policy',
     'AI Directory': 'AI Directory',
+    'Product Catalog': 'Product Catalog',
     'AI Expense Report': 'AI Expense Report',
     'Struk Belanja ke Excel': 'Image Receipt to Excel',
     'Foto ke Invoice': 'Image to Invoice',

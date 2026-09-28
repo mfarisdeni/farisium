@@ -7,12 +7,20 @@ export interface ApiErrorOptions {
   status?: number
   code?: string
   fieldErrors?: Record<string, string>
+  /**
+   * True when the failure was transient (provider overloaded, rate limited,
+   * timed out) and the *same* call has a fair chance of succeeding later or
+   * on a different backend. Callers may use it to fall back instead of failing
+   * the user's request outright.
+   */
+  retryable?: boolean
 }
 
 export class ApiError extends Error {
   status: number
   code: string
   fieldErrors?: Record<string, string>
+  retryable: boolean
 
   constructor(message: string, options: ApiErrorOptions = {}) {
     super(message)
@@ -20,6 +28,7 @@ export class ApiError extends Error {
     this.status = options.status ?? 500
     this.code = options.code ?? 'internal_error'
     this.fieldErrors = options.fieldErrors
+    this.retryable = options.retryable ?? false
   }
 }
 

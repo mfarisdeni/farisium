@@ -6,11 +6,17 @@ import {
   EXPENSE_FEATURE,
   INVOICE_FEATURE,
   KNOWN_FEATURES,
+  PRODUCT_CATALOG_FEATURE,
   RECEIPT_FEATURE,
   getDailyLimit,
   isKnownFeature,
 } from '../lib/limits.ts'
 import { MAX_REPORT_ITEMS } from '../features/expense/schema.ts'
+import {
+  MAX_CATALOG_DOCUMENTS,
+  MAX_CATALOG_PRODUCTS,
+  MAX_PRODUCTS_PER_DOCUMENT,
+} from '../features/product-catalog/schema.ts'
 import { MAX_FILE_SIZE_BYTES } from '../lib/r2/keys.ts'
 
 /**
@@ -23,6 +29,7 @@ test('daily budgets match the shipped policy', () => {
   assert.equal(DAILY_LIMITS[RECEIPT_FEATURE], 10, 'receipt: 10/day')
   assert.equal(DAILY_LIMITS[INVOICE_FEATURE], 10, 'invoice: 10/day')
   assert.equal(DAILY_LIMITS[EXPENSE_FEATURE], 20, 'expense report: 20 receipts/day')
+  assert.equal(DAILY_LIMITS[PRODUCT_CATALOG_FEATURE], 10, 'product catalog: 10 images/day')
 })
 
 test('every known feature has a positive budget and resolves via getDailyLimit', () => {
@@ -35,6 +42,19 @@ test('every known feature has a positive budget and resolves via getDailyLimit',
 test('upload caps match the shipped policy', () => {
   assert.equal(MAX_FILE_SIZE_BYTES, 5 * 1024 * 1024, '5 MB per image')
   assert.equal(MAX_REPORT_ITEMS, 10, '10 receipts per report')
+  assert.equal(MAX_CATALOG_DOCUMENTS, 8, '8 catalog images per run')
+  assert.equal(MAX_CATALOG_PRODUCTS, 600, '600 products per catalog')
+  assert.ok(
+    MAX_CATALOG_PRODUCTS >= MAX_PRODUCTS_PER_DOCUMENT,
+    'the merged cap must be able to hold every single-page result',
+  )
+})
+
+test('the catalog daily budget covers a full run of images', () => {
+  assert.ok(
+    DAILY_LIMITS[PRODUCT_CATALOG_FEATURE] >= MAX_CATALOG_DOCUMENTS,
+    'one full catalog run should fit in the daily budget',
+  )
 })
 
 test('the expense daily budget covers exactly one full report', () => {
@@ -46,6 +66,7 @@ test('the expense daily budget covers exactly one full report', () => {
 
 test('isKnownFeature rejects unknown values', () => {
   assert.equal(isKnownFeature(RECEIPT_FEATURE), true)
+  assert.equal(isKnownFeature(PRODUCT_CATALOG_FEATURE), true)
   assert.equal(isKnownFeature('nope'), false)
   assert.equal(isKnownFeature(undefined), false)
   assert.equal(isKnownFeature(null), false)

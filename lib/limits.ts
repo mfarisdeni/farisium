@@ -10,6 +10,7 @@
 export const RECEIPT_FEATURE = 'receipt_to_excel'
 export const INVOICE_FEATURE = 'invoice_from_image'
 export const EXPENSE_FEATURE = 'expense_report'
+export const PRODUCT_CATALOG_FEATURE = 'product_catalog'
 
 /** Daily budget for the one-shot agents: Receipt to Excel and Image to Invoice. */
 export const DAILY_CONVERSION_LIMIT = 10
@@ -18,6 +19,7 @@ export const KNOWN_FEATURES = [
   RECEIPT_FEATURE,
   INVOICE_FEATURE,
   EXPENSE_FEATURE,
+  PRODUCT_CATALOG_FEATURE,
 ] as const
 
 export type Feature = (typeof KNOWN_FEATURES)[number]
@@ -25,12 +27,14 @@ export type Feature = (typeof KNOWN_FEATURES)[number]
 /**
  * Per-feature daily budget, counted per authenticated user per day.
  * The expense report spends one slot per receipt (not per report), so it gets a
- * larger allowance than the one-shot agents.
+ * larger allowance than the one-shot agents. The catalog agent spends one slot
+ * per catalog *page* too — a single upload may hold several screenshots.
  */
 export const DAILY_LIMITS: Record<Feature, number> = {
   [RECEIPT_FEATURE]: DAILY_CONVERSION_LIMIT,
   [INVOICE_FEATURE]: DAILY_CONVERSION_LIMIT,
   [EXPENSE_FEATURE]: 20,
+  [PRODUCT_CATALOG_FEATURE]: DAILY_CONVERSION_LIMIT,
 }
 
 export function getDailyLimit(feature: Feature): number {

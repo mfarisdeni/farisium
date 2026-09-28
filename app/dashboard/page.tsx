@@ -44,6 +44,7 @@ const content = {
     generateLabel: 'Total Generate',
     quickLinks: [
       { label: 'Klaim Daily Reward', href: '/rewards', desc: 'Dapatkan FRSC gratis setiap hari' },
+      { label: 'Product Catalog', href: '/ai/product-catalog', desc: 'Screenshot katalog marketplace jadi Excel & PDF' },
       { label: 'AI Expense Report', href: '/ai/expense-report', desc: 'Banyak struk jadi laporan biaya Excel & PDF' },
       { label: 'Struk Belanja ke Excel', href: '/ai/receipt-to-excel', desc: 'Konversi foto struk belanja ke Excel otomatis' },
       { label: 'Foto ke Invoice', href: '/ai/image-to-invoice', desc: 'Ubah foto invoice jadi PDF & Excel profesional' },
@@ -68,6 +69,7 @@ const content = {
     generateLabel: 'Total Generations',
     quickLinks: [
       { label: 'Claim Daily Reward', href: '/rewards', desc: 'Earn free FRSC every day' },
+      { label: 'Product Catalog', href: '/ai/product-catalog', desc: 'Turn marketplace catalog screenshots into Excel & PDF' },
       { label: 'AI Expense Report', href: '/ai/expense-report', desc: 'Turn many receipts into an Excel & PDF expense report' },
       { label: 'Image Receipt to Excel', href: '/ai/receipt-to-excel', desc: 'Turn shopping receipt photos into Excel automatically' },
       { label: 'Image to Invoice', href: '/ai/image-to-invoice', desc: 'Turn invoice photos into professional PDF & Excel' },
