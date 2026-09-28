@@ -2,7 +2,6 @@ import Link from 'next/link'
 import {
   ReceiptText,
   FileSpreadsheet,
-  Sparkles,
   Check,
   ShieldCheck,
   ArrowRight,
@@ -11,7 +10,6 @@ import {
   Wallet,
   PackageSearch,
 } from 'lucide-react'
-import { Badge } from '@/components/ui/Badge'
 import { GlassCard } from '@/components/ui/GlassCard'
 import type { Lang } from '@/lib/translations'
 
@@ -21,6 +19,35 @@ const revealDelays = [
   'reveal-delay-3',
   'reveal-delay-4',
 ] as const
+
+/**
+ * Icon tiles keep the brand duo (crimson / purple / silver) but drop the
+ * red-on-red look: every icon is white on a distinct, high-contrast tile.
+ */
+type AccentKey = 'crimson' | 'silver' | 'purple' | 'deep'
+
+const accents: Record<AccentKey, { tile: string; icon: string; tick: string }> = {
+  crimson: {
+    tile: 'bg-frsc-crimson-600/30 ring-1 ring-inset ring-frsc-crimson-300/45 shadow-[0_6px_20px_-8px_rgba(224,48,78,0.65)]',
+    icon: 'text-white',
+    tick: 'text-frsc-crimson-300',
+  },
+  silver: {
+    tile: 'bg-gradient-to-br from-frsc-silver/25 to-white/[0.04] ring-1 ring-inset ring-white/25',
+    icon: 'text-white',
+    tick: 'text-frsc-platinum',
+  },
+  purple: {
+    tile: 'bg-frsc-purple-600/35 ring-1 ring-inset ring-frsc-purple-300/45 shadow-[0_6px_20px_-8px_rgba(100,47,127,0.7)]',
+    icon: 'text-white',
+    tick: 'text-frsc-purple-300',
+  },
+  deep: {
+    tile: 'bg-frsc-crimson-900/70 ring-1 ring-inset ring-frsc-crimson-300/35',
+    icon: 'text-white',
+    tick: 'text-frsc-crimson-300',
+  },
+}
 
 interface Props {
   lang?: Lang
@@ -32,87 +59,80 @@ export function AgenticSection({ lang = 'id' }: Props) {
       badge: 'Agentic AI',
       heading: 'Agen AI yang Bekerja untuk Kamu',
       description:
-        'Farisium adalah platform Agentic AI karya M. Faris Deni K. — agen cerdas yang membaca, mengekstrak, memvalidasi, dan menyelesaikan pekerjaan nyata secara otomatis. Bukan sekadar chatbot: setiap agen menghasilkan dokumen final yang bisa langsung kamu pakai.',
+        'Berbeda dari chatbot, setiap agen di Farisium mengerjakan satu tugas nyata sampai selesai — dari file yang kamu unggah sampai dokumen final yang siap dipakai. Kamu cukup mengunggah, memeriksa, lalu mengunduh.',
+      meta: '4 agen aktif · Excel 3 sheet & PDF multi-halaman · file dihapus otomatis setelah diproses',
       cta: 'Coba Agen Ini',
-      agentsLabel: 'Garis AI Agents',
+      indexLabel: 'Agen',
       agents: [
         {
           icon: Wallet,
-          badge: 'Live',
+          accent: 'crimson' as AccentKey,
           name: 'AI Expense Report Generator',
           description:
-            'Unggah banyak struk sekaligus. Agen membaca tiap struk, mengekstrak tanggal, merchant, item, dan total, mengkategorikan pengeluarannya, lalu kamu periksa dan ekspor laporan siap kirim.',
+            'Unggah banyak struk sekaligus. Agen membaca tiap struk, mengekstrak tanggal, merchant, item, dan total, lalu mengkategorikan pengeluarannya sebelum kamu periksa.',
           checklist: [
-            'Sepuluh struk per laporan, diproses bertahap dengan progres transparan',
-            'Kategorisasi otomatis + deteksi struk duplikat sebelum ekspor',
-            'Export Excel 3 sheet & PDF multi-halaman dari data yang sudah kamu periksa',
+            'Satu struk per baris, sepuluh struk per laporan',
+            'Tanggal, merchant, item, dan total dibaca lalu dikategorikan otomatis',
+            'Struk duplikat terdeteksi sebelum laporan diekspor',
           ],
           href: '/ai/expense-report',
         },
         {
           icon: ReceiptText,
-          badge: 'Live',
+          accent: 'silver' as AccentKey,
           name: 'Struk Belanja ke Excel',
           description:
-            'Arahkan kamera ke struk belanja dan agen membaca setiap baris, mengekstrak item & harga, memvalidasi aritmatika, lalu menyusun file Excel yang rapi.',
+            'Arahkan kamera ke struk belanja dan agen membaca setiap baris, memisahkan subtotal, pajak, dan diskon, lalu menyusun file Excel yang rapi.',
           checklist: [
-            'Ekstraksi dua tahap dengan akurasi angka terverifikasi',
-            'Validasi aritmatika otomatis untuk subtotal, pajak, diskon',
-            'File dihapus otomatis setelah selesai — privasi terjaga',
+            'Ekstraksi dua tahap dengan angka yang diverifikasi ulang',
+            'Validasi aritmatika untuk subtotal, pajak, dan diskon',
+            'Baris yang perlu diperiksa ditandai sebelum diunduh',
           ],
           href: '/ai/receipt-to-excel',
         },
         {
           icon: FileSpreadsheet,
-          badge: 'Live',
-          name: 'Foto ke Invoice (Image to Invoice)',
+          accent: 'purple' as AccentKey,
+          name: 'Foto ke Invoice',
           description:
-            'Unggah atau foto invoice/struk apa pun — AI menyusun invoice digital profesional dengan template minimalis. Preview final, lalu download PDF plain & Excel yang bisa diedit.',
+            'Unggah atau foto invoice, struk, atau tagihan. Agen menyusun invoice digital profesional dengan template minimalis yang siap dikirim ke klien.',
           checklist: [
-            'Ekstraksi seller, buyer, item, pajak & total dalam sekali proses',
-            'Template invoice profesional — PDF kecil & Excel editable',
-            'Preview final sebelum download — PDF sesuai persis preview',
+            'Seller, buyer, item, pajak, dan total terbaca sekaligus',
+            'Preview final, lalu unduh PDF plain & Excel yang bisa diedit',
+            'Nomor invoice dan tanggal devise mengikuti format dokumen asli',
           ],
           href: '/ai/image-to-invoice',
         },
         {
           icon: PackageSearch,
-          badge: 'Live',
+          accent: 'deep' as AccentKey,
           name: 'Product Catalog AI Agent',
           description:
-            'Unggah screenshot katalog marketplace atau foto halaman produk. Agen membaca setiap kartu produk, memisahkan harga coret dari harga payable, menempelkan nama toko dari header di atasnya, lalu menyusun katalog rapi.',
+            'Unggah screenshot katalog marketplace. Agen membaca tiap kartu produk, memisahkan harga coret dari harga yang dibayar, dan menempelkan nama toko dari header di atasnya.',
           checklist: [
-            'Nama produk, varian, toko, harga, diskon, rating, dan terjual sekaligus',
-            'Deteksi baris perlu diperiksa & produk duplikat sebelum ekspor',
-            'Export Excel 3 sheet & PDF multi-halaman dari data yang sudah kamu periksa',
+            'Nama, varian, toko, harga, rating, dan terjual per kartu produk',
+            'Baris perlu diperiksa & produk duplikat ditandai sebelum ekspor',
+            'Katalog siap kirim ke supplier dalam bentuk Excel atau PDF',
           ],
           href: '/ai/product-catalog',
         },
       ],
       toolCta: 'Buka',
-      toolsLabel: 'Garis AI Tools',
-      toolsHeading: 'Satu Ekosistem, Semua Agen Farisium',
+      moreLabel: 'Alat lain di Farisium',
       tools: [
         {
-          icon: FileSpreadsheet,
-          name: 'Foto ke Invoice',
-          description: 'Foto invoice atau tagihan jadi invoice digital profesional — PDF & Excel.',
-          href: '/ai/image-to-invoice',
-          badge: 'Live',
-        },
-        {
           icon: Headphones,
+          accent: 'purple' as AccentKey,
           name: 'F-Stream Boost',
           description: 'Kampanye Spotify dikelola AI agent — lagu di-pitch ke kurator playlist dan iklan dijalankan otomatis.',
           href: '/ai/f-stream-spotify-promotion',
-          badge: 'Live',
         },
         {
           icon: FileText,
+          accent: 'silver' as AccentKey,
           name: 'AI Blog',
           description: 'Wawasan dan berita AI yang ditulis untuk membantu keputusanmu.',
           href: '/blog',
-          badge: 'Live',
         },
       ],
     },
@@ -120,74 +140,80 @@ export function AgenticSection({ lang = 'id' }: Props) {
       badge: 'Agentic AI',
       heading: 'AI Agents That Work for You',
       description:
-        'Farisium is an Agentic AI platform built by M. Faris Deni K. — intelligent agents that read, extract, validate, and complete real work automatically. Not just a chatbot: every agent produces a final document you can actually use.',
+        'Unlike a chatbot, every Farisium agent finishes one real job end to end — from the file you upload to the final document you can use. You just upload, review, and download.',
+      meta: '4 agents live · 3-sheet Excel & multi-page PDF · files auto-deleted after processing',
       cta: 'Try This Agent',
-      agentsLabel: 'AI Agents Line',
+      indexLabel: 'Agent',
       agents: [
         {
           icon: Wallet,
-          badge: 'Live',
+          accent: 'crimson' as AccentKey,
           name: 'AI Expense Report Generator',
           description:
-            'Upload many receipts at once. The agent reads each one, extracts the date, merchant, items, and total, categorizes the expense, then you review it and export a report ready to send.',
+            'Upload many receipts at once. The agent reads each one, extracts the date, merchant, items, and total, then categorizes the expense before you review it.',
           checklist: [
-            'Ten receipts per report, processed in batches with transparent progress',
-            'Automatic categorization + duplicate detection before export',
-            'Export a 3-sheet Excel or multi-page PDF from the data you reviewed',
+            'One receipt per row, ten receipts per report',
+            'Date, merchant, items, and total read and categorized automatically',
+            'Duplicate receipts detected before the report is exported',
           ],
           href: '/ai/expense-report',
         },
         {
           icon: ReceiptText,
-          badge: 'Live',
+          accent: 'silver' as AccentKey,
           name: 'Image Receipt to Excel',
           description:
-            'Point your camera at a store receipt and the agent reads every line, extracts items & prices, validates the math, and produces a clean Excel file.',
+            'Point your camera at a store receipt and the agent reads every line, separates the subtotal, tax, and discount, then produces a clean Excel file.',
           checklist: [
-            'Two-stage extraction with verified number accuracy',
-            'Automatic math validation for subtotals, tax, discounts',
-            'Files auto-deleted when done — privacy preserved',
+            'Two-stage extraction with re-verified numbers',
+            'Automatic math validation for subtotals, tax, and discounts',
+            'Rows needing review are flagged before download',
           ],
           href: '/ai/receipt-to-excel',
         },
         {
+          icon: FileSpreadsheet,
+          accent: 'purple' as AccentKey,
+          name: 'Image to Invoice',
+          description:
+            'Upload or photograph an invoice, receipt, or bill. The agent builds a professional digital invoice with a minimal template ready to send to a client.',
+          checklist: [
+            'Seller, buyer, items, tax, and total read in one pass',
+            'Final preview, then download a plain PDF and an editable Excel file',
+            'Invoice number and dates follow the original document format',
+          ],
+          href: '/ai/image-to-invoice',
+        },
+        {
           icon: PackageSearch,
-          badge: 'Live',
+          accent: 'deep' as AccentKey,
           name: 'Product Catalog AI Agent',
           description:
-            'Upload marketplace catalog screenshots or product page photos. The agent reads every product card, separates the struck-through price from the payable one, attaches the shop name from the header above it, then builds a clean catalog.',
+            'Upload marketplace catalog screenshots. The agent reads every product card, separates the struck-through price from the payable one, and attaches the shop name from the header above it.',
           checklist: [
-            'Product name, variant, store, price, discount, rating, and sold count in one pass',
+            'Name, variant, store, price, rating, and sold count per product card',
             'Rows needing review and duplicate products flagged before export',
-            'Export a 3-sheet Excel or multi-page PDF from the data you reviewed',
+            'A catalog ready to send to suppliers as Excel or PDF',
           ],
           href: '/ai/product-catalog',
         },
       ],
       toolCta: 'Open',
-      toolsLabel: 'AI Tools Line',
-      toolsHeading: 'One Ecosystem, All Farisium Agents',
+      moreLabel: 'More on Farisium',
       tools: [
         {
-          icon: FileSpreadsheet,
-          name: 'Image to Invoice',
-          description: 'Turn an invoice or bill photo into a professional digital invoice — PDF & Excel.',
-          href: '/ai/image-to-invoice',
-          badge: 'Live',
-        },
-        {
           icon: Headphones,
+          accent: 'purple' as AccentKey,
           name: 'F-Stream Boost',
           description: 'AI agent-run Spotify campaigns — tracks pitched to playlist curators and ads run automatically.',
           href: '/ai/f-stream-spotify-promotion',
-          badge: 'Live',
         },
         {
           icon: FileText,
+          accent: 'silver' as AccentKey,
           name: 'AI Blog',
           description: 'AI insights and news written to help you make better decisions.',
           href: '/blog',
-          badge: 'Live',
         },
       ],
     },
@@ -214,104 +240,109 @@ export function AgenticSection({ lang = 'id' }: Props) {
         <p className="mx-auto mt-4 max-w-2xl text-pretty text-base text-frsc-text-200">
           {label.description}
         </p>
+        <p className="mt-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-1.5 text-xs text-frsc-text-200">
+          <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-frsc-crimson-400" />
+          {label.meta}
+        </p>
       </div>
 
-      {/* Featured agents — two premium cards */}
+      {/* Agent cards */}
       <div className="grid gap-4 lg:grid-cols-2">
-        {label.agents.map(({ icon: Icon, badge, name, description, checklist, href }) => (
-          <GlassCard
-            key={name}
-            variant="premium"
-            blur="medium"
-            withReflection={true}
-            withAccent="crimson"
-            withShimmer={true}
-            className="flex flex-col p-7 transition-all duration-500 hover:shadow-[0_8px_40px_rgba(0,0,0,0.35)] md:p-9"
-          >
-            <div className="relative z-[2] flex flex-1 flex-col">
-              <div className="flex flex-wrap items-center gap-3">
-                <span className="kicker mb-0">
-                  <span className="kicker-line" aria-hidden="true" />
-                  {label.agentsLabel}
-                </span>
-                <Badge variant="crimson" size="sm">{badge}</Badge>
-              </div>
-
-              <div className="mt-6 flex items-start gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-frsc-crimson-800/30 to-frsc-purple-800/20 ring-1 ring-frsc-crimson-500/30">
-                  <Icon className="h-5 w-5 text-frsc-crimson-400" />
-                </div>
-                <h3 className="heading-fluid text-h2 text-frsc-text-100">{name}</h3>
-              </div>
-
-              <p className="mt-4 text-pretty text-sm leading-relaxed text-frsc-text-200">
-                {description}
-              </p>
-
-              <ul className="mt-5 flex-1 flex-col space-y-2">
-                {checklist.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-sm text-frsc-text-200">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-frsc-crimson-400" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-7">
-                <Link
-                  href={href}
-                  className="group/btn inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-frsc-crimson-800 via-frsc-crimson-700 to-frsc-crimson-600 bg-[length:200%_100%] px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-[length:100%_100%] hover:shadow-[0_0_28px_rgba(224,48,78,0.4)] active:scale-[0.97]"
-                >
-                  {label.cta}
-                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-0.5" />
-                </Link>
-              </div>
-            </div>
-          </GlassCard>
-        ))}
-      </div>
-
-      {/* Supporting agents */}
-      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {label.tools.map(({ icon: Icon, name, description, href, badge: b }, i) => (
-          <Link
-            key={name}
-            href={href}
-            className={`group/agent reveal-on-scroll reveal-stagger ${revealDelays[i % revealDelays.length]} flex flex-col`}
-          >
+        {label.agents.map(({ icon: Icon, accent, name, description, checklist, href }, i) => {
+          const tone = accents[accent]
+          return (
             <GlassCard
-              variant="default"
-              blur="light"
+              key={name}
+              variant="premium"
+              blur="medium"
               withReflection={true}
               withAccent="crimson"
-              className="hover-lift h-full p-6 transition-colors duration-300 hover:border-frsc-crimson-500/30"
+              withShimmer={true}
+              className="flex flex-col p-7 transition-all duration-500 hover:shadow-[0_8px_40px_rgba(0,0,0,0.35)] md:p-9"
             >
-              <div className="relative z-[2] flex items-start justify-between">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-frsc-crimson-800/25 to-frsc-purple-800/15 ring-1 ring-white/10 transition-all duration-300 group-hover/agent:ring-frsc-crimson-500/40">
-                  <Icon className="h-5 w-5 text-frsc-crimson-400" />
+              <div className="relative z-[2] flex flex-1 flex-col">
+                <div className="flex items-start gap-4">
+                  <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${tone.tile}`}>
+                    <Icon className={`h-[22px] w-[22px] ${tone.icon}`} />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <span className="font-mono text-[11px] tracking-[0.18em] text-frsc-text-300">
+                      {String(i + 1).padStart(2, '0')} · {label.indexLabel}
+                    </span>
+                    <h3 className="heading-fluid text-h3 mt-1 text-frsc-text-100">{name}</h3>
+                  </div>
                 </div>
-                <Badge variant="crimson" size="sm">{b}</Badge>
-              </div>
-              <div className="relative z-[2] mt-4">
-                <h4 className="font-heading text-base font-semibold text-frsc-text-100">{name}</h4>
-                <p className="mt-1.5 text-sm leading-relaxed text-frsc-text-200">{description}</p>
-              </div>
-              <div className="relative z-[2] mt-4 flex items-center gap-1 text-xs font-medium text-frsc-crimson-400 transition-all duration-300 group-hover/agent:gap-2">
-                {label.toolCta}
-                <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover/agent:translate-x-0.5" />
+
+                <p className="mt-5 text-pretty text-sm leading-relaxed text-frsc-text-200">
+                  {description}
+                </p>
+
+                <ul className="mt-5 flex flex-1 flex-col gap-2">
+                  {checklist.map((item) => (
+                    <li key={item} className="flex items-start gap-2.5 text-sm text-frsc-text-200">
+                      <Check className={`mt-0.5 h-4 w-4 shrink-0 ${tone.tick}`} />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-7">
+                  <Link
+                    href={href}
+                    className="group/btn inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-frsc-crimson-700 to-frsc-crimson-600 px-6 py-3 text-sm font-semibold text-white ring-1 ring-inset ring-white/15 transition-all duration-300 hover:shadow-[0_0_28px_rgba(224,48,78,0.35)] active:scale-[0.97]"
+                  >
+                    {label.cta}
+                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-0.5" />
+                  </Link>
+                </div>
               </div>
             </GlassCard>
-          </Link>
-        ))}
+          )
+        })}
       </div>
 
-      {/* Privacy note */}
-      <p className="mt-6 flex items-center justify-center gap-2 text-center text-xs text-frsc-text-300">
-        <ShieldCheck className="h-4 w-4 text-frsc-crimson-400/80" />
-        {lang === 'id'
-          ? 'Semua file hanya disimpan sementara dan dihapus otomatis setelah diproses.'
-          : 'All files are stored temporarily and auto-deleted after processing.'}
-      </p>
+      {/* Supporting tools */}
+      <div className="mt-16">
+        <span className="kicker mb-0">
+          <span className="kicker-line" aria-hidden="true" />
+          {label.moreLabel}
+        </span>
+
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          {label.tools.map(({ icon: Icon, accent, name, description, href }, i) => {
+            const tone = accents[accent]
+            return (
+              <Link
+                key={name}
+                href={href}
+                className={`group/agent reveal-on-scroll reveal-stagger ${revealDelays[i % revealDelays.length]} flex flex-col`}
+              >
+                <GlassCard
+                  variant="default"
+                  blur="light"
+                  withReflection={true}
+                  withAccent="crimson"
+                  className="hover-lift h-full p-6 transition-colors duration-300 hover:border-white/15"
+                >
+                  <div className="relative z-[2] flex items-start gap-4">
+                    <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${tone.tile}`}>
+                      <Icon className={`h-5 w-5 ${tone.icon}`} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <h4 className="font-heading text-base font-semibold text-frsc-text-100">{name}</h4>
+                      <p className="mt-1.5 text-sm leading-relaxed text-frsc-text-200">{description}</p>
+                    </div>
+                  </div>
+                  <div className="relative z-[2] mt-5 flex items-center gap-1 text-xs font-medium text-frsc-text-200 transition-all duration-300 group-hover/agent:gap-2 group-hover/agent:text-frsc-text-100">
+                    {label.toolCta}
+                    <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover/agent:translate-x-0.5" />
+                  </div>
+                </GlassCard>
+              </Link>
+            )
+          })}
+        </div>
+      </div>
     </section>
   )
 }
