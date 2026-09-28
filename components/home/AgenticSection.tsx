@@ -143,8 +143,8 @@ export function AgenticSection({ lang = 'id' }: Props) {
       tools: [
         {
           icon: FileSpreadsheet,
-          name: 'Foto ke Invoice',
-          description: 'Foto invoice atau tagihan jadi invoice digital profesional — PDF & Excel.',
+          name: 'Image to Invoice',
+          description: 'Turn an invoice or bill photo into a professional digital invoice — PDF & Excel.',
           href: '/ai/image-to-invoice',
           badge: 'Live',
         },
